@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="de">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='font-awesome/css/font-awesome.min.css') }}">
+  <title>XMPP-ChatClient | {% block title %}{% endblock %}</title>
+</head>
+
+<body>
+<nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
+  <i class="fa fa-comment fa-lg" style="color: white;"></i> <a class="navbar-brand ml-2" style="color: white!important;">XMPP-WebChat</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse mr-auto" id="navbarNav">
+    <ul class="navbar-nav">
+      {% for navname, item in navs.items() %}
+        {% if navname == currentNav %}
+      <li class="nav-item active border-bottom">
+        <a class="nav-link" href="{{ item[0] }}">{{ item[1] }}{{ navname }} <span class="sr-only">(current)</span></a>
+      </li>
+      {% else %}
+      <li class="nav-item">
+        <a class="nav-link" href="{{ item[0] }}">{{ item[1] }}{{ navname }}</a>
+      </li>
+      {% endif %}
+      {% endfor %}
+    </ul>
+  </div>
+  <i class="fa fa-sign-in fa-2x" style="color: white;"></i>
+</nav>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+      {% for category, message in messages %}
+      <div class="alert alert-{{ category }} mt-4">{{ message }}</div>
+      {% endfor %}
+      {% endif %}
+      {% endwith %}
+  
+  {% block content%}
+  {%endblock%}
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="{{ url_for('static',filename='js/jquery-3.3.1.slim.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/google.jquery.min.js') }}"></script>
+  <script src="{{ url_for('static',filename='js/popper.min.js') }}"></script>
+  <script src="{{ url_for('static',filename='js/bootstrap.min.js') }}"></script>
+</body>

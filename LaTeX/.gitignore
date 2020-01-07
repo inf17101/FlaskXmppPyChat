@@ -1,0 +1,17 @@
+*.synctex.gz
+.project
+*.aux
+*.lol
+*.log
+*.lot
+*.out
+*.pdf
+*.swp
+*.toc
+*.backup
+*.txt
+*.lof
+*.bak
+*.orig
+*compile.log
+

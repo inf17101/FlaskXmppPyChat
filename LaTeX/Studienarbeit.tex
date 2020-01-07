@@ -1,0 +1,373 @@
+\documentclass[a4paper,titlepage,halfparskip,12pt]{scrreprt}
+
+\usepackage[ngerman]{babel, varioref}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{amsmath}
+\usepackage{geometry}
+\geometry{a4paper, top=25mm,left=25mm,right=25mm,bottom=25mm, footskip=12mm}
+\usepackage{longtable}
+\usepackage{setspace}
+\usepackage{lmodern}
+%blocksatz
+\sloppy
+%formatierung literaturverzeichnisangabe
+\bibliographystyle{unsrt}
+
+%Auflistungen von Punkten
+\usepackage{paralist} 
+%urls anzeigen
+\usepackage{url}
+
+%Codelisting
+\usepackage{xcolor}
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\definecolor{burntorange}{rgb}{0.8, 0.33, 0.0}
+\definecolor{cornellred}{rgb}{0.7, 0.11, 0.11}
+
+\usepackage{listingsutf8}
+\lstset{
+commentstyle=\color{mygreen},
+numberstyle=\small\color{black},
+stringstyle=\color{mymauve},
+emph={square}, 
+showstringspaces=false,
+flexiblecolumns=false,
+tabsize=2,
+numbers=left,
+numberblanklines=false,
+stepnumber=1,
+captionpos=b,
+numbersep=5pt,
+xleftmargin=15pt,
+breaklines=true,
+inputencoding=utf8,
+extendedchars=true,
+extendedchars=true,
+basicstyle=\ttfamily\footnotesize,
+keywordstyle = \bfseries\color{burntorange},
+keywordstyle = [2]\bfseries\color{cornellred},
+literate=%
+    {Ä}{{\"A}}1%
+    {Ö}{{\"O}}1%
+    {Ü}{{\"U}}1%
+    {ä}{{\"a}}1%
+    {ö}{{\"o}}1%
+    {ü}{{\"u}}1%
+    {ß}{{\ss}}1,%
+frame=single,
+frameround=ffff
+}
+
+%meta data
+\usepackage[hidelinks]{hyperref}
+\urlstyle{same}
+
+%akronymverzeichnis
+\usepackage[printonlyused]{acronym}
+
+% titel definieren
+\newcommand{\titel}{Entwicklung eines Chatsystems\\auf Basis von XMPP}
+
+%autor definieren
+\newcommand{\autor}{Lukas Priester,Oliver Klapper}
+\newcommand{\keywords}{\autor,\titel,Studienarbeit}
+
+% Allgemeines für das PDF
+\hypersetup{
+    pdftitle={\titel},
+    pdfauthor={\autor},
+    pdfcreator={\autor},
+    pdfsubject={\titel},
+    pdflang={Deutsch},
+    pdfdisplaydoctitle=true,
+    pdfkeywords={\keywords},
+}
+
+% set distances of chapter headlines in document
+\renewcommand*\chapterheadstartvskip{\vspace*{20pt}} % set distance to header
+% set distance to text
+%\renewcommand*\chapterheadendvskip{%
+%  \vspace*{1\baselineskip plus .1\baselineskip minus .167\baselineskip}}
+
+
+\begin{document}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lcr}
+\includegraphics[height=3.5cm]{images/dhbw-logo}
+\end{tabular}
+\end{table}
+\bigskip
+\bigskip
+\begin{center}
+\vspace*{12mm} {\LARGE\textbf{\titel}}\\
+\vspace*{12mm} {\large\textbf{Studienarbeit}}\\
+\vspace*{3mm} {\large\textbf{5. - 6. Semester}}\\
+\vspace*{12mm} des Studiengangs Informationstechnik (B.Sc.)\\ an der Dualen Hochschule Baden-Württemberg Stuttgart\\
+% \vspace*{3mm} an der Dualen Hochschule Baden-Württemberg\\
+\vspace*{12mm} von\\
+\vspace*{3mm} {\large\textbf{Lukas Priester, Oliver Klapper}}\\
+\vspace*{12mm} \today\\
+\end{center}
+\vfill
+\begin{spacing}{1.5}
+\begin{tabbing}
+mmmmmmmmmmmmmmmmmmmmmmmmmm \= \kill
+\textbf{Bearbeitungszeitraum} \> 01.10.2019 - 01.05.2020\\
+\textbf{Matrikelnummer, Kurs} \> 7288057, 4191693 \\
+\textbf{Kurs} \> TINF17IN\\
+\textbf{Betreuer der Hochschule} \> Alfred Becker\\
+\textbf{Gutachter der Hochschule} \> Alfred Becker\\
+\end{tabbing}
+\end{spacing}
+%Seitennummerierung ausschalten
+\pagenumbering{gobble}
+\newpage
+
+\section*{Selbstständigkeitserklärung}
+
+\bigskip
+
+Ich versichere hiermit, dass ich meine Bachelorarbeit (bzw. Studien- und Projektarbeit) mit dem Thema:
+
+\smallskip
+
+%% eigentlich hier \titel verwenden statt duplicated titel, aber umbruch erzwingt
+%% doppeltes ausschreiben des titels
+\texttt{Entwicklung eines Chatsystems auf Basis von XMPP}
+
+\smallskip
+
+selbstständig verfasst und keine anderen als die angegebenen Quellen und Hilfsmittel benutzt habe.
+
+\bigskip
+
+Ich versichere zudem, dass die eingereichte elektronische Fassung mit der gedruckten Fassung übereinstimmt.*
+
+\bigskip
+
+\begin{small}
+
+* falls beide Fassungen gefordert sind
+
+\bigskip
+
+\bigskip
+
+\noindent\begin{tabular}{ll}
+\makebox[2.5in]{\hrulefill} & \makebox[2.5in]{\hrulefill}\\
+Ort, Datum & Unterschrift
+\end{tabular}
+\end{small}
+
+\newpage
+
+%abstract text
+\section*{Abstract}
+
+\newpage
+
+%inhaltsverzeichnis
+	% Inhaltsverzeichnis
+	\cleardoublepage
+	\begin{spacing}{1.1}
+		\begingroup
+		
+			% auskommentieren für Seitenzahlen unter Inhaltsverzeichnis
+			\renewcommand*{\chapterpagestyle}{empty}
+			\pagestyle{empty}
+			
+			
+			%\setcounter{tocdepth}{1}
+			%für die Anzeige von Unterkapiteln im Inhaltsverzeichnis
+			\setcounter{tocdepth}{2}
+			
+			\tableofcontents
+			\clearpage
+		\endgroup
+	\end{spacing}
+
+%% new header/footer settings
+\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}} % make header rightmark
+\fancypagestyle{fancyheadlines}{
+\pagenumbering{arabic}
+\fancyhf{}
+\lhead{\slshape\rightmark}
+%%\rhead{\slshape\nouppercase{\leftmark}}
+\renewcommand{\headrulewidth}{0.4pt}
+%\lfoot{\slshape DHBW Stuttgart | Lukas Priester, Oliver Klapper}
+\cfoot{\thepage}
+\renewcommand{\footrulewidth}{0.4pt}
+}
+
+% Redefine the plain page style, show only page number in figure,table,...contents
+% and chapter pages
+\fancypagestyle{plain}{%
+  \fancyhf{}%
+  %\lfoot{\slshape DHBW Stuttgart | Lukas Priester, Oliver Klapper}%
+  \cfoot{\thepage}
+  \renewcommand{\headrulewidth}{0pt}% Line at the header invisible
+  \renewcommand{\footrulewidth}{0.4pt}% Line at the footer visible
+}
+
+
+\newpage
+\pagenumbering{Roman}
+
+
+%abkürzungsverzeichnis
+\cleardoublepage
+\addcontentsline{toc}{chapter}{Abkürzungsverzeichnis}
+\chapter*{Abkürzungsverzeichnis}
+\begin{acronym}[YTMMM]
+\setlength{\itemsep}{-\parsep}
+
+\acro{HTML}{HyperText Markup Language}
+\end{acronym}
+
+%abbildungsverzeichnis
+\cleardoublepage
+\addcontentsline{toc}{chapter}{\listfigurename}
+\listoffigures
+\newpage
+%tabellenverzeichnis
+\cleardoublepage
+\addcontentsline{toc}{chapter}{\listtablename}
+\listoftables
+\newpage
+%listingverzeichnis
+\cleardoublepage
+\addcontentsline{toc}{chapter}{\lstlistingname}
+\lstlistoflistings
+\newpage
+
+\begin{onehalfspacing}
+
+%% header and footer settings
+\pagestyle{fancyheadlines}
+
+\chapter{Einleitung}
+\label{chap:Einleitung}
+
+
+\section{Aufgabenstellung}
+\label{sec:Aufgabenstellung}
+
+
+\section{Ziele der Arbeit}
+\label{sec:Ziele}
+
+
+\section{Stand der Technik}
+\label{sec:StandDerTechnik}
+
+\newpage
+
+\chapter{Datenschutzrechtliche Aspekte}
+\label{chap:Datenschutz}
+
+\newpage
+
+\chapter{Anforderungen}
+\label{Anforderungen}
+
+\newpage
+
+\chapter{Theoretische Grundlagen}
+\label{chap:Theorie}
+
+\section{XMPP-Protokoll}
+\label{sec:XMPP}
+
+\section{Python}
+\label{sec:Python}
+
+\section{Chatserver}
+\label{sec:Chatserver}
+
+\begin{lstlisting}[language=Python,caption=Example Listing Python,label={lst:Example}]
+"""The first step is to create an SMTP object, each object is used for connection 
+with one server."""
+
+import smtplib
+server = smtplib.SMTP('smtp.gmail.com', 587)
+
+#Next, log in to the server
+server.login("youremailusername", "password")
+
+#Send the mail
+msg = "
+Hello!" # The /n separates the message from the headers
+server.sendmail("you@gmail.com", "target@example.com", msg)
+\end{lstlisting}
+
+
+\section{Datenbank}
+\label{sec:Datenbank}
+
+\newpage
+
+\chapter{Umsetzung und Implementierung}
+\label{chap:Umsetzung}
+
+\section{Vorbereitung}
+\label{sec:Vorbereitung}
+
+\section{Implementierung des Chatservers ejabberd}
+\label{sec:ChatserverEntwicklung}
+
+\subsection{Anbindung des Chatservers}
+\label{subsec:Anbindung}
+
+\subsection{Security}
+\label{subsec:Security}
+
+\subsection{Konfiguration von ejabberd}
+\label{subsec:Konfiguration}
+
+\newpage
+
+\section{Entwicklung des Chat-Clients}
+\label{sec:ClientEntwicklung}
+
+\ac{HTML}
+
+\subsection{Entwicklung der GUI}
+\label{subsec:EntwicklungGUI}
+
+\subsection{Implemintierung des Backends}
+\label{subsec:Backend}
+
+\newpage
+
+\chapter{Datenanalyse}
+\label{chap:Datenanalyse}
+
+\newpage
+
+\chapter{Ergebnis}
+\label{chap:Ergebnis}
+
+\newpage
+
+\chapter{Fazit}
+\label{chap:Fazit}
+
+
+\end{onehalfspacing}
+\newpage
+
+%% \bibliography{Literatur}
+\newpage
+%setze Anhang mit appendix
+%addpart, sodass Anhang im Inhaltsverzeichnis ohne Buchstaben auftaucht
+\appendix
+\addpart{Anhang}
+
+\end{document}
