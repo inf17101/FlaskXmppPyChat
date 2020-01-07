@@ -4,9 +4,12 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_required
 import os, json
 
+with open("/home/xmppweb/config.json") as config_file:
+    config = json.load(config_file)
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.urandom(24) #secret key of app
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://xmppweb:jK5S/v=CnE8;$!.>@localhost:3306/XmppWebDB1'
+app.config['SQLALCHEMY_DATABASE_URI'] = config.get('SQLALCHEMY_DATABASE_URI')
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
