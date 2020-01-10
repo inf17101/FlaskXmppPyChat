@@ -14,10 +14,11 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
 login_mgmt = LoginManager(app)
-# login_mgmt.login_view = 'login' # name of callback method if unauthorized user accessed a login protected site
+login_mgmt.login_view = 'login' # name of callback method if unauthorized user accessed a login protected site
 
 # user defined imports
 from xmppchat.registrationform import RegistrationForm
+from xmppchat.loginform import LoginForm
 from xmppchat.dynamicContent import navs
 from xmppchat.models import User # must be imported here otherwise User Model does not exist
 
@@ -33,8 +34,29 @@ def register():
     return render_template('register.html',form=form, navs=navs, currentNav="Go Chat!")
 
 
-@app.route("/gochat")
+@app.route("/login", methods=['GET', 'POST'])
+def login():
+    loginform = LoginForm()
+
+    if loginform.validate_on_submit():
+        user = User.query.filter_by(username=loginform.username.data).first()
+        if not user or not user.verify_password(loginform.password.data):
+            flash("Invalid login credentials, please try again", 'danger')
+            return render_template('login.html',form=loginform, navs=navs, currentNav="Go Chat!")
+        #login_mgmt.login_user(user)
+        return redirect(url_for('gochat'))
+
+    return render_template('login.html',form=loginform, navs=navs, currentNav="Go Chat!")
+
+@app.route("/logout")
 # @login_required
+def logout():
+    #logout_user()
+    return redirect(url_for('login'))
+
+
+@app.route("/gochat")
+#@login_required
 def gochat():
     return render_template('gochat.html', navs=navs,currentNav="Go Chat!")
 
