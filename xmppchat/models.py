@@ -52,13 +52,16 @@ class User(UserMixin, db.Model):
         Requried parameters: password e.g. of input field
         """
         return check_password_hash(self.passwd, password)
+    
+    def get_id(self):
+        return (self.user_id)
 
 @login_mgmt.user_loader
-def load_user(id):
+def load_user(user_id):
     """
         flask-login manager does nothing know about databases
         needs this function to loading a users id into his session management storage space
         Return: User obj
         Required parameters: user_id to look at the table if the user exists
     """
-    return User.query.get(int(id))
+    return User.query.get(int(user_id))
