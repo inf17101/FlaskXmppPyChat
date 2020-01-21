@@ -1,10 +1,100 @@
 {% extends "index.html" %}
-
+{% block title %}Go Chat!{% endblock %}
 {%block content%}
 
 <style>
-  .row { margin-top: 10%!important;}
-  .dropdown { margin-right: 2%; float: right!important;}
+  /*.row { margin-top: 10%!important;}*/
+  .container-fluid { margin-top: 5%!important;}
+  .dropdown { margin-left: 20px; margin-right: 2%; float: right!important;}
+  .scrollable-contacts { height: 800px; overflow-y: scroll;}
+  .scrollable-messages { height: 800px; overflow-y: scroll;}
+  .chat .chat-history {
+  padding: 30px 30px 20px;
+  border-bottom: 2px solid white;
+}
+.chat .chat-history .message-data {
+  margin-bottom: 15px;
+}
+.chat .chat-history .message-data-time {
+  color: #a8aab1;
+  padding-left: 6px;
+}
+.chat .chat-history .message {
+  color: white;
+  padding: 18px 20px;
+  line-height: 26px;
+  font-size: 16px;
+  border-radius: 5px;
+  margin-bottom: 30px;
+  width: 90%;
+  position: relative;
+}
+.chat .chat-history .message:after {
+content: "";
+    position: absolute;
+    top: -15px;
+    left: 20px;
+    border-width: 0 15px 15px;
+    border-style: solid;
+    border-color: #CCDBDC transparent;
+    display: block;
+    width: 0;
+}
+.chat .chat-history .you-message {
+  background: #CCDBDC;
+  color:#003366;
+}
+.chat .chat-history .me-message {
+  background: #007bff;
+}
+.chat .chat-history .me-message:after {
+  border-color: #007bff transparent;
+    right: 20px;
+    top: -15px;
+    left: auto;
+    bottom:auto;
+}
+.chat .chat-message {
+  padding: 30px;
+}
+.chat .chat-message .fa-file-o, .chat .chat-message .fa-file-image-o {
+  font-size: 16px;
+  color: gray;
+  cursor: pointer;
+}
+
+.chat-ul li{
+    list-style-type: none;
+}
+
+.align-left {
+  text-align: left;
+}
+
+.align-right {
+  text-align: right;
+}
+
+.float-right {
+  float: right;
+}
+
+.clearfix:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0;
+}
+.you {
+  color: #CCDBDC;
+}
+
+.me {
+  color: #007bff;
+}
+
 </style>
 <div class="dropdown">
   <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -16,13 +106,14 @@
     <a class="dropdown-item" href="#">more...</a>
   </div>
 </div>
-<div class="container" style="width: 100%!important; margin: 0;">
+<div class="container-fluid" style="width: 100%!important">
   <div class="row">
-    <div class="col-sm-4">
+    <div class="scrollable-contacts col-sm-4">
       <div class="list-group">
         <a href="#" class="list-group-item list-group-item-action active">
           <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1">List group item heading</h5>
+              <img src="{{url_for('static', filename='img/usericon.png')}}" alt="Avatar" style="border-radius: 50%; width: 10%; margin: 10px, 0px, 15px, 0px;"> 
+            <h5 class="mt-2 mb-1">List group item heading</h5>
             <small>3 days ago</small>
           </div>
           <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
@@ -32,7 +123,8 @@
         {% for i in range(10) %}
         <a href="#" class="list-group-item list-group-item-action">
           <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1">List group item heading</h5>
+              <img src="{{url_for('static', filename='img/usericon.png')}}" alt="Avatar" style="border-radius: 50%; width: 10%; margin: 10px, 0px, 15px, 0px;"> 
+            <h5 class="mt-2 mb-1">List group item heading</h5>
             <small class="text-muted">3 days ago</small>
           </div>
           <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
@@ -41,7 +133,77 @@
         {% endfor %}
       </div>
     </div>
-    <div class="col-sm-8"></div>
+    <div class="scrollable-messages col-sm-8">
+      <div class="chat">   
+        <div class="chat-history">
+          <ul class="chat-ul">
+            <li>
+              <div class="message-data">
+                <span class="message-data-name"><i class="fa fa-circle you"></i> You</span>
+              </div>
+              <div class="message you-message">
+              A new client?!?! I would love to help them, but where are we going to find the time?
+  
+              </div>
+            </li>
+            <li class="clearfix">
+              <div class="message-data align-right">
+                <span class="message-data-name">OtherPerson</span> <i class="fa fa-circle me"></i>
+              </div>
+              <div class="message me-message float-right"> We should take a look at your onboarding and service delivery workflows, for most businesess there are many ways to save time and not compromise quality.  </div>
+            </li>
+              <li class="clearfix">
+              <div class="message-data">
+                <span class="message-data-name"><i class="fa fa-circle you"></i> You</span>
+              </div>
+              <div class="message you-message">
+              What?! No way, how did I miss that. I never forgot that part before.
+  
+              </div>
+            </li>
+            <li class="clearfix">
+              <div class="message-data align-right">
+                <span class="message-data-name">OtherPerson</span> <i class="fa fa-circle me"></i>
+              </div>
+              <div class="message me-message float-right">Remembering everything can quickly become impossible as your business grows, we need to take a look at your reminder management system and also see if there are steps in your business we can automate.</div>
+            </li>
+              <li>
+              <div class="message-data">
+                <span class="message-data-name"><i class="fa fa-circle you"></i> You</span>
+              </div>
+              <div class="message you-message">
+              6? Bob told me 8! How did this mix up happen?!
+              </div>
+            </li>
+            <li class="clearfix">
+              <div class="message-data align-right">
+                <span class="message-data-name">OtherPerson</span> <i class="fa fa-circle me"></i>
+              </div>
+              <div class="message me-message float-right">
+  The more people in your business, the more opportunity for mistakes, having a solid system in place for tracking important client data will help avoid these miscommunications.            </div>
+            </li>
+              <li>
+              <div class="message-data">
+                <span class="message-data-name"><i class="fa fa-circle you"></i> You</span>
+              </div>
+              <div class="message you-message">
+              I know that I spoke with Mary about this, but where did I put that note...hopefully she also sent me an email...
+  
+              </div>
+            </li>
+            <li class="clearfix">
+              <div class="message-data align-right">
+                <span class="message-data-name">OtherPerson</span> <i class="fa fa-circle me"></i>
+              </div>
+              <div class="message me-message float-right">Finding the right information when you need it will save you time and energy. Your data management systems need to grow with your business. All businesses need a dynamic data strategy and a system to ensure that the strategy is implemented correctly.</div>
+            </li>
+          </ul>
+          
+        </div> <!-- end chat-history -->
+        
+      </div> <!-- end chat -->
+
+    </div>
   </div>
 </div>
 
