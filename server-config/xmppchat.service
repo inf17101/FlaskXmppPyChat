@@ -1,0 +1,14 @@
+[Unit]
+Description = DHBW XmppWebChat
+After = network.target
+
+[Service]
+User = xmppweb
+Group = xmppweb
+WorkingDirectory = /home/xmppweb/XmppChat
+Environment="PATH=/home/xmppweb/XmppChat/venv/bin"
+ExecStart=/home/xmppweb/XmppChat/venv/bin/gunicorn --workers 3 --bind 127.0.0.1:8000 run:app
+
+[Install]
+WantedBy = multi-user.target
+
