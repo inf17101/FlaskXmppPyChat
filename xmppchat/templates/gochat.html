@@ -6,8 +6,8 @@
   /*.row { margin-top: 10%!important;}*/
   .container-fluid { margin-top: 5%!important;}
   .dropdown { margin-left: 20px; margin-right: 2%; float: right!important;}
-  .scrollable-contacts { height: 800px; overflow-y: scroll;}
-  .scrollable-messages { height: 800px; overflow-y: scroll;}
+  .scrollable-contacts { height: 670px; overflow-y: scroll;}
+  .scrollable-messages { height: 600px; overflow-y: scroll;}
   .chat .chat-history {
   padding: 30px 30px 20px;
   border-bottom: 2px solid white;
@@ -133,8 +133,8 @@ content: "";
         {% endfor %}
       </div>
     </div>
-    <div class="scrollable-messages col-sm-8">
-      <div class="chat">   
+    <div class="col-sm-8">
+      <div class="scrollable-messages chat">   
         <div class="chat-history">
           <ul class="chat-ul">
             <li>
@@ -202,7 +202,12 @@ content: "";
         </div> <!-- end chat-history -->
         
       </div> <!-- end chat -->
-
+      <div class="input-group mt-4 mb-3">
+        <input type="text" class="form-control" placeholder="Enter your message..." aria-label="Recipient's username" aria-describedby="button-addon2">
+        <div class="input-group-append">
+          <button class="btn btn-outline-primary" type="button" id="button-addon2">Send</button>
+        </div>
+      </div>
     </div>
   </div>
 </div>
