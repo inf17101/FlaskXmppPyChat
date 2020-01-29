@@ -230,6 +230,10 @@ Ort, Datum & Unterschrift
 
 \acro{IMS} {Instant Messaging System}
 \acro{XMPP} {Extensible Messaging and Presence Protocol}
+\acro{XML} {Extensible Markup Language}
+\acro{TCP} {Transmission Control Protocol}
+\acro{TLS} {Transport Layer Security}
+\acro{MUC} {Multi-User-Chat}
 \acro{NLP} {Natural Language Processing}
 \acro{MUC} {Multi User Chat}
 \acro{ICQ} {I seek you}
@@ -309,47 +313,53 @@ Hat sich der Benutzer mit seinen Login-Daten erfolgreich gegenüber dem Authenti
 
 \section{XMPP-Extensible Messaging and Presence Protocol}
 \label{sec:XMPP}
-\ac{XMPP} stellt ein Protokoll auf Basis von XML dar. Das Ziel bei der Entwicklung von \ac{XMPP} war zur Verwendung bei Instant Messaging. \ac{XMPP} als Protokoll kann sowohl zwischen den Servern, als auch inmitten von Servern fungieren. Dabei nutzt es das Internet und erlaubt den Usern Sofortnachrichten an andere Anwender innerhalb des Internets zu schicken. Vor allem bei Sofortnachrichten kommt der Vorteil der Echtzeit von XMPP zum Einsatz. Weiterer positiver Effekt ist die Unabhängigkeit von Betriebssystemen, da \ac{XMPP} ein Protokoll auf Internetbasis darstellt. Zusätzlich ist es nahezu browserunabhängig.
-{\url{https://www.computerweekly.com/de/definition/XMPP-Extensible-Messaging-and-Presence-Protocol}} (Abgerufen:15.01.2020) 
-
-\ac{XMPP} bedeutet \textbf{Extensible Messaging and Presence Protocol}. Übersetzt man dies detailliert ins deutsche so ergibt sich ein erweiterbares Nachrichten- und Anwesenheitsprotokoll. Eine Definition die \ac{XMPP} sehr gut beschreibt. Außerdem basiert XMPP auf XML, welches eine Markup Sprache darstellt. Laut dem RFC6120 lässt sich mittels XMPP Daten zwischen zwei oder mehreren Netzwerkeinheiten nahezu in Echtzeit austauschen. XMPP lässt sich in viele verschiedene Funktionen aufteilen, weshalb der grundlegende Zweck von XMPP ein anderes Ziel verfolgt. Die Idee von XMPP ist es den Austausch von kleinen Teilen strukturierter Daten (\glqq XML stanzas\grqq) zwischen einem oder mehreren Netzwerkteilnehmern zu ermöglichen. Primär wird XMPP mithilfe einer Client-Server-Architektur implementiert, bei der sich ein Client mit einem Server verbindet, um mit anderen Teilnehmern Daten auszutauschen. Wird diese Architektur implementiert, so ist in der Regel der Ablauf definiert durch:
+\ac{XMPP} bedeutet \textbf{Extensible Messaging and Presence Protocol}. Übersetzt man dies detailliert ins deutsche so ergibt sich ein erweiterbares Nachrichten- und Anwesenheitsprotokoll. Eine Definition die \ac{XMPP} sehr gut beschreibt. \ac{XMPP} basiert auf \ac{XML}, welches eine Markup Sprache darstellt. Das Ziel von \ac{XMPP} war ein Protokoll für das Instant Messaging zu entwickeln. Laut dem RFC6120 lässt sich mittels \ac{XMPP} Daten zwischen zwei oder mehreren Netzwerkeinheiten nahezu in Echtzeit austauschen, welches als Vorteil für Sofortnachrichten bezeichnet werden kann. Diesbezüglich nutzt es das Internet und erlaubt den Usern Sofortnachrichten an andere Anwender innerhalb des Internets zu schicken. \ac{XMPP} lässt sich in viele verschiedene Funktionen aufteilen, weshalb der grundlegende Zweck ein anderes Ziel verfolgt. Im einfachsten Sinne ist die Idee von \ac{XMPP} den Austausch von kleinen Teilen strukturierter Daten (\glqq \ac{XML} stanzas\grqq) zwischen einem oder mehreren Netzwerkteilnehmern zu ermöglichen. Primär wird \ac{XMPP} mithilfe einer Client-Server-Architektur implementiert, bei der sich ein Client mit einem Server verbindet, um mit anderen Teilnehmern Daten auszutauschen. Anderseits kann es als Protokoll auch zwischen Servern fungieren. Daraus resultiert der Vorteil nahezu unabhängig von Betriebssystemen und Browsern zu sein. Wird die Client-Server-Architektur implementiert, so ist in der Regel der Ablauf definiert durch folgende Schritte: \cite{RFC6120} 
 \begin{enumerate}
 	\item Bestimmen der IP-Adresse und des Ports zu dem sich verbunden werden soll 
-	\item Eine TCP Verbindung öffnen/aufbauen
-	\item Öffnen eines XML-Streams über TCP
-	\item Optional: Verwendung von TLS für die Verschlüsselung
+	\item Eine \ac{TCP} Verbindung öffnen/aufbauen
+	\item Öffnen eines \ac{XML}-Streams über \ac{TCP}
+	\item Optional: Verwendung von \ac{TLS} für die Verschlüsselung
 	\item Verwendung des SASLs Frameworks für die Authentifizierung
-	\item Eine Ressource an den XML stream anbinden
-	\item Austausch unbegrenzter \glqq XML stanzas\grqq ()=> kleine Teile strukturierter Daten) mit anderen Netzwerkteilnehmern
-	\item Schließen des XML streams
-	\item Schließen der TCP Verbindung
-\end{enumerate} 
-{\url{https://tools.ietf.org/html/rfc6120}} (Abgerufen:16.01.2020)
+	\item Eine Ressource an den \ac{XML} stream anbinden
+	\item Austausch unbegrenzter \glqq \ac{XML} stanzas\grqq ()=> kleine Teile strukturierter Daten) mit anderen Netzwerkteilnehmern
+	\item Schließen des \ac{XML} streams
+	\item Schließen der \ac{TCP} Verbindung
+\end{enumerate}
+Die folgende \autoref{img:XMPPcommunication} zeigt den Start einer Kommunikation, wie im genannten Ablauf dargestellt, über \ac{XMPP} und den \ac{XML}-streams.
 
-Für den Austausch von Daten gibt es zwei elementare Konzepte. Zum einen die XML-Streams und die XML-Stanzas. Diese zwei Konzepte werden definiert um das Verständnis des Datenaustauschs, wie es im obigen Ablauf definiert ist, zu erlangen. Bei dem Austausch der Daten mittels XML streams wird von einem Container zwischen den Teilnehmern gesprochen. Der XML stream ist durch den \glqq stream header\grqq (z.B. XML <stream>) und dem Ende des Stream, dargestellt durch XML </streams>, eindeutig definiert. Die Anzahl der austauschbaren XML Elemente ist unbegrenzt und durch die Lebensdauer des streams definiert. Das XMP stanza wird nun als diskrete semantische Einheit strukturierter Daten, das von einem Teilnehmer zu einem anderen über den XML stream gesendet wird bezeichnet. Das XML stanza ist ein direktes Kind-Element des Stream. Ein stanza kann wiederum selbst Kind-Elemente enthalten, das den XML stream definiert. Im Kern fungiert der XML stream wie eine Hülle um alle XML stanzas, die während einer Session versendet werden. Ein Aufbau kann wie folgt repräsentiert werden.
-{\url{https://tools.ietf.org/html/rfc6120#section-4.1}} (Abgerufen:16.01.2020)
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\textwidth]{images/XML_Wireshark}
+	\caption{Kommunikationsaufbau des \ac{XMPP}-Protokolls}
+	\label{img:XMPPcommunication}
+\end{figure} 
+\newpage
+Für den Austausch von Daten gibt es zwei elementare Konzepte. Zum einen die \ac{XML}-Streams und die \ac{XML}-Stanzas. Diese zwei Konzepte werden definiert um das Verständnis des Datenaustauschs, wie es im obigen Ablauf definiert ist, zu erlangen. Bei dem Austausch der Daten mittels \ac{XML} streams wird von einem Container zwischen den Teilnehmern gesprochen. Der \ac{XML} stream ist durch den \glqq stream header\grqq (z.B. \ac{XML} <stream>) und dem Ende des streams, dargestellt durch \ac{XML} </streams>, eindeutig definiert. Die Anzahl der austauschbaren \ac{XML} Elemente ist unbegrenzt und durch die Lebensdauer des streams definiert. Das \ac{XML} stanza wird nun als diskrete semantische Einheit strukturierter Daten, das von einem Teilnehmer zu einem anderen über den \ac{XML} stream gesendet wird bezeichnet. Das \ac{XML} stanza ist ein direktes Kind-Element des streams. Ein stanza kann wiederum selbst Kind-Elemente enthalten, das den \ac{XML} stream definiert. Im Kern fungiert der \ac{XML} stream wie eine Hülle um alle \ac{XML} stanzas, die während einer Session versendet werden. Ein Aufbau kann wie in der folgenden \autoref{img:StrukturXMLstream} repräsentiert werden. \cite{RFC6120Sec4}
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=1.2]{images/XML_Stream}
+	\caption{Allgemeine Struktur eines XML streams}
+	\label{img:StrukturXMLstream}
+\end{figure}
+\newpage
 
 
 \section{Python}
 \label{sec:Python}
+\newpage
 
 \section{Ejabberd}
 \label{sec:ejabberd}
-Ejabberd:
-Ejabberd ist ein freier XMPP-Server. Vorteil ist, dass die Software unter Betriebssysteme wie Windows und Unix-ähnlichen lauffähig ist. Ejabberd ist eine Abkürzung und steht für \glqq Erlang Jabber Daemon\grqq. Wie die Definition zeigt bezieht sich ejabberd auf die Programmiersprache Erlang. Grund hierfür ist, dass die ejabberd Software in Erlang geschrieben ist.
-\url{https://de.wikipedia.org/wiki/Ejabberd} (Aufgerufen: 16.01.2020)
-
-Ejabberd ist einer der bekanntesten XMPP-Server auf der Welt und kann in vielerlei Hinsicht verwendet werden. Sowohl Großprojekte als auch kleine Instanzen machen sich die Vorteile von ejabberd zum Vorteil. Der Start von ejabberd ist dem Jahr 2002 zuzuordnen. Seit dem Start wurde es von Grund auf für die Unternehmensbereitstellung entwickelt, vor allem mit dem Ziel robust zu sein. Aufgrund davon, dass der Fokus, zum damaligen Zeitpunkt, auf dem unternehmerischen Zweig lag, war es wichtig die Fehleranfälligkeit von ejabberd zu minimieren. Ein Vorteil der sich bis zum heutigen Zeitpunkt bewahrt hat. Außerdem kann ejabberd die Ressourcen mehrerer geclusterter Systeme nutzen. Des Weiteren besitzt ejabberd die Eigenschaft der Skalierbarkeit, indem die Kapazitäten mit wenig Aufwand erhöht werden kann. Während der Entstehungsphase war das XMPP-Protokoll (welches in Kapitel … beschrieben wird) noch unter dem Namen Jabber bekannt. Ejabberd kann verschieden benutzt werden. Im Fall der Studienarbeit wir die Community Edition von ejabberd benutzt, welche als open source zur Verfügung steht. Neben der Community Edition gibt es auch noch Möglichkeiten einer Business Edition, welches vor allem für die großen Unternehmen mit besserem Support rund um die Uhr und größeren Funktionen konzeptioniert ist. Die Architektur eines ejabberd services erweitert die Kernfunktionen von XMPP, welches das Senden von Nachrichten ist, um Faktoren wie die Skalierbarkeit, Konfigurierbarkeit und Fehlertoleranz. Außerdem gilt die Architektur von ejabberd als Modular. Das bedeutet, dass es an den Zweck eines Projektes angepasst werden kann. Die Modularität bringt bspw. Funktionen wie Gruppenchat mit ein. Aufgrund der großen Anzahl an Modulen werden lediglich die Module, die für das Projekt relevant sind aufgelistet.
+Ejabberd ist einer der bekanntesten freien \ac{XMPP}-Server auf der Welt und kann in vielerlei Hinsicht verwendet werden. Sowohl Großprojekte als auch kleine Instanzen machen sich die Eigenschaften von ejabberd zum Vorteil. Der Start von ejabberd ist dem Jahr 2002 zuzuordnen. Ejabberd ist eine Abkürzung und steht für \glqq Erlang Jabber Daemon\grqq. Wie die Definition zeigt bezieht sich ejabberd auf die Programmiersprache Erlang. Grund hierfür ist, dass die ejabberd Software in Erlang geschrieben ist. Seit dem Start wurde es von Grund auf für die Unternehmensbereitstellung entwickelt, vor allem mit dem Ziel robust zu sein. Aufgrund davon, dass der Fokus auf die Unternehmen lag, war es wichtig die Fehleranfälligkeit von ejabberd zu minimieren. Ein Vorteil der sich bis zum heutigen Zeitpunkt bewahrt hat. Außerdem kann ejabberd die Ressourcen mehrerer geclusterter Systeme nutzen. Des Weiteren besitzt ejabberd die Eigenschaft der Skalierbarkeit, indem die Kapazitäten mit wenig Aufwand erhöht werden kann. Während der Entstehungsphase war das \ac{XMPP}-Protokoll, welches in \autoref{sec:XMPP} beschrieben wird, noch unter dem Namen Jabber bekannt. Ejabberd kann verschieden benutzt werden. Im Fall der Studienarbeit wird die Community Edition von ejabberd benutzt, welche als open source zur Verfügung steht. Neben der Community Edition gibt es auch noch Möglichkeiten einer Business Edition, welches vor allem für die großen Unternehmen mit besserem Support rund um die Uhr und größeren Funktionen konzeptioniert ist. Die Architektur eines ejabberd services erweitert die Kernfunktionen von \ac{XMPP}, welches das Senden von Nachrichten ist, um Faktoren wie die Skalierbarkeit, Konfigurierbarkeit und Fehlertoleranz. Außerdem gilt die Architektur von ejabberd als Modular. Das bedeutet, dass es an den Zweck eines Projektes angepasst werden kann. Die Modularität bringt bspw. Funktionen wie Gruppenchat mit ein. Aufgrund der großen Anzahl an Modulen werden lediglich die Module, die für das Projekt relevant sind aufgelistet.
 Relevante Funktionen:
 \begin{itemize}
 	\item Einzelchat
-	\item Gruppenchat (auch als Multi-User Chat - MUC - bezeichnet)
+	\item Gruppenchat (auch als Multi-User-Chat (\ac{MUC}) bezeichnet)
 	\item Offline Nachrichten 
 	\item Web-Unterstützung
 	\item Nachrichtenübermittlungsbestätigung
 \end{itemize}
-Eine wichtige Eigenschaft ist das Authentifizieren von Nutzern, welches ebenfalls von ejabberd unterstützt wird. Dafür kann ejabberd sowohl mit einer internen, als auch mit einer externen Datenbank zusammen arbeiten. Aufgrund der genannten Eigenschaften und Funktionen von ejabberd, werden eine Vielzahl an mögliche Anwendungsgebieten abgedeckt. Während für viele kleine Projekte die interne Datenbank Mnesia ausreichend ist, wird im Rahmen der Studienarbeit mit einer externen Datenbank gearbeitet.
-\url{https://docs.ejabberd.im/get-started/}(Abgerufen:19.01.2020)
+Eine wichtige Eigenschaft ist das Authentifizieren von Nutzern, welches ebenfalls von ejabberd unterstützt wird. Dafür kann ejabberd sowohl mit einer internen, als auch mit einer externen Datenbank zusammenarbeiten. Aufgrund der genannten Eigenschaften und Funktionen von ejabberd, werden eine Vielzahl an mögliche Anwendungsgebieten abgedeckt. Während für viele kleine Projekte die interne Datenbank Mnesia ausreichend ist, wird im Rahmen der Studienarbeit mit einer externen Datenbank gearbeitet.\cite{EjabberdDoc}
 
 \section{Chatserver}
 \label{sec:Chatserver}
