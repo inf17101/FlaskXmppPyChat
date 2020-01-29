@@ -239,6 +239,8 @@ Ort, Datum & Unterschrift
 \acro{ICQ} {I seek you}
 \acro{VoIP} {Voice over IP}
 \acro{HTML}{HyperText Markup Language}
+\acro{DBMS}{Datenbankenmanagementsystem}
+\acro{SQL}{Structured Query Language}
 \end{acronym}
 
 %abbildungsverzeichnis
@@ -300,7 +302,7 @@ Weitere typische Funktionen sind die Möglichkeit des Logins mit Passwort und di
 \section{Funktionsweise von Instant-Messaging-Systemen}
 \label{sec:IMSFunktion}
 
-Verschiedene \ac{IMS} besitzen ähnliche Funktionsweisen. Möchte ein Bentzer einen \ac{IMS} nutzen, muss dieser eine bestimmte Software installieren. Diese Software wird als \textbf{Instant-Messaging-Client (IM-Client} bezeichnet. Der Benutzer muss sich an einem Authentifikationsserver registrieren. Es wird ein Benutzerprofil angelegt, welches aus aus einem Benutzernamen (User ID) und einem Passwort (Pre-Shared-Key) besteht. Diese Daten werden beim Login des Benutzers vom \ac{IMS} abgefragt. Ein Benutzerprofil kann weitere personenbezogenen Daten bestehen, wie zum Beispiel, Wohnort, Geschlecht und Geburtsdatum. Die Anzahl der Server für die Authentifizierung und der Bereitstellung des Dienstes variiert je nach der Anforderung an Verfügbarkeit und Anzahl der zu erwartenden Nutzer des \ac{IMS}. Die horizontale Skalierung von Servern und Diensten unterliegt allein dem Betreiber dieser Systeme, häufig finden sich jedoch Cluster-Systeme mit intelligenter Lastverteilung (Load-Balancing). \autoref{img:StrukturIMS} zeigt den allgemeinen Aufbau eines \ac{IMS}. In der Abbildung wird eine horizontale oder vertikale Skalierung des \ac{IMS} vernachlässigt. Der Authentifikationsserver symbolisiert einen oder mehrere Server.\cite{anastasiaIMS}
+Verschiedene \ac{IMS} besitzen ähnliche Funktionsweisen. Möchte ein Benutzer einen \ac{IMS} nutzen, muss dieser eine bestimmte Software installieren. Diese Software wird als \textbf{Instant-Messaging-Client (IM-Client} bezeichnet. Der Benutzer muss sich an einem Authentifikationsserver registrieren. Es wird ein Benutzerprofil angelegt, welches aus aus einem Benutzernamen (User ID) und einem Passwort (Pre-Shared-Key) besteht. Diese Daten werden beim Login des Benutzers vom \ac{IMS} abgefragt. Ein Benutzerprofil kann weitere personenbezogenen Daten bestehen, wie zum Beispiel, Wohnort, Geschlecht und Geburtsdatum. Die Anzahl der Server für die Authentifizierung und der Bereitstellung des Dienstes variiert je nach der Anforderung an Verfügbarkeit und Anzahl der zu erwartenden Nutzer des \ac{IMS}. Die horizontale Skalierung von Servern und Diensten unterliegt allein dem Betreiber dieser Systeme, häufig finden sich jedoch Cluster-Systeme mit intelligenter Lastverteilung (Load-Balancing). \autoref{img:StrukturIMS} zeigt den allgemeinen Aufbau eines \ac{IMS}. In der Abbildung wird eine horizontale oder vertikale Skalierung des \ac{IMS} vernachlässigt. Der Authentifikationsserver symbolisiert einen oder mehrere Server.\cite{anastasiaIMS}
 
 \begin{figure}[h]
 	\centering
@@ -383,6 +385,21 @@ server.sendmail("you@gmail.com", "target@example.com", msg)
 
 \section{Datenbank}
 \label{sec:Datenbank}
+Im folgend Abschnitt liegt der Augenmerk auf die theoretischen Grundlagen einer MySQL-Datenbank. Grund hierfür ist die Verwendungen einer MySQL-Datenbank um Informationen über die User zu speichern. Damit wird auch die Definition, eine Datenbank beinhaltet eine Sammlung von mehrerer Daten, die sich aufeinander beziehen können, und von einem \ac{DBMS} verwaltet werden, beschrieben. Relevant für den Zugriff bildet die einheitliche logische Schnittstelle zum \ac{DBMS}. Der Zugriff kann mit dem weitverbreiteten Standard \ac{SQL}, welches im allgemeinen Sinn eine Programmiersprache darstellt, erfolgen. Dafür wird der Datenbank über \ac{SQL} nur mitgeteilt welche Daten benötigt werden. Ein Datenbanksystem muss wesentliche Eigenschaften besitzen, um den Zweck Daten zu speichern und sie wieder abzufragen, zu erfüllen. Nachfolgend sind solche Eigenschaften aufgeführt:
+\begin{itemize}
+	\item Unabhängigkeit von dem physischen Aufbau
+	\item Schutz bei (Mehrfach-) zugriff auf Daten
+	\item Integrität
+	\item Zuverlässigkeit
+	\item Ausfallsicherheit
+\end{itemize}
+Eine Datenbank kann entsprechend dem zugehörigen Modell definiert werden. Die Datenbankmodelle unterteilen sich in relationale, objektorientierte, hierarchische und netzwerkartige sowie in moderne Datenbanken. Aufgrund der großen Anzahl, wird lediglich auf die das relationale Modell eingegangen, da diesem MySQL zugeordnet werden kann, welches in dieser Studienarbeit angewendet wird. Dementsprechend sind wichtige Schlüsselbegriffe zu definieren. Eine Tabelle wird ebenfalls als Relation bezeichnet. Eine Zeile der Relation heißt Tupel, die Spalten Attribute. Die Kardinalität entspricht der Anzahl von Tupeln und der Grad bezieht sich auf die Anzahl der Attribute. Ein wesentliche Bestandteil einer relationalen Datenbank ist der Primärschlüssel, welche zwingend erforderlich ist und eindeutig sein muss. Der Schlüsselbegriff Gebiet bezieht sich auf ein Definitionsbereich eines Attributes, welches alle gültigen Werte diesen Attributes umfasst. Ein Beispiel für eine Relation mit allen relevanten Schlüsselbegriffen ist in der folgenden \autoref{img:RelationDB_Begriffe} dargestellt.\cite{Schicker2017}
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=1.2]{images/RelationMitSchluesselbegriffe}
+	\caption{Relation mit Schlüsselbegriffe}
+	\label{img:RelationDB_Begriffe}
+\end{figure}
 
 \newpage
 
