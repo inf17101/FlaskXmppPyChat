@@ -394,13 +394,15 @@ Im folgend Abschnitt liegt der Augenmerk auf die theoretischen Grundlagen einer 
 	\item Ausfallsicherheit
 \end{itemize}
 Eine Datenbank kann entsprechend dem zugehörigen Modell definiert werden. Die Datenbankmodelle unterteilen sich in relationale, objektorientierte, hierarchische und netzwerkartige sowie in moderne Datenbanken. Aufgrund der großen Anzahl, wird lediglich auf die das relationale Modell eingegangen, da diesem MySQL zugeordnet werden kann, welches in dieser Studienarbeit angewendet wird. Dementsprechend sind wichtige Schlüsselbegriffe zu definieren. Eine Tabelle wird ebenfalls als Relation bezeichnet. Eine Zeile der Relation heißt Tupel, die Spalten Attribute. Die Kardinalität entspricht der Anzahl von Tupeln und der Grad bezieht sich auf die Anzahl der Attribute. Ein wesentliche Bestandteil einer relationalen Datenbank ist der Primärschlüssel, welche zwingend erforderlich ist und eindeutig sein muss. Der Schlüsselbegriff Gebiet bezieht sich auf ein Definitionsbereich eines Attributes, welches alle gültigen Werte diesen Attributes umfasst. Ein Beispiel für eine Relation mit allen relevanten Schlüsselbegriffen ist in der folgenden \autoref{img:RelationDB_Begriffe} dargestellt.\cite{Schicker2017}
+
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=1.2]{images/RelationMitSchluesselbegriffe}
 	\caption{Relation mit Schlüsselbegriffe}
 	\label{img:RelationDB_Begriffe}
 \end{figure}
-
+Demzufolge ist eine relationale Datenbank definiert als eine Datenbank mit einer Ansammlung von zeitlich variierenden, normalisierten Relationen mit passenden Graden.
+MySQL ist eins der weitverbreitetsten Datenbankenverwaltungssystemen, mitunter weil die Software open source und somit von jedem benutzt werden kann. Entwickelt wird MySQL von der Oracle Cooperation. Die MySQL-Datenbanken sind relational und orientieren sich an den oben genannten Schlüsselbegriffen, die eine relationale Datenbank definieren. Die MySQL-Datenbank ist in der Software eine Client-Server-System, das ,wie es offiziell von MySQL beschrieben wird, aus einem Mehr-Thread-SQL-Server besteht. Dadurch werden verschiedene Backends, Clientprogramme und Verwaltungswerkzeuge unterstützt.\cite{MysqlDoc}
 \newpage
 
 \chapter{Umsetzung und Implementierung}
