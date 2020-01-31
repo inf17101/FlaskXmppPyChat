@@ -241,6 +241,7 @@ Ort, Datum & Unterschrift
 \acro{HTML}{HyperText Markup Language}
 \acro{DBMS}{Datenbankenmanagementsystem}
 \acro{SQL}{Structured Query Language}
+\acro{GUI}{graphical user interface}
 \end{acronym}
 
 %abbildungsverzeichnis
@@ -404,6 +405,63 @@ Eine Datenbank kann entsprechend dem zugehörigen Modell definiert werden. Die D
 Demzufolge ist eine relationale Datenbank definiert als eine Datenbank mit einer Ansammlung von zeitlich variierenden, normalisierten Relationen mit passenden Graden.
 MySQL ist eins der weitverbreitetsten Datenbankenverwaltungssystemen, mitunter weil die Software open source und somit von jedem benutzt werden kann. Entwickelt wird MySQL von der Oracle Cooperation. Die MySQL-Datenbanken sind relational und orientieren sich an den oben genannten Schlüsselbegriffen, die eine relationale Datenbank definieren. Die MySQL-Datenbank ist in der Software eine Client-Server-System, das ,wie es offiziell von MySQL beschrieben wird, aus einem Mehr-Thread-SQL-Server besteht. Dadurch werden verschiedene Backends, Clientprogramme und Verwaltungswerkzeuge unterstützt.\cite{MysqlDoc}
 \newpage
+
+\section{Grafische Benutzeroberfläche}
+\label{sec:Benutzeroberfläche}
+Eine Grafische Benutzeroberfläche ist im Detail eine Schnittstelle zum Nutzer eines Computers. Die im Hintergrund agierende Software soll mittels Symbole und anderen Elementen bedienbar gemacht werden. Im Englischen wird die Benutzeroberfläche als \ac{GUI} bezeichnet, welches im weitere Verlauf ebenfalls als Bezeichnung verwendet wird. Allgemein besitzt eine \ac{GUI} Bedien- und Steuerelement die mit der im Hintergrund laufenden Software interagiert. Der Einsatz einer \ac{GUI} liegt an der Usability, welches die Benutzerfreundlichkeit beschreibt. Eine \ac{GUI} soll demnach dem User die Möglichkeit geben, die Software auch ohne großen Aufwand bedienen zu können. Eine Eigenschaft die heutzutage nahezu jedes Programm beinhalten muss. \url{https://de.wikipedia.org/wiki/Grafische_Benutzeroberfl%C3%A4che}
+	
+Im Rahmen der GUI-Programmierung müssen mehrere Aspekte berücksichtigt werden um die Usability zu erfüllen. Dafür werden die Aspekte in 8 goldene Regeln zusammengefasst, die bei der Entwicklung einer GUI berücksichtigt werden sollten.
+\begin{enumerate}
+	\item Strebe nach Konsistenz
+	\item Sorge für universelle Bedienbarkeit
+	\item Biete informative Rückmeldung
+	\item Entwerfe abgeschlossene Dialoge
+	\item Biete einfache Fehlerbehandlung
+	\item Lass die Einfache Umkehrung von Aktionen zu
+	\item Vermittle ein Gefühl der Kontrolle
+	\item Entlaste das Kurzzeitgedächtnis
+\end{enumerate}
+Im Folgenden wird kurz auf die 8 Regeln eingegangen, damit eine Verbindung zur Umsetzung der \ac{GUI} in \autoref{subsec:EntwicklungGUI} entsteht. 
+
+Der erste Punkt, \textbf{Strebe nach Konsistenz}, befasst sich bspw. mit dem Erscheinungsbild einer Seite. Die Seite sollte dem Aspekt zur Folge die Elemente, wie einen Button, immer an der gleichen Stelle positionieren.
+
+Der nächste Punkt, \textbf{Sorge für universelle Bedienbarkeit}, beinhaltet Anforderungen an die Vielfalt an Nutzer. Somit sollte jeder Nutzer die Bedienung, Kürzel usw. ohne Einschränkungen verstehen können.
+
+Ein Nutzer verlangt nach ausreichendem Feedback, die vor allem informativ und in vielen Fällen auch hilfreich sind. Ein Fakt der im dritten Punkt, \textbf{Biete informative Rückmeldung}, behandelt wird
+
+Der vierte Punkt, \textbf{Entwerfe abgeschlossene Dialoge}, umfasst die Führung eines Nutzers, bspw. durch eine Verkaufsprozess. Zu jedem Zeitpunkt soll der Nutzer wissen, in welchem Prozess er sich befindet.
+
+Um die Bedürfnisse der Nutzer gerecht zu werden muss wie in Punkt fünf, \textbf{Biete einfache Fehlerbehandlung}, definiert, die Fehler mit nützlichen Informationen für den Nutzer ausgestattet werden. Außerdem muss ein Ausweg in den normalen Programmablauf gewährleistet sein.
+
+Ein Nutzer soll mit Punkt sechs, \textbf{Lass die Einfache Umkehrung von Aktionen zu}, die Möglichkeit haben kleine Ereignisse rückgängig zu machen.
+
+Der siebte Punkt, \textbf{Vermittle ein Gefühl der Kontrolle}, beinhaltet die Aktion und Reaktion. Demnach soll die Software auf eine Aktion des Nutzers reagieren und nicht andersrum. 
+
+Der letzte Punkt, \textbf{Entlaste das Kurzzeitgedächtnis}, soll gewährleisten, dass die GUI schlicht und einfach gehalten werden soll. Ein Nutzer sollte sich keine große Anzahl an Informationen merken müssen um einen Aktion auszuführen.
+\cite{UI8Regeln2019}
+
+Aufgrund der 8 goldenen Regeln, kann im Umsetzungsprozess auf diese zurückgegriffen werden um eine benutzerfreundliche Oberfläche zu erstellen. Im folgenden Abschnitt wird auf die \ac{GUI}-Programmierung mit Python eingegangen.
+
+
+\subsection{\ac{GUI}-Programmierung mit Python}
+\label{subsec:GuiPython}
+Mit Python als Programmiersprache kommen mehrere Module, welche für die Grafische Benutzeroberfläche benutzt werden können, einher. Dementsprechend wird in diesem Abschnitt ein Einblick in die Möglichkeiten, passend zur Aufgaben- und Problemstellung, gegeben werden. Abhängig von den Erkenntnissen folgt eine Entscheidungsmatrix um das passende Modul für das Projekt auszuwählen.
+
+\subsection{Flask}
+\label{subsec:Flask}
+Wie unter \autoref{subsec:GuiPython} beschrieben, wird im Rahmen der Studienarbeit Flask verwendet. Dabei ist Flask keine Software zur Erstellung einer Grafischen Oberfläche. Es ist ein Python Web-Framework welches eine Schnittstelle zum Webserver bildet. Bekannt ist Flask durch die Eigenschaft schnell und leicht eine minimale Anwendung zu implementieren und diese bei bedarf in der Größe zu skalieren.
+
+In welcher Form Flask verwendet werden kann, ist im folgenden Listing dargestellt.
+\begin{lstlisting}[language=Python,caption=Example Listing of Flask Python,label={lst:Flask}]
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route('/')
+def homepage():
+	return 'Go Chat!'
+\end{lstlisting}
+Das Listing spiegelt die Moduleigenschaft von Python aufgrund des Paketverwaltungsprogramm pip wieder. Dementsprechend wird Flask in der ersten Zeile importiert, einer Anwendung zugeordnet und eine Route festgelegt.
 
 \chapter{Umsetzung und Implementierung}
 \label{chap:Umsetzung}
