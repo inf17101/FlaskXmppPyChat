@@ -443,9 +443,38 @@ Der letzte Punkt, \textbf{Entlaste das Kurzzeitgedächtnis}, soll gewährleisten
 Aufgrund der 8 goldenen Regeln, kann im Umsetzungsprozess auf diese zurückgegriffen werden um eine benutzerfreundliche Oberfläche zu erstellen. Im folgenden Abschnitt wird auf die \ac{GUI}-Programmierung mit Python eingegangen.
 
 
-\subsection{\ac{GUI}-Programmierung mit Python}
+\subsection{GUI-Programmierung mit Python}
 \label{subsec:GuiPython}
 Mit Python als Programmiersprache kommen mehrere Module, welche für die Grafische Benutzeroberfläche benutzt werden können, einher. Dementsprechend wird in diesem Abschnitt ein Einblick in die Möglichkeiten, passend zur Aufgaben- und Problemstellung, gegeben werden. Abhängig von den Erkenntnissen folgt eine Entscheidungsmatrix um das passende Modul für das Projekt auszuwählen.
+
+Die \ac{GUI}-Programmierung bei Python unterscheidet sich im Konzept nicht allzu sehr von anderen Programmiersprachen. Neben Schaltflächen stehen auch Fenster oder Menüs als Komponenten zur Verfügung. Angeordnet können diese in sogenannten Container. Für eine geeignete Anwenderschnittstelle müssen die Komponenten in die Container integriert werden. Hinzukommt ein äußerer Container, auch als Frame bezeichnet, ein Layout-Manager und eine Implementierung damit Aktionen durch Komponenten ausgelöst werden können. Wie im \autoref{sec:Benutzeroberfläche} erläutert, verfolgt eine \ac{GUI} mehreren Regeln. Demnach gibt es für die Programmierung einer grafischen Benutzeroberfläche vielerlei Möglichkeiten. In Python werden \ac{GUI} Frameworks angeboten, die eine Programmierung erleichtern sollen. Diese Frameworks können sich in der Art und der Verwendung unterscheiden. Aufgrund davon muss erst die Art des Frameworks ermittelt werden. Dafür wird eine Entscheidungsmatrix erstellt, basierend auf Faktoren, die passend zum Projekt Auswirkungen haben.\cite{Steyer2018} \\
+Die nachfolgende \autoref{tab:EntscheidungsmatrixFrameworkart} spiegelt die Ergebnisse eines Vergleichs zwischen den Tool-Frameworks und den Web-Frameworks von Python wieder. Die Kriterien orientieren sich am Projekt und werden nachfolgend erläutert. Die \textbf{Nutzerfreundlichkeit} umfasst wie verständlich ein GUI mithilfe des Tools aufgebaut werden kann. Außerdem beinhaltet das Kriterium auch die Möglichkeiten des Tools auf die Nutzerfreundlichkeit einzugehen. Die \textbf{Schwierigkeit} orientiert sich an der Implementierung. Dabei geht darum wie leicht, schnell und komfortabel die Frameart integriert werden kann. Unabhängig von der Schwierigkeit geht es bei der \textbf{Umsetzbarkeit} um die Mittel, welche für eine Umsetzung benötigt werden, sowie auch um den Aufwand bei der Umsetzung. Die \textbf{Kompatibilität} umfasst die Unabhängigkeit von Betriebssystemen, Browsern usw. Standard für eine grafische Oberfläche bildet auch das \textbf{Design}. Demnach geht es um die Möglichkeiten eines guten Erscheinungsbilds der Oberfläche mit dem entsprechenden Framework. Das letzte Kriterium, \textbf{Verwendungszweck}, bildet die Verbindung zum Projekt. Dabei wird analysiert wie die Frameworkart zum Zweck des Projektes passt. Die Gewichtung der Kriterien innerhalb der \autoref{tab:EntscheidungsmatrixFrameworkart} sind der TABELLE des ANHANGS zu entnehmen.
+\renewcommand{\arraystretch}{2}
+\begin{table}[h]
+\centering
+	\begin{tabular}{l|c|c|c}
+		& & \multicolumn{2}{c}{Arten einer Python-GUI} \\
+		Kriterien & Gewichtung & Tool-Framework & Web-Framework \\
+		\hline
+		Nutzerfreundlichkeit & 33\% &  & \\
+		\hline
+		Schwierigkeit & 7\% & & \\
+		\hline
+		Umsetzbarkeit & 13\% & & \\
+		\hline
+		Kompatibilität & 20\% & & \\
+		\hline
+		Design & 0\% & & \\
+		\hline 
+		Verwendungszweck & 27\% & & \\
+		\hline
+		\textbf{Gesamtwertungszahl} & \textbf{100\%} & & \\
+	\end{tabular}
+\caption{Entscheidungsmatrix der Frameworkart}
+\label{tab:EntscheidungsmatrixFrameworkart}
+\end{table} \\
+Die \autoref{tab:EntscheidungsmatrixFrameworkart} bildet eine Hilfestellung zur Entscheidung einer passenden Frameworkart für das Projekt. 
+
 
 \subsection{Flask}
 \label{subsec:Flask}
