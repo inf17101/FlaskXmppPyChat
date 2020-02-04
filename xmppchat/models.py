@@ -48,7 +48,7 @@ class User(UserMixin, db.Model):
         """
         wrapper function of werkzeug security function to check if a entered password
         matches the password of the user
-        Return: boolean (true if passwords are the same, otherwise fals)
+        Return: boolean (true if passwords are the same, otherwise false)
         Requried parameters: password e.g. of input field
         """
         return check_password_hash(self.passwd, password)

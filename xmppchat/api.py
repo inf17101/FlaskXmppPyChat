@@ -1,18 +1,21 @@
-from flask import Flask, redirect, render_template, url_for, request, flash, send_from_directory, Response, jsonify
-from flask_sqlalchemy import SQLAlchemy
+from flask import Flask, redirect, render_template, url_for, request, flash, send_from_directory, Response, jsonify, make_response
+#from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_required, login_user, logout_user, current_user
+from flask_wtf.csrf import CSRFProtect
 from werkzeug.urls import url_parse
 import os, json, logging.config
-
+"""
 with open("/home/xmppweb/config.json") as config_file:
     config = json.load(config_file)
-
+"""
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.urandom(24) #secret key of app
-app.config['SQLALCHEMY_DATABASE_URI'] = config.get('SQLALCHEMY_DATABASE_URI')
+#app.config['SQLALCHEMY_DATABASE_URI'] = config.get('SQLALCHEMY_DATABASE_URI')
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+csrf = CSRFProtect()
+csrf.init_app(app)
 
-db = SQLAlchemy(app)
+#db = SQLAlchemy(app)
 login_mgmt = LoginManager(app)
 login_mgmt.login_view = 'login' # name of callback method if unauthorized user accessed a login protected site
 
@@ -27,23 +30,36 @@ except Exception as e:
     print(f"Unexpected Error appeared!\nmessage: {e}\ncause: Cannot access logger!")
 
 # user defined imports
-from xmppchat.registrationform import RegistrationForm
+#from xmppchat.registrationform import RegistrationForm
 from xmppchat.loginform import LoginForm
 from xmppchat.dynamicContent import navs
 from xmppchat.models import User # must be imported here otherwise User Model does not exist
+from xmppchat.Validator import Validator
+from xmppchat.CustomValidatonError import CustomValidationError
 
-@app.route("/register", methods=['GET', 'POST'])
+@app.route("/register", methods=["GET", "POST"])
 def register():
-    if current_user.is_authenticated:
-        return redirect(url_for('gochat'))
-    form = RegistrationForm()
-    if request.method == 'POST' and form.validate_on_submit():
-        user = User(form.username.data, form.email.data, form.password.data)
-        db.session.add(user)
-        db.session.commit()
-        flash("Thanks for registration!", 'success')
-        return redirect(url_for('gochat'))
-    return render_template('register.html',form=form, navs=navs, currentNav="Go Chat!")
+    if request.method == "POST":
+        req_content = request.get_json()
+        res = {'feedback': 'login successfull.', 'category': 'success'}
+        exit_code = 200
+        try:
+            Validator.validate_username(req_content["username"])
+            Validator.validate_email(req_content["eMail"])
+            user = User(req_content["username"], req_content["eMail"], req_content["password"])
+        except KeyError:
+            res = {'feedback': 'invalid credentials.', 'category': 'danger'}
+            exit_code = 404
+        except CustomValidationError as cve:
+            res = {'feedback': str(cve), 'category': 'danger'}
+            exit_code = 404
+        except Exception:
+            res = {'feedback': 'internal server error', 'category': 'danger'}
+            exit_code = 500
+
+        return make_response(jsonify(res), exit_code)
+    else:
+        return render_template('register.html', navs=navs, currentNav="Go Chat!")
 
 
 @app.route("/login", methods=['GET', 'POST'])
