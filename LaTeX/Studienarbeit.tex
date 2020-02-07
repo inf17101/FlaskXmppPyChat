@@ -242,6 +242,9 @@ Ort, Datum & Unterschrift
 \acro{DBMS}{Datenbankenmanagementsystem}
 \acro{SQL}{Structured Query Language}
 \acro{GUI}{graphical user interface}
+\acro{WSGI}{Web Server Gateway Interface}
+\acro{CSS}{Cascading Style Sheets}
+\acro{ORM}{Object Relational Mapper}
 \end{acronym}
 
 %abbildungsverzeichnis
@@ -316,7 +319,7 @@ Hat sich der Benutzer mit seinen Login-Daten erfolgreich gegenüber dem Authenti
 
 \section{XMPP-Extensible Messaging and Presence Protocol}
 \label{sec:XMPP}
-\ac{XMPP} bedeutet \textbf{Extensible Messaging and Presence Protocol}. Übersetzt man dies detailliert ins deutsche so ergibt sich ein erweiterbares Nachrichten- und Anwesenheitsprotokoll. Eine Definition die \ac{XMPP} sehr gut beschreibt. \ac{XMPP} basiert auf \ac{XML}, welches eine Markup Sprache darstellt. Das Ziel von \ac{XMPP} war ein Protokoll für das Instant Messaging zu entwickeln. Laut dem RFC6120 lässt sich mittels \ac{XMPP} Daten zwischen zwei oder mehreren Netzwerkeinheiten nahezu in Echtzeit austauschen, welches als Vorteil für Sofortnachrichten bezeichnet werden kann. Diesbezüglich nutzt es das Internet und erlaubt den Usern Sofortnachrichten an andere Anwender innerhalb des Internets zu schicken. \ac{XMPP} lässt sich in viele verschiedene Funktionen aufteilen, weshalb der grundlegende Zweck ein anderes Ziel verfolgt. Im einfachsten Sinne ist die Idee von \ac{XMPP} den Austausch von kleinen Teilen strukturierter Daten (\glqq \ac{XML} stanzas\grqq) zwischen einem oder mehreren Netzwerkteilnehmern zu ermöglichen. Primär wird \ac{XMPP} mithilfe einer Client-Server-Architektur implementiert, bei der sich ein Client mit einem Server verbindet, um mit anderen Teilnehmern Daten auszutauschen. Anderseits kann es als Protokoll auch zwischen Servern fungieren. Daraus resultiert der Vorteil nahezu unabhängig von Betriebssystemen und Browsern zu sein. Wird die Client-Server-Architektur implementiert, so ist in der Regel der Ablauf definiert durch folgende Schritte: \cite{RFC6120} 
+\ac{XMPP} bedeutet \textbf{Extensible Messaging and Presence Protocol}. Wird dieses ins Deutsche übersetzt, so entsteht die Bedeutung eines erweiterbares Nachrichten- und Anwesenheitsprotokoll. Eine Definition die \ac{XMPP} sehr gut beschreibt. \ac{XMPP} basiert auf \ac{XML}, welches eine Markup Sprache darstellt. Das Ziel von \ac{XMPP} war ein Protokoll für das Instant Messaging zu entwickeln. Laut dem RFC6120 lässt sich mittels \ac{XMPP} Daten zwischen zwei oder mehreren Netzwerkeinheiten nahezu in Echtzeit austauschen, welches als Vorteil für Sofortnachrichten bezeichnet werden kann. Diesbezüglich nutzt es das Internet und erlaubt den Usern Sofortnachrichten an andere Anwender innerhalb des Internets zu schicken. \ac{XMPP} lässt sich in viele verschiedene Funktionen aufteilen, weshalb der grundlegende Zweck ein anderes Ziel verfolgt. Im einfachsten Sinne ist die Idee von \ac{XMPP} den Austausch von kleinen Teilen strukturierter Daten (\glqq \ac{XML} stanzas\grqq) zwischen einem oder mehreren Netzwerkteilnehmern zu ermöglichen. Primär wird \ac{XMPP} mithilfe einer Client-Server-Architektur implementiert, bei der sich ein Client mit einem Server verbindet, um mit anderen Teilnehmern Daten auszutauschen. Anderseits kann es als Protokoll auch zwischen Servern fungieren. Daraus resultiert der Vorteil nahezu unabhängig von Betriebssystemen und Browsern zu sein. Wird die Client-Server-Architektur implementiert, so ist in der Regel der Ablauf definiert durch folgende Schritte: \cite{RFC6120} 
 \begin{enumerate}
 	\item Bestimmen der IP-Adresse und des Ports zu dem sich verbunden werden soll 
 	\item Eine \ac{TCP} Verbindung öffnen/aufbauen
@@ -408,7 +411,8 @@ MySQL ist eins der weitverbreitetsten Datenbankenverwaltungssystemen, mitunter w
 
 \section{Grafische Benutzeroberfläche}
 \label{sec:Benutzeroberfläche}
-Eine Grafische Benutzeroberfläche ist im Detail eine Schnittstelle zum Nutzer eines Computers. Die im Hintergrund agierende Software soll mittels Symbole und anderen Elementen bedienbar gemacht werden. Im Englischen wird die Benutzeroberfläche als \ac{GUI} bezeichnet, welches im weitere Verlauf ebenfalls als Bezeichnung verwendet wird. Allgemein besitzt eine \ac{GUI} Bedien- und Steuerelement die mit der im Hintergrund laufenden Software interagiert. Der Einsatz einer \ac{GUI} liegt an der Usability, welches die Benutzerfreundlichkeit beschreibt. Eine \ac{GUI} soll demnach dem User die Möglichkeit geben, die Software auch ohne großen Aufwand bedienen zu können. Eine Eigenschaft die heutzutage nahezu jedes Programm beinhalten muss. \url{https://de.wikipedia.org/wiki/Grafische_Benutzeroberfl%C3%A4che}
+Eine Grafische Benutzeroberfläche ist im Detail eine Schnittstelle zum Nutzer eines Computers. Die im Hintergrund agierende Software soll mittels Symbole und anderen Elementen bedienbar gemacht werden. Im Englischen wird die Benutzeroberfläche als \ac{GUI} bezeichnet, welches im weitere Verlauf ebenfalls als Bezeichnung verwendet wird. Allgemein besitzt eine \ac{GUI} Bedien- und Steuerelement die mit der im Hintergrund laufenden Software interagiert. Der Einsatz einer \ac{GUI} liegt an der Usability, welches die Benutzerfreundlichkeit beschreibt. Eine \ac{GUI} soll demnach dem User die Möglichkeit geben, die Software auch ohne großen Aufwand bedienen zu können. Eine Eigenschaft die heutzutage nahezu jedes Programm beinhalten muss. %TODO
+\url{https://de.wikipedia.org/wiki/Grafische_Benutzeroberfl%C3%A4che}
 	
 Im Rahmen der GUI-Programmierung müssen mehrere Aspekte berücksichtigt werden um die Usability zu erfüllen. Dafür werden die Aspekte in 8 goldene Regeln zusammengefasst, die bei der Entwicklung einer GUI berücksichtigt werden sollten.
 \begin{enumerate}
@@ -421,7 +425,7 @@ Im Rahmen der GUI-Programmierung müssen mehrere Aspekte berücksichtigt werden 
 	\item Vermittle ein Gefühl der Kontrolle
 	\item Entlaste das Kurzzeitgedächtnis
 \end{enumerate}
-Im Folgenden wird kurz auf die 8 Regeln eingegangen, damit eine Verbindung zur Umsetzung der \ac{GUI} in \autoref{subsec:EntwicklungGUI} entsteht. 
+Im Folgenden wird kurz auf die 8 Regeln eingegangen, damit eine Verbindung zur Umsetzung der \ac{GUI} in \autoref{subsec:EntwicklungGUI} entsteht.
 
 Der erste Punkt, \textbf{Strebe nach Konsistenz}, befasst sich bspw. mit dem Erscheinungsbild einer Seite. Die Seite sollte dem Aspekt zur Folge die Elemente, wie einen Button, immer an der gleichen Stelle positionieren.
 
@@ -456,41 +460,113 @@ Die nachfolgende \autoref{tab:EntscheidungsmatrixFrameworkart} spiegelt die Erge
 		& & \multicolumn{2}{c}{Arten einer Python-GUI} \\
 		Kriterien & Gewichtung & Tool-Framework & Web-Framework \\
 		\hline
-		Nutzerfreundlichkeit & 33\% &  & \\
+		Nutzerfreundlichkeit & 33\% & 2 & 2 \\
 		\hline
-		Schwierigkeit & 7\% & & \\
+		Schwierigkeit & 7\% & 2 & 1,7  \\
 		\hline
-		Umsetzbarkeit & 13\% & & \\
+		Umsetzbarkeit & 13\% & 2 & 2,2\\
 		\hline
-		Kompatibilität & 20\% & & \\
+		Kompatibilität & 13\% & 2,2 & 1,7 \\
 		\hline
-		Design & 0\% & & \\
+		Design & 7\% & 2 &  2\\
 		\hline 
-		Verwendungszweck & 27\% & & \\
+		Verwendungszweck & 27\% & 2,5 & 1,5 \\
 		\hline
-		\textbf{Gesamtwertungszahl} & \textbf{100\%} & & \\
+		\textbf{Gesamtwertungszahl} & \textbf{100\%} & \textbf{2,161} & \textbf{1,831} \\
 	\end{tabular}
 \caption{Entscheidungsmatrix der Frameworkart}
 \label{tab:EntscheidungsmatrixFrameworkart}
 \end{table} \\
-Die \autoref{tab:EntscheidungsmatrixFrameworkart} bildet eine Hilfestellung zur Entscheidung einer passenden Frameworkart für das Projekt. 
-
+Die \autoref{tab:EntscheidungsmatrixFrameworkart} bildet eine Hilfestellung zur Entscheidung einer passenden Frameworkart für das Projekt. Die Bewertung der Tools entsprechend der Kriterien folgt dem Benotungsschema der akademischen Bildung. Demnach ist eine 1 sehr gut und eine 6 ungenügend. Im Kriterium Nutzerfreundlichkeit schließen beide Frameworks mit der gleichen Note ab, da die Nutzerfreundlichkeit abhängig vom Designstil ist und bei beiden Frameworks umgesetzt werden kann. Die Schwierigkeit, wie das Kriterium in der Einführung definiert wurde, bekommt beim Web-Framework eine bessere Bewertung. Grund hierfür ist, dass für das Web-Framework überwiegend keine aufwändigen Module in Python benötigt werden. Die Gestaltung erfolgt nämlich über HTML und CSS, welche dann mit einem schlichten Modul verknüpft bzw. aufgerufen werden können. Aufgrund von Vorkenntnissen sowohl in HTML als auch in CSS wird die Schwierigkeit für das Web-Framework besser bewertet. Bei der Umsetzbarkeit steht das Tool-Framework aufgrund der Verwendung eines gesamten Moduls besser da. Ein Web-Framework bringt HTML, CSS und das Modul mit was ein größeren Umfang bedeutet. Vor allem muss der Programmierer mit allen Elementen umgehen können, weshalb eine Umsetzung schwieriger sein könnte. In der Kompatibilität wird das Web-Framework aufgrund der Unabhängigkeit bezüglich des Betriebssystem besser bewertet. Außerdem kann eine ausgelieferte HTML-Seite von nahezu allen Browsern gelesen werden, und eine Möglichkeit die Lösung auf mobilen Endgeräten zu benutzen ist ebenfalls enthalten. Im Design unterscheiden sich die Frameworkarten nicht. Beide bieten vielerlei Möglichkeiten im Bezug auf die Gestaltung. Aufgrund des Projektes einen Chat über \ac{XMPP} und ejabberd zu realisieren wird schon hauptsächlich das Internet genutzt. Dadurch bietet es sich den Server eine HTML-Seite ausliefern zulassen. Aus diesem Grund wird das Web-Framework im Rahmen dieses Kriteriums besser bewertet. Anhand der Gesamtwertungszahl entsprechend der Benotung und der Gewichtung sind beide Frameworks zu empfehlen, dennoch schließt das Web-Framework besser ab, weshalb im weiteren Verlauf ein Web-Framework zum Einsatz kommen soll. \cite{FrameworkOverview} \cite{WebFramework}\\
+Mit diesem Ergebnis müssen die verschiedenen Möglichkeiten eine Web-Framework in Bezug auf Python analysiert und bewertet werden. Auch in diesem Fall liefert eine Entscheidungsmatrix ein aufschlussreiches Ergebnis. Die Definition der selben Bewertungskriterien sind der Einführung der \autoref{tab:EntscheidungsmatrixFrameworkart} zu entnehmen. Kriterien wie Umfang und Komplexität werden in die Betrachtung miteinbezogen. Der \textbf{Umfang} spiegelt die Möglichkeiten und Größe im Aufbau des Tools wieder. Die \textbf{Komplexität} befasst sich im Grunde mit dem Aufwand einer Implementierung sowie auch die Hilfestellungen durch geeignete Dokumentationen. Das Bewertungsschema orientiert sich ebenfalls an der \autoref{tab:EntscheidungsmatrixFrameworkart}.\\
+\begin{table}[h]
+	\centering
+	\begin{tabular}{l|c|c|c|c|c}
+		Kriterien & Gewichtung & Django & Flask & CherryPy & Bottle\\
+		\hline
+		Umfang & 17\% & 1,5 & 2 & 2 & 2,5 \\
+		\hline
+		Schwierigkeit & 17\% & 2,5 & 1,7 & 2,2 & 2 \\
+		\hline
+		Komplexität & 33\% & 2,2 & 1,7 & 2 & 1,7 \\
+		\hline
+		Verwendungszweck & 33\% & 2 & 2 & 2 & 2,2 \\
+		\hline
+		\textbf{Gesamtwertungszahl} & \textbf{100\%} & \textbf{2,067} & \textbf{1,850} & \textbf{2,033}  & \textbf{2,050} \\
+	\end{tabular}
+	\caption{Entscheidungsmatrix eines Web-Frameworks}
+	\label{tab:EntscheidungsmatrixWebFramework}
+\end{table}Die Gesamtwertungszahl, welches der \autoref{tab:EntscheidungsmatrixWebFramework} entnommen werden kann, liefert ein knappes Ergebnis. Demnach bietet sich Flask am besten als Framwork einer grafischen Oberfläche an. Im Umfang setzt sich das Tool Django gegen die Konkurrenten durch, da es aufgrund seiner Größe vielerlei Möglichkeiten mitbringt. Während die anderen Tools überwiegend als Mikroframework bezeichnet werden zeichnet sich Django als Full-Stack/high-level Framework aus. Ebenfalls ein Grund weshalb die Schwierigkeit bei Django mit einer 2,5 bewertet wurde. Ein Mikroframework bildet in der Hinsicht die leichtere und schnellere Variante. Die Komplexität wurde vor allem bei Flask und Bottle gut bewertet. Grund hierfür ist unter anderem eine geringere Komplexität durch Möglichkeiten einer schlichten Implementierung. Außerdem bietet bspw. Flask eine sehr gute Dokumentation, welche die Komplexität verringern. Der Verwendungszweck ist nahezu gleichbleibend, da alle Frameworks genutzt werden können um das Projekt umzusetzen. Ausschließlich bei Bottle ist überwiegend die Rede von einem Framework das vor allem zur Einführung in das Themengebiet der Programmierung grafischer Oberflächen mit eine Web-Framework benutzt wird. Anhand des Ergebnisses und der sehr guten Dokumentation wird Flask als Web-Framework zum Einsatz kommen.\cite{BottleDoc} \cite{CherryPyDoc} \cite{DjangoDoc} \cite{FlaskDoc}
 
 \subsection{Flask}
 \label{subsec:Flask}
-Wie unter \autoref{subsec:GuiPython} beschrieben, wird im Rahmen der Studienarbeit Flask verwendet. Dabei ist Flask keine Software zur Erstellung einer Grafischen Oberfläche. Es ist ein Python Web-Framework welches eine Schnittstelle zum Webserver bildet. Bekannt ist Flask durch die Eigenschaft schnell und leicht eine minimale Anwendung zu implementieren und diese bei bedarf in der Größe zu skalieren.
-
-In welcher Form Flask verwendet werden kann, ist im folgenden Listing dargestellt.
-\begin{lstlisting}[language=Python,caption=Example Listing of Flask Python,label={lst:Flask}]
+Wie unter \autoref{subsec:GuiPython} beschrieben, wird im Rahmen der Studienarbeit Flask verwendet. Es ist ein Python Web-Framework welches eine Schnittstelle zum Webserver bildet. Bekannt ist Flask durch die Eigenschaft schnell und leicht eine minimale Anwendung zu implementieren und diese bei Bedarf in der Größe zu skalieren. Für die Verwendung von Flask sind zwei Bibliotheken wichtig. Bei diesen handelt es sich zum einen über die \ac{WSGI}-Bibliothek Werkzeug und der Template-Bibliothek Jinja2. Module die standardmäßig von Flask verwendet werden. Flask bildet im Grunde das Bindeglied zwischen den Modulen und erlaubt es bspw. mithilfe des \textbf{Routings} an bestimmten Endpunkten eine \ac{HTML}-Datei zu rendern. Ein Möglichkeit dafür zeigt das folgende \autoref{lst:FlaskMinApp}.
+\begin{lstlisting}[language=Python,caption=Example Listing of Flask Python,label={lst:FlaskMinApp}]
 from flask import Flask
-
 app = Flask(__name__)
 
 @app.route('/')
 def homepage():
-	return 'Go Chat!'
+	 return render_template('homepage.html')
 \end{lstlisting}
-Das Listing spiegelt die Moduleigenschaft von Python aufgrund des Paketverwaltungsprogramm pip wieder. Dementsprechend wird Flask in der ersten Zeile importiert, einer Anwendung zugeordnet und eine Route festgelegt.
+Das \autoref{lst:FlaskMinApp} spiegelt das Routen sowie das Rendern einer \ac{HTML}-Datei von Python wieder. Aufgrund des Paketverwaltungsprogramm pip kann Flask komfortable installiert werden. Dementsprechend wird Flask in der ersten Zeile importiert, dann einer Anwendung zugeordnet und eine Route definiert. Nun besitzt Flask vielerlei Möglichkeiten, so kann bspw. je nach Anfrage (POST, GET, usw.) differenziert werden. In dem Zusammenhang kommt eine weiterer möglicher Vorteil von Flask zum Einsatz. Dieser beinhaltet die Möglichkeit einen Webserver, den Flask zur Verfügung stellt, im Entwicklungsmodus zu starten und aktuelle Code-Zeilen zu testen.
+Flask ist also nicht zuständig für die Gestaltung der grafischen Oberfläche sondern benutzt sogenannte \textbf{Templates} in Form von HTML-Datei, die eine Webseite aufbauen. Für eine dynamische Webanwendung und den gestalterischen Aspekten sind statische Dateien, wie z.B. \ac{CSS}, notwendig. Aus diesem Grund benötigt Flask eine vorgegebene Ordnerstruktur, welche der nachfolgenden \autoref{img:TreeFlaskOrdnerstrukt} entnommen werden kann.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\textwidth]{images/TreeFlaskOrdnerstrukt}
+	\caption{Ordnerstruktur unter Flask}
+	\label{img:TreeFlaskOrdnerstrukt}
+\end{figure}
+Für die grafische Benutzeroberfläche würden diese Elemente ausreichen um eine simple Webseite aufzubauen, mit den \ac{HTML}- und \ac{CSS}-Dateien zu verknüpfen, über das Routen die Seite zu rendern und letztendlich, über den von Flask gestellten Webserver, zu testen. Dennoch bietet Flask mehr Möglichkeiten auch im Zusammenhang des Projektes. Zum Beispiel kann in Flask mit redirects, sessions, cookies, Datenbanken und vieles mehr gearbeitet werden. Dabei verfolgt Flask das Ziel dem Anwender nichts vorzuschreiben, dadurch ist er unabhängiger und kann auf vielerlei Erweiterungen zugreifen. Bei der Anbindung einer \textbf{Datenbank} gibt es so die Möglichkeit bspw. eine MySQL, PostgreSQL, SQLite oder andere Datenbanken zu verwenden. In diesem Zusammenhang bietet Flask das Modul Flask-SQLAlchemy, welches der Flask-Anwendung das SQLAlchemy Paket hinzufügt. Ziel ist es die Verwendung von SQLAlchemy mit Flask zu vereinfachen. Das Paket gilt als \ac{ORM}, und bietet die Möglichkeit high-level Operationen in Datenbank-Kommandos zu übersetzen. Im Rahmen der Studienarbeit wird ebenfalls die Erweiterung Flask-SQLAlchemy angewendet. Demnach kann eine Implementierung, einer minimalen Anwendung mit Datenbank, wie im folgenden \autoref{lst:SQLAlchemyMinApp} dargestellt, aussehen.
+\begin{lstlisting}[language=Python,caption=Example Listing of Flask-SQLAlchemy,label={lst:SQLAlchemyMinApp}]
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+
+app = Flask(__name__)
+app.config['SECRET_KEY'] = os.urandom(24) #secret key of app
+app.config['SQLALCHEMY_DATABASE_URI'] = config.get('SQLALCHEMY_DATABASE_URI')
+
+db = SQLAlchemy(app)
+
+class User(db.Model):
+	user_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+	username = db.Column(db.String(25), unique=True, nullable=False)
+	email = db.Column(db.String(35), unique=True, nullable=False)
+	passwd = db.Column(db.String(112), nullable=False)
+	
+	def __init__(self, user, email, passwd):
+		self.username = user
+		self.email = email
+		self.passwd = self.set_password(passwd)
+	
+	def get_id(self):
+		return (self.user_id)
+
+@app.route('/login')
+def login():
+	user = User(req_content["username"], req_content["eMail"], req_content["password"])
+	db.session.add(user)
+	db.session.commit()
+	return render_template('homepage.html')
+\end{lstlisting}
+Neben dieser Erweiterung bietet Flask auch ein Modul im Rahmen eines Login, welcher ebenso für das Projekt relevant ist, an. Dafür kann der Login Manager aus Flask-Login verwendet werden. Dieser beinhaltet nützliche Funktionen auf die innerhalb der Anwendung zugegriffen werden kann. Für den Login-Manager werden sessions benötigt, welche ebenfalls importiert werden müssen. Das liegt an der Authentifizierung, weshalb ein sicherer Schlüssel, wie er im \autoref{lst:LoginManagerMinApp} dargestellt ist, erzeugt werden muss.
+\begin{lstlisting}[language=Python,caption=Example Listing of Flask-Login,label={lst:LoginManagerMinApp}]
+from flask import Flask
+from flask_login import LoginManager, login_required, login_user, logout_user, current_user
+
+app = Flask(__name__)
+
+login_mgmt = LoginManager(app)
+login_mgmt.login_view = 'login' # name of callback method if unauthorized user accessed a login protected site
+
+@app.route("/login", methods=['GET', 'POST'])
+def login():
+	if current_user.is_authenticated:
+		return redirect(url_for('gochat'))
+	login_user(user)
+	return render_template('login.html')
+\end{lstlisting}
+Diese beispielhafte Listings wichtiger Module zeigen die Möglichkeiten des Web-Frameworks. Mitunter der Grund für die Verwendung von Flask. Außerdem sind nur wenige Module dargestellt. Weitere Erweiterungen, die im Rahmen des Projektes eingesetzt werden folgen bei der Umsetzung. Diese dargestellt bilden lediglich die theoretische Grundlagen um das Funktionsprinzip von Flask zu erläutern.
 
 \chapter{Umsetzung und Implementierung}
 \label{chap:Umsetzung}
