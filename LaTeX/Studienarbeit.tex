@@ -361,6 +361,9 @@ Relevante Funktionen:
 	\item Offline Nachrichten 
 	\item Web-Unterstützung
 	\item Nachrichtenübermittlungsbestätigung
+	\item Übermittlung des Online-Status
+	\item Verschlüsselte Übertragung von Nachrichten
+	\item Kontaktliste jedes Benutzers
 \end{itemize}
 Eine wichtige Eigenschaft ist das Authentifizieren von Nutzern, welches ebenfalls von ejabberd unterstützt wird. Dafür kann ejabberd sowohl mit einer internen, als auch mit einer externen Datenbank zusammenarbeiten. Aufgrund der genannten Eigenschaften und Funktionen von ejabberd, werden eine Vielzahl an mögliche Anwendungsgebieten abgedeckt. Während für viele kleine Projekte die interne Datenbank Mnesia ausreichend ist, wird im Rahmen der Studienarbeit mit einer externen Datenbank gearbeitet.\cite{EjabberdDoc}
 
@@ -386,7 +389,15 @@ server.sendmail("you@gmail.com", "target@example.com", msg)
 
 \section{Datenbank}
 \label{sec:Datenbank}
-Im folgend Abschnitt liegt der Augenmerk auf die theoretischen Grundlagen einer MySQL-Datenbank. Grund hierfür ist die Verwendungen einer MySQL-Datenbank um Informationen über die User zu speichern. Damit wird auch die Definition, eine Datenbank beinhaltet eine Sammlung von mehrerer Daten, die sich aufeinander beziehen können, und von einem \ac{DBMS} verwaltet werden, beschrieben. Relevant für den Zugriff bildet die einheitliche logische Schnittstelle zum \ac{DBMS}. Der Zugriff kann mit dem weitverbreiteten Standard \ac{SQL}, welches im allgemeinen Sinn eine Programmiersprache darstellt, erfolgen. Dafür wird der Datenbank über \ac{SQL} nur mitgeteilt welche Daten benötigt werden. Ein Datenbanksystem muss wesentliche Eigenschaften besitzen, um den Zweck Daten zu speichern und sie wieder abzufragen, zu erfüllen. Nachfolgend sind solche Eigenschaften aufgeführt:
+Für den Aufbau eines Chatsystems ist ein Datenbanksystem notwendig. Die Datenbank wird benötigt, weil Informationen und Parameter für die Authentifizierung des Benutzers gespeichert werden müssen. Außerdem ist die interne Datenbank Mnesia eines Ejabberd-Chatservers nicht für den Mehrbenutzer-Betrieb ausgelegt. Mnesia ist in der Sprache Erlang entwickelt. Sie besitzt eine weiche Echtzeitfähigkeit und ist auf Geschwindigkeit optimiert \cite{MnesiaDoc}, die verfügbare Speicherkapazität für den Chatserver-Betrieb ist nicht ausreichend für ein Mehrbenutzer-System \cite{ejabberdDoc}. Ein Mehrbenutzer-Betrieb eines Ejabberd-Chatservers benötigt eine Datenbank, in der Nachrichtenverläufe, Kontakte jedes Benutzers und weitere Parameter gespeichert werden können.
+
+\pagebreak
+
+Eine Datenbank beinhaltet eine Sammlung von mehreren Daten, die sich aufeinander beziehen können, und von einem \ac{DBMS} verwaltet werden. Kernkomponente für den Zugriff ist die einheitliche logische Schnittstelle zum \ac{DBMS}. Der Zugriff kann mit dem weitverbreiteten Standard \ac{SQL}, welches im allgemeinen Sinn eine Programmiersprache darstellt, erfolgen. Dafür wird der Datenbank über \ac{SQL} nur mitgeteilt welche Daten benötigt werden. Ein Datenbanksystem muss bestimmte Eigenschaften besitzen, um den Zweck Daten zu speichern und sie wieder abzufragen, zu erfüllen.
+
+\smallskip
+
+\textbf{Eigenschaften:}
 \begin{itemize}
 	\item Unabhängigkeit von dem physischen Aufbau
 	\item Schutz bei (Mehrfach-) zugriff auf Daten
@@ -394,16 +405,26 @@ Im folgend Abschnitt liegt der Augenmerk auf die theoretischen Grundlagen einer 
 	\item Zuverlässigkeit
 	\item Ausfallsicherheit
 \end{itemize}
-Eine Datenbank kann entsprechend dem zugehörigen Modell definiert werden. Die Datenbankmodelle unterteilen sich in relationale, objektorientierte, hierarchische und netzwerkartige sowie in moderne Datenbanken. Aufgrund der großen Anzahl, wird lediglich auf die das relationale Modell eingegangen, da diesem MySQL zugeordnet werden kann, welches in dieser Studienarbeit angewendet wird. Dementsprechend sind wichtige Schlüsselbegriffe zu definieren. Eine Tabelle wird ebenfalls als Relation bezeichnet. Eine Zeile der Relation heißt Tupel, die Spalten Attribute. Die Kardinalität entspricht der Anzahl von Tupeln und der Grad bezieht sich auf die Anzahl der Attribute. Ein wesentliche Bestandteil einer relationalen Datenbank ist der Primärschlüssel, welche zwingend erforderlich ist und eindeutig sein muss. Der Schlüsselbegriff Gebiet bezieht sich auf ein Definitionsbereich eines Attributes, welches alle gültigen Werte diesen Attributes umfasst. Ein Beispiel für eine Relation mit allen relevanten Schlüsselbegriffen ist in der folgenden \autoref{img:RelationDB_Begriffe} dargestellt.\cite{Schicker2017}
+
+Es gibt verschiedene Datenbankmodelle, nach denen eine Datenbankstruktur definiert wird. Die Datenbankmodelle unterteilen sich in relationale, objektorientierte, hierarchische und netzwerkartige sowie in moderne Datenbanken. Für die Projektarbeit wird ein relationales Datenbankmodell verwendet und deshalb dieses Modell genauer vertieft. Dementsprechend sind wichtige Schlüsselbegriffe zu definieren. Eine Tabelle wird ebenfalls als Relation bezeichnet. Eine Zeile der Relation heißt Tupel, die Spalten Attribute. Die Kardinalität entspricht der Anzahl von Tupeln und der Grad bezieht sich auf die Anzahl der Attribute. Ein wesentliche Bestandteil einer relationalen Datenbank ist der Primärschlüssel, welcher zwingend erforderlich ist und eindeutig sein muss. Der Schlüsselbegriff Gebiet bezieht sich auf ein Definitionsbereich eines Attributes, welches alle gültigen Werte für dieses Attribut umfasst. \cite{Schicker2017}
+
+\newpage
+
+\smallskip
+
+\textbf{Beispiel einer Relation:}
+
+\smallskip
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=1.2]{images/RelationMitSchluesselbegriffe}
-	\caption{Relation mit Schlüsselbegriffe}
+	\caption{Relation mit Schlüsselbegriffe \cite{Schicker2017}}
 	\label{img:RelationDB_Begriffe}
 \end{figure}
-Demzufolge ist eine relationale Datenbank definiert als eine Datenbank mit einer Ansammlung von zeitlich variierenden, normalisierten Relationen mit passenden Graden.
-MySQL ist eins der weitverbreitetsten Datenbankenverwaltungssystemen, mitunter weil die Software open source und somit von jedem benutzt werden kann. Entwickelt wird MySQL von der Oracle Cooperation. Die MySQL-Datenbanken sind relational und orientieren sich an den oben genannten Schlüsselbegriffen, die eine relationale Datenbank definieren. Die MySQL-Datenbank ist in der Software eine Client-Server-System, das ,wie es offiziell von MySQL beschrieben wird, aus einem Mehr-Thread-SQL-Server besteht. Dadurch werden verschiedene Backends, Clientprogramme und Verwaltungswerkzeuge unterstützt.\cite{MysqlDoc}
+
+Eine relationale Datenbank ist definiert als eine Datenbank mit einer Ansammlung von zeitlich variierenden, normalisierten Relationen mit passenden Graden.
+\textbf{MySQL} ist eines der weltweit verbreitetsten relationalen Datenbanksysteme, weil sie als Open-Source-Software und als kommerzielle Enterprise-Version verfügbar ist. MySQL wird von allen gängigen Betriebssystemen wie Linux oder Windows unterstützt. Entwickelt wird MySQL von der Oracle Cooperation. Die MySQL-Datenbanken sind relational und orientieren sich an den oben genannten Schlüsselbegriffen, die eine relationale Datenbank definieren. Die MySQL-Datenbank ist in der Software eine Client-Server-Architektur, die aus einem Multi-Threading-Server besteht. Dadurch werden verschiedene Backends, Clientprogramme und Verwaltungswerkzeuge parallel unterstützt.\cite{MysqlDoc}
 \newpage
 
 \section{Grafische Benutzeroberfläche}
