@@ -1,0 +1,4 @@
+bash /root/.acme.sh/acme.sh --issue -d xmpp-dhbw.spdns.org --keylength 4096 --standalone --force
+cp /root/.acme.sh/xmpp-dhbw.spdns.org/fullchain.cer /etc/ejabberd/certs/fullchain.pem
+cp /root/.acme.sh/xmpp-dhbw.spdns.org/xmpp-dhbw.spdns.org.key /etc/ejabberd/certs/
+
