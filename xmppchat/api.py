@@ -40,6 +40,10 @@ from xmppchat.CustomValidatonError import CustomValidationError
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
+
+    if current_user.is_authenticated:
+        return redirect(url_for('gochat'))
+
     if request.method == "POST":
         req_content = request.get_json()
         res = {'feedback': 'login successfull.', 'category': 'success'}
