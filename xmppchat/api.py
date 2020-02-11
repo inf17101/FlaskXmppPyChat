@@ -11,6 +11,9 @@ with open("/home/xmppweb/config.json") as config_file:
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.urandom(24) #secret key of app
 app.config['SQLALCHEMY_DATABASE_URI'] = config.get('SQLALCHEMY_DATABASE_URI')
+app.config['SQLALCHEMY_BINDS'] = {
+    "ejabberd_database": config.get('SQL_EJABBERD_DATABASE_URI')
+}
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 csrf = CSRFProtect()
 csrf.init_app(app)
@@ -31,7 +34,7 @@ except Exception as e:
 
 # user defined imports
 from xmppchat.dynamicContent import navs
-from xmppchat.models import User # must be imported here otherwise User Model does not exist
+from xmppchat.models import User, Archiv # must be imported here otherwise User Model does not exist
 from xmppchat.Validator import Validator
 from xmppchat.CustomValidatonError import CustomValidationError
 
@@ -88,6 +91,11 @@ def login():
         return make_response(jsonify(res), exit_code)
 
     return render_template('login.html', navs=navs, currentNav="Go Chat!")
+
+@app.route("/test_db")
+def test_db():
+    results = Archiv.query.all()
+    return make_response(jsonify({"exit_code": 200, "result": results[0].xml}), 200)
 
 @app.route("/logout")
 @login_required

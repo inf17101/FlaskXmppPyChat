@@ -65,3 +65,25 @@ def load_user(user_id):
         Required parameters: user_id to look at the table if the user exists
     """
     return User.query.get(int(user_id))
+
+
+class Archiv(db.Model):
+
+    __bind_key__ = "ejabberd_database"
+    __tablename__ = "archive"
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
+    username = db.Column(db.String(191), nullable=False)
+    timestamp = db.Column(db.Integer, nullable=False)
+    peer = db.Column(db.String(191), nullable=False)
+    bare_peer = db.Column(db.String(191), nullable=False)
+    xml = db.Column(db.String, nullable=False)
+    txt = db.Column(db.String, nullable=True)
+    kind = db.Column(db.String(10), nullable=True)
+    nick = db.Column(db.String(191), nullable=True)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+
+
+
+
+
