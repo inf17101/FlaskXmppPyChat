@@ -368,7 +368,7 @@ Relevante Funktionen:
 	\item Verschlüsselte Übertragung von Nachrichten
 	\item Kontaktliste jedes Benutzers
 \end{itemize}
-Eine wichtige Eigenschaft ist das Authentifizieren von Nutzern, welches ebenfalls von ejabberd unterstützt wird. Dafür kann ejabberd sowohl mit einer internen, als auch mit einer externen Datenbank zusammenarbeiten. Aufgrund der genannten Eigenschaften und Funktionen von ejabberd, werden eine Vielzahl an mögliche Anwendungsgebieten abgedeckt. Während für viele kleine Projekte die interne Datenbank Mnesia ausreichend ist, wird im Rahmen der Studienarbeit mit einer externen Datenbank gearbeitet.\cite{EjabberdDoc}
+Eine wichtige Eigenschaft ist das Authentifizieren von Nutzern, welches ebenfalls von ejabberd unterstützt wird. Dafür kann ejabberd sowohl mit einer internen, als auch mit einer externen Datenbank zusammenarbeiten. Aufgrund der genannten Eigenschaften und Funktionen von ejabberd, werden eine Vielzahl an mögliche Anwendungsgebieten abgedeckt. Während für viele kleine Projekte die interne Datenbank Mnesia ausreichend ist, wird im Rahmen der Studienarbeit mit einer externen Datenbank gearbeitet.\cite{ejabberdDoc}
 
 \section{Chatserver}
 \label{sec:Chatserver}
@@ -588,6 +588,81 @@ def login():
 	return render_template('login.html')
 \end{lstlisting}
 Diese beispielhafte Listings wichtiger Module zeigen die Möglichkeiten des Web-Frameworks. Mitunter der Grund für die Verwendung von Flask. Außerdem sind nur wenige Module dargestellt. Weitere Erweiterungen, die im Rahmen des Projektes eingesetzt werden folgen bei der Umsetzung. Diese dargestellt bilden lediglich die theoretische Grundlagen um das Funktionsprinzip von Flask zu erläutern.
+
+\pagebreak
+
+\section{Grundlagen von Softwaretests}
+\label{sec:GrundlagenSoftwaretests}
+
+Die Entwicklung eines Softwareprodukts ist stets aufwendig und fehlerbehaftet. Es gibt eine Reihe potentieller Fehler, die eine Software aufweisen kann.
+
+\smallskip
+
+\textbf{Häufige Fehlerarten:}
+
+\smallskip
+
+\begin{itemize}
+\item syntaktische Fehler
+\item semantische Fehler
+\item Logische Fehler
+\item Designfehler
+\item Fehler im Bedienkonzept
+\item Laufzeitfehler
+\item Fehler als Folge physikalischer Betriebsbedingungen
+\end{itemize}
+
+Syntaktische Fehler verstoßen gegen die Richtlinien und der Grammatik der Programmiersprache. Bei semantischen Fehlern ist die Syntax korrekt, aber das Programm ist inhaltlich falsch. Ein Beispiel wäre eine falsche Parameterreihenfolge in einer Funktion. Logische Fehler bestehen aus einem falschen Problemlösungsansatz, zum Beispiel aufgrund eines Fehlschlusses oder einer falschen Interpretation einer Programmspezifikation. Designfehler sind Fehler im Grundkonzept der Software. Die Ursachen liegen in der Definition der Anforderungen an das Softwareprodukt oder an Codewiederholungen, die bei Software-Wartungen nicht auf den gleichen Stand gebracht werden. Ein Fehler im Bedienkonzept ist ein Fehler, bei dem sich das Programm anders als von Benutzern erwartet verhält, obwohl es technisch fehlerfrei arbeitet. Laufzeitfehler sind Fehler, die auftreten während das Programm abgearbeitet wird. Ein möglicher Laufzeitfehler entsteht durch einen Aufruf eines Unterprogramms mit falschen Eingabeparametern. Fehler als Folge physikalischer Betriebsbedingungen sind Fehler, die durch elektromagnetische Felder, Temperaturschwankungen oder Strahlung bei technisch einwandfreier Software zu Fehlern und unerwünschten Verhalten führen. Ein Kippen eines Bits auf aufgrund der beschriebenen Einflüsse kann die Ausführung des Programms beeinträchtigen oder abstürzen lassen.\cite{witte2019testmanagement}\\
+
+Syntaktische Fehler können durch den Interpreter oder Compiler schnell identifiziert und behoben werden. Semantische Fehler, logische Fehler und andere Fehlerarten sind schwer zu finden. Die Programmverifikation stellt einen systematischen Ansatz dar, um die Fehlerfreiheit von Programmen zu beweisen. Sie wendet mathematische Beweisführungen, Axiome und Schlussregeln an, um solche Fehler ausschließen zu können.\\
+In wenigen modernen Programmiersprachen ist jedoch eine Beweisführung auf Fehlerfreiheit möglich. Die Softwarestrukturen und der Codeumfang wachsen und erschweren die manuelle Beweisführung. Nach dem niederländischen Informatiker Dijkstra E. W. lässt sich ein Programm formal in eine Vor- und Nachbedingung spezifizieren. \autoref{img:VorNachbedingungDijkstra} zeigt den logischen Aufbau eines Programms. Eine Vorbedingung (precondition) ist eine Menge an Zusicherungen, die zu Beginn eines Programms gültig ist. Eine Nachbedingung (postcondition) ist eine Menge an Zusicherungen, die am Ende des Programms gültig sind. Der Begriff Zusicherung (assertion) ist definiert als eine Aussage, die an einer bestimmten Stelle des Programmablaufes gültig ist. Ein Programm ist nach Dijkstra genau dann korrekt, wenn das Programm seine Vorbedingungen in einer endlichen Anzahl an Schritten in seine Nachbedingung überführt. Vor- und Nachbedingungen sind in der Programmspezifikation genau definiert.\cite{kirchner2017}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\textwidth]{images/VorNachbedingungDijkstra}
+	\caption{Logischer Aufbau eines Programms nach Dijkstra, eigene Darstellung}
+	\label{img:VorNachbedingungDijkstra}
+\end{figure}
+
+Das einhalten von Vor- und Nachbedingungen ist in moderner Softwareentwicklung stets gefordert. Weil das anwenden von Beweisführungen und Schlussregeln auf Programmen heutzutage zu komplex sind und für den Menschen in komplexen Softwarearchitekturen nur noch schwer nachzuvollziehen sind, wird explizit Code entwickelt, der den entwickelten Code testet. Dies führt zur Unterscheidung zwischen Produktions- und Testcode. Der Testcode soll den Produktionscode auf korrektes Verhalten überprüfen.\cite{kirchner2017}
+
+Nach der Auslieferung von Software können Fehler immer noch entdeckt werden, zum Beispiel durch den Kunden. Dies bestätigt die These von Dijkstra:
+
+\smallskip
+
+\textbf{\glqq Durch Testen kann man stets nur die Anwesenheit, nie aber die Abwesenheit von Fehlern beweisen.\grqq} (vgl. Dijkstra E. W. - The Humble Programmer, ACM Turing Lecture 1972)
+
+\smallskip
+
+Diese These bestätigt Witte F. in \cite{witte2019testmanagement}. Testaktivitäten schlagen fehl und erzeugen Fehler. Nach \cite{witte2019testmanagement} ist das Risiko, dass noch unentdeckte Fehler im Testobjekt vorhanden sind geringer, je höher die Testabdeckung ist. Testen zeigt nicht, dass die Software fehlerfrei ist, selbst wenn keine Fehler nachgewiesen werden. Testen ist kein mathematischer Beweis. Softwaretests beziehen sich immer auf die Betrachtung von Stichproben, es werden nicht alle möglichen Eingabeparameter und deren Kombinationen mit allen möglichen Vorbedingungen getestet, sondern diejenigen, die am ehesten praxisrelevant sind. Der Testaufwand richtet sich dabei nach Priorität und Risiko. Der Aufwand ist dabei immer mit
+dem Nutzen abzugleichen. 
+
+\smallskip
+
+Eine Software vollständig zu testen ist somit unmöglich. Ein Test dient zur Feststellung, ob ein Programm wie in der Spezifikation festgehalten
+funktioniert und nichts anderes tut, aber nicht um alle möglichen Fehler ausschließen zu können.
+
+\smallskip
+
+Tests eines komplexen Software-Systems lassen sich in verschiedene Testarten einordnen. Nicht jeder Test ist in jedem Entwicklungsstand möglich. Weil aber nicht jede Teststufe oder Testart zu jedem Zeitpunkt möglich ist, müssen die Testarten eindeutig voneinander abgegrenzt werden.
+
+\textbf{Testarten:}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=6cm]{images/Testarten.png}
+	\caption{Übersicht über Testarten, eigene Darstellung}
+	\label{img:Testarten}
+\end{figure}
+
+Die häufigsten Testarten lassen sich in vier Bereiche aufteilen - Integrationstests, Unittests, Systemtests und Abnahmetests, siehe \autoref{img:Testarten}. \textbf{Integrationstests} sind abgestimmte Reihen von mehreren Tests, die dazu dienen, verschiedene voneinander abhängige Komponenten eines komplexen Systems im Zusammenspiel miteinander zu prüfen. Für den Integrationstest erstellt man nun Testszenarien, die das Zusammenwirken der beiden betroffenen Komponenten zeigen. Die Anzahl der Integrationsstufen richtet sich nach der Komplexität der Software. \textbf{Systemtests} werden durchgeführt, um die gesamte Software gegen die gesamten Anforderungen des Kunden zu testen. Dies beinhaltet alle funktionalen Anforderungen und nicht funktionalen Anforderungen, wie zum Beispiel Qualität oder Bedienbarkeit. Weil Systemtests die gesamte Software testen, sind diese zum Zeitpunkt der Fertigstellung der Software durchzuführen. Idealerweise wird die Produktivumgebung des Kunden zuerst nachgestellt und die Software mit Live-Szenarien aus dem Produktivbetrieb getestet. Ein \textbf{Abnahmetest}, \textbf{Verfahrenstest}, \textbf{Akzeptanztest} oder auch \textbf{User Acceptance Test} ist ein Test der ausgelieferten Software durch den Kunden und/oder Auftraggeber. Der Test wird oft mit Kopien von Echtdaten in der Produktionsumgebung des Kunden durchgeführt. Diese Testart hat nicht das Ziel Fehler zu entdecken, sondern das der Kunde Vertrauen in das Endprodukt gewinnt. Fehler sollten schon durch andere Testarten entdeckt worden und behoben sein. Zum Beispiel durch \textbf{Unittests}. Unittests eignen sich dafür, bei jedem Entwicklungsstand einzusetzen. Diese Art von Tests werden in der Softwareentwicklung durchgeführt, um kleine, funktionale Einzelteile (\textbf{Units}) zu testen. Ein \textbf{Unit} kann dabei ein kleiner Codeabschnitt sein oder eine Methode einer Klasse sein. Weil Algorithmen auf Modulebene meist nur eine begrenzte Komplexität aufweisen und über klar definierte Schnittstellen aktiviert werden, können sie mit relativ wenigen Testfällen ziemlich umfassend getestet werden.\cite{witte2019testmanagement}
+
+\smallskip
+
+Eine wichtige Anforderung an Tests ist, dass diese schnell und effizient ablaufen. Effizient, um nicht mehr als die notwendigen Ressourcen zu verbrauchen und schnell, um möglichst oft aufgerufen zu werden.\cite{hubertz2016softwaretests} Diese Anforderungen erfüllen vor allem Unittests, weshalb für die Entwicklung der Softwarefunktionalitäten des Projekts Unittests eingesetzt werden. Diese werden im nächsten Kapitel genauer erläutert. 
+
+\subsection{Unittests}
+\label{Unittests}
 
 \chapter{Umsetzung und Implementierung}
 \label{chap:Umsetzung}
