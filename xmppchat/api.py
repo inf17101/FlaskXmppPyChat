@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_required, login_user, logout_user, current_user
 from flask_wtf.csrf import CSRFProtect
 from werkzeug.urls import url_parse
-import os, json, logging.config
+import os, json, logging.config, threading
 
 with open("/home/xmppweb/config.json") as config_file:
     config = json.load(config_file)
@@ -37,6 +37,10 @@ from xmppchat.dynamicContent import navs
 from xmppchat.models import User, Archiv # must be imported here otherwise User Model does not exist
 from xmppchat.Validator import Validator
 from xmppchat.CustomValidatonError import CustomValidationError
+from xmppchat.xmppclient import EchoBot
+
+session_dict = {}
+i = 0
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -96,14 +100,36 @@ def login():
 
     return render_template('login.html', navs=navs, currentNav="Go Chat!")
 
-@app.route("/test_db")
-def test_db():
-    results = Archiv.query.all()
-    return make_response(jsonify({"exit_code": 200, "result": results[0].xml}), 200)
+@app.route("/get_chathistory", methods=["POST"])
+#@login_required
+@csrf.exempt
+def get_chathistory():
+    post_data = request.get_json()
+    if not post_data:
+        logger.error("post data is missing.")
+        return make_response({"feedback": "missing post data", "category": "danger"}, 401)
+    try:
+        results = Archiv.get_chat_history(post_data["username"])
+    except KeyError:
+        return make_response({"feedback": "invalid post data", "category": "danger"}, 401)
+    """       
+    chat_messages = []
+    for item in results:
+        chat_messages.append({
+            item.
+        })
+    """
+    #print(results)
+    return make_response(jsonify({"exit_code": 200, post_data["username"]: results}), 200)
 
 @app.route("/logout")
 @login_required
 def logout():
+    global session_dict
+    session_dict[current_user.user_id].disconnect()
+    print("logout of {}".format(current_user))
+    #xmpp_client.disconnect()
+    logger.info(session_dict)
     logout_user()
     return redirect(url_for('login'))
 
@@ -111,4 +137,29 @@ def logout():
 @app.route("/gochat")
 @login_required
 def gochat():
+    global session_dict
+    global i
+    print(i)
+    if i == 0:
+        xmpp_client = EchoBot("testuser2@ejabberd-server", "hallo123")
+    if i == 1:
+        xmpp_client = EchoBot("test@ejabberd-server", "hallo123")
+        i = 0
+
+    i += 1        
+    session_dict[current_user.user_id] = xmpp_client
+    print("login of {}".format(current_user), id(xmpp_client))
+    plugins = ['xep_0030', 'xep_0004', 'xep_0060', 'xep_0199', 'xep_0313']
+
+    xmpp_client['feature_mechanisms'].unencrypted_plain = True
+
+    for item in plugins:
+        xmpp_client.register_plugin(item)
+
+    if xmpp_client.connect(("10.10.8.10", 5222)):
+        print("connected")
+        t1 = threading.Thread(target=xmpp_client.process, kwargs={'block': True}, daemon=True)
+        t1.start()
+    
+    logger.info(session_dict)
     return render_template('gochat.html', navs=navs,currentNav="Go Chat!")
