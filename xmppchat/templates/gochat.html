@@ -914,7 +914,7 @@ ul{
         </div>
     </div>
       </div>
-      <div class="scrollable-messages chat">   
+      <div id="messages-container" class="scrollable-messages chat">   
       <div class="chat-history">
         <div id="form-response" class="mb-3"></div>
         <ul id="chat-list" class="chat-ul">
@@ -975,6 +975,8 @@ ul{
               <span class="message-data-name">${from_jid}</span> <i class="fa fa-circle me"></i>\
             </div>\
             <div class="message me-message float-right">${msg_body}</div></li>`);
+    var objDiv = document.getElementById("messages-container");
+    objDiv.scrollTop = objDiv.scrollHeight;
   }
 
 
@@ -1016,8 +1018,11 @@ $('#send-submit-button').click(function(event){
 
   $('#input-message').val("");
 
+  var objDiv = document.getElementById("messages-container");
+  objDiv.scrollTop = objDiv.scrollHeight;
+
 });
-  
+
 </script>
 {% endblock %}
 
