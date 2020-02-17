@@ -1,8 +1,51 @@
 {% extends "index.html" %}
 {% block title %}Sign In{% endblock %}
 {%block content%}
-<div class="d-flex justify-content-center" style="max-width: 100%; margin-top: 10%;">
-<div class="content-section pt-5 pl-5" style="width: 40%;">
+<style>
+    .form-group i {
+        color: #003366!important;
+    }
+    .form-group button {
+        color:#003366!important;
+        border-color: #003366!important;
+    }
+    #button-addon:hover {
+        background-color: #003366!important;
+        color: white!important;
+        border-color: white!important;
+    }
+    small.text-muted a {
+        color:#003366
+    }
+    .d-flex.justify-content-center {
+        max-width: 100%; 
+        margin-top: 10%;
+    }
+    .content-section.pt-5.pl-5 {
+        min-width: 350px;
+        width: 40%;
+        padding-left: 0%!important;
+    }
+    .form-check-label {
+            margin-top: 2px;
+    }
+    @media screen and (max-width: 415px) {
+        .content-section.pt-5.pl-5 {
+            padding-top: 8%!important;
+            min-width: 300px;
+        }
+        .form-group {
+            font-size: 14px;
+        }
+        .form-control-lg {
+            height: 40px;
+            font-size: 14px;
+        }
+    }
+</style>
+
+<div class="d-flex justify-content-center">
+<div class="content-section pt-5 pl-5">
     <div id="form-response" class="mb-3"></div>
     <form method="POST" action="/login" id="login-form">
         <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -30,7 +73,7 @@
                     </div>
         </fieldset>
         <div class="form-group">
-                <button type="submit" class="btn btn-outline-primary" id="login-form-button">Sign in</button>
+                <button type="submit" class="btn btn-outline-primary" id="button-addon">Sign in</button>
             </div>
         <small class="text-muted">
             <a href="#">Forgot Password?</a>
