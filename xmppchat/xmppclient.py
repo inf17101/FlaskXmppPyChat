@@ -1,14 +1,15 @@
 from sleekxmpp import ClientXMPP
+from xmppchat.api import red
 import logging, ssl
 import argparse
 import threading, time
+from datetime import datetime
 
 
 # ejabberd-server url: xmpp-dhbw.spdns.org
 
 def test(*args, **kwargs):
     print(args, kwargs)
-
 
 class EchoBot(ClientXMPP):
     """
@@ -19,8 +20,8 @@ class EchoBot(ClientXMPP):
     def __init__(self, jid, passwd):
         super(EchoBot, self).__init__(jid, passwd)
         #self.ssl_version = ssl.PROTOCOL_TLSv1_2
-        self.add_event_handler('session_start', self.start, threaded=True)
-        self.add_event_handler('message', self.message, threaded=True)
+        self.add_event_handler('session_start', self.start)
+        self.add_event_handler('message', self.message)
 
     def start(self, event):
         self.send_presence()
@@ -30,15 +31,13 @@ class EchoBot(ClientXMPP):
     def message(self, msg):
         if msg['type'] in ('normal', 'chat'):
             print("Recieved msg from: %s" % str(msg['from']).split('/')[0])
-            print("Msg: %s" % msg['body'])
-            # self.send_message(mto=msg['from'], mbody=f"Thanks for sending: {msg['body']}")
-            # self.disconnect(wait=True)
+            from_jid = str(msg['from']).split('/')[0]
+            #print("Msg: %s" % msg['body'])
+            msg_timestamp = datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')
+            red.publish('chat', "data: { \"msg\": \"%s\",\"from\": \"%s\",\"timestamp\": \"%s\",\"type\": \"%s\"}\n\n" % (msg['body'], from_jid, msg_timestamp, msg['type']))
 
-    def push_message(self, msg, subject):
-        self.send_message(mto="test@ejabberd-server", mbody=msg, mtype="chat", msubject=subject)
-
-    def exit(self):
-        self.process(block=False)
+    def push_message(self, to_jid, msg, subject, msg_type):
+        self.send_message(mto=to_jid, mbody=msg, mtype=msg_type, msubject=subject)
 
 """ 
 if __name__ == "__main__":

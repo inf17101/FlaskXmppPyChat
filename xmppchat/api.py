@@ -2,6 +2,9 @@ from flask import Flask, redirect, render_template, url_for, request, flash, sen
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_required, login_user, logout_user, current_user
 from flask_wtf.csrf import CSRFProtect
+from datetime import datetime
+#from flask_socketio import SocketIO
+import redis
 from werkzeug.urls import url_parse
 import os, json, logging.config, threading
 
@@ -22,6 +25,7 @@ db = SQLAlchemy(app)
 login_mgmt = LoginManager(app)
 login_mgmt.login_view = 'login' # name of callback method if unauthorized user accessed a login protected site
 
+red = redis.StrictRedis(decode_responses=True)
 #Logger
 try:
     logging.config.fileConfig('xmppchat/logging/logcfg.conf')
@@ -40,7 +44,6 @@ from xmppchat.CustomValidatonError import CustomValidationError
 from xmppchat.xmppclient import EchoBot
 
 session_dict = {}
-i = 0
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -126,11 +129,17 @@ def get_chathistory():
 @login_required
 def logout():
     global session_dict
-    session_dict[current_user.user_id].disconnect()
-    print("logout of {}".format(current_user))
-    #xmpp_client.disconnect()
-    logger.info(session_dict)
-    logout_user()
+    try:
+        session_dict[current_user.user_id].disconnect()
+        del session_dict[current_user.user_id]
+        logger.info(session_dict)
+        logout_user()
+        print(session_dict)
+        print("logout of {}".format(current_user))
+    except KeyError:
+        flash("user session error.", "danger")
+    except Exception:
+        flash("unexpected error appeared.", "danger")
     return redirect(url_for('login'))
 
 
@@ -138,28 +147,82 @@ def logout():
 @login_required
 def gochat():
     global session_dict
-    global i
-    print(i)
-    if i == 0:
-        xmpp_client = EchoBot("testuser2@ejabberd-server", "hallo123")
-    if i == 1:
-        xmpp_client = EchoBot("test@ejabberd-server", "hallo123")
-        i = 0
+    if not current_user.user_id in session_dict:
+        xmpp_client = EchoBot("testuser2@ejabberd-server", "hallo123")        
+        session_dict[current_user.user_id] = xmpp_client
+        print("login of {}".format(current_user), id(xmpp_client))
+        plugins = ['xep_0030', 'xep_0004', 'xep_0060', 'xep_0199', 'xep_0313']
 
-    i += 1        
-    session_dict[current_user.user_id] = xmpp_client
-    print("login of {}".format(current_user), id(xmpp_client))
-    plugins = ['xep_0030', 'xep_0004', 'xep_0060', 'xep_0199', 'xep_0313']
+        xmpp_client['feature_mechanisms'].unencrypted_plain = True
 
-    xmpp_client['feature_mechanisms'].unencrypted_plain = True
+        for item in plugins:
+            xmpp_client.register_plugin(item)
 
-    for item in plugins:
-        xmpp_client.register_plugin(item)
-
-    if xmpp_client.connect(("10.10.8.10", 5222)):
-        print("connected")
-        t1 = threading.Thread(target=xmpp_client.process, kwargs={'block': True}, daemon=True)
-        t1.start()
-    
-    logger.info(session_dict)
+        if xmpp_client.connect(("10.10.8.10", 5222)):
+            print("connected")
+            t1 = threading.Thread(target=xmpp_client.process, kwargs={'block': True}, daemon=True)
+            t1.start()
+        
+        logger.info(session_dict)
     return render_template('gochat.html', navs=navs,currentNav="Go Chat!")
+
+"""
+def push_messages_to_client(msg):
+    socketio.emit('push-chat-msg', msg)
+
+@socketio.on('chat-msg')
+def handle_client_msg(msg):
+    print('received message: %s' % msg)
+    push_messages_to_client("i am here 2")
+
+
+@app.route("/testio", methods=["GET"])
+def testio():
+    global session_dict
+    session_dict[current_user.user_id].trigger_msgs(" hello there")
+    return "Hello", 200
+"""
+"""
+@app.route("/teststream", methods=["GET"])
+def event_stream_get():
+    red.publish('chat', u'[%s] %s: %s' % ("hello", "world", "today"))
+    return Response(status=200)
+"""
+
+def event_stream():
+    pubsub = red.pubsub()
+    pubsub.subscribe('chat')
+    for message in pubsub.listen():
+        print(message)
+        yield 'data: %s\n\n' % message['data']
+
+
+@app.route('/stream')
+def stream():
+    return Response(event_stream(), mimetype="text/event-stream", status=200)
+
+
+@app.route("/send_msg", methods=["GET"])
+@login_required
+def send_msg():
+    global session_dict
+    session_dict[current_user.user_id].push_message("hello world", "first message")
+    return Response(status=200)
+
+@app.route("/send_message", methods=["POST"])
+#@login_required
+@csrf.exempt
+def send_message():
+    global session_dict
+    try:
+        JSON_Data = request.get_json()
+        if not all(key in JSON_Data for key in ("msg_body", "from_jid", "to_jid", "msg_type", "msg_subject")):
+            return make_response(jsonify({"feedback": "invalid post data for sending messages.", "category": "danger", "exit_code": 401}), 401)
+        
+        print(JSON_Data)
+        session_dict[11].push_message(JSON_Data["to_jid"], JSON_Data["msg_body"], JSON_Data["msg_subject"], JSON_Data["msg_type"])
+        msg_timestamp = datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')
+        return make_response(jsonify({"exit_code": 200, "feedback": "success", "timestamp": msg_timestamp}), 200)
+    except Exception as e:
+        logger.error(str(e))
+        return make_response(jsonify({"feedback": "internal server error. Please try again.", "category": "danger", "exit_code": 500, "debug": e.args}), 500)

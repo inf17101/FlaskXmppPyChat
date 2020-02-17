@@ -166,11 +166,11 @@ ul{
   position: absolute;
   bottom: 0;
 }
-#button-addon2 {
+#send-submit-button {
   color: #3f79af;
   border-color: #3f79af;
 }
-#button-addon2:hover {
+#send-submit-button:hover {
   background-color: #3f79af;
   color: white;
   border-color: white;
@@ -726,6 +726,9 @@ ul{
     vertical-align: 2px;
     margin-left: 0%;
   }
+  .scrollable-messages {
+  
+  }
   .form-control {
     min-height: 60px;
     max-height: 60px;
@@ -913,76 +916,17 @@ ul{
       </div>
       <div class="scrollable-messages chat">   
       <div class="chat-history">
-        <ul class="chat-ul">
-          <li>
-            <div class="message-data">
-              <span class="message-data-name"><i class="fa fa-circle you"></i> You</span>
-            </div>
-            <div class="message you-message">
-            A new client?!?! I would love to help them, but where are we going to find the time?
-
-            </div>
-          </li>
-          <li class="clearfix">
-            <div class="message-data align-right">
-              <span class="message-data-name">OtherPerson</span> <i class="fa fa-circle me"></i>
-            </div>
-            <div class="message me-message float-right"> We should take a look at your onboarding and service delivery workflows, for most businesess there are many ways to save time and not compromise quality.  </div>
-          </li>
-            <li class="clearfix">
-            <div class="message-data">
-              <span class="message-data-name"><i class="fa fa-circle you"></i> You</span>
-            </div>
-            <div class="message you-message">
-            What?! No way, how did I miss that. I never forgot that part before.
-
-            </div>
-          </li>
-          <li class="clearfix">
-            <div class="message-data align-right">
-              <span class="message-data-name">OtherPerson</span> <i class="fa fa-circle me"></i>
-            </div>
-            <div class="message me-message float-right">Remembering everything can quickly become impossible as your business grows, we need to take a look at your reminder management system and also see if there are steps in your business we can automate.</div>
-          </li>
-            <li>
-            <div class="message-data">
-              <span class="message-data-name"><i class="fa fa-circle you"></i> You</span>
-            </div>
-            <div class="message you-message">
-            6? Bob told me 8! How did this mix up happen?!
-            </div>
-          </li>
-          <li class="clearfix">
-            <div class="message-data align-right">
-              <span class="message-data-name">OtherPerson</span> <i class="fa fa-circle me"></i>
-            </div>
-            <div class="message me-message float-right">
-  The more people in your business, the more opportunity for mistakes, having a solid system in place for tracking important client data will help avoid these miscommunications.            </div>
-          </li>
-            <li>
-            <div class="message-data">
-              <span class="message-data-name"><i class="fa fa-circle you"></i> You</span>
-            </div>
-            <div class="message you-message">
-            I know that I spoke with Mary about this, but where did I put that note...hopefully she also sent me an email...
-
-            </div>
-          </li>
-          <li class="clearfix">
-            <div class="message-data align-right">
-              <span class="message-data-name">OtherPerson</span> <i class="fa fa-circle me"></i>
-            </div>
-            <div class="message me-message float-right">Finding the right information when you need it will save you time and energy. Your data management systems need to grow with your business. All businesses need a dynamic data strategy and a system to ensure that the strategy is implemented correctly.</div>
-          </li>
+        <div id="form-response" class="mb-3"></div>
+        <ul id="chat-list" class="chat-ul">
         </ul>
         
       </div> <!-- end chat-history -->
       
       </div>
       <div class="input-group">
-        <textarea class="form-control" placeholder="Enter your message..." aria-label="Recipient's username" aria-describedby="button-addon2"></textarea>
+        <textarea id="input-message" class="form-control" placeholder="Enter your message..." aria-label="Recipient's username" aria-describedby="send-submit-button"></textarea>
         <div class="input-group-append">
-          <button class="btn btn-outline-primary" type="button" id="button-addon2">Send</button>
+          <button class="btn btn-outline-primary" type="button" id="send-submit-button">Send</button>
         </div>
       </div>
     </div>
@@ -990,22 +934,91 @@ ul{
 
 
 
-<script>
 
-  var source = new EventSource('/stream');
-  source.onmessage = function (event) {
-       console.log(event.data);
-  };
-  
-  </script>
 
 {%endblock%}
 
 
 {%block scripts%}
-<!--<script src="{{ url_for('static',filename='js/socket.io.js') }}"></script>
-<script src="{{ url_for('static',filename='js/socket_js_chat.js') }}"></script>
--->
+<script>
+
+  var source = new EventSource('/stream');
+  source.onmessage = function (event) {
+       var result = event.data
+       console.log(result)
+       //result = result.slice(8, result.length-5);
+      if ($.trim(result) != "1")
+      {
+        result = result.split("data: ").join("");
+        var json_obj = JSON.parse(result);
+        console.log(json_obj);
+        printMessage(json_obj);
+      }
+       
+  };
+
+
+  function printMessage(JSON_DATA)
+  {
+    var from_jid = JSON_DATA.from.split("@")[0];
+    var timestamp = JSON_DATA.timestamp;
+    var msg_body = JSON_DATA.msg;
+    var msg_type = JSON_DATA.type;
+
+    if (!(msg_type == "chat" || msg_type == "normal"))
+    {
+      return;
+    }
+
+    $('#chat-list').append(`<li class="clearfix">\
+            <div class="message-data align-right">\
+              <span class="message-data-name">${from_jid}</span> <i class="fa fa-circle me"></i>\
+            </div>\
+            <div class="message me-message float-right">${msg_body}</div></li>`);
+  }
+
+
+
+
+  function modular_ajax(url, type, formData) {
+    // Most simple modular AJAX building block
+    $.ajax({
+        url: url,
+        type: type,
+        data: JSON.stringify(formData),
+        processData: false,
+        dataType: "json",
+        contentType: "application/json",
+        beforeSend: function() {
+        },
+        complete: function () {
+        },
+        success: function ( data ){
+          
+        },
+        error: function(data) {//console.log("error. see details below.");
+            data = data.responseJSON
+            printMessageWithCategory("Upps!", data.feedback, data.category);
+        },
+    }).done(function() {});
+};
+
+$('#send-submit-button').click(function(event){
+  console.log("i am here")
+  var msg = $('#input-message').val()
+  console.log(msg);
+  modular_ajax("/send_message", "post", {"to_jid": "test@ejabberd-server", "from_jid": "testuser2@ejabberd-server", "msg_subject": "first_message", "msg_body": msg, "msg_type": "chat"});
+
+  $('#chat-list').append(`<li><div class="message-data">\
+              <span class="message-data-name"><i class="fa fa-circle you"></i>You</span>\
+            </div>\
+            <div class="message you-message">${msg}</div></li>`);
+
+  $('#input-message').val("");
+
+});
+  
+</script>
 {% endblock %}
 
 
