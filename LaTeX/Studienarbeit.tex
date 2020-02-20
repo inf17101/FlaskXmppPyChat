@@ -721,4 +721,273 @@ Eine wichtige Anforderung an Tests ist, dass diese schnell und effizient ablaufe
 \appendix
 \addpart{Anhang}
 
+\chapter{Installation eines Apache Kafka Systems}
+\label{InstallationKafka}
+
+Dies ist eine Anleitung für die Installation eines grundlegenden Apache Kafka Systems. Die Installationsanleitung beschreibt alle notwendigen Schritte, um einen Server mit der \textbf{Kafka Version 2.4.0} in Betrieb zu nehmen. Die Anleitung beschreibt nicht, wie ein Cluster-System, welches einen Verbund mehrerer Kafka-Instanzen darstellt, in Betrieb genommen werden kann. Ziel ist es, eine einfache Installation aufzuzeigen und Kafka als Service auf einem Server bereitzustellen ohne, dass für die Ausführung der Kafka-Instanz ein Benutzer angemeldet sein muss. Die Informationen und Befehle sind aus der Kafka-Dokumentation \cite{kafkaDoc} zu entnehmen.
+
+\bigskip
+
+\textbf{Voraussetzungen:}
+
+\smallskip
+
+\begin{itemize}
+\item Linux Ubuntu 18.04 LTS
+\item Server
+\begin{itemize}
+\item mindestens 4GB RAM, empfohlen 8GB (Installation mit weniger RAM kann zu Problemen beim Start von Kafka führen, weil die Java Virutal Machine (JVM) eine \glqq OutOfMemory\grqq -Exception werfen kann.
+\end{itemize}
+\item OpenJDK 8 (Kafka ist in der Programmiersprache Java programmiert und benötigt deshalb eine lauffähige JVM.)
+\end{itemize}
+
+\section{Schritt 1: Anlegen eines Benutzers}
+
+Für die Erstellung eines Benutzers muss sich auf dem Server mit einem Benutzer eingeloggt werden. Mit folgendem Kommando wird ein Benutzer mit dem Namen Kafka angelegt. Mit dem zweiten Kommando wird der Benutzer der \glqq sudo\grqq -Gruppe hinzugefügt und ist ab diesem Zeitpunkt berechtigt höher privilegierte Befehle auszuführen. Das letzte Kommando legt ein Passwort an, dass bei der Ausführung höher privilegierter Befehle abgefragt wird.
+
+\smallskip
+
+\begin{lstlisting}[language=Bash]
+$ sudo adduser kafka # Benutzer anlegen
+$ sudo adduser kafka sudo # Benutzer zur sudo-Gruppe hinzufügen
+$ sudo passwd kafka # Anlegen eines sudo-Passwords
+\end{lstlisting}
+
+Anschließend muss sich mit dem neu erstellten Benutzer eingeloggt werden (Kommando: su kafka).
+
+\section{Schritt 2: Installation der benötigten Komponenten}
+
+
+Als nächstes muss das komprimmierte Kafka-Binary heruntergeladen werden. Hierzu kann das \textbf{curl}-Kommandozeilentool verwendet werden, um das Binary direkt aus dem Internet herunterzuladen und im Home-Verzeichnis des kafka-Benutzers gespeichert werden.
+
+\smallskip
+
+\begin{lstlisting}[language=Bash]
+$ curl "http://mirror.checkdomain.de/apache/kafka/2.4.0/kafka_2.12-2.4.0.tgz" -o ~/kafka_2.12-2.4.0.tgz
+\end{lstlisting}
+
+Falls OpenJDK 8 noch nicht installiert ist, muss folgender Befehl ausgeführt werden.
+
+\smallskip
+
+\begin{lstlisting}[language=Bash]
+$ sudo apt-get install openjdk-8-jdk
+\end{lstlisting}
+
+Erstellen Sie ein Grundverzeichnis in dem alle Kafka-Komponenten extrahiert werden können. Legen Sie mit folgendem Befehl ein Verzeichnis mit dem Namen \glqq kafka\grqq an. Extrahieren Sie die komprimierte Datei in dasselbe Verzeichnis.
+
+\smallskip
+
+\begin{lstlisting}[language=Bash]
+$ mkdir ~/kafka && cd ~/kafka
+$ tar -xvzf ~/kafka_2.12-2.4.0.tgz --strip 1
+\end{lstlisting}
+
+Kafka ist ab jetzt bereit für eine Konfiguration.
+
+\section{Schritt 3: Konfiguration von Kafka}
+
+Kafka lässt es in der Standardkonfiguration nicht zu neue Topics, eine Kategorie oder eine Gruppe zu löschen. Um dies zu ändern, muss die Konfigurationsdatei von Kafka angepasst werden. Falls der \glqq nano\grqq -Editor auf Ihrem System nicht verfügbar ist, können Sie einen Editor Ihrer Wahl verwenden, zum Beispiel \glqq vi\grqq.
+
+\smallskip
+
+\begin{lstlisting}[language=Bash]
+$ nano ~/kafka/config/server.properties
+\end{lstlisting}
+
+Fügen Sie diese Einstellung in der Datei hinzu:
+
+\textbf{delete.topic.enable = true}
+
+Speichern Sie anschließend die Datei und beenden Sie den Editor.
+
+Kafka benötigt \textbf{Zookeeper}, um erfolgreich starten zu können. Zookeeper ist automatisch nach der Installation aus Schritt 2 vollständig vorhanden und befindet sich ebenfalls im erstellten \glqq kafka\grqq -Verzeichnis. Testen Sie mit folgenden Kommandos, ob Zookeeper und Kafka erfolgreich starten. Starten Sie zuerst Zookeeper, warten Sie 30 Sekunden, öffnen Sie eine zweite CLI auf dem System und starten Sie anschließend Kafka. Wird kein Fehler geworfen, waren alle Schritte bisher erfolgreich verlaufen und Kafka ist betriebsbereit.
+
+\smallskip
+
+\begin{lstlisting}[language=Bash]
+$ ~/kafka/bin/zookeeper-server-start.sh ~/kafka/config/zookeep.properties # Start: zookeeper
+$ ~/kafka/bin/kafka-server-start.sh ~/kafka/config/server.properties # Start: kafka
+\end{lstlisting}
+
+Zeigt der Kommandozeilen-Output nur Nachrichten der Kategorie \glqq INFO\grqq und keine Fehlermeldungen, sind beide Dienste erfolgreich gestartet. Ansonsten überprüfen Sie Ihre Schritte erneut und korrigieren Sie die Fehler.
+
+Für den Start von Kafka ist im aktuellen Zustand eine Anmeldung des Benutzers erforderlich, der Zookeeper und Kafka als Benutzerprozess startet. Um Kafka als Server-Dienst bereitzustellen folgen Sie dem nächsten Kapitel der Anleitung. Möchten Sie lediglich die Grundfunktionalitäten ausprobieren und benötigen keine globale Verfügbarkeit, kann Schritt 4 der Anleitung entfallen.
+
+\section{Schritt 4: Bereitstellung von Kafka als Server-Dienst}
+
+Teilschritte für die Bereitstellung als Server-Dienst:
+
+\begin{itemize}
+\item Systemd-Datei für Zookeeper erstellen
+\item Systemd-Datei für Kafka erstellen
+\item Zookeeper-Dienst starten
+\item Kafka-Dienst starten
+\end{itemize}
+
+\bigskip
+
+\textbf{Systemd-Datei für Zookeeper erstellen:}
+
+\bigskip
+
+\begin{lstlisting}[language=Bash]
+$ sudo nano /etc/systemd/system/zookeeper.service
+\end{lstlisting}
+
+Folgender Inhalt muss in die Datei kopiert werden:
+
+\smallskip
+
+\begin{lstlisting}[language=Bash]
+[Unit]
+Requires=network.target remote-fs.target
+After=network.target remote-fs.target
+
+[Service]
+Type=simple
+User=kafka
+ExecStart=/home/kafka/kafka/bin/zookeeper-server-start.sh /home/kafka/kafka/config/zookeeper.properties
+ExecStop=/home/kafka/kafka/bin/zookeeper-server-stop.sh
+Restart=on-abnormal
+
+[Install]
+WantedBy=multi-user.target
+\end{lstlisting}
+
+Speichern Sie die Datei und gehen Sie zum nächsten Schritt.
+
+\pagebreak
+
+\textbf{Systemd-Datei für Kafka erstellen:}
+
+\bigskip
+
+\begin{lstlisting}[language=Bash]
+$ sudo nano /etc/systemd/system/kafka.service
+\end{lstlisting}
+
+Folgender Inhalt muss in die Datei kopiert werden:
+
+\smallskip
+
+\begin{lstlisting}[language=Bash]
+[Unit]
+Requires=zookeeper.service
+After=zookeeper.service
+
+[Service]
+Type=simple
+User=kafka
+ExecStart=/bin/sh -c '/home/kafka/kafka/bin/kafka-server-start.sh /home/kafka/kafka/config/server.properties > /home/kafka/kafka/kafka.log 2>&1'
+ExecStop=/home/kafka/kafka/bin/kafka-server-stop.sh
+Restart=on-abnormal
+
+[Install]
+WantedBy=multi-user.target
+\end{lstlisting}
+
+Speichern Sie die Datei und gehen Sie zum nächsten Schritt.
+
+\textbf{Zookeeper-Dienst starten:}
+
+\bigskip
+
+\begin{lstlisting}[language=Bash]
+$ sudo systemctl start zookeeper # Starten des Zookeeper-Dienstes
+\end{lstlisting}
+
+Überprüfen Sie den Status des Diensts mit folgendem Kommando. Der Status sollte \glqq active\grqq sein.
+
+\smallskip
+
+\begin{lstlisting}[language=Bash]
+$ sudo systemctl status zookeeper
+\end{lstlisting}
+
+Der Output zeigt, dass Zookeeper erfolgreich gestartet wurde:
+
+\begin{figure}[h]
+	\centering
+	\includegraphics{images/StatusZookeeper}
+	\caption{Status des Zookeeper-Dienstes nach dem Start}
+	\label{img:StatusZookeeper}
+\end{figure}
+
+Für ein automatisches Starten des Dienstes nach einem Reboot führen Sie folgendes Kommando aus:
+
+\smallskip
+
+\begin{lstlisting}[language=Bash]
+$ sudo systemctl enable zookeeper
+\end{lstlisting}
+
+Ab jetzt wird Zookeeper automatisch nach einem Neustart beim Hochfahren aller Systeme mit gestartet.
+
+\pagebreak
+
+\textbf{Kafka-Dienst starten:}
+
+\bigskip
+
+Führen Sie die gleichen Befehle für den Start des Kafka-Dienstes durch. Achten Sie darauf, dass Sie in allen Befehlen \glqq zookeeper\grqq durch \glqq kafka\grqq als Dienstbezeichnung ersetzen.
+
+\smallskip
+
+Überprüfen Sie mit dem \glqq status\grqq -Befehl, ob der Dienst richtig gestartet wurde. Der Output sollte so aussehen:
+
+\begin{figure}[h]
+	\centering
+	\includegraphics{images/StatusKafka}
+	\caption{Status des Kafka-Dienstes nach dem Start}
+	\label{img:StatusZookeeper}
+\end{figure}
+
+Nun sind Zookeeper und Kafka als Linux-Server-Dienst verfügbar ohne, dass ein Benutzer hierfür dauerhaft angemeldet sein muss.
+
+\section{Schritt 5: Testen der Installation}
+
+Um sicherzustellen, dass Kafka als Dienst korrekt läuft, wird eine \glqq HelloWorld\grqq -Nachricht produziert und konsumiert. Um eine Nachricht mittels Kafka zu versenden sind zwei Bestandteile nötig:
+
+\begin{itemize}
+\item Producer, welcher ein Topic registriert und Nachrichten produziert
+\item Consumer, welcher Nachrichten aus dem Topic lesen kann
+\end{itemize}
+
+Hierfür werden die bei der Installation mitgelieferten Skripte im \glqq kafka\grqq -Verzeichnis benutzt.
+
+Zuerst muss ein Topic erstellt werden. Das Topic heißt für Testzwecke \glqq Test\grqq Dies bewirkt folgender Befehl:
+
+\smallskip
+
+\begin{lstlisting}[language=Bash]
+$ ~/kafka/bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic Test
+\end{lstlisting}
+
+Der Befehl benötigt den Zookeeper-Dienst mit dessen Portnummer (Standard-Port: 2181) als Argument, weil Zookeeper für die Verwaltung der Kafka-Instanzen benötigt wird. Ist das Topic erfolgreich erstellt worden, ist der Output auf der Kommandozeile \glqq Created topic Test.\grqq
+
+\pagebreak
+
+Um einen Producer zu starten, der als Nachricht \glqq HelloWorld\grqq produziert und dem Kafka-Dienst übergibt, führen Sie folgenden Befehl aus:
+
+\smallskip
+
+\begin{lstlisting}[language=Bash]
+$ echo "Hello, World" | ~/kafka/bin/kafka-console-producer.sh --broker-list localhost:9092 --topic Test > /dev/null
+\end{lstlisting}
+
+Dieser Befehl produziert eine Nachricht für das Topic \glqq Test\grqq und übergibt diese Nachricht an Kafka.
+
+Der Consumer benötigt als Argument den Zookeeper Hostname und den Port (Standardport: 2181) und das Topic aus dem Nachrichten konsumiert werden sollen.
+
+\smallskip
+
+\begin{lstlisting}[language=Bash]
+$ ~/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic Test --from-beginning
+\end{lstlisting}
+
+Nach der Ausführung dieses Consumer-Skripts, sollte die Nachricht \glqq HelloWorld\grqq auf dem Bildschirm erfolgen. Ist dies nicht der Fall, überprüfen Sie Ihre durchgeführten Schritte. Das Skript blockiert den Benutzerprozess, weil der Consumer weiterhin auf eintreffende Nachrichten wartet. Um das Skript abzubrechen verwenden Sie STR+C als Shortcut auf der Tastatur.
+
+Kafka steht nun als Server-Dienst zur Verfügung und die Installation wurde durch einen Test erfolgreich validiert. Kafka kann für seine Einsatzbereiche ab jetzt vollständig verwendet werden.
+
 \end{document}
