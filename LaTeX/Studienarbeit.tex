@@ -244,6 +244,7 @@ Ort, Datum & Unterschrift
 \acro{GUI}{graphical user interface}
 \acro{WSGI}{Web Server Gateway Interface}
 \acro{CSS}{Cascading Style Sheets}
+\acro{Ajax}{Asynchronous JavaScript and XML}
 \acro{ORM}{Object Relational Mapper}
 \end{acronym}
 
@@ -588,9 +589,99 @@ def login():
 	return render_template('login.html')
 \end{lstlisting}
 Diese beispielhafte Listings wichtiger Module zeigen die Möglichkeiten des Web-Frameworks. Mitunter der Grund für die Verwendung von Flask. Außerdem sind nur wenige Module dargestellt. Weitere Erweiterungen, die im Rahmen des Projektes eingesetzt werden folgen bei der Umsetzung. Diese dargestellt bilden lediglich die theoretische Grundlagen um das Funktionsprinzip von Flask zu erläutern.
-
 \pagebreak
 
+\section{HTML, CSS und JavaScript als Werkzeuge der Webentwicklung}
+Wie unter \autoref{subsec:Flask} erläutert, benötigt Flask für die grafische Oberfläche weitere Elemente, die das Erscheinungsbild aufbauen, gestalten und mit Dynamik verknüpfen. Dafür werden die Werkezeuge des Webdesign benötigt. Diese umfassen \ac{HTML}, \ac{CSS} und JavaScript.
+
+\textbf{\ac{HTML}}\\
+Das Internet mit seinen Funktionen Text-, Bild, Sound und weiteres abzubilden oder zu übertragen basiert auf einem gemeinsamen Standard. Dieser ist unter dem Namen Hypertext Markup Language \ac{HTML} bekannt, welcher zu deutsch unter einer Auszeichnungssprache zu verstehen ist. Konkret bezieht sich HTML auf Hypertexte die per Definition die Verlinkung zwischen Texte mithilfe von Hyperlinks bezeichnen. \ac{HTML} als Markup Language entstand schon 1989 und diente zur Beschreibung und Verlinkung von Text. Mit \ac{HTML}5, welches ergänzend zur ersten Variante auch Audio- oder Videodateien an die Webseite binden kann, befindet sich die aktuellste Version im Umlauf. Während eine Weboberfläche unabhängig vom Betriebssystem ist, spielt die Verwendung von Browsern, die ihre eigenen HTML-Parser besitzen, eine bedeutsame Rolle. Aus diesem Grund können vom Webserver ausgelieferte \ac{HTML}-Dateien bei einer geringen Anzahl an Browsern Probleme bereiten. Innerhalb eines \ac{HTML}-Dokuments ist vor allem das Grundgerüst und der Aufbau relevant. Demnach werden die Elemente einer Webseite mit Sprachelementen, sogenannten Tags, beschrieben. Der Aufbau eines Grundgerüst ist in der \autoref{img:GrundgeruestHTML} dargestellt.
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=1.3]{images/HTML_Grundgeruest}
+	\caption{Grundgerüst einer HTML-Datei} %TODO Quellenangabe
+	\label{img:GrundgeruestHTML}
+\end{figure}
+\\Der \autoref{img:GrundgeruestHTML} sind die 3 wichtigen Tags (html, head, body) eines Standard \ac{HTML}-Dokumentes sowie der unter A angegebenen Dokumenttyp zu entnehmen. Während in vielen Programmiersprachen die Syntax umfassend groß sein kann, ist die Grammatik bei HTML sehr schlicht. Für die Korrektheit sind daher die genannten Tags bedeutend. Außerdem werden überwiegend Verschachtelung bei der Darstellung einer Webseite benötigt. Für weiteren Einfluss auf die Tags können sogenannte Attribute, wie in der folgenden \autoref{img:HTMLattribute} dargestellt, den Tags zugeteilt werden. 
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=2.5]{images/HTMLattribute}
+	\caption{Attribut eine \ac{HTML}-Tags} %TODO Quellenangabe
+	\label{img:HTMLattribute}
+\end{figure}
+\\Eine \ac{HTML}-Datei entsteht also vor allem durch Tags. Während nun das Dateiformat als reine Textdatei vorliegt, entstehen Fragen über die gestalterischen Aspekte wie z.B. Farben, Grafiken, Videos oder ähnliches. Hauptsächlich werden diese Aspekte innerhalb einer \ac{CSS}-Datei behandelt, dennoch gibt es dafür auch Punkte, die in einer \ac{HTML}-Datei zu beachten sind. Um beispielsweise Grafiken oder Videos, die sich innerhalb eines anderen Unterordners befinden, zu integrieren, muss auf diese referenziert werden. Hierfür bietet \ac{HTML} die absolute und relative Referenz. Eine absolute Referenz, wie z.B. \textit{C:/Dokumente/Mustermann/ Eigene Dateien/Webseiten/button.gif}, wird aufgrund der Abhängigkeit zum User des Computers nicht verwendet. Für die relative Referenz ist wiederum eine einheitliche Ordnerstruktur wichtig, da der Pfad von dem Speicherort der \ac{HTML}-Datei angegeben wird. Diese Struktur kann, wie in der folgenden Abbildung dargestellt, aussehen.
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.8]{images/TreeHTMLStruktur}
+	\caption{Ordnerstruktur bei der Webentwicklung} %TODO Quellenangabe
+	\label{img:TreeHTMLStruktur}
+\end{figure}
+\\Demnach würde die \ac{HTML}-Datei in dem Ordner \textit{templates} liegen und die Bilder im Ordner \textit{static/img}, welcher über die relative Referenz unabhängig vom Betriebssystem und ähnliches erreicht werden kann. Je nach Dateityp orientieren sich auch die Tags innerhalb des \ac{HTML}-Dokumentes danach. Für eine Grafik gibt es daher den <img>-Tag, der die Referenz zum Bild enthält. Mit der Webentwicklung wird das Ziel verfolgt Inhalt und Gestaltung strikt voneinander zu trennen. Daher werden \ac{CSS}-Dateien, die sich mit dem Design befassen, benötigt.
+
+\textbf{CSS:}\\
+Die Dateien, die als \ac{CSS} deklariert werden, übernehmen die gestalterischen Aspekte, die ein \ac{HTML}-Dokument nicht erfüllen kann. Neben Designvarianten bietet \ac{CSS} auch die Möglichkeit die Webseite an das jeweilige Endgerät, unterschiedlicher Auflösung, anzupassen. Wie schon für die \ac{HTML}-Dateien gilt auch für \ac{CSS}, dass Attribute nur von bestimmten Browsern akzeptiert werden. Daher gehört zur Webentwicklung ein ausgiebiges Testen dazu. Eine \ac{CSS}-Datei sollte Regeln folgen um Probleme, die im Zusammenhang mit dem HTML-Dokument auftreten können, zu verhindern. Die Grundregel bezieht sich auf den Ort der \ac{CSS}-Definition. Diese kann zum Einen in einer externen Datei, intern in einem eigenen Tag, oder integriert in den \ac{HTML}-Tag erfolgen. Dies ist unter anderem relevant wenn mehrere \ac{CSS}-Dateien zum Einsatz kommen, da die verschieden Orte durch verschiedene Prioritäten geprägt sind. Generell wird die \ac{CSS}-Definitionen in eine eigene Datei ausgelagert um das Design und die \ac{HTML}-Datei zu trennen. Die \autoref{img:CSSrules} stellt dar wie eine \ac{CSS}-Definition aufgebaut ist.
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=2.5]{images/CSS_Definition}
+	\caption{Aufbau einer \ac{CSS}-Regel} %TODO Quellenangabe
+	\label{img:CSSrules}
+\end{figure}	
+\\Der Aufbau besteht grundlegend aus einem Selektor, dem seine Eigenschaften bearbeitet werden sollen. Damit die Auswirkungen erkennbar werden muss die \ac{CSS}-Datei mit dem HTML-Dokument verknüpft werden. Dies erfolgt innerhalb des Head-Tags in der \ac{HTML}-Datei mithilfe des link-Tags \textit{<link rel=\dq sytlesheet\dq \;type=\dq text/css\dq \;href=\dq design.css\dq>}. Der Selektor befindet sich immer vor einer geschweiften Klammer und kann unterschiedlich verwendet werden. Aufgrund der Verbindung zur HTML-Datei hängt der Selektor vom \ac{HTML}-Tag ab. Wird bspw. ein Button in dem \ac{HTML}-Tag als Klasse definiert so erfolgt der Zugriff über den Punkt. Wird jedoch der Button mit einer ID ausgestattet, so muss mit dem Hashtag darauf zugegriffen werden. Die nachfolgende Abbildung zeigt diese Varianten.
+\begin{figure}[h]
+	\begin{minipage}[c]{.4\textwidth}
+		\includegraphics[width=\textwidth]{images/CSSID}
+		\caption{Zugriff über ID} %TODO Quellenangabe
+		\label{img:CSSID}
+	\end{minipage}
+	\hspace{.1\linewidth}% Abstand zwischen Bilder
+	\begin{minipage}[c]{.4\textwidth}
+		\includegraphics[width=\textwidth]{images/CSSKlasse}
+		\caption{Zugriff über Klasse} %TODO Quellenangabe
+		\label{img:CSSClass}
+	\end{minipage}
+\end{figure}
+Für die Eigenschaften bietet sich mit der dritten Version von \ac{CSS} (\ac{CSS}3) eine Vielzahl an Möglichkeiten. Grundlegend kann jedes Element mithilfe der \ac{CSS}-Datei bearbeitet werden. Die Eigenschaften sind bspw. Gegliedert unter Typografie, Farbe, Abstände, Tabellen und vieles mehr. In diesem Zusammenhang ist auch die Verwendungen von Maßeinheiten bedeutsam. Mit \ac{CSS}3 werden viele verschiedene Ma"seinheiten unterstützt worüber die Abbildung einen genaueren Überblick gibt.
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=1.8]{images/CSSmasseinheiten}
+	\caption{Ma"seinheiten innerhalb der Webentwicklung} %TODO Quellenangabe
+	\label{img:CSSmasseinheiten}
+\end{figure}
+\ac{CSS} verwendet die Selektoren und wendet auf diesen die definierten Eigenschaften an. Nebenbei bietet \ac{CSS} die Möglichkeit an ein Layout zu erstellen. Dafür ist das sogenannte Boxmodell ausschlaggebend. Dieser ist definiert, die Elemente als eine Box mit Eigenschaften zu betrachten. Demnach gibt es in dem Zusammenhang vielerlei Möglichkeiten eine Box an die richtige Position, sowie mit der richtigen Größe abzubilden. Die Boxen können mit absoluten Werten definiert werden. Mit relativen Werten, welche Prozentwerte enthalten, können die Boxen sich in Abhängigkeit des Browserfensters ändern. Mit \ac{CSS}3 gibt es auch die Möglichkeiten flexible Boxen zu verwenden. Dadurch werden die Boxen unabhängig von der Position und Anordnung spalten- oder zeilenweise an den zur Verfügung gestellten Platz angeordnet. Bei der Betrachtung des Layouts spielt ebenfalls das Endgerät eine Rolle. In dem Zusammenhang können \textbf{Media Queries} zum Einsatz kommen. Diese bieten die Option, Eigenschaften eines Selektors entsprechend der angegebenen Pixel zu ändern.
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=2.8]{images/MediaQbsp}
+	\caption{Beispiel eines Media Queries} %TODO Quellenangabe
+	\label{img:/MediaQbsp}
+\end{figure}
+\\Die Abbildung stellt dar wie die Media Queries eingesetzt werden können. Die Definition erfolgt entweder in der \ac{CSS}-Datei oder in dem Style-Tag einer \ac{HTML}-Datei. Mit diesen Grundlagen lassen sich Seiten gestalterisch anpassen und auf mehreren mobilen Endgeräten ausgeben. Wird Content benutzt der sich ggf. zur Laufzeit ändert, wird überwiegend auf das dritte Element der Webentwicklung zurückgegriffen. Dabei geht es um JavaScript.\cite{buhler2017html5}
+
+\textbf{JavaScript}\\
+JavaScript verfolgt das Ziel interaktive oder dynamische Elemente auf der Webseite zu integrieren. Es ist eine Skriptsprache, die überwiegend auf Seiten des Clients eingesetzt wird. Der Code kann direkt über den Browser ausgeführt werden, da ein heutiger Browser einen Interpreter für die Skriptsprache besitzt. Dadurch ist JavaScript von den heutigen Browsern abhängig, weshalb ausgiebige Tests auf verschiedene Browsern erfolgen muss. Mit JavaScript ergeben sich Möglichkeiten Probleme bzw. Schwierigkeiten dynamisch zu lösen. Ein beliebter Fall als Beispiel ist die Formularüberprüfung. Hierbei kann JavaScript die Korrektheit noch auf Seiten des Clients überprüfen und erst nach Abschluss dem Server übertragen. Dadurch können unnötige Datenübertragungen verhindert werden. Eine Schwierigkeit die JavaScript birgt ist die Ausschaltfunktion in den meisten Browsern. Besitzt eine Webseite eine große Anzahl an JavaScript Code so kann durch Deaktivierung im Browser mancher Content nicht mehr funktionieren. Wie mit der Integration von CSS gibt es auch bei JavaScript die Möglichkeit es innerhalb der HTML-Datei oder in einer externen Datei zu verwenden. Im Falle der internen Lösung gibt es den <script>-Tag, der eine JavaScript-Code enthalten kann. Das nachfolgende \autoref{lst:JavaScriptExample} stellt dar, wie so ein JavaScript in den HTML-Body integriert werden kann.
+\begin{lstlisting}[language=HTML,caption=Example Listing of JavaScript-Code,label={lst:JavaScriptExample}]
+<div class="Login_succeeded">
+<script>
+document.write("Your Login was succesful");
+</script>
+</div>
+\end{lstlisting}
+Das Beispiel bildet ein simpler Fall von JavaScript ab. Der Code erzeugt lediglich ein Text in der HTML-Klasse. Eine der beliebtesten Verwendungen von JavaScript sind Fenster, die zur Benachrichtigung oder Warnung benutzt werden. In Verbindung mit Event-Handler, die auf bestimmte Ereignisse reagieren, kann so, je nach Anwendung Fenster oder andere Elemente erzeugt werden. Ein Beispiel für solch ein Event-Handler wäre das "onclick". Dadurch lässt sich JavaScript-Code erst ausführen wenn bspw. auf ein Button geklickt wird. Neben Fenstern gibt es zahlreiche weitere Verwendungsmöglichkeiten, wie zum Beispiel Formulare, Textfelder, Checkboxen usw. Eine besondere Variante von JavaScript ist \textbf{\ac{Ajax}}, welches ein weiteres wichtiges Feature mit in die Webentwicklung einbringt. \ac{Ajax} kommt vor allem zum Einsatz, wenn es um Elemente geht die nicht durch eine Aktualisierung des Browser ausgelöst werden sollen. \ac{Ajax} ermöglicht in solch einem Fall die dynamische Anfrage. Die Nachfolgende Abbildung erklärt das Funktionsprinzip von \ac{Ajax} sehr genau.
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=1.0]{images/AjaxUseCase}
+	\caption{Anwendungsfall von Ajax} %TODO Quellenangabe
+	\label{img:/AjaxUseCase}
+\end{figure}
+Während ein User ein Textfeld beschreibt wird im Hintergrund, mithilfe des JavaScript-Objektes XMLHttpRequest, eine Anfrage an den Webserver gesendet. Dieser kann mit ersten Teilergebnissen antworten und so dem User bspw eine Autovervollständigung anbieten. Ajax ist in dem Fall keine neue Technologie sondert verwendet JavaScript anders um mit dem Webserver im Hintergrund zu kommunizieren. In diesem Fall ist die Autovervollständigung lediglich ein einfaches Beispiel um die Funktion von \ac{Ajax} zu verstehen. Darüber hinaus gibt es weitaus mehr Anwendungsfälle von \ac{Ajax}. Bei aufwändigen Webseiten kommt ein weiteres Element zur Webentwicklung hinzu, das die Entwicklung erleichtern soll. Dabei handelt es sich um Frameworks. Wie es für \ac{CSS} Bootstrap als Framework gibt, so werden viele auch im Zusammenhang mit JavaScript angeboten. Eines der beliebtesten Frameworks ist \textbf{jQuery}. Mit jQuery wird das Programmieren von JavaScript unterstützt. Außerdem orientiert es sich an der Darstellung von \ac{CSS} wie bspw. der Zugriff auf ein Element über \$(\dq \#bereich1\dq) oder \$(\dq .farbe1\dq). Wie JavaScript kann auch jQuery auf die Elemente der \ac{HTML}-Seite zugreifen. Der Standardaufbau, welcher in der folgenden Abbildung dargestellt ist, zeigt eine Merkmal auf das zu achten ist.
+\begin{lstlisting}[language=HTML,caption=Example Listing of jQuery,label={lst:jQueryExample}]
+<script> $(document).ready(function(){
+/* Hier der jQuery-Code */ });
+</script>
+\end{lstlisting}
+Mit \textit{\$(document).ready} werden grundsätzlich erste Probleme, die auftreten können verhindert. Demnach könnte ohne diese Funktion auf Elemente zugegriffen werden, welche noch nicht vollständig geladen sind. Das ready verhindert diese Problematik und wartet mit der Ausführung bis die Webseite komplett geladen ist. JQuery besitzt zahlreiche Plugins die bei der Webentwicklung verwendet werden können. JavaScript bildetet ein fundamentaler Baustein, der mithilfe zahlreicher Möglichkeiten und Frameworks für jede Anwendung Optionen bereitstellt, um dynamische Änderungen oder Interaktionen zu integrieren.\cite{buhler2018webtechnologien}
+
+
+\pagebreak
 \section{Grundlagen von Softwaretests}
 \label{sec:GrundlagenSoftwaretests}
 
