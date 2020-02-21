@@ -158,7 +158,7 @@ def gochat():
         for item in plugins:
             xmpp_client.register_plugin(item)
 
-        if xmpp_client.connect(("10.10.8.10", 5222)):
+        if xmpp_client.connect(("10.10.8.5", 5222)):
             print("connected")
             t1 = threading.Thread(target=xmpp_client.process, kwargs={'block': True}, daemon=True)
             t1.start()
