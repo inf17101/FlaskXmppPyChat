@@ -42,6 +42,7 @@ from xmppchat.models import User, Archiv # must be imported here otherwise User 
 from xmppchat.Validator import Validator
 from xmppchat.CustomValidatonError import CustomValidationError
 from xmppchat.xmppclient import EchoBot
+from xmppchat.UserRegistration import UserRegistration
 
 session_dict = {}
 
@@ -60,14 +61,22 @@ def register():
             Validator.validate_email(req_content["eMail"])
             user = User(req_content["username"], req_content["eMail"], req_content["password"])
             db.session.add(user)
+            user_reg_obj = UserRegistration(config['ejabberd_ip'], config['ejabberd_ssh_user'], priv_key=config['ejabberd_ssh_private_key'], sudo_passwd=config['ejabberd_ssh_sudo_password'])
+            return_code = user_reg_obj.register_remotely(req_content["username"], req_content["password"], config["ejabberd_domain"])
+            if return_code != 0:
+                raise CustomValidationError("Error. User was not created. Please try again with another user.")
+
             db.session.commit()
         except KeyError:
+            db.session.rollback()
             res = {'feedback': 'invalid credentials.', 'category': 'danger'}
             exit_code = 401
         except CustomValidationError as cve:
+            db.session.rollback()
             res = {'feedback': str(cve), 'category': 'danger'}
             exit_code = 401
         except Exception as e:
+            db.session.rollback()
             res = {'feedback': 'internal server error', 'category': 'danger'}
             logger.error(e)
             res = {'feedback': "{0}".format(str(e)), 'category': 'danger'}            
@@ -165,29 +174,6 @@ def gochat():
         
         logger.info(session_dict)
     return render_template('gochat.html', navs=navs,currentNav="Go Chat!")
-
-"""
-def push_messages_to_client(msg):
-    socketio.emit('push-chat-msg', msg)
-
-@socketio.on('chat-msg')
-def handle_client_msg(msg):
-    print('received message: %s' % msg)
-    push_messages_to_client("i am here 2")
-
-
-@app.route("/testio", methods=["GET"])
-def testio():
-    global session_dict
-    session_dict[current_user.user_id].trigger_msgs(" hello there")
-    return "Hello", 200
-"""
-"""
-@app.route("/teststream", methods=["GET"])
-def event_stream_get():
-    red.publish('chat', u'[%s] %s: %s' % ("hello", "world", "today"))
-    return Response(status=200)
-"""
 
 def event_stream():
     pubsub = red.pubsub()
