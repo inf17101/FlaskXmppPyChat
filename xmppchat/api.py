@@ -206,7 +206,7 @@ def send_message():
             return make_response(jsonify({"feedback": "invalid post data for sending messages.", "category": "danger", "exit_code": 401}), 401)
         
         print(JSON_Data)
-        session_dict[11].push_message(JSON_Data["to_jid"], JSON_Data["msg_body"], JSON_Data["msg_subject"], JSON_Data["msg_type"])
+        session_dict[current_user.user_id].push_message(JSON_Data["to_jid"], JSON_Data["msg_body"], JSON_Data["msg_subject"], JSON_Data["msg_type"])
         msg_timestamp = datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')
         return make_response(jsonify({"exit_code": 200, "feedback": "success", "timestamp": msg_timestamp}), 200)
     except Exception as e:
