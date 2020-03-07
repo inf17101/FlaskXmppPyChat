@@ -105,7 +105,7 @@ def login():
                 return make_response(jsonify({'redirect_to': '/login', 'feedback': 'invalid data format.', 'category': 'danger'}), 404)
             login_user(user, remember=req_content["remember"])
         except KeyError:
-            res = {'redirect_to': '/login', 'feedback': 'invalid login credentials', 'category': 'danger'}
+            res = {'redirect_to': '/login', 'feedback': 'invalid login credentials.', 'category': 'danger'}
             exit_code = 401
 
         return make_response(jsonify(res), exit_code)
