@@ -94,8 +94,6 @@ def login():
     
     if request.method == 'POST':
         req_content = request.get_json()
-        res = {'redirect_to': '/gochat', 'feedback': 'login successfull.', 'category': 'success'}
-        exit_code = 200
         try:
             user = User.query.filter_by(username=req_content["username"]).first()
             if not user or not user.verify_password(req_content["password"]):
@@ -105,10 +103,26 @@ def login():
                 return make_response(jsonify({'redirect_to': '/login', 'feedback': 'invalid data format.', 'category': 'danger'}), 404)
             login_user(user, remember=req_content["remember"])
         except KeyError:
-            res = {'redirect_to': '/login', 'feedback': 'invalid login credentials.', 'category': 'danger'}
-            exit_code = 401
+            return make_response(jsonify({'redirect_to': '/login', 'feedback': 'invalid data format.', 'category': 'danger'}), 404)
+        
+        global session_dict
+        full_jid = req_content["username"] + "@ejabberd-server"
+        xmpp_client = EchoBot(full_jid, req_content["password"])        
+        session_dict[current_user.user_id] = xmpp_client
+        #print(session_dict)
+        #print("login of {}".format(current_user.user_id), id(xmpp_client))
+        plugins = ['xep_0030', 'xep_0004', 'xep_0060', 'xep_0199', 'xep_0313']
 
-        return make_response(jsonify(res), exit_code)
+        xmpp_client['feature_mechanisms'].unencrypted_plain = True
+
+        for item in plugins:
+            xmpp_client.register_plugin(item)
+
+        if xmpp_client.connect((config.get("ejabberd_ip"), 5222)):
+            #print("connected")
+            t1 = threading.Thread(target=xmpp_client.process, kwargs={'block': True}, daemon=True)
+            t1.start()
+        return make_response(jsonify({'redirect_to': '/gochat', 'feedback': 'login successfull.', 'category': 'success'}), 200)
 
     return render_template('login.html', navs=navs, currentNav="Go Chat!")
 
@@ -139,40 +153,26 @@ def get_chathistory():
 def logout():
     global session_dict
     try:
+        print("logout of {}".format(current_user))
         session_dict[current_user.user_id].disconnect()
         del session_dict[current_user.user_id]
         logger.info(session_dict)
         logout_user()
         print(session_dict)
-        print("logout of {}".format(current_user))
     except KeyError:
         flash("user session error.", "danger")
     except Exception:
         flash("unexpected error appeared.", "danger")
     return redirect(url_for('login'))
 
+def login_to_chatserver(username, password, jid_domain="ejabberd-server"):
+    pass
+
 
 @app.route("/gochat")
 @login_required
 def gochat():
-    global session_dict
-    if not current_user.user_id in session_dict:
-        xmpp_client = EchoBot("testuser2@ejabberd-server", "hallo123")        
-        session_dict[current_user.user_id] = xmpp_client
-        print("login of {}".format(current_user), id(xmpp_client))
-        plugins = ['xep_0030', 'xep_0004', 'xep_0060', 'xep_0199', 'xep_0313']
-
-        xmpp_client['feature_mechanisms'].unencrypted_plain = True
-
-        for item in plugins:
-            xmpp_client.register_plugin(item)
-
-        if xmpp_client.connect(("10.10.8.5", 5222)):
-            print("connected")
-            t1 = threading.Thread(target=xmpp_client.process, kwargs={'block': True}, daemon=True)
-            t1.start()
-        
-        logger.info(session_dict)
+        #logger.info(session_dict)
     return render_template('gochat.html', navs=navs,currentNav="Go Chat!")
 
 def event_stream():
