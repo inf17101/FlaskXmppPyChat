@@ -4,7 +4,7 @@ from flask_login import LoginManager, login_required, login_user, logout_user, c
 from flask_wtf.csrf import CSRFProtect
 from datetime import datetime
 #from flask_socketio import SocketIO
-import redis
+import redis, uuid
 from werkzeug.urls import url_parse
 import os, json, logging.config, threading
 
@@ -107,8 +107,9 @@ def login():
         
         global session_dict
         full_jid = req_content["username"] + "@ejabberd-server"
-        xmpp_client = EchoBot(full_jid, req_content["password"])        
-        session_dict[current_user.user_id] = xmpp_client
+        stream_id = str(uuid.uuid4())
+        xmpp_client = EchoBot(full_jid, req_content["password"], stream_id)   
+        session_dict[current_user.user_id] = {"xmpp_object": xmpp_client, "stream_id": stream_id}
         #print(session_dict)
         #print("login of {}".format(current_user.user_id), id(xmpp_client))
         plugins = ['xep_0030', 'xep_0004', 'xep_0060', 'xep_0199', 'xep_0313']
@@ -154,7 +155,7 @@ def logout():
     global session_dict
     try:
         print("logout of {}".format(current_user))
-        session_dict[current_user.user_id].disconnect()
+        session_dict[current_user.user_id]["xmpp_object"].disconnect()
         del session_dict[current_user.user_id]
         logger.info(session_dict)
         logout_user()
@@ -165,19 +166,25 @@ def logout():
         flash("unexpected error appeared.", "danger")
     return redirect(url_for('login'))
 
-def login_to_chatserver(username, password, jid_domain="ejabberd-server"):
-    pass
-
 
 @app.route("/gochat")
 @login_required
 def gochat():
-        #logger.info(session_dict)
     return render_template('gochat.html', navs=navs,currentNav="Go Chat!")
 
-def event_stream():
+@app.route("/get_stream_id", methods=["POST"])
+@csrf.exempt
+def get_chat_id():
+    global session_dict
+    if not current_user.is_authenticated or not current_user.user_id in session_dict:
+        return make_response(jsonify({"feedback": "you are not authorized", "category": "danger"}), 401)
+    return make_response(jsonify({"chat_id": session_dict[current_user.user_id]["stream_id"], "category": "success"}), 200)
+
+def event_stream(user_id):
     pubsub = red.pubsub()
-    pubsub.subscribe('chat')
+    global session_dict
+    stream_id = session_dict[user_id]["stream_id"]
+    pubsub.subscribe(stream_id)
     for message in pubsub.listen():
         print(message)
         yield 'data: %s\n\n' % message['data']
@@ -185,15 +192,8 @@ def event_stream():
 
 @app.route('/stream')
 def stream():
-    return Response(event_stream(), mimetype="text/event-stream", status=200)
+    return Response(event_stream(current_user.user_id), mimetype="text/event-stream", status=200)
 
-
-@app.route("/send_msg", methods=["GET"])
-@login_required
-def send_msg():
-    global session_dict
-    session_dict[current_user.user_id].push_message("hello world", "first message")
-    return Response(status=200)
 
 @app.route("/send_message", methods=["POST"])
 #@login_required
@@ -206,7 +206,8 @@ def send_message():
             return make_response(jsonify({"feedback": "invalid post data for sending messages.", "category": "danger", "exit_code": 401}), 401)
         
         print(JSON_Data)
-        session_dict[current_user.user_id].push_message(JSON_Data["to_jid"], JSON_Data["msg_body"], JSON_Data["msg_subject"], JSON_Data["msg_type"])
+        session_dict[current_user.user_id]["xmpp_object"].push_message(JSON_Data["to_jid"], JSON_Data["msg_body"], JSON_Data["msg_subject"], JSON_Data["msg_type"])
+        print("Dieser Benutzer hat die Nachricht gesendet: ", current_user.user_id)
         msg_timestamp = datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')
         return make_response(jsonify({"exit_code": 200, "feedback": "success", "timestamp": msg_timestamp}), 200)
     except Exception as e:
