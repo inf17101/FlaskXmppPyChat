@@ -139,14 +139,7 @@ def get_chathistory():
         results = Archiv.get_chat_history(post_data["username"])
     except KeyError:
         return make_response({"feedback": "invalid post data", "category": "danger"}, 401)
-    """       
-    chat_messages = []
-    for item in results:
-        chat_messages.append({
-            item.
-        })
-    """
-    #print(results)
+
     return make_response(jsonify({"exit_code": 200, post_data["username"]: results}), 200)
 
 @app.route("/logout")

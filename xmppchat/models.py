@@ -3,6 +3,9 @@ from xmppchat.api import db, login_mgmt
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash # better security features, like hashing
 from flask_login import UserMixin
+import re
+
+regex = re.compile(r"from='([A-Za-z0-9]+)@[A-Za-z0-9-]+")
 
 class User(UserMixin, db.Model):
     """
@@ -83,7 +86,21 @@ class Archiv(db.Model):
     nick = db.Column(db.String(191), nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
 
-
+    @staticmethod
+    def get_chat_history(username):
+        POSITION_XML = 1
+        chat_rosters = Archiv.query.filter_by(username=username).group_by("bare_peer").all()
+        chat_rosters_bare_peers = [roster.bare_peer for roster in chat_rosters]
+        chat_msgs = []
+        list_peer_msgs = []
+        for bare_peer in chat_rosters_bare_peers:
+            results = Archiv.query.with_entities(Archiv.txt, Archiv.xml, Archiv.created_at, Archiv.kind).filter_by(username=username).filter_by(bare_peer=bare_peer).all()
+            for item in results:
+                match = re.findall(regex, item[POSITION_XML])
+                list_peer_msgs.append({"txt": item[0], "timestamp": item[2].strftime('%Y-%m-%d %H:%M:%S'), "type": item[3], "from": match[0]})
+            list_peer_msgs_sorted = list(sorted(list_peer_msgs, key=lambda k: k["timestamp"]))
+            chat_msgs.append({bare_peer.split('@')[0]: list_peer_msgs_sorted})
+        return chat_msgs
 
 
 

@@ -942,6 +942,8 @@ ul{
 {%block scripts%}
 <script>
 
+  modular_ajax("/get_chathistory", "post", {"username": "testuser2"});
+
   var source = new EventSource('/stream');
   source.onmessage = function (event) {
        var result = event.data
@@ -980,11 +982,17 @@ ul{
   }
 
 
-
+function dealWithResponse(data)
+{
+  console.log(data.testuser2[0].test);
+   for (const key of Object.keys(data)) {
+     console.log(key)
+   }
+}
 
   function modular_ajax(url, type, formData) {
     // Most simple modular AJAX building block
-    $.ajax({
+    var recieved_data = $.ajax({
         url: url,
         type: type,
         data: JSON.stringify(formData),
@@ -996,12 +1004,14 @@ ul{
         complete: function () {
         },
         success: function ( data ){
+          dealWithResponse(data);
         },
         error: function(data) {//console.log("error. see details below.");
             data = data.responseJSON
             printMessageWithCategory("Upps!", data.feedback, data.category);
         },
     }).done(function() {});
+    return recieved_data;
 };
 
 $('#send-submit-button').click(function(event){
