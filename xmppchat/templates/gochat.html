@@ -3,775 +3,1276 @@
 {%block content%}
 
 <style>
-#containerMain { 
-  margin-top: 50pt!important;
-  height: 90vh;
-  min-height: 300px;
-  margin-left: 1%;
-  margin-right: 1%;
-}
-
-@media screen and (max-width: 415px) {
-  #containerMain {
-   font-size: 14px;
+  #containerMain { 
+    margin-top: 50pt!important;
+    height: 90vh;
+    min-height: 300px;
+    margin-left: 1%;
+    margin-right: 1%;
   }
-}
-
-
-
-
-/* CHAT */
-/******************/
-.chat-history{
-  display: inline;
-}
-
-.chat .chat-history .message-data {
-  margin-bottom: 15px;
-}
-.chat .chat-history .message-data-time {
-  color: #a8aab1;
-  padding-left: 6px;
-}
-.chat .chat-history .message {
-  color: white;
-  padding: 18px 20px;
-  line-height: 26px;
-  font-size: 16px;
-  border-radius: 5px;
-  margin-bottom: 30px;
-  width: 90%;
-  position: relative;
-}
-@media screen and (max-width: 415px) {
+  
+  @media screen and (max-width: 415px) {
+    #containerMain {
+     font-size: 14px;
+    }
+  }
+  
+  
+  
+  .timestamp p {
+    float: right;
+    margin-bottom: 0em;
+    opacity: 0.5;
+    font-size: small;
+  }
+  
+  .timestamp-left p {
+    margin-bottom: 0em;
+    opacity: 0.5;
+    font-size: small;
+  }
+  
+  
+  /* CHAT */
+  /******************/
+  .chat-history{
+    display: inline;
+  }
+  
+  .chat .chat-history .message-data {
+    margin-bottom: 15px;
+  }
+  .chat .chat-history .message-data-time {
+    color: #a8aab1;
+    padding-left: 6px;
+  }
   .chat .chat-history .message {
-   font-size: 14px;
+    color: white;
+    padding: 18px 20px;
+    line-height: 26px;
+    font-size: 16px;
+    border-radius: 5px;
+    margin-bottom: 30px;
+    width: fit-content;
+    position: relative;
   }
-}
-.chat .chat-history .message:after {
-content: "";
-    position: absolute;
-    top: -15px;
-    left: 20px;
-    border-width: 0 15px 15px;
-    border-style: solid;
-    border-color: #CCDBDC transparent;
-    display: block;
-    width: 0;
-}
-.chat .chat-history .you-message {
-  background: #CCDBDC;
-  color:#003366;
-}
-.chat .chat-history .me-message {
-  background: #3f79af;
-}
-.chat .chat-history .me-message:after {
-  border-color: #3f79af transparent;
-    right: 20px;
-    top: -15px;
-    left: auto;
-    bottom:auto;
-}
-.chat .chat-message {
-  padding: 30px;
-}
-.chat .chat-message .fa-file-o, .chat .chat-message .fa-file-image-o {
-  font-size: 16px;
-  color: gray;
-  cursor: pointer;
-}
-
-ul{
-  list-style-type: none;
-  padding-inline-start: 0px;
-}
-
-/* CONTENT WINDOW */
-/******************/
-
-.col {
-  padding: 0% 0% 0% 0%;
-  margin: 0% 2% 0% 0%;
-}
-
-#content-window{
-  max-height: 90vh;
-}
-
-/* CONTACT PROFIL */
-/******************/
-
-#containerMain .contact-profile {
-  height: 60px;
-  line-height: 60px;
-  background: #f5f5f5;
-}
-#containerMain .contact-profile img {
-  width: 40px;
-  border-radius: 50%;
-  float: left;
-  margin: 9px 12px 0 9px;
-}
-#containerMain .contact-profile p {
-  float: left;
-}
-.dropdown { 
-  margin-left: 20px; 
-  margin-right: 2%; 
-  float: right!important;
-}
-.dropdown a#dropdownMenuLink.btn.dropdown-toggle {
-  background-color: #3f79af;
-  color: #f5f5f5;
-}
-.scrollable-messages { 
-  float: left;
-  padding: 0% 3% 0% 3%;
-  height: 70vh; 
-  overflow-y: scroll;
-}
-.scrollable-messages::-webkit-scrollbar {
-  width: 6px;
-  background: #959a9e;
-}
-.scrollable-messages::-webkit-scrollbar-thumb {
-  background-color: #3f79af;
-}
-.align-left {
-  text-align: left;
-}
-.align-right {
-  text-align: right;
-}
-.float-right {
-  float: right;
-}
-.clearfix:after {
-  visibility: hidden;
-  display: block;
-  font-size: 0;
-  content: " ";
-  clear: both;
-  height: 0;
-}
-.you {
-  color: #CCDBDC;
-}
-.me {
-  color: #3f79af;
-}
-.input-group {
-  padding: 0% 3% 0% 3%;
-  position: absolute;
-  bottom: 0;
-}
-#send-submit-button {
-  color: #3f79af;
-  border-color: #3f79af;
-}
-#send-submit-button:hover {
-  background-color: #3f79af;
-  color: white;
-  border-color: white;
-}
-.form-control {
-  min-height: 60px;
-  max-height: 115px;
-}
-
-
-
-
-/* SIDEPANEL */
-/*************/
-#containerMain #sidepanel {
-  min-width: 280px;
-  max-width: 300px;
-  max-height: 90vh;
-  background: #001b66;
-  color: #f5f5f5;
-  position: relative;
-}
-@media screen and (max-width: 735px) {
-  #containerMain #sidepanel {
-    min-width: 50px;
-    max-width: 100px;
+  @media screen and (max-width: 415px) {
+    .chat .chat-history .message {
+     font-size: 14px;
+    }
   }
-}
-@media screen and (max-width: 415px) {
-  #containerMain #sidepanel {
-    min-width: 50px;
-    max-width: 65px;
+  .chat .chat-history .message:after {
+  content: "";
+      position: absolute;
+      top: -15px;
+      left: 20px;
+      border-width: 0 15px 15px;
+      border-style: solid;
+      border-color: #CCDBDC transparent;
+      display: block;
+      width: 0;
   }
-}
-#containerMain #sidepanel #profile {
-  width: 80%;
-  margin: 25px auto;
-}
-#containerMain #sidepanel #profile.expanded .wrap {
-  height: 210px;
-  line-height: initial;
-}
-#containerMain #sidepanel #profile.expanded .wrap p {
-  margin-top: 20px;
-}
-#containerMain #sidepanel #profile.expanded .wrap i.expand-button {
-  -moz-transform: scaleY(-1);
-  -o-transform: scaleY(-1);
-  -webkit-transform: scaleY(-1);
-  transform: scaleY(-1);
-  filter: FlipH;
-  -ms-filter: "FlipH";
-}
-#containerMain #sidepanel #profile .wrap {
-  height: 60px;
-  line-height: 60px;
-  overflow: hidden;
-  -moz-transition: 0.3s height ease;
-  -o-transition: 0.3s height ease;
-  -webkit-transition: 0.3s height ease;
-  transition: 0.3s height ease;
-}
-#containerMain #sidepanel #profile .wrap img {
-  width: 50px;
-  border-radius: 50%;
-  padding: 3px;
-  border: 2px solid #e74c3c;
-  height: auto;
-  float: left;
-  cursor: pointer;
-  -moz-transition: 0.3s border ease;
-  -o-transition: 0.3s border ease;
-  -webkit-transition: 0.3s border ease;
-  transition: 0.3s border ease;
-}
-#containerMain #sidepanel #profile .wrap img.online {
-  border: 2px solid #2ecc71;
-}
-#containerMain #sidepanel #profile .wrap img.away {
-  border: 2px solid #f1c40f;
-}
-#containerMain #sidepanel #profile .wrap img.busy {
-  border: 2px solid #e74c3c;
-}
-#containerMain #sidepanel #profile .wrap img.offline {
-  border: 2px solid #95a5a6;
-}
-#containerMain #sidepanel #profile .wrap p {
-  float: left;
-  margin-left: 15px;
-}
-@media screen and (max-width: 735px) {
-   #sidepanel #profile .wrap p {
-    display: none;
+  .chat .chat-history .you-message {
+    background: #CCDBDC;
+    color:#003366;
   }
-}
-#containerMain #sidepanel #profile .wrap i.expand-button {
-  float: right;
-  margin-top: 23px;
-  font-size: 0.8em;
-  cursor: pointer;
-  color: #435f7a;
-}
-@media screen and (max-width: 735px) {
-   #sidepanel #profile .wrap i.expand-button {
-    display: none;
+  .chat .chat-history .me-message {
+    background: #3f79af;
   }
-}
-#containerMain #sidepanel #profile .wrap #status-options {
-  position: absolute;
-  opacity: 0;
-  visibility: hidden;
-  width: 150px;
-  margin: 70px 0 0 0;
-  border-radius: 6px;
-  z-index: 99;
-  line-height: initial;
-  background: #435f7a;
-  -moz-transition: 0.3s all ease;
-  -o-transition: 0.3s all ease;
-  -webkit-transition: 0.3s all ease;
-  transition: 0.3s all ease;
-}
-@media screen and (max-width: 735px) {
-   #sidepanel #profile .wrap #status-options {
-    width: 58px;
-    margin-top: 57px;
+  .chat .chat-history .me-message:after {
+    border-color: #3f79af transparent;
+      right: 20px;
+      top: -15px;
+      left: auto;
+      bottom:auto;
   }
-}
-#containerMain #sidepanel #profile .wrap #status-options.active {
-  opacity: 1;
-  visibility: visible;
-  margin: 75px 0 0 0;
-}
-@media screen and (max-width: 735px) {
-   #sidepanel #profile .wrap #status-options.active {
-    margin-top: 62px;
+  .chat .chat-message {
+    padding: 30px;
   }
-}
-#containerMain #sidepanel #profile .wrap #status-options:before {
-  content: '';
-  position: absolute;
-  width: 0;
-  height: 0;
-  border-left: 6px solid transparent;
-  border-right: 6px solid transparent;
-  border-bottom: 8px solid #435f7a;
-  margin: -8px 0 0 24px;
-}
-@media screen and (max-width: 735px) {
-   #sidepanel #profile .wrap #status-options:before {
-    margin-left: 23px;
+  .chat .chat-message .fa-file-o, .chat .chat-message .fa-file-image-o {
+    font-size: 16px;
+    color: gray;
+    cursor: pointer;
   }
-}
-#containerMain #sidepanel #profile .wrap #status-options ul {
-  overflow: hidden;
-  border-radius: 6px;
-}
-#containerMain #sidepanel #profile .wrap #status-options ul li {
-  padding: 15px 0 30px 18px;
-  display: block;
-  cursor: pointer;
-}
-@media screen and (max-width: 735px) {
-   #sidepanel #profile .wrap #status-options ul li {
-    padding: 15px 0 35px 22px;
+  
+  ul{
+    list-style-type: none;
+    padding-inline-start: 0px;
   }
-}
- #sidepanel #profile .wrap #status-options ul li:hover {
-  background: #4e77a0;
-}
-#containerMain #sidepanel #profile .wrap #status-options ul li span.status-circle {
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  margin: 5px 0 0 0;
-}
-@media screen and (max-width: 735px) {
-   #sidepanel #profile .wrap #status-options ul li span.status-circle {
-    width: 14px;
-    height: 14px;
+  
+  /* CONTENT WINDOW */
+  /******************/
+  
+  .col {
+    padding: 0% 0% 0% 0%;
+    margin: 0% 2% 0% 0%;
   }
-}
-#containerMain #sidepanel #profile .wrap #status-options ul li span.status-circle:before {
-  content: '';
-  position: absolute;
-  width: 14px;
-  height: 14px;
-  margin: -3px 0 0 -3px;
-  background: transparent;
-  border-radius: 50%;
-  z-index: 0;
-}
-@media screen and (max-width: 735px) {
-   #sidepanel #profile .wrap #status-options ul li span.status-circle:before {
-    height: 18px;
-    width: 18px;
+  
+  #content-window{
+    max-height: 90vh;
   }
-}
-#containerMain #sidepanel #profile .wrap #status-options ul li p {
-  padding-left: 12px;
-}
-@media screen and (max-width: 735px) {
-   #sidepanel #profile .wrap #status-options ul li p {
-    display: none;
-  }
-}
-#containerMain #sidepanel #profile .wrap #status-options ul li#status-online span.status-circle {
-  background: #2ecc71;
-}
-#containerMain #sidepanel #profile .wrap #status-options ul li#status-online.active span.status-circle:before {
-  border: 1px solid #2ecc71;
-}
-#containerMain #sidepanel #profile .wrap #status-options ul li#status-away span.status-circle {
-  background: #f1c40f;
-}
-#containerMain #sidepanel #profile .wrap #status-options ul li#status-away.active span.status-circle:before {
-  border: 1px solid #f1c40f;
-}
-#containerMain #sidepanel #profile .wrap #status-options ul li#status-busy span.status-circle {
-  background: #e74c3c;
-}
-#containerMain #sidepanel #profile .wrap #status-options ul li#status-busy.active span.status-circle:before {
-  border: 1px solid #e74c3c;
-}
-#containerMain #sidepanel #profile .wrap #status-options ul li#status-offline span.status-circle {
-  background: #95a5a6;
-}
-#containerMain #sidepanel #profile .wrap #status-options ul li#status-offline.active span.status-circle:before {
-  border: 1px solid #95a5a6;
-}
-#containerMain #sidepanel #profile .wrap #expanded {
-  padding: 100px 0 0 0;
-  display: block;
-  line-height: initial !important;
-}
-#containerMain #sidepanel #profile .wrap #expanded label {
-  float: left;
-  clear: both;
-  margin: 0 8px 5px 0;
-  padding: 5px 0;
-}
-#containerMain #sidepanel #profile .wrap #expanded input {
-  border: none;
-  margin-bottom: 6px;
-  background: #32465a;
-  border-radius: 3px;
-  color: #f5f5f5;
-  padding: 7px;
-  width: calc(100% - 43px);
-}
-#containerMain #sidepanel #profile .wrap #expanded input:focus {
-  outline: none;
-  background: #435f7a;
-}
-#containerMain #sidepanel #search {
-  border-top: 1px solid #3f79af;
-  border-bottom: 1px solid #3f79af;
-  font-weight: 300;
-}
-@media screen and (max-width: 735px) {
-   #sidepanel #search {
-    display: none;
-  }
-}
-#containerMain #sidepanel #search label {
-  position: absolute;
-  margin: 10px 0 0 20px;
-}
-#containerMain #sidepanel #search input {
-  font-family: "proxima-nova",  "Source Sans Pro", sans-serif;
-  padding: 10px 0 10px 46px;
-  width: 100%;
-  border: none;
-  background: #3f79af;
-  color: #f5f5f5;
-}
-#containerMain #sidepanel #search input:focus {
-  outline: none;
-  background: #3f6d99;
-}
-#containerMain #sidepanel #search input::-webkit-input-placeholder {
-  color: #f5f5f5;
-}
-#containerMain #sidepanel #search input::-moz-placeholder {
-  color: #f5f5f5;
-}
-#containerMain #sidepanel #search input:-ms-input-placeholder {
-  color: #f5f5f5;
-}
-#containerMain #sidepanel #search input:-moz-placeholder {
-  color: #f5f5f5;
-}
-#containerMain #sidepanel #contacts {
-  height: calc(100% - 177px);
-  overflow-y: scroll;
-}
-@media screen and (max-width: 735px) {
-  #containerMain #sidepanel #contacts {
-    height: calc(100% - 160px);
-    overflow-y: scroll;
-    overflow-x: hidden;
-  }
-  #containerMain #sidepanel #contacts::-webkit-scrollbar {
-    display: none;
-  }
-}
-@media screen and (max-width: 415px) {
-  #containerMain #sidepanel #contacts {
-    height: calc(100% - 155px);
-    overflow-y: scroll;
-    overflow-x: hidden;
-  }
-  #containerMain #sidepanel #contacts::-webkit-scrollbar {
-    display: none;
-  }
-}
- #sidepanel #contacts.expanded {
-  height: calc(100% - 334px);
-}
-#containerMain #sidepanel #contacts::-webkit-scrollbar {
-  width: 15px;
-  background: #2c3e50;
-}
-#containerMain #sidepanel #contacts::-webkit-scrollbar-thumb {
-  background-color: #3f79af;
-}
-#containerMain #sidepanel #contacts ul li.contact {
-  position: relative;
-  padding: 10px 0 15px 0;
-  font-size: 0.9em;
-  cursor: pointer;
-}
-@media screen and (max-width: 735px) {
-  #containerMain #sidepanel #contacts ul li.contact {
-    padding: 15% 6% 10% 7%;
-  }
-}
-@media screen and (max-width: 415px) {
-  #containerMain #sidepanel #contacts ul li.contact {
-    padding-left: 10%;
-  }
-}
-#containerMain #sidepanel #contacts ul li.contact:hover {
-  background: #3f79af;
-}
-#containerMain #sidepanel #contacts ul li.contact.active {
-  position: relative;
-  padding: 10px 0 15px 0;
-  font-size: 0.9em;
-  background: #3f79af;
-  border-right: 5px solid #435f7a;
-}
-@media screen and (max-width: 735px) {
-  #containerMain #sidepanel #contacts ul li.contact.active {
-    padding: 15% 6% 10% 7%;
-  }
-}
-@media screen and (max-width: 415px) {
-  #containerMain #sidepanel #contacts ul li.contact.active {
-    padding-left: 10%;
-    border: hidden;
-  }
-}
-#containerMain #sidepanel #contacts ul li.contact.active span.contact-status {
-  border: 2px solid #3f79af !important;
-}
-#containerMain #sidepanel #contacts ul li.contact .wrap {
-  width: 88%;
-  margin: 0 auto;
-  position: relative;
-}
-@media screen and (max-width: 735px) {
-  #containerMain #sidepanel #contacts ul li.contact .wrap {
-    width: 100%;
-  }
-}
-@media screen and (max-width: 415px) {
-  #containerMain #sidepanel #contacts ul li.contact .wrap {
-    display: flex;
-  }
-}
-#containerMain #sidepanel #contacts ul li.contact .wrap span {
-  position: absolute;
-  left: 0;
-  margin: -2px 0 0 -2px;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  border: 2px solid #2c3e50;
-  background: #95a5a6;
-}
-#containerMain #sidepanel #contacts ul li.contact .wrap span.online {
-  background: #2ecc71;
-}
-#containerMain #sidepanel #contacts ul li.contact .wrap span.away {
-  background: #f1c40f;
-}
-#containerMain #sidepanel #contacts ul li.contact .wrap span.busy {
-  background: #e74c3c;
-}
-#containerMain #sidepanel #contacts ul li.contact .wrap img {
-  width: 40px;
-  border-radius: 50%;
-  float: left;
-  margin-right: 10px;
-}
-@media screen and (max-width: 735px) {
-  #containerMain #sidepanel #contacts ul li.contact .wrap img {
-    margin-right: 0px;
-    width: 40%!important;
-  }
-}
-@media screen and (max-width: 415px) {
-  #containerMain #sidepanel #contacts ul li.contact .wrap img {
-    margin-right: 0px;
-    width: 80%!important;
-  }
-}
-#containerMain #sidepanel #contacts ul li.contact .wrap .meta {
-  padding: 5px 0 0 0;
-}
-#containerMain #sidepanel #contacts ul li.contact .wrap .meta .name {
-  font-weight: 600;
-}
-@media screen and (max-width: 735px) {
-   #containerMain #sidepanel #contacts ul li.contact .wrap .meta p {
-    margin: 0% 0% 0% 45%;
-    padding: 0 0 1px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  #containerMain #sidepanel #contacts ul li.contact .wrap .meta .name {
-    font-weight: 400;
-  }
-  #containerMain #sidepanel #contacts ul li.contact .wrap .meta p:nth-child(even) {
-    display: none;
-  }
-}
-@media screen and (max-width: 415px) {
-  #containerMain #sidepanel #contacts ul li.contact .wrap .meta .name {
-    display: none;
-  }
-}
-#containerMain #sidepanel #contacts ul li.contact .wrap .meta .preview {
-  margin: 5px 0 0 0;
-  padding: 0 0 1px;
-  font-weight: 400;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  -moz-transition: 1s all ease;
-  -o-transition: 1s all ease;
-  -webkit-transition: 1s all ease;
-  transition: 1s all ease;
-}
-#containerMain #sidepanel #contacts ul li.contact .wrap .meta .preview span {
-  position: initial;
-  border-radius: initial;
-  background: none;
-  border: none;
-  padding: 0 2px 0 0;
-  margin: 0 0 0 1px;
-  opacity: .5;
-}
-#containerMain #sidepanel #bottom-bar {
-  position: absolute;
-  width: 100%;
-  bottom: 0;
-}
-#containerMain #sidepanel #bottom-bar button {
-  float: left;
-  border: none;
-  width: 50%;
-  padding: 10px 0;
-  background: #32465a;
-  color: #f5f5f5;
-  cursor: pointer;
-  font-size: 0.85em;
-  font-family: "proxima-nova",  "Source Sans Pro", sans-serif;
-}
-@media screen and (max-width: 735px) {
-  #containerMain #sidepanel #bottom-bar button {
-    float: none;
-    width: 100%;
-    padding: 10%;
-  }
-}
-#containerMain #sidepanel #bottom-bar button:focus {
-  outline: none;
-}
-#containerMain #sidepanel #bottom-bar button:nth-child(1) {
-  border-right: 1px solid #2c3e50;
-}
-@media screen and (max-width: 735px) {
-  #containerMain #sidepanel #bottom-bar button:nth-child(1) {
-    border-right: none;
-    border-bottom: 1px solid #2c3e50;
-  }
-}
-#containerMain #sidepanel #bottom-bar button:hover {
-  background: #435f7a;
-}
-#containerMain #sidepanel #bottom-bar button i {
-  margin-right: 3px;
-  font-size: 1em;
-}
-@media screen and (max-width: 735px) {
-  #containerMain #sidepanel #bottom-bar button i {
-    font-size: 1.3em;
-  }
-}
-@media screen and (max-width: 735px) {
-  #containerMain #sidepanel #bottom-bar button span {
-    display: none;
-  }
-}
-
-@media screen and (max-height: 700px) {
-  #containerMain {
-    max-height: 86vh;
-  }
-  #containerMain #sidepanel {
-    max-height: 86vh;
-  }
-  #containerMain #sidepanel #profile {
-    margin-bottom: 10px;
-  }
-  #containerMain #sidepanel #contacts {
-    height: calc(100% - 155px);
-  }
+  
+  /* CONTACT PROFIL */
+  /******************/
+  
   #containerMain .contact-profile {
-    line-height: inherit;
-    height: 30px;
+    height: 60px;
+    line-height: 60px;
+    background: #f5f5f5;
   }
   #containerMain .contact-profile img {
-    display: none;
+    width: 40px;
+    border-radius: 50%;
+    float: left;
+    margin: 9px 12px 0 9px;
   }
   #containerMain .contact-profile p {
-    margin: 0px;
-    padding: 2% 0% 0% 5%;
+    float: left;
   }
-  .dropdown a#dropdownMenuLink.btn.dropdown-toggle{
-    padding: 5%;
+  .dropdown { 
+    margin-left: 20px; 
+    margin-right: 2%; 
+    float: right!important;
   }
-  .dropdown a#dropdownMenuLink.btn.dropdown-toggle i{
-    font-size: 1em;
-    padding-left: 5%;
+  .dropdown a#dropdownMenuLink.btn.dropdown-toggle {
+    background-color: #3f79af;
+    color: #f5f5f5;
   }
-  .dropdown a#dropdownMenuLink.btn.dropdown-toggle::after{
-    vertical-align: 2px;
-    margin-left: 0%;
+  .scrollable-messages { 
+    float: left;
+    padding: 0% 3% 0% 3%;
+    height: 70vh; 
+    overflow-y: scroll;
+    width: -webkit-fill-available;
   }
-  .scrollable-messages {
-  
+  .scrollable-messages::-webkit-scrollbar {
+    width: 6px;
+    background: #959a9e;
+  }
+  .scrollable-messages::-webkit-scrollbar-thumb {
+    background-color: #3f79af;
+  }
+  .align-left {
+    text-align: left;
+  }
+  .align-right {
+    text-align: right;
+  }
+  .float-right {
+    float: right;
+  }
+  .clearfix {
+    margin-right: 5%;
+  }
+  .clearfix:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+  }
+  .you {
+    color: #CCDBDC;
+  }
+  .me {
+    color: #3f79af;
+  }
+  .input-group {
+    padding: 0% 3% 0% 3%;
+    position: absolute;
+    bottom: 0;
+  }
+  #send-submit-button {
+    color: #3f79af;
+    border-color: #3f79af;
+  }
+  #send-submit-button:hover {
+    background-color: #3f79af;
+    color: white;
+    border-color: white;
   }
   .form-control {
     min-height: 60px;
-    max-height: 60px;
+    max-height: 115px;
   }
-  #content-window {
-    max-height: 86vh;
+  
+  .message-float-left {
+    margin-left: 5%;
   }
-
-}
-
+  
+  
+  /* SIDEPANEL */
+  /*************/
+  #containerMain #sidepanel {
+    min-width: 280px;
+    max-width: 300px;
+    max-height: 90vh;
+    background: #001b66;
+    color: #f5f5f5;
+    position: relative;
+  }
+  @media screen and (max-width: 735px) {
+    #containerMain #sidepanel {
+      min-width: 50px;
+      max-width: 100px;
+    }
+  }
+  @media screen and (max-width: 415px) {
+    #containerMain #sidepanel {
+      min-width: 50px;
+      max-width: 65px;
+    }
+  }
+  #containerMain #sidepanel #profile {
+    width: 80%;
+    margin: 25px auto;
+  }
+  #containerMain #sidepanel #profile.single_groupchat_options .wrap {
+    height: 140px;
+    line-height: initial;
+  }
+  #containerMain #sidepanel #profile.single_groupchat_options .wrap p {
+    margin-top: 20px;
+  }
+  #containerMain #sidepanel #profile.single_groupchat_options .wrap i.expand-button {
+    -moz-transform: scaleY(-1);
+    -o-transform: scaleY(-1);
+    -webkit-transform: scaleY(-1);
+    transform: scaleY(-1);
+    filter: FlipH;
+    -ms-filter: "FlipH";
+  }
+  #containerMain #sidepanel #profile .wrap {
+    height: 60px;
+    line-height: 60px;
+    overflow: hidden;
+    -moz-transition: 0.3s height ease;
+    -o-transition: 0.3s height ease;
+    -webkit-transition: 0.3s height ease;
+    transition: 0.3s height ease;
+  }
+  #containerMain #sidepanel #profile .wrap img {
+    width: 50px;
+    border-radius: 50%;
+    padding: 3px;
+    border: 2px solid #e74c3c;
+    height: auto;
+    float: left;
+    cursor: pointer;
+    -moz-transition: 0.3s border ease;
+    -o-transition: 0.3s border ease;
+    -webkit-transition: 0.3s border ease;
+    transition: 0.3s border ease;
+  }
+  #containerMain #sidepanel #profile .wrap img.online {
+    border: 2px solid #2ecc71;
+  }
+  #containerMain #sidepanel #profile .wrap img.away {
+    border: 2px solid #f1c40f;
+  }
+  #containerMain #sidepanel #profile .wrap img.busy {
+    border: 2px solid #e74c3c;
+  }
+  #containerMain #sidepanel #profile .wrap img.offline {
+    border: 2px solid #95a5a6;
+  }
+  #containerMain #sidepanel #profile .wrap p {
+    float: left;
+    margin-left: 15px;
+  }
+  @media screen and (max-width: 735px) {
+     #sidepanel #profile .wrap p {
+      display: none;
+    }
+  }
+  #containerMain #sidepanel #profile .wrap i.expand-button {
+    float: right;
+    margin-top: 23px;
+    font-size: 0.8em;
+    cursor: pointer;
+    color: #3f79af;
+  }
+  @media screen and (max-width: 735px) {
+     #sidepanel #profile .wrap i.expand-button {
+      display: none;
+    }
+  }
+  #containerMain #sidepanel #profile .wrap #status-options {
+    position: absolute;
+    opacity: 0;
+    visibility: hidden;
+    width: 150px;
+    margin: 70px 0 0 0;
+    border-radius: 6px;
+    border-style: solid;
+    border-color: #001b66;
+    z-index: 99;
+    line-height: initial;
+    background: #3f79af;
+    -moz-transition: 0.3s all ease;
+    -o-transition: 0.3s all ease;
+    -webkit-transition: 0.3s all ease;
+    transition: 0.3s all ease;
+  }
+  @media screen and (max-width: 735px) {
+    #containerMain #sidepanel #profile .wrap #status-options {
+      width: 50%;
+      margin-top: 57px;
+    }
+  }
+  @media screen and (max-width: 415px) {
+    #containerMain #sidepanel #profile .wrap #status-options {
+      width: 85%;
+      margin-top: 57px;
+    }
+  }
+  #containerMain #sidepanel #profile .wrap #status-options.active {
+    opacity: 1;
+    visibility: visible;
+    margin: 75px 0 0 0;
+  }
+  #containerMain #sidepanel #profile .wrap #status-options:before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 8px solid #3f79af;
+    margin: -8px 0 0 24px;
+  }
+  @media screen and (max-width: 735px) {
+     #sidepanel #profile .wrap #status-options:before {
+      margin-left: 23px;
+    }
+  }
+  #containerMain #sidepanel #profile .wrap #status-options ul {
+    overflow: hidden;
+    border-radius: 6px;
+  }
+  #containerMain #sidepanel #profile .wrap #status-options ul li {
+    padding: 15px 0 30px 18px;
+    display: block;
+    cursor: pointer;
+  }
+  @media screen and (max-width: 735px) {
+     #sidepanel #profile .wrap #status-options ul li {
+      padding: 15px 0 35px 22px;
+    }
+  }
+   #sidepanel #profile .wrap #status-options ul li:hover {
+    background: #4e77a0;
+  }
+  #containerMain #sidepanel #profile .wrap #status-options ul li span.status-circle {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin: 5px 0 0 0;
+  }
+  @media screen and (max-width: 735px) {
+     #sidepanel #profile .wrap #status-options ul li span.status-circle {
+      width: 14px;
+      height: 14px;
+    }
+  }
+  #containerMain #sidepanel #profile .wrap #status-options ul li span.status-circle:before {
+    content: '';
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    margin: -3px 0 0 -3px;
+    background: transparent;
+    border-radius: 50%;
+    z-index: 0;
+  }
+  @media screen and (max-width: 735px) {
+     #sidepanel #profile .wrap #status-options ul li span.status-circle:before {
+      height: 18px;
+      width: 18px;
+    }
+  }
+  #containerMain #sidepanel #profile .wrap #status-options ul li p {
+    padding-left: 12px;
+  }
+  @media screen and (max-width: 735px) {
+     #sidepanel #profile .wrap #status-options ul li p {
+      display: none;
+    }
+  }
+  #containerMain #sidepanel #profile .wrap #status-options ul li#status-online span.status-circle {
+    background: #2ecc71;
+  }
+  #containerMain #sidepanel #profile .wrap #status-options ul li#status-online.active span.status-circle:before {
+    border: 1px solid #2ecc71;
+  }
+  #containerMain #sidepanel #profile .wrap #status-options ul li#status-away span.status-circle {
+    background: #f1c40f;
+  }
+  #containerMain #sidepanel #profile .wrap #status-options ul li#status-away.active span.status-circle:before {
+    border: 1px solid #f1c40f;
+  }
+  #containerMain #sidepanel #profile .wrap #status-options ul li#status-busy span.status-circle {
+    background: #e74c3c;
+  }
+  #containerMain #sidepanel #profile .wrap #status-options ul li#status-busy.active span.status-circle:before {
+    border: 1px solid #e74c3c;
+  }
+  #containerMain #sidepanel #profile .wrap #status-options ul li#status-offline span.status-circle {
+    background: #95a5a6;
+  }
+  #containerMain #sidepanel #profile .wrap #status-options ul li#status-offline.active span.status-circle:before {
+    border: 1px solid #95a5a6;
+  }
+  #containerMain #sidepanel #profile .wrap #single_groupchat_options {
+    padding: 85px 0 0 0;
+    display: block;
+    line-height: initial !important;
+  }
+  #containerMain #sidepanel #profile .wrap #single_groupchat_options label {
+    float: left;
+    clear: both;
+    margin: 0 8px 5px 0;
+    padding: 5px 0;
+  }
+  #containerMain #sidepanel #profile .wrap #single_groupchat_options input {
+    border: none;
+    margin-bottom: 6px;
+    background: #3f79af;
+    border-radius: 3px;
+    color: #f5f5f5;
+    padding: 7px;
+    width: calc(100% - 43px);
+  }
+  #containerMain #sidepanel #profile .wrap #single_groupchat_options input:focus {
+    outline: none;
+    background: #435f7a;
+  }
+  #containerMain #sidepanel #search {
+    border-top: 1px solid #3f79af;
+    border-bottom: 1px solid #3f79af;
+    font-weight: 300;
+  }
+  @media screen and (max-width: 735px) {
+     #sidepanel #search {
+      display: none;
+    }
+  }
+  #containerMain #sidepanel #search label {
+    position: absolute;
+    margin: 10px 0 0 20px;
+  }
+  #containerMain #sidepanel #search input {
+    font-family: "proxima-nova",  "Source Sans Pro", sans-serif;
+    padding: 10px 0 10px 46px;
+    width: 100%;
+    border: none;
+    background: #3f79af;
+    color: #f5f5f5;
+  }
+  #containerMain #sidepanel #search input:focus {
+    outline: none;
+    background: #3f6d99;
+  }
+  #containerMain #sidepanel #search input::-webkit-input-placeholder {
+    color: #f5f5f5;
+  }
+  #containerMain #sidepanel #search input::-moz-placeholder {
+    color: #f5f5f5;
+  }
+  #containerMain #sidepanel #search input:-ms-input-placeholder {
+    color: #f5f5f5;
+  }
+  #containerMain #sidepanel #search input:-moz-placeholder {
+    color: #f5f5f5;
+  }
+  #containerMain #sidepanel #contacts {
+    height: calc(100% - 177px);
+    overflow-y: scroll;
+  }
+  @media screen and (max-width: 735px) {
+    #containerMain #sidepanel #contacts {
+      height: calc(100% - 160px);
+      overflow-y: scroll;
+      overflow-x: hidden;
+    }
+    #containerMain #sidepanel #contacts::-webkit-scrollbar {
+      display: none;
+    }
+  }
+  @media screen and (max-width: 415px) {
+    #containerMain #sidepanel #contacts {
+      height: calc(100% - 155px);
+      overflow-y: scroll;
+      overflow-x: hidden;
+    }
+    #containerMain #sidepanel #contacts::-webkit-scrollbar {
+      display: none;
+    }
+  }
+   #sidepanel #contacts.single_groupchat_options {
+    height: calc(100% - 334px);
+  }
+  #containerMain #sidepanel #contacts::-webkit-scrollbar {
+    width: 15px;
+    background: #2c3e50;
+  }
+  #containerMain #sidepanel #contacts::-webkit-scrollbar-thumb {
+    background-color: #3f79af;
+  }
+  #containerMain #sidepanel #contacts ul li.contact {
+    position: relative;
+    padding: 10px 0 15px 0;
+    font-size: 0.9em;
+    cursor: pointer;
+  }
+  @media screen and (max-width: 735px) {
+    #containerMain #sidepanel #contacts ul li.contact {
+      padding: 15% 6% 10% 7%;
+    }
+  }
+  @media screen and (max-width: 415px) {
+    #containerMain #sidepanel #contacts ul li.contact {
+      padding-left: 10%;
+    }
+  }
+  #containerMain #sidepanel #contacts ul li.contact:hover {
+    background: #3f79af;
+  }
+  #containerMain #sidepanel #contacts ul li.contact.active {
+    position: relative;
+    padding: 10px 0 15px 0;
+    font-size: 0.9em;
+    background: #3f79af;
+    border-right: 5px solid #435f7a;
+  }
+  @media screen and (max-width: 735px) {
+    #containerMain #sidepanel #contacts ul li.contact.active {
+      padding: 15% 6% 10% 7%;
+    }
+  }
+  @media screen and (max-width: 415px) {
+    #containerMain #sidepanel #contacts ul li.contact.active {
+      padding-left: 10%;
+      border: hidden;
+    }
+  }
+  #containerMain #sidepanel #contacts ul li.contact.active span.contact-status {
+    border: 2px solid #3f79af !important;
+  }
+  #containerMain #sidepanel #contacts ul li.contact .wrap {
+    width: 88%;
+    margin: 0 auto;
+    position: relative;
+  }
+  @media screen and (max-width: 735px) {
+    #containerMain #sidepanel #contacts ul li.contact .wrap {
+      width: 100%;
+    }
+  }
+  @media screen and (max-width: 415px) {
+    #containerMain #sidepanel #contacts ul li.contact .wrap {
+      display: flex;
+    }
+  }
+  #containerMain #sidepanel #contacts ul li.contact .wrap span {
+    position: absolute;
+    left: 0;
+    margin: -2px 0 0 -2px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 2px solid #2c3e50;
+    background: #95a5a6;
+  }
+  #containerMain #sidepanel #contacts ul li.contact .wrap span.online {
+    background: #2ecc71;
+  }
+  #containerMain #sidepanel #contacts ul li.contact .wrap span.away {
+    background: #f1c40f;
+  }
+  #containerMain #sidepanel #contacts ul li.contact .wrap span.busy {
+    background: #e74c3c;
+  }
+  #containerMain #sidepanel #contacts ul li.contact .wrap img {
+    width: 40px;
+    border-radius: 50%;
+    float: left;
+    margin-right: 10px;
+  }
+  @media screen and (max-width: 735px) {
+    #containerMain #sidepanel #contacts ul li.contact .wrap img {
+      margin-right: 0px;
+      width: 40%!important;
+    }
+  }
+  @media screen and (max-width: 415px) {
+    #containerMain #sidepanel #contacts ul li.contact .wrap img {
+      margin-right: 0px;
+      width: 80%!important;
+    }
+  }
+  #containerMain #sidepanel #contacts ul li.contact .wrap .meta {
+    padding: 5px 0 0 0;
+  }
+  #containerMain #sidepanel #contacts ul li.contact .wrap .meta .name {
+    font-weight: 600;
+  }
+  @media screen and (max-width: 735px) {
+     #containerMain #sidepanel #contacts ul li.contact .wrap .meta p {
+      margin: 0% 0% 0% 45%;
+      padding: 0 0 1px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    #containerMain #sidepanel #contacts ul li.contact .wrap .meta .name {
+      font-weight: 400;
+    }
+    #containerMain #sidepanel #contacts ul li.contact .wrap .meta p:nth-child(even) {
+      display: none;
+    }
+  }
+  @media screen and (max-width: 415px) {
+    #containerMain #sidepanel #contacts ul li.contact .wrap .meta .name {
+      display: none;
+    }
+  }
+  #containerMain #sidepanel #contacts ul li.contact .wrap .meta .preview {
+    margin: 5px 0 0 0;
+    padding: 0 0 1px;
+    font-weight: 400;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -moz-transition: 1s all ease;
+    -o-transition: 1s all ease;
+    -webkit-transition: 1s all ease;
+    transition: 1s all ease;
+  }
+  #containerMain #sidepanel #contacts ul li.contact .wrap .meta .preview span {
+    position: initial;
+    border-radius: initial;
+    background: none;
+    border: none;
+    padding: 0 2px 0 0;
+    margin: 0 0 0 1px;
+    opacity: .5;
+  }
+  #containerMain #sidepanel #bottom-bar {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+  }
+  #containerMain #sidepanel #bottom-bar button {
+    float: left;
+    border: none;
+    width: 50%;
+    padding: 10px 0;
+    background: #32465a;
+    color: #f5f5f5;
+    cursor: pointer;
+    font-size: 0.85em;
+    font-family: "proxima-nova",  "Source Sans Pro", sans-serif;
+  }
+  @media screen and (max-width: 735px) {
+    #containerMain #sidepanel #bottom-bar button {
+      float: none;
+      width: 100%;
+      padding: 10%;
+    }
+  }
+  #containerMain #sidepanel #bottom-bar button:focus {
+    outline: none;
+  }
+  #containerMain #sidepanel #bottom-bar button:nth-child(1) {
+    border-right: 1px solid #2c3e50;
+  }
+  @media screen and (max-width: 735px) {
+    #containerMain #sidepanel #bottom-bar button:nth-child(1) {
+      border-right: none;
+      border-bottom: 1px solid #2c3e50;
+    }
+  }
+  #containerMain #sidepanel #bottom-bar button:hover {
+    background: #435f7a;
+  }
+  #containerMain #sidepanel #bottom-bar button i {
+    margin-right: 3px;
+    font-size: 1em;
+  }
+  @media screen and (max-width: 735px) {
+    #containerMain #sidepanel #bottom-bar button i {
+      font-size: 1.3em;
+    }
+  }
+  @media screen and (max-width: 735px) {
+    #containerMain #sidepanel #bottom-bar button span {
+      display: none;
+    }
+  }
+  
+  @media screen and (max-height: 700px) {
+    #containerMain {
+      max-height: 86vh;
+    }
+    #containerMain #sidepanel {
+      max-height: 86vh;
+    }
+    #containerMain #sidepanel #profile {
+      margin-bottom: 10px;
+    }
+    #containerMain #sidepanel #contacts {
+      height: calc(100% - 155px);
+    }
+    #containerMain .contact-profile {
+      line-height: inherit;
+      height: 30px;
+    }
+    #containerMain .contact-profile img {
+      display: none;
+    }
+    #containerMain .contact-profile p {
+      margin: 0px;
+      padding: 2% 0% 0% 5%;
+    }
+    .dropdown a#dropdownMenuLink.btn.dropdown-toggle{
+      padding: 5%;
+    }
+    .dropdown a#dropdownMenuLink.btn.dropdown-toggle i{
+      font-size: 1em;
+      padding-left: 5%;
+    }
+    .dropdown a#dropdownMenuLink.btn.dropdown-toggle::after{
+      vertical-align: 2px;
+      margin-left: 0%;
+    }
+    .form-control {
+      min-height: 60px;
+      max-height: 60px;
+    }
+    #content-window {
+      max-height: 86vh;
+    }
+  
+  }
+  
+  #single_groupchat_options .chat_change_wrapper button {
+    user-select: none;
+    border: 1px solid transparent;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: .25rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    color: white;
+    background-color: transparent;
+    background-image: none;
+    border-color: #3f79af;
+  }
+  
+  #single_groupchat_options .chat_change_wrapper button:hover {
+    display: inline-block;
+    font-weight: 400;
+    user-select: none;
+    border: 1px solid transparent;
+    background-color: #3f79af;
+    color:white;
+    border-color: #3f79af;
+  }
+  
+  #Group-Chat{
+    float: right;
+  }
+  
+  #Change_Chat-Buttons button{
+    border: 1px solid transparent;
+    color: white;
+    background-color: #3f79af;
+    display:none;
+  }
+  #Change_Chat-Buttons button:hover{
+    color: white;
+    background-color: #007bff;
+  }
+  @media screen and (max-width: 735px) {
+    #Change_Chat-Buttons {
+      height: fit-content;
+    }
+    #Change_Chat-Buttons button{
+    display:grid;
+    width: -webkit-fill-available;
+  }
+  }
+  
 </style>
 
 <div id="containerMain" class="row">
-    <div id="sidepanel">
-      <div id="profile">
-        <div class="wrap">
-          <img src="{{url_for('static', filename='img/usericon2.png')}}" class="online" alt="Avatar">
-          <p>Mike Ross</p>
-          <i class="fa fa-chevron-down expand-button" aria-hidden="true"></i>
-          <div id="status-options">
-            <ul>
-              <li id="status-online" class="active"><span class="status-circle"></span> <p>Online</p></li>
-              <li id="status-away"><span class="status-circle"></span> <p>Away</p></li>
-              <li id="status-busy"><span class="status-circle"></span> <p>Busy</p></li>
-              <li id="status-offline"><span class="status-circle"></span> <p>Offline</p></li>
-            </ul>
-          </div>
-          <div id="expanded">
-            <label for="twitter"><i class="fa fa-facebook fa-fw" aria-hidden="true"></i></label>
-            <input name="twitter" type="text" value="mikeross">
-            <label for="twitter"><i class="fa fa-twitter fa-fw" aria-hidden="true"></i></label>
-            <input name="twitter" type="text" value="ross81">
-            <label for="twitter"><i class="fa fa-instagram fa-fw" aria-hidden="true"></i></label>
-            <input name="twitter" type="text" value="mike.ross">
+  <div id="sidepanel">
+    <div id="profile">
+      <div class="wrap">
+        <img id="Userstatus" src="{{url_for('static', filename='img/usericon2.png')}}" class="online" alt="Avatar">
+        <p>Mike Ross</p>
+        <i class="fa fa-chevron-down expand-button" aria-hidden="true"></i>
+        <div id="status-options">
+          <ul>
+            <li id="status-online" class="active"><span class="status-circle"></span> <p>Online</p></li>
+            <li id="status-away"><span class="status-circle"></span> <p>Away</p></li>
+            <li id="status-busy"><span class="status-circle"></span> <p>Busy</p></li>
+            <li id="status-offline"><span class="status-circle"></span> <p>Offline</p></li>
+          </ul>
+        </div>
+        <!-- Test -->
+        <div id="single_groupchat_options">
+          <div class = "chat_change_wrapper">
+            <button type="button" class="Single-Chat">Single-Chat</button>
+            <button type="button" class="Group-Chat">Group-Chat</button>
           </div>
         </div>
       </div>
-      <div id="search">
-        <label for=""><i class="fa fa-search" aria-hidden="true"></i></label>
-        <input type="text" placeholder="Search contacts...">
+    </div>
+    <div id="search">
+      <label for=""><i class="fa fa-search" aria-hidden="true"></i></label>
+      <input type="text" placeholder="Search contacts...">
+    </div>
+    <div id="Change_Chat-Buttons" class="SingleChat">
+      <button type="button" class="Single-Chat">Single-Chat</button>
+    </div>
+    <div id="contacts" class = "SingleContacts">
+      <ul>
+        <li class="contact">
+          <div class="wrap">
+            <span class="contact-status online"></span>
+            <img src="{{url_for('static', filename='img/usericon2.png')}}" alt="Avatar">
+            <div class="meta">
+              <p class="name">Louis Litt</p>
+              <p class="preview">You just got LITT up, Mike.</p>
+            </div>
+          </div>
+        </li>
+        <li class="contact active">
+          <div class="wrap">
+            <span class="contact-status busy"></span>
+            <img src="{{url_for('static', filename='img/usericon2.png')}}" alt="Avatar">
+            <div class="meta">
+              <p id ="name" class="name">Harvey Specter</p>
+              <p class="preview">Wrong. You take the gun, or you pull out a bigger one. Or, you call their bluff. Or, you do any one of a hundred and forty six other things.</p>
+            </div>
+          </div>
+        </li>
+        <li class="contact">
+          <div class="wrap">
+            <span class="contact-status away"></span>
+            <img src="{{url_for('static', filename='img/usericonWoman.png')}}" alt="Avatar">
+            <div class="meta">
+              <p class="name">Rachel Zane</p>
+              <p class="preview">I was thinking that we could have chicken tonight, sounds good?</p>
+            </div>
+          </div>
+        </li>
+        <li class="contact">
+          <div class="wrap">
+            <span class="contact-status online"></span>
+            <img src="{{url_for('static', filename='img/usericon2.png')}}" alt="Avatar">
+            <div class="meta">
+              <p class="name">Donna Paulsen</p>
+              <p class="preview">Mike, I know everything! I'm Donna..</p>
+            </div>
+          </div>
+        </li>
+        <li class="contact">
+          <div class="wrap">
+            <span class="contact-status busy"></span>
+            <img src="{{url_for('static', filename='img/usericon2.png')}}" alt="Avatar">
+            <div class="meta">
+              <p class="name">Jessica Pearson</p>
+              <p class="preview">Have you finished the draft on the Hinsenburg deal?</p>
+            </div>
+          </div>
+        </li>
+        <li class="contact">
+          <div class="wrap">
+            <span class="contact-status"></span>
+            <img src="{{url_for('static', filename='img/usericon2.png')}}" alt="Avatar">
+            <div class="meta">
+              <p class="name">Harold Gunderson</p>
+              <p class="preview">Thanks Mike! :)</p>
+            </div>
+          </div>
+        </li>
+        <li class="contact">
+          <div class="wrap">
+            <span class="contact-status"></span>
+            <img src="{{url_for('static', filename='img/usericon2.png')}}" alt="Avatar">
+            <div class="meta">
+              <p class="name">Daniel Hardman</p>
+              <p class="preview">We'll meet again, Mike. Tell Jessica I said 'Hi'.</p>
+            </div>
+          </div>
+        </li>
+        <li class="contact">
+          <div class="wrap">
+            <span class="contact-status busy"></span>
+            <img src="{{url_for('static', filename='img/usericon2.png')}}" alt="Avatar">
+            <div class="meta">
+              <p class="name">Katrina Bennett</p>
+              <p class="preview">I've sent you the files for the Garrett trial.</p>
+            </div>
+          </div>
+        </li>
+        <li class="contact">
+          <div class="wrap">
+            <span class="contact-status"></span>
+            <img src="{{url_for('static', filename='img/usericon2.png')}}" alt="Avatar">
+            <div class="meta">
+              <p class="name">Charles Forstman</p>
+              <p class="preview">Mike, this isn't over.</p>
+            </div>
+          </div>
+        </li>
+        <li class="contact">
+          <div class="wrap">
+            <span class="contact-status"></span>
+            <img src="{{url_for('static', filename='img/usericon2.png')}}" alt="Avatar">
+            <div class="meta">
+              <p class="name">Jonathan Sidwell</p>
+              <p class="preview"><span>You:</span> That's bullshit. This deal is solid.</p>
+            </div>
+          </div>
+        </li>
+        <li class="contact">
+          <div class="wrap">
+            <span class="contact-status"></span>
+            <img src="{{url_for('static', filename='img/usericon2.png')}}" alt="Avatar">
+            <div class="meta">
+              <p class="name">Lukas Priester</p>
+              <p class="preview"><span>You:</span> That's bullshit. This deal is solid.</p>
+            </div>
+          </div>
+        </li>
+        <li class="contact">
+          <div class="wrap">
+            <span class="contact-status"></span>
+            <img src="{{url_for('static', filename='img/usericon2.png')}}" alt="Avatar">
+            <div class="meta">
+              <p class="name">Oliver Klapper</p>
+              <p class="preview"><span>You:</span> That's bullshit. This deal is solid.</p>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div id="bottom-bar">
+      <button id="addcontact"><i class="fa fa-user-plus fa-fw" aria-hidden="true"></i> <span>Add contact</span></button>
+      <button id="settings"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> <span>Settings</span></button>
+    </div>  
+  </div>
+  <div id="content-window" class="col">
+    <div class="contact-profile">
+      <img src="{{url_for('static', filename='img/usericon2.png')}}" alt="Avatar">
+      <p>Harvey Specter</p>
+      <div class="dropdown">
+        <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-single_groupchat_options="false">
+          <i class="fa fa-bars fa-lg"></i>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+          <a class="dropdown-item" href="#">Profile</a>
+          <a class="dropdown-item" href="#">Privacy</a>
+          <a class="dropdown-item" href="#">more...</a>
+        </div>
       </div>
-      <div id="contacts">
-        <ul>
+    </div>
+    <div id="messages-container" class="scrollable-messages chat">   
+    <div class="chat-history">
+      <div id="form-response" class="mb-3"></div>
+      <ul id="chat-list" class="chat-ul">
+      <!-- Start Nachrichten -->
+      <li class="clearfix">
+        <div class="message-data align-right">
+          <span class="message-data-name">${from_jid}</span> <i class="fa fa-circle me"></i>
+        </div>
+        <div class="message me-message float-right">${msg_body}
+          <div class="timestamp">
+            <p>08:40</p>
+          </div>
+        </div></li>
+        <li><div class="message-float-left">
+          <div class="message-data">
+            <span class="message-data-name"><i class="fa fa-circle you"></i>You</span>
+          </div>
+          <div class="message you-message">${msg}
+            <div class="timestamp-left">
+              <p>08:40</p>
+            </div>
+          </div>
+          </div>
+          </li>
+      <!-- ENde Nachrichten-->
+      </ul>
+      
+    </div> <!-- end chat-history -->
+    
+    </div>
+    <div class="input-group">
+      <textarea id="input-message" class="form-control" placeholder="Enter your message..." aria-label="Recipient's username" aria-describedby="send-submit-button"></textarea>
+      <div class="input-group-append">
+        <button class="btn btn-outline-primary" type="button" id="send-submit-button">Send</button>
+        
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+
+
+
+
+{%endblock%}
+
+
+{%block scripts%}
+<script src='/static/js/inputEmoji.js'></script>
+
+<script>
+
+  //modular_ajax("/get_chathistory", "post", {"username": "testuser2"});
+
+  var source = new EventSource('/stream');
+  source.onmessage = function (event) {
+       var result = event.data
+       console.log(result)
+       //result = result.slice(8, result.length-5);
+      if ($.trim(result) != "1")
+      {
+        result = result.split("data: ").join("");
+        var json_obj = JSON.parse(result);
+        console.log(json_obj);
+        printMessage(json_obj);
+      }
+       
+  };
+
+
+  function printMessage(JSON_DATA)
+  {
+    var from_jid = JSON_DATA.from.split("@")[0];
+    var timestamp = JSON_DATA.timestamp;
+    var msg_body = JSON_DATA.msg;
+    var msg_type = JSON_DATA.type;
+
+    if (!(msg_type == "chat" || msg_type == "normal"))
+    {
+      return;
+    }
+
+    $('#chat-list').append(`<li class="clearfix">\
+            <div class="message-data align-right">\
+              <span class="message-data-name">${from_jid}</span> <i class="fa fa-circle me"></i>\
+            </div>\
+            <div class="message me-message float-right">${msg_body}</div></li>`);
+    var objDiv = document.getElementById("messages-container");
+    objDiv.scrollTop = objDiv.scrollHeight;
+  }
+
+
+function dealWithResponse(data)
+{
+  console.log(data.testuser2[0].test);
+   for (const key of Object.keys(data)) {
+     console.log(key)
+   }
+}
+
+  function modular_ajax(url, type, formData) {
+    // Most simple modular AJAX building block
+    var recieved_data = $.ajax({
+        url: url,
+        type: type,
+        data: JSON.stringify(formData),
+        processData: false,
+        dataType: "json",
+        contentType: "application/json",
+        beforeSend: function() {
+        },
+        complete: function () {
+        },
+        success: function ( data ){
+          //dealWithResponse(data);
+        },
+        error: function(data) {//console.log("error. see details below.");
+            data = data.responseJSON
+            printMessageWithCategory("Upps!", data.feedback, data.category);
+        },
+    }).done(function() {});
+    return recieved_data;
+};
+
+$('#send-submit-button').click(function(event){
+  console.log("i am here")
+  var msg = $('#input-message').val()
+  console.log(msg);
+  modular_ajax("/send_message", "post", {"to_jid": "test@ejabberd-server", "from_jid": "testuser2@ejabberd-server", "msg_subject": "first_message", "msg_body": msg, "msg_type": "chat"});
+
+  $('#chat-list').append(`<li><div class="message-data">\
+              <span class="message-data-name"><i class="fa fa-circle you"></i>You</span>\
+            </div>\
+            <div class="message you-message">${msg}</div></li>`);
+
+  $('#input-message').val("");
+
+  var objDiv = document.getElementById("messages-container");
+  objDiv.scrollTop = objDiv.scrollHeight;
+
+});
+
+// Smiley-Function
+$(function () {
+    $('textarea').emoji({button:'&#x1F642;'});
+});
+
+// Userstatus on click to get status-options active
+$("#Userstatus").click(function() {
+  if ($("#profile").hasClass("single_groupchat_options")) {
+    $("#profile").toggleClass("single_groupchat_options");
+	  $("#contacts").toggleClass("single_groupchat_options");
+  }
+	$("#status-options").toggleClass("active");
+});
+
+// To change the active contact
+$(".contact").click(function() {
+  
+  if ($(".contact").hasClass("contact active")) {
+    $(".contact").removeClass('active');
+  }
+  $(this).toggleClass('contact');
+  $(this).toggleClass('contact active');
+  var name = this.getElementsByTagName('p')[0].innerHTML
+  var contactImageSrc = this.getElementsByTagName('img')[0].src
+  $(".contact-profile").children()[1].innerHTML = name;
+  $(".contact-profile").children()[0].src = contactImageSrc;
+});
+
+// Informations by click on arrows
+$(".expand-button").click(function() {
+  if ($("#status-options").hasClass("active")) {
+    $("#status-options").removeClass("active");
+    setTimeout(() => {
+      $("#profile").toggleClass("single_groupchat_options");
+	    $("#contacts").toggleClass("single_groupchat_options");
+    }, 200);
+  } else {
+  $("#profile").toggleClass("single_groupchat_options");
+  $("#contacts").toggleClass("single_groupchat_options");
+  }
+  if ($("#contacts").hasClass("single_groupchat_options")) {
+    $("#contacts").css("height","calc(100% - 274px)");
+  } else {
+    setTimeout(() => {
+    $("#contacts").css("height","calc(100% - 177px)");
+    }, 120);
+  }
+});
+
+// status and close dorpdown on click
+$("#status-options ul li").click(function() {
+	$("#Userstatus").removeClass();
+	$("#status-online").removeClass("active");
+	$("#status-away").removeClass("active");
+	$("#status-busy").removeClass("active");
+	$("#status-offline").removeClass("active");
+	$(this).addClass("active");
+	
+	if($("#status-online").hasClass("active")) {
+		$("#Userstatus").addClass("online");
+	} else if ($("#status-away").hasClass("active")) {
+		$("#Userstatus").addClass("away");
+	} else if ($("#status-busy").hasClass("active")) {
+		$("#Userstatus").addClass("busy");
+	} else if ($("#status-offline").hasClass("active")) {
+		$("#Userstatus").addClass("offline");
+	} else {
+		$("#Userstatus").removeClass();
+	};
+	
+	$("#status-options").removeClass("active");
+});
+
+//Change Button
+function change_button() {
+  if ($('#contacts').hasClass("SingleContacts")) {
+    $('#Change_Chat-Buttons button').removeClass("Group-Chat");
+    $("#Change_Chat-Buttons button").addClass("Single-Chat");
+    $("#Change_Chat-Buttons button").html("Group-Chat");
+  } else if ($('#contacts').hasClass("GroupContacts")) {
+    $('#Change_Chat-Buttons button').removeClass("Single-Chat");
+    $("#Change_Chat-Buttons button").addClass("Group-Chat");
+    $("#Change_Chat-Buttons button").html("Single-Chat");
+  }
+  
+}
+
+
+//Function to recognize changes of the screensize
+(function () {
+    var width = screen.width,
+        height = screen.height;
+    setInterval(function () {
+        if (screen.width !== width || screen.height !== height) {
+            width = screen.width;
+            if (width <= 735) {
+              change_button();
+            }
+            height = screen.height;
+            $("#profile").removeClass("single_groupchat_options");
+	          $("#contacts").removeClass("single_groupchat_options");
+        }
+    }, 50);
+}());
+
+
+
+//Group-Chat change
+$(".Group-Chat").click(function() {
+  if ($('#contacts').hasClass("SingleContacts")) {
+    $("#contacts").empty();
+    change_button();
+    $('#contacts').removeClass("SingleContacts");
+    $("#contacts").addClass("GroupContacts");
+    $("#contacts").append(`<ul>
+          <li class="contact">
+            <div class="wrap">
+              <span class="contact-status online"></span>
+              <img src="{{url_for('static', filename='img/usericon2.png')}}" alt="Avatar">
+              <div class="meta">
+                <p class="name">Group name</p>
+                <p class="preview">Musterman: You just got LITT up, Mike.</p>
+              </div>
+            </div>
+          </li>
+          <li class="contact active">
+            <div class="wrap">
+              <span class="contact-status busy"></span>
+              <img src="{{url_for('static', filename='img/usericon2.png')}}" alt="Avatar">
+              <div class="meta">
+                <p id ="name" class="name">Die Bedebberten</p>
+                <p class="preview">Peter: Wrong. You take the gun, or you pull out a bigger one. Or, you call their bluff. Or, you do any one of a hundred and forty six other things.</p>
+              </div>
+            </div>
+          </li>
+          </ul>`)
+  }
+});
+
+$(".Single-Chat").click(function() {
+  if( $('#contacts').hasClass("GroupContacts")) {
+    $("#contacts").empty();
+    change_button();
+    $('#contacts').removeClass("GroupContacts");
+    $('#contacts').addClass("SingleContacts")
+  $("#contacts").append(`<ul>
           <li class="contact">
             <div class="wrap">
               <span class="contact-status online"></span>
@@ -787,7 +1288,7 @@ ul{
               <span class="contact-status busy"></span>
               <img src="{{url_for('static', filename='img/usericon2.png')}}" alt="Avatar">
               <div class="meta">
-                <p class="name">Harvey Specter</p>
+                <p id ="name" class="name">Harvey Specter</p>
                 <p class="preview">Wrong. You take the gun, or you pull out a bigger one. Or, you call their bluff. Or, you do any one of a hundred and forty six other things.</p>
               </div>
             </div>
@@ -795,7 +1296,7 @@ ul{
           <li class="contact">
             <div class="wrap">
               <span class="contact-status away"></span>
-              <img src="{{url_for('static', filename='img/usericon2.png')}}" alt="Avatar">
+              <img src="{{url_for('static', filename='img/usericonWoman.png')}}" alt="Avatar">
               <div class="meta">
                 <p class="name">Rachel Zane</p>
                 <p class="preview">I was thinking that we could have chicken tonight, sounds good?</p>
@@ -892,144 +1393,8 @@ ul{
               </div>
             </div>
           </li>
-        </ul>
-      </div>
-      <div id="bottom-bar">
-        <button id="addcontact"><i class="fa fa-user-plus fa-fw" aria-hidden="true"></i> <span>Add contact</span></button>
-        <button id="settings"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> <span>Settings</span></button>
-      </div>  
-    </div>
-    <div id="content-window" class="col">
-      <div class="contact-profile">
-      <img src="{{url_for('static', filename='img/usericon2.png')}}" alt="Avatar">
-      <p>Harvey Specter</p>
-      <div class="dropdown">
-        <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <i class="fa fa-bars fa-lg"></i>
-        </a>
-        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-          <a class="dropdown-item" href="#">Profile</a>
-          <a class="dropdown-item" href="#">Privacy</a>
-          <a class="dropdown-item" href="#">more...</a>
-        </div>
-    </div>
-      </div>
-      <div id="messages-container" class="scrollable-messages chat">   
-      <div class="chat-history">
-        <div id="form-response" class="mb-3"></div>
-        <ul id="chat-list" class="chat-ul">
-        </ul>
-        
-      </div> <!-- end chat-history -->
-      
-      </div>
-      <div class="input-group">
-        <textarea id="input-message" class="form-control" placeholder="Enter your message..." aria-label="Recipient's username" aria-describedby="send-submit-button"></textarea>
-        <div class="input-group-append">
-          <button class="btn btn-outline-primary" type="button" id="send-submit-button">Send</button>
-        </div>
-      </div>
-    </div>
-</div>
-
-
-
-
-
-{%endblock%}
-
-
-{%block scripts%}
-<script>
-
-  modular_ajax("/get_chathistory", "post", {"username": "testuser2"});
-
-  var source = new EventSource('/stream');
-  source.onmessage = function (event) {
-       var result = event.data
-       console.log(result)
-       //result = result.slice(8, result.length-5);
-      if ($.trim(result) != "1")
-      {
-        result = result.split("data: ").join("");
-        var json_obj = JSON.parse(result);
-        console.log(json_obj);
-        printMessage(json_obj);
+        </ul>`)
       }
-       
-  };
-
-
-  function printMessage(JSON_DATA)
-  {
-    var from_jid = JSON_DATA.from.split("@")[0];
-    var timestamp = JSON_DATA.timestamp;
-    var msg_body = JSON_DATA.msg;
-    var msg_type = JSON_DATA.type;
-
-    if (!(msg_type == "chat" || msg_type == "normal"))
-    {
-      return;
-    }
-
-    $('#chat-list').append(`<li class="clearfix">\
-            <div class="message-data align-right">\
-              <span class="message-data-name">${from_jid}</span> <i class="fa fa-circle me"></i>\
-            </div>\
-            <div class="message me-message float-right">${msg_body}</div></li>`);
-    var objDiv = document.getElementById("messages-container");
-    objDiv.scrollTop = objDiv.scrollHeight;
-  }
-
-
-function dealWithResponse(data)
-{
-  console.log(data.testuser2[0].test);
-   for (const key of Object.keys(data)) {
-     console.log(key)
-   }
-}
-
-  function modular_ajax(url, type, formData) {
-    // Most simple modular AJAX building block
-    var recieved_data = $.ajax({
-        url: url,
-        type: type,
-        data: JSON.stringify(formData),
-        processData: false,
-        dataType: "json",
-        contentType: "application/json",
-        beforeSend: function() {
-        },
-        complete: function () {
-        },
-        success: function ( data ){
-          dealWithResponse(data);
-        },
-        error: function(data) {//console.log("error. see details below.");
-            data = data.responseJSON
-            printMessageWithCategory("Upps!", data.feedback, data.category);
-        },
-    }).done(function() {});
-    return recieved_data;
-};
-
-$('#send-submit-button').click(function(event){
-  console.log("i am here")
-  var msg = $('#input-message').val()
-  console.log(msg);
-  modular_ajax("/send_message", "post", {"to_jid": "test@ejabberd-server", "from_jid": "testuser2@ejabberd-server", "msg_subject": "first_message", "msg_body": msg, "msg_type": "chat"});
-
-  $('#chat-list').append(`<li><div class="message-data">\
-              <span class="message-data-name"><i class="fa fa-circle you"></i>You</span>\
-            </div>\
-            <div class="message you-message">${msg}</div></li>`);
-
-  $('#input-message').val("");
-
-  var objDiv = document.getElementById("messages-container");
-  objDiv.scrollTop = objDiv.scrollHeight;
-
 });
 
 </script>
