@@ -91,7 +91,7 @@ class Archiv(db.Model):
         POSITION_XML = 1
         chat_rosters = Archiv.query.filter_by(username=username).group_by("bare_peer").all()
         chat_rosters_bare_peers = [roster.bare_peer for roster in chat_rosters]
-        chat_msgs = []
+        chat_msgs = {}
         list_peer_msgs = []
         for bare_peer in chat_rosters_bare_peers:
             results = Archiv.query.with_entities(Archiv.txt, Archiv.xml, Archiv.created_at, Archiv.kind).filter_by(username=username).filter_by(bare_peer=bare_peer).all()
@@ -99,7 +99,7 @@ class Archiv(db.Model):
                 match = re.findall(regex, item[POSITION_XML])
                 list_peer_msgs.append({"txt": item[0], "timestamp": item[2].strftime('%Y-%m-%d %H:%M:%S'), "type": item[3], "from": match[0]})
             list_peer_msgs_sorted = list(sorted(list_peer_msgs, key=lambda k: k["timestamp"]))
-            chat_msgs.append({bare_peer.split('@')[0]: list_peer_msgs_sorted})
+            chat_msgs[bare_peer.split('@')[0]] = list_peer_msgs_sorted
         return chat_msgs
 
 

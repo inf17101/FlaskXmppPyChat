@@ -132,6 +132,7 @@ def login():
 @csrf.exempt
 def get_chathistory():
     post_data = request.get_json()
+    print(post_data)
     if not post_data:
         logger.error("post data is missing.")
         return make_response({"feedback": "missing post data", "category": "danger"}, 401)
@@ -163,7 +164,9 @@ def logout():
 @app.route("/gochat")
 @login_required
 def gochat():
-    return render_template('gochat.html', navs=navs,currentNav="Go Chat!")
+    response_database = User.query.with_entities(User.username).filter_by(user_id=current_user.user_id).first()
+    print(response_database)
+    return render_template('gochat.html', navs=navs,currentNav="Go Chat!", username=response_database[0])
 
 @app.route("/get_stream_id", methods=["POST"])
 @csrf.exempt
@@ -201,7 +204,7 @@ def send_message():
         print(JSON_Data)
         session_dict[current_user.user_id]["xmpp_object"].push_message(JSON_Data["to_jid"], JSON_Data["msg_body"], JSON_Data["msg_subject"], JSON_Data["msg_type"])
         print("Dieser Benutzer hat die Nachricht gesendet: ", current_user.user_id)
-        msg_timestamp = datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')
+        msg_timestamp = datetime.utcnow().strftime('%Y-%m-%d %H:%M')
         return make_response(jsonify({"exit_code": 200, "feedback": "success", "timestamp": msg_timestamp}), 200)
     except Exception as e:
         logger.error(str(e))

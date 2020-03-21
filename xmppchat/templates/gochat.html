@@ -813,7 +813,7 @@
     <div id="profile">
       <div class="wrap">
         <img id="Userstatus" src="{{url_for('static', filename='img/usericon2.png')}}" class="online" alt="Avatar">
-        <p>Mike Ross</p>
+        <p id="NameOnlineAvatar">{{username}}</p>
         <i class="fa fa-chevron-down expand-button" aria-hidden="true"></i>
         <div id="status-options">
           <ul>
@@ -839,8 +839,8 @@
     <div id="Change_Chat-Buttons" class="SingleChat">
       <button type="button" class="Single-Chat">Single-Chat</button>
     </div>
-    <div id="contacts" class = "SingleContacts">
-      <ul>
+    <div id="contacts" class="SingleContacts">
+      <ul id="contacts_list">
         <li class="contact">
           <div class="wrap">
             <span class="contact-status online"></span>
@@ -1037,13 +1037,15 @@
 
 <script>
 
-  //modular_ajax("/get_chathistory", "post", {"username": "testuser2"});
+  var chat_messages = {};
 
+  pull_chat_hisotry($('#NameOnlineAvatar').text());
+
+//begin event stream for chat messages
   var source = new EventSource('/stream');
   source.onmessage = function (event) {
        var result = event.data
        console.log(result)
-       //result = result.slice(8, result.length-5);
       if ($.trim(result) != "1")
       {
         result = result.split("data: ").join("");
@@ -1054,6 +1056,34 @@
        
   };
 
+function fillInContactPeers()
+{
+  var contact_ul = $("#contacts_list");
+  var user_name = $('#NameOnlineAvatar').text()
+  const keys = Object.keys(chat_messages[user_name]);
+  for (const peer of keys)
+  {
+    var position_last_message_object = chat_messages[user_name][peer].length - 1;
+    var last_message_dict = chat_messages[user_name][peer][position_last_message_object];
+    var message_string = last_message_dict.txt;
+    if (last_message_dict.from == user_name)
+    {
+      message_string = "<span>You:</span> " + message_string;
+    }
+    
+    contact_ul.append(`
+    <li class="contact">
+          <div class="wrap">
+            <span class="contact-status online"></span>
+            <img src="{{url_for('static', filename='img/usericon2.png')}}" alt="Avatar">
+            <div class="meta">
+              <p class="name">${peer}</p>
+              <p class="preview">${message_string}</p>
+            </div>
+          </div>
+        </li>`);
+  }
+}
 
   function printMessage(JSON_DATA)
   {
@@ -1077,40 +1107,42 @@
   }
 
 
-function dealWithResponse(data)
+function pull_chat_hisotry(username)
 {
-  console.log(data.testuser2[0].test);
-   for (const key of Object.keys(data)) {
-     console.log(key)
-   }
+  var URL = "/get_chathistory";
+  const post_data = {"username": username};
+  $.ajax({url: URL, type: "post",
+    data: JSON.stringify(post_data),
+    processData: false,
+    dataType: "json",
+    contentType: "application/json",
+    success: function(response_data){
+      chat_messages = response_data;
+      fillInContactPeers();
+  },
+    error: function(error_data){
+      console.log(error_data.responseJSON);
+    }
+  });
 }
 
   function modular_ajax(url, type, formData) {
     // Most simple modular AJAX building block
-    var recieved_data = $.ajax({
+    $.ajax({
         url: url,
         type: type,
         data: JSON.stringify(formData),
         processData: false,
         dataType: "json",
         contentType: "application/json",
-        beforeSend: function() {
-        },
-        complete: function () {
-        },
-        success: function ( data ){
-          //dealWithResponse(data);
-        },
         error: function(data) {//console.log("error. see details below.");
             data = data.responseJSON
             printMessageWithCategory("Upps!", data.feedback, data.category);
         },
-    }).done(function() {});
-    return recieved_data;
+    });
 };
 
 $('#send-submit-button').click(function(event){
-  console.log("i am here")
   var msg = $('#input-message').val()
   console.log(msg);
   modular_ajax("/send_message", "post", {"to_jid": "test@ejabberd-server", "from_jid": "testuser2@ejabberd-server", "msg_subject": "first_message", "msg_body": msg, "msg_type": "chat"});
@@ -1143,10 +1175,11 @@ $("#Userstatus").click(function() {
 
 // To change the active contact
 $(".contact").click(function() {
-  
+  /*
   if ($(".contact").hasClass("contact active")) {
     $(".contact").removeClass('active');
-  }
+  }*/
+  $(".contact.active").removeClass('active');
   $(this).toggleClass('contact');
   $(this).toggleClass('contact active');
   var name = this.getElementsByTagName('p')[0].innerHTML

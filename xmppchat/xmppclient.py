@@ -36,7 +36,7 @@ class EchoBot(ClientXMPP):
             #print("Recieved msg from: %s" % str(msg['from']).split('/')[0])
             from_jid = str(msg['from']).split('/')[0]
             #print("Msg: %s" % msg['body'])
-            msg_timestamp = datetime.utcnow().strftime('%H:%M')
+            msg_timestamp = datetime.utcnow().strftime('%Y-%m-%d %H:%M')
             #print("Self.stream_id", self.custom_stream_id)
             #print("Recieved msg: ", "data: { \"msg\": \"%s\",\"from\": \"%s\",\"timestamp\": \"%s\",\"type\": \"%s\"}\n\n" % (msg['body'], from_jid, msg_timestamp, msg['type']))
             red.publish(self.custom_stream_id, "data: { \"msg\": \"%s\",\"from\": \"%s\",\"timestamp\": \"%s\",\"type\": \"%s\"}\n\n" % (msg['body'], from_jid, msg_timestamp, msg['type']))
