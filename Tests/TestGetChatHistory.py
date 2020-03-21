@@ -8,7 +8,7 @@ def get_chat_history(username, testdata):
     POSITION_XML = 1
     #chat_rosters = Archiv.query.filter_by(username=username).group_by("bare_peer").all()
     #chat_rosters_bare_peers = [roster.bare_peer for roster in chat_rosters]
-    chat_msgs = []
+    chat_msgs = {}
     #for bare_peer in chat_rosters_bare_peers:
         #results = Archiv.query.with_entities(Archiv.txt, Archiv.xml, Archiv.created_at, Archiv.kind).filter_by(username=username).filter_by(bare_peer=bare_peer).all()
     peer_msgs = {}
@@ -18,7 +18,7 @@ def get_chat_history(username, testdata):
         print(match)
         list_peer_msgs.append({"txt": item[0], "timestamp": item[2], "type": item[3], "from": match[0]})
     
-    chat_msgs.append({"test": list_peer_msgs})
+    chat_msgs["test"] = list_peer_msgs
     print(chat_msgs)
     print(list(sorted(list_peer_msgs, key=lambda k: k["timestamp"])))
     return chat_msgs
