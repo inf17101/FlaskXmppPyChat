@@ -10,29 +10,23 @@
     margin-left: 1%;
     margin-right: 1%;
   }
-  
   @media screen and (max-width: 415px) {
     #containerMain {
      font-size: 14px;
     }
   }
-  
-  
-  
   .timestamp p {
     float: right;
     margin-bottom: 0em;
     opacity: 0.5;
     font-size: small;
   }
-  
   .timestamp-left p {
     margin-bottom: 0em;
     opacity: 0.5;
     font-size: small;
   }
-  
-  
+   
   /* CHAT */
   /******************/
   .chat-history{
@@ -757,7 +751,7 @@
     }
   
   }
-  
+  /* Buttons at the dropdown-Menu */
   #single_groupchat_options .chat_change_wrapper button {
     user-select: none;
     border: 1px solid transparent;
@@ -771,7 +765,6 @@
     background-image: none;
     border-color: #3f79af;
   }
-  
   #single_groupchat_options .chat_change_wrapper button:hover {
     display: inline-block;
     font-weight: 400;
@@ -781,11 +774,7 @@
     color:white;
     border-color: #3f79af;
   }
-  
-  #Group-Chat{
-    float: right;
-  }
-  
+  /* Buttons for responsive Layout */
   #Change_Chat-Buttons button{
     border: 1px solid transparent;
     color: white;
@@ -805,6 +794,7 @@
     width: -webkit-fill-available;
   }
   }
+
   
 </style>
 
@@ -827,17 +817,17 @@
         <div id="single_groupchat_options">
           <div class = "chat_change_wrapper">
             <button type="button" class="Single-Chat">Single-Chat</button>
-            <button type="button" class="Group-Chat">Group-Chat</button>
+            <button type="button" class="Group-Chat-Button" style="float:right;">Group-Chat</button>
           </div>
         </div>
       </div>
     </div>
     <div id="search">
       <label for=""><i class="fa fa-search" aria-hidden="true"></i></label>
-      <input type="text" placeholder="Search contacts...">
+      <input id="filterContacts" type="text" placeholder="Search contacts...">
     </div>
-    <div id="Change_Chat-Buttons" class="SingleChat">
-      <button type="button" class="Single-Chat">Single-Chat</button>
+    <div id="Change_Chat-Buttons">
+      <button type="button" class="Single-Chat">Group</button>
     </div>
     <div id="contacts" class="SingleContacts">
       <ul id="contacts_list">
@@ -1039,7 +1029,7 @@
 
   var chat_messages = {};
 
-  pull_chat_hisotry($('#NameOnlineAvatar').text());
+  //pull_chat_hisotry($('#NameOnlineAvatar').text());
 
 //begin event stream for chat messages
   var source = new EventSource('/stream');
@@ -1106,7 +1096,7 @@ function fillInContactPeers()
     objDiv.scrollTop = objDiv.scrollHeight;
   }
 
-
+/*
 function pull_chat_hisotry(username)
 {
   var URL = "/get_chathistory";
@@ -1125,6 +1115,7 @@ function pull_chat_hisotry(username)
     }
   });
 }
+*/
 
   function modular_ajax(url, type, formData) {
     // Most simple modular AJAX building block
@@ -1175,10 +1166,10 @@ $("#Userstatus").click(function() {
 
 // To change the active contact
 $(".contact").click(function() {
-  /*
-  if ($(".contact").hasClass("contact active")) {
-    $(".contact").removeClass('active');
-  }*/
+  if (($("#filterContacts").val().length != 0)) {
+    document.getElementById('filterContacts').value = '';
+    clearfilter();
+  }
   $(".contact.active").removeClass('active');
   $(this).toggleClass('contact');
   $(this).toggleClass('contact active');
@@ -1233,16 +1224,44 @@ $("#status-options ul li").click(function() {
 	$("#status-options").removeClass("active");
 });
 
+// Filter for contacts
+$(document).ready(function(){
+  $("#filterContacts").on("keyup", function() {
+    var filtervalue, ul_tag, li, index;
+    filtervalue = $(this).val().toLowerCase();
+    ul_tag = document.getElementById('contacts_list');
+    li = ul_tag.getElementsByTagName("li");
+    for (index = 0; index < li.length; index++) {
+      contactname = li[index].getElementsByTagName("p")[0].innerHTML;
+      if (contactname.toLowerCase().indexOf(filtervalue) > -1) {
+        li[index].style.display = "";
+      } else {
+        li[index].style.display = "none";
+      }
+    }
+  });
+});
+
+//Clear Filter
+function clearfilter()  {
+    var ul_tag, li, index;
+    ul_tag = document.getElementById('contacts_list');
+    li = ul_tag.getElementsByTagName("li");
+    for (index = 0; index < li.length; index++) {
+        li[index].style.display = "";
+      }
+    };
+
 //Change Button
 function change_button() {
   if ($('#contacts').hasClass("SingleContacts")) {
-    $('#Change_Chat-Buttons button').removeClass("Group-Chat");
-    $("#Change_Chat-Buttons button").addClass("Single-Chat");
-    $("#Change_Chat-Buttons button").html("Group-Chat");
-  } else if ($('#contacts').hasClass("GroupContacts")) {
     $('#Change_Chat-Buttons button').removeClass("Single-Chat");
-    $("#Change_Chat-Buttons button").addClass("Group-Chat");
-    $("#Change_Chat-Buttons button").html("Single-Chat");
+    $("#Change_Chat-Buttons button").addClass("Group-Chat-Button");
+    $("#Change_Chat-Buttons button").html("Group");
+  } else if ($('#contacts').hasClass("GroupContacts")) {
+    $('#Change_Chat-Buttons button').removeClass("Group-Chat-Button");
+    $("#Change_Chat-Buttons button").addClass("Single-Chat");
+    $("#Change_Chat-Buttons button").html("Single");
   }
   
 }
@@ -1265,15 +1284,18 @@ function change_button() {
     }, 50);
 }());
 
+// Wenn Group dransteht dann braucht der Button die Class Group-Chat-Button
 
-
-//Group-Chat change
-$(".Group-Chat").click(function() {
+//Group-Chat-Button change
+$(".Group-Chat-Button").click(function() {
   if ($('#contacts').hasClass("SingleContacts")) {
+    console.log("ClassOld: SingleContacts")
     $("#contacts").empty();
-    change_button();
+    //change_button();
     $('#contacts').removeClass("SingleContacts");
     $("#contacts").addClass("GroupContacts");
+    change_button();
+    console.log("ClassNow: GroupContacts");
     $("#contacts").append(`<ul>
           <li class="contact">
             <div class="wrap">
@@ -1301,11 +1323,14 @@ $(".Group-Chat").click(function() {
 
 $(".Single-Chat").click(function() {
   if( $('#contacts').hasClass("GroupContacts")) {
+    console.log("ClassOld: GroupContacts")
     $("#contacts").empty();
-    change_button();
+    //change_button();
     $('#contacts').removeClass("GroupContacts");
-    $('#contacts').addClass("SingleContacts")
-  $("#contacts").append(`<ul>
+    $('#contacts').addClass("SingleContacts");
+    change_button();
+    console.log("ClassNow: SingleContacts")
+    $("#contacts").append(`<ul>
           <li class="contact">
             <div class="wrap">
               <span class="contact-status online"></span>
