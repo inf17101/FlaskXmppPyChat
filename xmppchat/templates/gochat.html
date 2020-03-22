@@ -1138,10 +1138,12 @@ $('#send-submit-button').click(function(event){
   console.log(msg);
   modular_ajax("/send_message", "post", {"to_jid": "test@ejabberd-server", "from_jid": "testuser2@ejabberd-server", "msg_subject": "first_message", "msg_body": msg, "msg_type": "chat"});
 
-  $('#chat-list').append(`<li><div class="message-data">\
-              <span class="message-data-name"><i class="fa fa-circle you"></i>You</span>\
+  $('#chat-list').append(`<li><div class="message-float-left">\
+            <div class="message-data">\
+            <span class="message-data-name"><i class="fa fa-circle you"></i>You</span>\
             </div>\
-            <div class="message you-message">${msg}</div></li>`);
+            <div class="message you-message">${msg}</div>
+            </div></li>`);
 
   $('#input-message').val("");
 
