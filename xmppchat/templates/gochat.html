@@ -951,6 +951,16 @@
             </div>
           </div>
         </li>
+        <li class="contact">
+          <div class="wrap">
+            <span class="contact-status online"></span>
+            <img src="{{url_for('static', filename='img/usericon2.png')}}" alt="Avatar">
+            <div class="meta">
+              <p class="name">test</p>
+              <p class="preview"><span>You:</span> That's bullshit. This deal is solid. </p>
+            </div>
+          </div>
+        </li>
       </ul>
     </div>
     <div id="bottom-bar">
@@ -1029,7 +1039,7 @@
 
   var chat_messages = {};
 
-  pull_chat_hisotry($('#NameOnlineAvatar').text());
+  //pull_chat_hisotry($('#NameOnlineAvatar').text());
 
 //begin event stream for chat messages
   var source = new EventSource('/stream');
@@ -1116,7 +1126,6 @@ function pull_chat_hisotry(username)
   });
 }
 
-
   function modular_ajax(url, type, formData) {
     // Most simple modular AJAX building block
     $.ajax({
@@ -1166,139 +1175,34 @@ $("#Userstatus").click(function() {
 	$("#status-options").toggleClass("active");
 });
 
-// To change the active contact
-$(".contact").click(function() {
-  if (($("#filterContacts").val().length != 0)) {
-    document.getElementById('filterContacts').value = '';
-    clearfilter();
-  }
-  $(".contact.active").removeClass('active');
-  $(this).toggleClass('contact');
-  $(this).toggleClass('contact active');
-  var name = this.getElementsByTagName('p')[0].innerHTML
-  var contactImageSrc = this.getElementsByTagName('img')[0].src
-  $(".contact-profile").children()[1].innerHTML = name;
-  $(".contact-profile").children()[0].src = contactImageSrc;
-});
 
-// Informations by click on arrows
-$(".expand-button").click(function() {
-  if ($("#status-options").hasClass("active")) {
-    $("#status-options").removeClass("active");
-    setTimeout(() => {
-      $("#profile").toggleClass("single_groupchat_options");
-	    $("#contacts").toggleClass("single_groupchat_options");
-    }, 200);
-  } else {
-  $("#profile").toggleClass("single_groupchat_options");
-  $("#contacts").toggleClass("single_groupchat_options");
-  }
-  if ($("#contacts").hasClass("single_groupchat_options")) {
-    $("#contacts").css("height","calc(100% - 274px)");
-  } else {
-    setTimeout(() => {
-    $("#contacts").css("height","calc(100% - 177px)");
-    }, 120);
-  }
-});
 
-// status and close dorpdown on click
-$("#status-options ul li").click(function() {
-	$("#Userstatus").removeClass();
-	$("#status-online").removeClass("active");
-	$("#status-away").removeClass("active");
-	$("#status-busy").removeClass("active");
-	$("#status-offline").removeClass("active");
-	$(this).addClass("active");
-	
-	if($("#status-online").hasClass("active")) {
-		$("#Userstatus").addClass("online");
-	} else if ($("#status-away").hasClass("active")) {
-		$("#Userstatus").addClass("away");
-	} else if ($("#status-busy").hasClass("active")) {
-		$("#Userstatus").addClass("busy");
-	} else if ($("#status-offline").hasClass("active")) {
-		$("#Userstatus").addClass("offline");
-	} else {
-		$("#Userstatus").removeClass();
-	};
-	
-	$("#status-options").removeClass("active");
-});
-
-// Filter for contacts
-$(document).ready(function(){
-  $("#filterContacts").on("keyup", function() {
-    var filtervalue, ul_tag, li, index;
-    filtervalue = $(this).val().toLowerCase();
-    ul_tag = document.getElementById('contacts_list');
-    li = ul_tag.getElementsByTagName("li");
-    for (index = 0; index < li.length; index++) {
-      contactname = li[index].getElementsByTagName("p")[0].innerHTML;
-      if (contactname.toLowerCase().indexOf(filtervalue) > -1) {
-        li[index].style.display = "";
-      } else {
-        li[index].style.display = "none";
-      }
+// Function to react on dynamic changes of classes
+$(document).ready( function () {
+  // Change active contact
+  $( document). on('click', ".contact" ,function() {
+    // Clear Search-field by click on a contact
+    if (($("#filterContacts").val().length != 0)) {
+      document.getElementById('filterContacts').value = '';
+      clearfilter();
     }
-  });
-});
+    $(".contact.active").removeClass('active');
+    $(this).toggleClass('contact');
+    $(this).toggleClass('contact active');
+    var name = this.getElementsByTagName('p')[0].innerHTML
+    var contactImageSrc = this.getElementsByTagName('img')[0].src
+    $(".contact-profile").children()[1].innerHTML = name;
+    $(".contact-profile").children()[0].src = contactImageSrc;
+   });
 
-//Clear Filter
-function clearfilter()  {
-    var ul_tag, li, index;
-    ul_tag = document.getElementById('contacts_list');
-    li = ul_tag.getElementsByTagName("li");
-    for (index = 0; index < li.length; index++) {
-        li[index].style.display = "";
-      }
-    };
-
-//Change Button
-function change_button() {
-  if ($('#contacts').hasClass("SingleContacts")) {
-    $('#Change_Chat-Buttons button').removeClass("Single-Chat");
-    $("#Change_Chat-Buttons button").addClass("Group-Chat-Button");
-    $("#Change_Chat-Buttons button").html("Group");
-  } else if ($('#contacts').hasClass("GroupContacts")) {
-    $('#Change_Chat-Buttons button').removeClass("Group-Chat-Button");
-    $("#Change_Chat-Buttons button").addClass("Single-Chat");
-    $("#Change_Chat-Buttons button").html("Single");
-  }
-  
-}
-
-
-//Function to recognize changes of the screensize
-(function () {
-    var width = screen.width,
-        height = screen.height;
-    setInterval(function () {
-        if (screen.width !== width || screen.height !== height) {
-            width = screen.width;
-            if (width <= 735) {
-              change_button();
-            }
-            height = screen.height;
-            $("#profile").removeClass("single_groupchat_options");
-	          $("#contacts").removeClass("single_groupchat_options");
-        }
-    }, 50);
-}());
-
-// Wenn Group dransteht dann braucht der Button die Class Group-Chat-Button
-
-//Group-Chat-Button change
-$(".Group-Chat-Button").click(function() {
-  if ($('#contacts').hasClass("SingleContacts")) {
-    console.log("ClassOld: SingleContacts")
+  // Get Group-contacts 
+  $( document). on('click', ".Group-Chat-Button" ,function() {
+    if ($('#contacts').hasClass("SingleContacts")) {
     $("#contacts").empty();
-    //change_button();
-    $('#contacts').removeClass("SingleContacts");
-    $("#contacts").addClass("GroupContacts");
+    $('#contacts').toggleClass("SingleContacts");
+    $("#contacts").toggleClass("GroupContacts");
     change_button();
-    console.log("ClassNow: GroupContacts");
-    $("#contacts").append(`<ul>
+    $("#contacts").append(`<ul id='contacts_list'>
           <li class="contact">
             <div class="wrap">
               <span class="contact-status online"></span>
@@ -1321,18 +1225,17 @@ $(".Group-Chat-Button").click(function() {
           </li>
           </ul>`)
   }
-});
+  });
 
-$(".Single-Chat").click(function() {
-  if( $('#contacts').hasClass("GroupContacts")) {
-    console.log("ClassOld: GroupContacts")
-    $("#contacts").empty();
-    //change_button();
-    $('#contacts').removeClass("GroupContacts");
-    $('#contacts').addClass("SingleContacts");
-    change_button();
-    console.log("ClassNow: SingleContacts")
-    $("#contacts").append(`<ul>
+  // Get Single-contacts
+  $(document). on('click', ".Single-Chat" ,function() {
+    if( $('#contacts').hasClass("GroupContacts")) {
+      $("#contacts").empty();
+      $('#contacts').toggleClass("GroupContacts");
+      $('#contacts').toggleClass("SingleContacts");
+      change_button();
+      console.log("ClassNow: SingleContacts")
+      $("#contacts").append(`<ul id='contacts_list'>
           <li class="contact">
             <div class="wrap">
               <span class="contact-status online"></span>
@@ -1454,8 +1357,116 @@ $(".Single-Chat").click(function() {
             </div>
           </li>
         </ul>`)
-      }
+    }
+  });
+
 });
+
+
+
+// Informations by click on arrows
+$(".expand-button").click(function() {
+  if ($("#status-options").hasClass("active")) {
+    $("#status-options").removeClass("active");
+    setTimeout(() => {
+      $("#profile").toggleClass("single_groupchat_options");
+	    $("#contacts").toggleClass("single_groupchat_options");
+    }, 200);
+  } else {
+  $("#profile").toggleClass("single_groupchat_options");
+  $("#contacts").toggleClass("single_groupchat_options");
+  }
+  if ($("#contacts").hasClass("single_groupchat_options")) {
+    $("#contacts").css("height","calc(100% - 274px)");
+  } else {
+    setTimeout(() => {
+    $("#contacts").css("height","calc(100% - 177px)");
+    }, 120);
+  }
+});
+
+// status and close dorpdown on click
+$("#status-options ul li").click(function() {
+	$("#Userstatus").removeClass();
+	$("#status-online").removeClass("active");
+	$("#status-away").removeClass("active");
+	$("#status-busy").removeClass("active");
+	$("#status-offline").removeClass("active");
+	$(this).addClass("active");
+	
+	if($("#status-online").hasClass("active")) {
+		$("#Userstatus").addClass("online");
+	} else if ($("#status-away").hasClass("active")) {
+		$("#Userstatus").addClass("away");
+	} else if ($("#status-busy").hasClass("active")) {
+		$("#Userstatus").addClass("busy");
+	} else if ($("#status-offline").hasClass("active")) {
+		$("#Userstatus").addClass("offline");
+	} else {
+		$("#Userstatus").removeClass();
+	};
+	
+	$("#status-options").removeClass("active");
+});
+
+// Filter for contacts
+$(document).ready(function(){
+  $("#filterContacts").on("keyup", function() {
+    var filtervalue, ul_tag, li, index;
+    filtervalue = $(this).val().toLowerCase();
+    ul_tag = document.getElementById('contacts_list');
+    li = ul_tag.getElementsByTagName("li");
+    for (index = 0; index < li.length; index++) {
+      contactname = li[index].getElementsByTagName("p")[0].innerHTML;
+      if (contactname.toLowerCase().indexOf(filtervalue) > -1) {
+        li[index].style.display = "";
+      } else {
+        li[index].style.display = "none";
+      }
+    }
+  });
+});
+
+//Clear Filter
+function clearfilter()  {
+    var ul_tag, li, index;
+    ul_tag = document.getElementById('contacts_list');
+    li = ul_tag.getElementsByTagName("li");
+    for (index = 0; index < li.length; index++) {
+        li[index].style.display = "";
+      }
+    };
+
+//Change Button
+function change_button() {
+  if ($('#contacts').hasClass("SingleContacts")) {
+    $('#Change_Chat-Buttons button').removeClass("Single-Chat");
+    $("#Change_Chat-Buttons button").addClass("Group-Chat-Button");
+    $("#Change_Chat-Buttons button").html("Group");
+  } else if ($('#contacts').hasClass("GroupContacts")) {
+    $('#Change_Chat-Buttons button').removeClass("Group-Chat-Button");
+    $("#Change_Chat-Buttons button").addClass("Single-Chat");
+    $("#Change_Chat-Buttons button").html("Single");
+  }
+  
+}
+
+//Function to recognize changes of the screensize
+(function () {
+    var width = screen.width,
+        height = screen.height;
+    setInterval(function () {
+        if (screen.width !== width || screen.height !== height) {
+            width = screen.width;
+            if (width <= 735) {
+              change_button();
+            }
+            height = screen.height;
+            $("#profile").removeClass("single_groupchat_options");
+	          $("#contacts").removeClass("single_groupchat_options");
+        }
+    }, 50);
+}());
 
 </script>
 {% endblock %}
