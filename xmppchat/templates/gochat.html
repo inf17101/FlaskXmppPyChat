@@ -831,6 +831,7 @@
     </div>
     <div id="contacts" class="SingleContacts">
       <ul id="contacts_list">
+        <!--
         <li class="contact">
           <div class="wrap">
             <span class="contact-status online"></span>
@@ -960,7 +961,7 @@
               <p class="preview"><span>You:</span> That's bullshit. This deal is solid. </p>
             </div>
           </div>
-        </li>
+        </li> -->
       </ul>
     </div>
     <div id="bottom-bar">
@@ -988,26 +989,6 @@
       <div id="form-response" class="mb-3"></div>
       <ul id="chat-list" class="chat-ul">
       <!-- Start Nachrichten -->
-      <li class="clearfix">
-        <div class="message-data align-right">
-          <span class="message-data-name">${from_jid}</span> <i class="fa fa-circle me"></i>
-        </div>
-        <div class="message me-message float-right">${msg_body}
-          <div class="timestamp">
-            <p>08:40</p>
-          </div>
-        </div></li>
-        <li><div class="message-float-left">
-          <div class="message-data">
-            <span class="message-data-name"><i class="fa fa-circle you"></i>You</span>
-          </div>
-          <div class="message you-message">${msg}
-            <div class="timestamp-left">
-              <p>08:40</p>
-            </div>
-          </div>
-          </div>
-          </li>
       <!-- ENde Nachrichten-->
       </ul>
       
@@ -1039,7 +1020,7 @@
 
   var chat_messages = {};
 
-  //pull_chat_hisotry($('#NameOnlineAvatar').text());
+  pull_chat_hisotry($('#NameOnlineAvatar').text());
 
 //begin event stream for chat messages
   var source = new EventSource('/stream');
@@ -1051,7 +1032,7 @@
         result = result.split("data: ").join("");
         var json_obj = JSON.parse(result);
         console.log(json_obj);
-        printMessage(json_obj);
+        printSingleChatMessage(json_obj);
       }
        
   };
@@ -1059,9 +1040,8 @@
 function fillInContactPeers()
 {
   var contact_ul = $("#contacts_list");
-  var user_name = $('#NameOnlineAvatar').text()
-  const keys = Object.keys(chat_messages[user_name]);
-  for (const peer of keys)
+  var user_name = $('#NameOnlineAvatar').text();
+  for (const peer of Object.keys(chat_messages[user_name]))
   {
     var position_last_message_object = chat_messages[user_name][peer].length - 1;
     var last_message_dict = chat_messages[user_name][peer][position_last_message_object];
@@ -1072,7 +1052,7 @@ function fillInContactPeers()
     }
     
     contact_ul.append(`
-    <li class="contact">
+    <li class="contact" id="${peer}">
           <div class="wrap">
             <span class="contact-status online"></span>
             <img src="{{url_for('static', filename='img/usericon2.png')}}" alt="Avatar">
@@ -1085,27 +1065,98 @@ function fillInContactPeers()
   }
 }
 
-  function printMessage(JSON_DATA)
+function updateLastMessageInContactView(user_name, peer_name, update_id, message_string)
+{
+  if (user_name == peer_name)
+  {
+    message_string = "<span>You:</span> " + message_string;
+    console.log("iam here");
+  }
+  var li_contact = $('#' + update_id).html(`
+  <div class="wrap">
+            <span class="contact-status online"></span>
+            <img src="{{url_for('static', filename='img/usericon2.png')}}" alt="Avatar">
+            <div class="meta">
+              <p class="name">${update_id}</p>
+              <p class="preview">${message_string}</p>
+            </div>
+          </div>
+  `);
+}
+
+  function printSingleChatMessage(JSON_DATA)
   {
     var from_jid = JSON_DATA.from.split("@")[0];
-    var timestamp = JSON_DATA.timestamp;
-    var msg_body = JSON_DATA.msg;
+    var msg_timestamp = JSON_DATA.timestamp;
+    var msg = JSON_DATA.msg;
     var msg_type = JSON_DATA.type;
-
+    var user_name = $('#NameOnlineAvatar').text(); 
     if (!(msg_type == "chat" || msg_type == "normal"))
     {
       return;
     }
 
-    $('#chat-list').append(`<li class="clearfix">\
-            <div class="message-data align-right">\
-              <span class="message-data-name">${from_jid}</span> <i class="fa fa-circle me"></i>\
-            </div>\
-            <div class="message me-message float-right">${msg_body}</div></li>`);
+    if($('.contact.active').attr("id") == from_jid) //print msg only if contact tap of from_jid is active
+    {
+        $('#chat-list').append(`<li class="clearfix">
+          <div class="message-data align-right">
+            <span class="message-data-name">${from_jid}</span> <i class="fa fa-circle me"></i>
+          </div>
+          <div class="message me-message float-right">${msg}
+            <div class="timestamp">
+              <p>${msg_timestamp}</p>
+            </div>
+          </div></li>`);
+        var objDiv = document.getElementById("messages-container");
+        objDiv.scrollTop = objDiv.scrollHeight;
+    }
+    
+    //update chat_msgs object
+    chat_messages[user_name][from_jid].push({"from": from_jid, "timestamp": msg_timestamp, "txt": msg, "type": "chat"});
+
+    updateLastMessageInContactView(user_name, from_jid, from_jid, msg);
+
+  }
+
+function fill_in_chat_msgs_single_chat(user_name, peer_name)
+{
+  $('#chat-list').empty();
+  for (var i=0; i<chat_messages[user_name][peer_name].length; i++ )
+  {
+    var msg_timestamp = chat_messages[user_name][peer_name][i].timestamp;
+    msg_timestamp = msg_timestamp.substring(0, msg_timestamp.length-3);
+    if (chat_messages[user_name][peer_name][i].from == user_name)
+    {
+        $('#chat-list').append(`
+        <li><div class="message-float-left">
+              <div class="message-data">
+                <span class="message-data-name"><i class="fa fa-circle you"></i>You</span>
+              </div>
+              <div class="message you-message">${chat_messages[user_name][peer_name][i].txt}
+                <div class="timestamp-left">
+                  <p>${msg_timestamp}</p>
+                </div></div></div></li>
+        `);
+    }
+    else if(chat_messages[user_name][peer_name][i].from == peer_name)
+    {
+      $('#chat-list').append(`
+      <li class="clearfix">
+        <div class="message-data align-right">
+          <span class="message-data-name">${peer_name}</span> <i class="fa fa-circle me"></i>
+        </div>
+        <div class="message me-message float-right">${chat_messages[user_name][peer_name][i].txt}
+          <div class="timestamp">
+            <p>${msg_timestamp}</p>
+          </div>
+        </div></li>
+        `);
+    }
+
     var objDiv = document.getElementById("messages-container");
     objDiv.scrollTop = objDiv.scrollHeight;
   }
-
+}
 
 function pull_chat_hisotry(username)
 {
@@ -1143,23 +1194,41 @@ function pull_chat_hisotry(username)
 };
 
 $('#send-submit-button').click(function(event){
-  var msg = $('#input-message').val()
-  console.log(msg);
-  modular_ajax("/send_message", "post", {"to_jid": "test@ejabberd-server", "from_jid": "testuser2@ejabberd-server", "msg_subject": "first_message", "msg_body": msg, "msg_type": "chat"});
+    send_msg_single_chat();
+});
 
-  $('#chat-list').append(`<li><div class="message-float-left">\
-            <div class="message-data">\
-            <span class="message-data-name"><i class="fa fa-circle you"></i>You</span>\
-            </div>\
-            <div class="message you-message">${msg}</div>
-            </div></li>`);
+function send_msg_single_chat()
+{
+  var msg = $('#input-message').val().trim();
+  var to_jid = $('.contact.active').attr("id");
+  var user_name = $('#NameOnlineAvatar').text();
+  var dt = new Date();
+  var msg_timestamp = dt.toLocaleDateString().replace(/\./g, "-") + " " + dt.toLocaleTimeString().substring(0,5); // replace all . with - in date and concate with time hours:min
+  if(!to_jid in Object.keys(chat_messages[user_name]))
+  {
+    throw new Error("to_jid is not a valid recipient.");
+  }
+  modular_ajax("/send_message", "post", {"to_jid": to_jid + "@ejabberd-server", "from_jid": user_name+"@ejabberd-server", "msg_subject": "", "msg_body": msg, "msg_type": "chat"});
+
+  $('#chat-list').append(`<li><div class="message-float-left">
+              <div class="message-data">
+                <span class="message-data-name"><i class="fa fa-circle you"></i>You</span>
+              </div>
+              <div class="message you-message">${msg}
+                <div class="timestamp-left">
+                  <p>${msg_timestamp}</p>
+                </div></div></div></li>`);
 
   $('#input-message').val("");
 
   var objDiv = document.getElementById("messages-container");
   objDiv.scrollTop = objDiv.scrollHeight;
 
-});
+  //update chat_msgs object
+  chat_messages[user_name][to_jid].push({"from": user_name, "timestamp": msg_timestamp, "txt": msg, "type": "chat"});
+
+  updateLastMessageInContactView(user_name, user_name, to_jid, msg);
+}
 
 // Smiley-Function
 $(function () {
@@ -1193,6 +1262,10 @@ $(document).ready( function () {
     var contactImageSrc = this.getElementsByTagName('img')[0].src
     $(".contact-profile").children()[1].innerHTML = name;
     $(".contact-profile").children()[0].src = contactImageSrc;
+
+    var peer_name = $(".contact-profile").children()[1].innerHTML
+    fill_in_chat_msgs_single_chat($('#NameOnlineAvatar').text(), peer_name);
+
    });
 
   // Get Group-contacts 
