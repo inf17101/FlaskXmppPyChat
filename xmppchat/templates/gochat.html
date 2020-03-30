@@ -794,7 +794,9 @@
     width: -webkit-fill-available;
   }
   }
-
+  .input-group>.custom-select:not(:first-child), .input-group>.form-control:not(:first-child) {
+    width: fit-content;
+  }
   
 </style>
 
@@ -1014,7 +1016,14 @@
 
 
 {%block scripts%}
-<script src='/static/js/inputEmoji.js'></script>
+
+<script>
+  $(document).ready( function() {
+    var test, styXY;
+    $("#input-message").emojioneArea();
+  });
+</script>
+
 
 <script>
 
@@ -1229,11 +1238,6 @@ function send_msg_single_chat()
 
   updateLastMessageInContactView(user_name, user_name, to_jid, msg);
 }
-
-// Smiley-Function
-$(function () {
-    $('textarea').emoji({button:'&#x1F642;'});
-});
 
 // Userstatus on click to get status-options active
 $("#Userstatus").click(function() {
