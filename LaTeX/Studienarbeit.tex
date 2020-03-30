@@ -246,6 +246,7 @@ Ort, Datum & Unterschrift
 \acro{CSS}{Cascading Style Sheets}
 \acro{Ajax}{Asynchronous JavaScript and XML}
 \acro{ORM}{Object Relational Mapper}
+\acro{CA}{Certification Authority}
 \end{acronym}
 
 %abbildungsverzeichnis
@@ -821,7 +822,7 @@ $ sudo mysql -D ejabberd -uejabberd -p < mysql.sql
 
 
 
-Der folgende Befehl installiert den Chatserver ejabberd und den Datenbank Treiber für MySQL, sodass sich der Chatserver auf die MySQL-Datenbank verbinden kann.
+Der folgende Befehl installiert den Chatserver ejabberd und den Datenbank Treiber für MySQL, sodass sich der Chatserver auf die MySQL-Datenbank verbinden kann. Der Treiber ist in der Programmiersprache Erlang programmiert.
 
 \bigskip
 
@@ -829,6 +830,21 @@ Der folgende Befehl installiert den Chatserver ejabberd und den Datenbank Treibe
 $ sudo apt -y install ejabberd
 $ sudo apt install erlang-p1-mysql
 \end{lstlisting}
+
+Weil der Chatserver den Transport der Daten verschlüsseln und die Authentizität gewährleisten soll, wird ein TLS-Zertifikat der Let' s Encrypt Zertifizierungsstelle (engl. \ac{CA}) erstellt und im Chatserver installiert. Zertifikate schützen vor nicht autorisierten Zugriffen und bestätigen die Authentizität. Zusätzlich bewahren sie die Integrität der übertragenen Daten.\cite{melzer2010web}
+
+Let's Encrypt verwendet das ACME-Protokoll, um zu überprüfen, ob ein bestimmter Domainname vorhanden ist und um ein Zertifikat auszustellen. Für die Ausstellung von Let's Encrypt Zertifikaten wird eine ACME-Client-Software benötigt.\cite{letsencryptACME}
+
+Der Chatserver ejabberd hat keine Client-Software vorinstalliert, die das ACME-Protokoll unterstützt. Aus diesem Grund muss der open-source ACME-Client \glqq acme.sh\grqq installiert werden. Dieser ist kompatibel mit der Linux-Bash. Der Standalone-Modus des ACME-Clients realisiert einen Webserver, der die Domain gegenüber der Let's Encrypt \ac{CA} validiert.\cite{acmeshOfficial}
+Der ACME-Client und seine benötigten Pakete werden mit folgenden Befehlen installiert.
+
+\bigskip
+
+\begin{lstlisting}[language=bash, caption={Installation der ACME-Client-Software für die Domainvalidierung}]
+$ apt install socat curl
+$ wget -O - https://get.acme.sh | sh
+\end{lstlisting}
+
 
 
 \subsection{Anbindung des Chatservers}
