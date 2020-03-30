@@ -53,7 +53,9 @@
       {% endfor %}
     </ul>
   </div>
-  <i class="fa fa-sign-in fa-2x" style="color: white;"></i>
+  {% if current_user.is_authenticated %}
+  <a href="/logout"><i class="fa fa-sign-in fa-2x" style="color: white;"></i></a>
+  {% endif %}
 </nav>
 
   {% with messages = get_flashed_messages(with_categories=true) %}
