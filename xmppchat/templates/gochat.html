@@ -796,6 +796,7 @@
   }
   .input-group>.custom-select:not(:first-child), .input-group>.form-control:not(:first-child) {
     width: fit-content;
+    overflow-x: hidden;
   }
   
 </style>
@@ -1209,6 +1210,9 @@ $('#send-submit-button').click(function(event){
 function send_msg_single_chat()
 {
   var msg = $('#input-message').val().trim();
+  if (msg == "") {
+    return
+  } 
   var to_jid = $('.contact.active').attr("id");
   var user_name = $('#NameOnlineAvatar').text();
   var dt = new Date();
@@ -1219,6 +1223,7 @@ function send_msg_single_chat()
   }
   modular_ajax("/send_message", "post", {"to_jid": to_jid + "@ejabberd-server", "from_jid": user_name+"@ejabberd-server", "msg_subject": "", "msg_body": msg, "msg_type": "chat"});
 
+  msg = msg.replace(/(?:\r\n|\r|\n)/g, '<br>');
   $('#chat-list').append(`<li><div class="message-float-left">
               <div class="message-data">
                 <span class="message-data-name"><i class="fa fa-circle you"></i>You</span>
@@ -1229,6 +1234,7 @@ function send_msg_single_chat()
                 </div></div></div></li>`);
 
   $('#input-message').val("");
+  $('.emojionearea-editor').text(''); 
 
   var objDiv = document.getElementById("messages-container");
   objDiv.scrollTop = objDiv.scrollHeight;
