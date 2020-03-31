@@ -209,3 +209,29 @@ def send_message():
     except Exception as e:
         logger.error(str(e))
         return make_response(jsonify({"feedback": "internal server error. Please try again.", "category": "danger", "exit_code": 500, "debug": e.args}), 500)
+
+
+@app.route("/add_contact", methods=["POST"])
+#@login_requried
+@csrf.exempt
+def add_contact():
+    global session_dict
+    if not current_user.is_authenticated:
+        return make_response(jsonify({"feedback": "not authorized.", "category": "danger", "exit_code": 401}), 401)
+
+    JSON_Data = request.get_json()
+    if not JSON_Data or not "username" in JSON_Data:
+        return make_response(jsonify({"feedback": "invalid post data.", "category": "danger", "exit_code": 404}), 404)
+
+    user_name = JSON_Data.get("username")
+    if Validator.contains_invalid_characters(user_name):
+        return make_response(jsonify({"feedback": "invalid username.", "category": "danger", "exit_code": 403}), 403)
+    result = User.query.filter_by(username=user_name).first()
+
+    if not result:
+        return make_response(jsonify({"feedback": "username does not exist.", "category": "danger", "exit_code": 404}), 404)
+    
+    session_dict[current_user.user_id]["xmpp_object"].update_roster(user_name+"@ejabberd-server", name=user_name)
+    return make_response(jsonify({"feedback": "added contact successfully.", "category": "success", "exit_code": 200}), 200)
+    
+    
