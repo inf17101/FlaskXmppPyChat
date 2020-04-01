@@ -1,8 +1,6 @@
 from sleekxmpp import ClientXMPP
 from xmppchat.api import red
 import logging, ssl
-import argparse
-import threading, time
 from datetime import datetime
 
 
