@@ -18,18 +18,12 @@ class TestFlaskRegisterCase(unittest.TestCase):
         app.config['WTF_CSRF_ENABLED'] = False
         self.tester = app.test_client(self)
 
-
-
-    def test_register_page(self):
+    def test_register_page_get(self):
         """
         test correct get request on register page
         """
         response = self.tester.get('/register', content_type="html/text")
         self.assertEqual(response.status_code, 200)
-
-
-
-
 
 
 

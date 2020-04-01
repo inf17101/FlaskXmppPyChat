@@ -54,6 +54,9 @@ def register():
 
     if request.method == "POST":
         req_content = request.get_json()
+        if not req_content:
+            return make_response(jsonify({'feedback': 'invalid post data.', 'category': 'danger'}), 404)
+
         res = {'feedback': 'login successfull.', 'category': 'success'}
         exit_code = 200
         try:
@@ -110,8 +113,6 @@ def login():
         stream_id = str(uuid.uuid4())
         xmpp_client = EchoBot(full_jid, req_content["password"], stream_id)   
         session_dict[current_user.user_id] = {"xmpp_object": xmpp_client, "stream_id": stream_id}
-        #print(session_dict)
-        #print("login of {}".format(current_user.user_id), id(xmpp_client))
         plugins = ['xep_0030', 'xep_0004', 'xep_0060', 'xep_0199', 'xep_0313']
 
         xmpp_client['feature_mechanisms'].unencrypted_plain = True
@@ -120,10 +121,10 @@ def login():
             xmpp_client.register_plugin(item)
 
         if xmpp_client.connect((config.get("ejabberd_ip"), 5222)):
-            #print("connected")
             t1 = threading.Thread(target=xmpp_client.process, kwargs={'block': True}, daemon=True)
             t1.start()
-        return make_response(jsonify({'redirect_to': '/gochat', 'feedback': 'login successfull.', 'category': 'success'}), 200)
+            return make_response(jsonify({'redirect_to': '/gochat', 'feedback': 'login successfull.', 'category': 'success'}), 200)
+        return make_response(jsonify({'redirect_to': '/gochat', 'feedback': 'internal error: login not successfull.', 'category': 'danger'}), 500)
 
     return render_template('login.html', navs=navs, currentNav="Go Chat!")
 
