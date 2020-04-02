@@ -183,8 +183,9 @@ def event_stream(user_id):
     stream_id = session_dict[user_id]["stream_id"]
     pubsub.subscribe(stream_id)
     for message in pubsub.listen():
-        print(message)
-        yield 'data: %s\n\n' % message['data']
+        if "data" in message and not message["data"] == 1:
+            print(message)
+            yield 'data: %s\n\n' % message['data']
 
 
 @app.route('/stream')
@@ -231,8 +232,9 @@ def add_contact():
 
     if not result:
         return make_response(jsonify({"feedback": "username does not exist.", "category": "danger", "exit_code": 404}), 404)
+
+    if result.user_id == current_user.user_id:
+        return make_response(jsonify({"feedback": "invalid username. You cannot write with yourself.", "category": "danger", "exit_code": 403}), 403)
     
     session_dict[current_user.user_id]["xmpp_object"].update_roster(user_name+"@ejabberd-server", name=user_name)
     return make_response(jsonify({"feedback": "added contact successfully.", "category": "success", "exit_code": 200}), 200)
-    
-    
