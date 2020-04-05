@@ -439,7 +439,7 @@ Eine relationale Datenbank ist definiert als eine Datenbank mit einer Ansammlung
 
 \section{Grafische Benutzeroberfläche}
 \label{sec:Benutzeroberfläche}
-Eine Grafische Benutzeroberfläche ist im Detail eine Schnittstelle zum Nutzer eines Computers. Die im Hintergrund agierende Software soll mittels Symbole und anderen Elementen bedienbar gemacht werden. Im Englischen wird die Benutzeroberfläche als \ac{GUI} bezeichnet, welches im weitere Verlauf ebenfalls als Bezeichnung verwendet wird. Allgemein besitzt eine \ac{GUI} Bedien- und Steuerelement die mit der im Hintergrund laufenden Software interagiert. Der Einsatz einer \ac{GUI} liegt an der Usability, welches die Benutzerfreundlichkeit beschreibt. Eine \ac{GUI} soll demnach dem User die Möglichkeit geben, die Software auch ohne großen Aufwand bedienen zu können. Eine Eigenschaft die heutzutage nahezu jedes Programm beinhalten muss. %TODO
+Eine Grafische Benutzeroberfläche ist im Detail eine Schnittstelle zum Nutzer eines Computers. Die im Hintergrund agierende Software soll mittels Symbole und anderen Elementen bedienbar gemacht werden. Im Englischen wird die Benutzeroberfläche als \ac{GUI} bezeichnet, welches im weitere Verlauf ebenfalls als Bezeichnung verwendet wird. Allgemein besitzt eine \ac{GUI} Bedien- und Steuerelement die mit der im Hintergrund laufenden Software interagiert. Der Einsatz einer \ac{GUI} liegt an der Usability, welches die Benutzerfreundlichkeit beschreibt. Eine \ac{GUI} soll demnach dem User die Möglichkeit geben, die Software auch ohne großen Aufwand bedienen zu können. Eine Eigenschaft die heutzutage nahezu jedes Programm beinhalten muss. %TODO Quelle aendern
 \url{https://de.wikipedia.org/wiki/Grafische_Benutzeroberfl%C3%A4che}
 	
 Im Rahmen der GUI-Programmierung müssen mehrere Aspekte berücksichtigt werden um die Usability zu erfüllen. Dafür werden die Aspekte in 8 goldene Regeln zusammengefasst, die bei der Entwicklung einer GUI berücksichtigt werden sollten.
@@ -480,7 +480,7 @@ Aufgrund der 8 goldenen Regeln, kann im Umsetzungsprozess auf diese zurückgegri
 Mit Python als Programmiersprache kommen mehrere Module, welche für die Grafische Benutzeroberfläche benutzt werden können, einher. Dementsprechend wird in diesem Abschnitt ein Einblick in die Möglichkeiten, passend zur Aufgaben- und Problemstellung, gegeben werden. Abhängig von den Erkenntnissen folgt eine Entscheidungsmatrix um das passende Modul für das Projekt auszuwählen.
 
 Die \ac{GUI}-Programmierung bei Python unterscheidet sich im Konzept nicht allzu sehr von anderen Programmiersprachen. Neben Schaltflächen stehen auch Fenster oder Menüs als Komponenten zur Verfügung. Angeordnet können diese in sogenannten Container. Für eine geeignete Anwenderschnittstelle müssen die Komponenten in die Container integriert werden. Hinzukommt ein äußerer Container, auch als Frame bezeichnet, ein Layout-Manager und eine Implementierung damit Aktionen durch Komponenten ausgelöst werden können. Wie im \autoref{sec:Benutzeroberfläche} erläutert, verfolgt eine \ac{GUI} mehreren Regeln. Demnach gibt es für die Programmierung einer grafischen Benutzeroberfläche vielerlei Möglichkeiten. In Python werden \ac{GUI} Frameworks angeboten, die eine Programmierung erleichtern sollen. Diese Frameworks können sich in der Art und der Verwendung unterscheiden. Aufgrund davon muss erst die Art des Frameworks ermittelt werden. Dafür wird eine Entscheidungsmatrix erstellt, basierend auf Faktoren, die passend zum Projekt Auswirkungen haben.\cite{Steyer2018} \\
-Die nachfolgende \autoref{tab:EntscheidungsmatrixFrameworkart} spiegelt die Ergebnisse eines Vergleichs zwischen den Tool-Frameworks und den Web-Frameworks von Python wieder. Die Kriterien orientieren sich am Projekt und werden nachfolgend erläutert. Die \textbf{Nutzerfreundlichkeit} umfasst wie verständlich ein GUI mithilfe des Tools aufgebaut werden kann. Außerdem beinhaltet das Kriterium auch die Möglichkeiten des Tools auf die Nutzerfreundlichkeit einzugehen. Die \textbf{Schwierigkeit} orientiert sich an der Implementierung. Dabei geht darum wie leicht, schnell und komfortabel die Frameart integriert werden kann. Unabhängig von der Schwierigkeit geht es bei der \textbf{Umsetzbarkeit} um die Mittel, welche für eine Umsetzung benötigt werden, sowie auch um den Aufwand bei der Umsetzung. Die \textbf{Kompatibilität} umfasst die Unabhängigkeit von Betriebssystemen, Browsern usw. Standard für eine grafische Oberfläche bildet auch das \textbf{Design}. Demnach geht es um die Möglichkeiten eines guten Erscheinungsbilds der Oberfläche mit dem entsprechenden Framework. Das letzte Kriterium, \textbf{Verwendungszweck}, bildet die Verbindung zum Projekt. Dabei wird analysiert wie die Frameworkart zum Zweck des Projektes passt. Die Gewichtung der Kriterien innerhalb der \autoref{tab:EntscheidungsmatrixFrameworkart} sind der TABELLE des ANHANGS zu entnehmen.
+Die nachfolgende \autoref{tab:EntscheidungsmatrixFrameworkart} spiegelt die Ergebnisse eines Vergleichs zwischen den Tool-Frameworks und den Web-Frameworks von Python wieder. Die Kriterien orientieren sich am Projekt und werden nachfolgend erläutert. Die \textbf{Nutzerfreundlichkeit} umfasst wie verständlich ein GUI mithilfe des Tools aufgebaut werden kann. Außerdem beinhaltet das Kriterium auch die Möglichkeiten des Tools auf die Nutzerfreundlichkeit einzugehen. Die \textbf{Schwierigkeit} orientiert sich an der Implementierung. Dabei geht darum wie leicht, schnell und komfortabel die Frameart integriert werden kann. Unabhängig von der Schwierigkeit geht es bei der \textbf{Umsetzbarkeit} um die Mittel, welche für eine Umsetzung benötigt werden, sowie auch um den Aufwand bei der Umsetzung. Die \textbf{Kompatibilität} umfasst die Unabhängigkeit von Betriebssystemen, Browsern usw. Standard für eine grafische Oberfläche bildet auch das \textbf{Design}. Demnach geht es um die Möglichkeiten eines guten Erscheinungsbilds der Oberfläche mit dem entsprechenden Framework. Das letzte Kriterium, \textbf{Verwendungszweck}, bildet die Verbindung zum Projekt. Dabei wird analysiert wie die Frameworkart zum Zweck des Projektes passt. Die Gewichtung der Kriterien innerhalb der \autoref{tab:EntscheidungsmatrixFrameworkart} sind der TABELLE des ANHANGS zu entnehmen. %TODO Tabelle in den Anhang packen
 \renewcommand{\arraystretch}{2}
 \begin{table}[h]
 \centering
@@ -542,7 +542,7 @@ Flask ist also nicht zuständig für die Gestaltung der grafischen Oberfläche s
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=\textwidth]{images/TreeFlaskOrdnerstrukt}
-	\caption{Ordnerstruktur unter Flask}
+	\caption{Ordnerstruktur unter Flask, eigene Darstellung}
 	\label{img:TreeFlaskOrdnerstrukt}
 \end{figure}
 Für die grafische Benutzeroberfläche würden diese Elemente ausreichen um eine simple Webseite aufzubauen, mit den \ac{HTML}- und \ac{CSS}-Dateien zu verknüpfen, über das Routen die Seite zu rendern und letztendlich, über den von Flask gestellten Webserver, zu testen. Dennoch bietet Flask mehr Möglichkeiten auch im Zusammenhang des Projektes. Zum Beispiel kann in Flask mit redirects, sessions, cookies, Datenbanken und vieles mehr gearbeitet werden. Dabei verfolgt Flask das Ziel dem Anwender nichts vorzuschreiben, dadurch ist er unabhängiger und kann auf vielerlei Erweiterungen zugreifen. Bei der Anbindung einer \textbf{Datenbank} gibt es so die Möglichkeit bspw. eine MySQL, PostgreSQL, SQLite oder andere Datenbanken zu verwenden. In diesem Zusammenhang bietet Flask das Modul Flask-SQLAlchemy, welches der Flask-Anwendung das SQLAlchemy Paket hinzufügt. Ziel ist es die Verwendung von SQLAlchemy mit Flask zu vereinfachen. Das Paket gilt als \ac{ORM}, und bietet die Möglichkeit high-level Operationen in Datenbank-Kommandos zu übersetzen. Im Rahmen der Studienarbeit wird ebenfalls die Erweiterung Flask-SQLAlchemy angewendet. Demnach kann eine Implementierung, einer minimalen Anwendung mit Datenbank, wie im folgenden \autoref{lst:SQLAlchemyMinApp} dargestellt, aussehen.
@@ -598,6 +598,7 @@ Diese beispielhafte Listings wichtiger Module zeigen die Möglichkeiten des Web-
 \pagebreak
 
 \section{HTML, CSS und JavaScript als Werkzeuge der Webentwicklung}
+\label{sec:HTMLCSSJS}
 Wie unter \autoref{subsec:Flask} erläutert, benötigt Flask für die grafische Oberfläche weitere Elemente, die das Erscheinungsbild aufbauen, gestalten und mit Dynamik verknüpfen. Dafür werden die Werkezeuge des Webdesign benötigt. Diese umfassen \ac{HTML}, \ac{CSS} und JavaScript.
 
 \textbf{\ac{HTML}}\\
@@ -605,21 +606,21 @@ Das Internet mit seinen Funktionen Text-, Bild, Sound und weiteres abzubilden od
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=1.3]{images/HTML_Grundgeruest}
-	\caption{Grundgerüst einer HTML-Datei} %TODO Quellenangabe
+	\caption{Grundgerüst einer HTML-Datei, \cite{buhler2017html5}}
 	\label{img:GrundgeruestHTML}
 \end{figure}
 \\Der \autoref{img:GrundgeruestHTML} sind die 3 wichtigen Tags (html, head, body) eines Standard \ac{HTML}-Dokumentes sowie der unter A angegebenen Dokumenttyp zu entnehmen. Während in vielen Programmiersprachen die Syntax umfassend groß sein kann, ist die Grammatik bei HTML sehr schlicht. Für die Korrektheit sind daher die genannten Tags bedeutend. Außerdem werden überwiegend Verschachtelung bei der Darstellung einer Webseite benötigt. Für weiteren Einfluss auf die Tags können sogenannte Attribute, wie in der folgenden \autoref{img:HTMLattribute} dargestellt, den Tags zugeteilt werden. 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=2.5]{images/HTMLattribute}
-	\caption{Attribut eine \ac{HTML}-Tags} %TODO Quellenangabe
+	\caption{Attribut eine \ac{HTML}-Tags, \cite{buhler2017html5}}
 	\label{img:HTMLattribute}
 \end{figure}
 \\Eine \ac{HTML}-Datei entsteht also vor allem durch Tags. Während nun das Dateiformat als reine Textdatei vorliegt, entstehen Fragen über die gestalterischen Aspekte wie z.B. Farben, Grafiken, Videos oder ähnliches. Hauptsächlich werden diese Aspekte innerhalb einer \ac{CSS}-Datei behandelt, dennoch gibt es dafür auch Punkte, die in einer \ac{HTML}-Datei zu beachten sind. Um beispielsweise Grafiken oder Videos, die sich innerhalb eines anderen Unterordners befinden, zu integrieren, muss auf diese referenziert werden. Hierfür bietet \ac{HTML} die absolute und relative Referenz. Eine absolute Referenz, wie z.B. \textit{C:/Dokumente/Mustermann/ Eigene Dateien/Webseiten/button.gif}, wird aufgrund der Abhängigkeit zum User des Computers nicht verwendet. Für die relative Referenz ist wiederum eine einheitliche Ordnerstruktur wichtig, da der Pfad von dem Speicherort der \ac{HTML}-Datei angegeben wird. Diese Struktur kann, wie in der folgenden Abbildung dargestellt, aussehen.
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.8]{images/TreeHTMLStruktur}
-	\caption{Ordnerstruktur bei der Webentwicklung} %TODO Quellenangabe
+	\caption{Ordnerstruktur bei der Webentwicklung, eigene Darstellung} 
 	\label{img:TreeHTMLStruktur}
 \end{figure}
 \\Demnach würde die \ac{HTML}-Datei in dem Ordner \textit{templates} liegen und die Bilder im Ordner \textit{static/img}, welcher über die relative Referenz unabhängig vom Betriebssystem und ähnliches erreicht werden kann. Je nach Dateityp orientieren sich auch die Tags innerhalb des \ac{HTML}-Dokumentes danach. Für eine Grafik gibt es daher den <img>-Tag, der die Referenz zum Bild enthält. Mit der Webentwicklung wird das Ziel verfolgt Inhalt und Gestaltung strikt voneinander zu trennen. Daher werden \ac{CSS}-Dateien, die sich mit dem Design befassen, benötigt.
@@ -629,20 +630,20 @@ Die Dateien, die als \ac{CSS} deklariert werden, übernehmen die gestalterischen
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=2.5]{images/CSS_Definition}
-	\caption{Aufbau einer \ac{CSS}-Regel} %TODO Quellenangabe
+	\caption{Aufbau einer \ac{CSS}-Regel, \cite{buhler2017html5}}
 	\label{img:CSSrules}
 \end{figure}	
 \\Der Aufbau besteht grundlegend aus einem Selektor, dem seine Eigenschaften bearbeitet werden sollen. Damit die Auswirkungen erkennbar werden muss die \ac{CSS}-Datei mit dem HTML-Dokument verknüpft werden. Dies erfolgt innerhalb des Head-Tags in der \ac{HTML}-Datei mithilfe des link-Tags \textit{<link rel=\dq sytlesheet\dq \;type=\dq text/css\dq \;href=\dq design.css\dq>}. Der Selektor befindet sich immer vor einer geschweiften Klammer und kann unterschiedlich verwendet werden. Aufgrund der Verbindung zur HTML-Datei hängt der Selektor vom \ac{HTML}-Tag ab. Wird bspw. ein Button in dem \ac{HTML}-Tag als Klasse definiert so erfolgt der Zugriff über den Punkt. Wird jedoch der Button mit einer ID ausgestattet, so muss mit dem Hashtag darauf zugegriffen werden. Die nachfolgende Abbildung zeigt diese Varianten.
 \begin{figure}[h]
 	\begin{minipage}[c]{.4\textwidth}
 		\includegraphics[width=\textwidth]{images/CSSID}
-		\caption{Zugriff über ID} %TODO Quellenangabe
+		\caption{Zugriff über ID, \cite{buhler2017html5}} 
 		\label{img:CSSID}
 	\end{minipage}
 	\hspace{.1\linewidth}% Abstand zwischen Bilder
 	\begin{minipage}[c]{.4\textwidth}
 		\includegraphics[width=\textwidth]{images/CSSKlasse}
-		\caption{Zugriff über Klasse} %TODO Quellenangabe
+		\caption{Zugriff über Klasse, \cite{buhler2017html5}} %TODO richtige Größe
 		\label{img:CSSClass}
 	\end{minipage}
 \end{figure}
@@ -650,14 +651,14 @@ Für die Eigenschaften bietet sich mit der dritten Version von \ac{CSS} (\ac{CSS
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=1.8]{images/CSSmasseinheiten}
-	\caption{Ma"seinheiten innerhalb der Webentwicklung} %TODO Quellenangabe
+	\caption{Ma"seinheiten innerhalb der Webentwicklung, \cite{buhler2017html5}} 
 	\label{img:CSSmasseinheiten}
 \end{figure}
 \ac{CSS} verwendet die Selektoren und wendet auf diesen die definierten Eigenschaften an. Nebenbei bietet \ac{CSS} die Möglichkeit an ein Layout zu erstellen. Dafür ist das sogenannte Boxmodell ausschlaggebend. Dieser ist definiert, die Elemente als eine Box mit Eigenschaften zu betrachten. Demnach gibt es in dem Zusammenhang vielerlei Möglichkeiten eine Box an die richtige Position, sowie mit der richtigen Größe abzubilden. Die Boxen können mit absoluten Werten definiert werden. Mit relativen Werten, welche Prozentwerte enthalten, können die Boxen sich in Abhängigkeit des Browserfensters ändern. Mit \ac{CSS}3 gibt es auch die Möglichkeiten flexible Boxen zu verwenden. Dadurch werden die Boxen unabhängig von der Position und Anordnung spalten- oder zeilenweise an den zur Verfügung gestellten Platz angeordnet. Bei der Betrachtung des Layouts spielt ebenfalls das Endgerät eine Rolle. In dem Zusammenhang können \textbf{Media Queries} zum Einsatz kommen. Diese bieten die Option, Eigenschaften eines Selektors entsprechend der angegebenen Pixel zu ändern.
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=2.8]{images/MediaQbsp}
-	\caption{Beispiel eines Media Queries} %TODO Quellenangabe
+	\caption{Beispiel eines Media Queries, \cite{buhler2017html5}}
 	\label{img:/MediaQbsp}
 \end{figure}
 \\Die Abbildung stellt dar wie die Media Queries eingesetzt werden können. Die Definition erfolgt entweder in der \ac{CSS}-Datei oder in dem Style-Tag einer \ac{HTML}-Datei. Mit diesen Grundlagen lassen sich Seiten gestalterisch anpassen und auf mehreren mobilen Endgeräten ausgeben. Wird Content benutzt der sich ggf. zur Laufzeit ändert, wird überwiegend auf das dritte Element der Webentwicklung zurückgegriffen. Dabei geht es um JavaScript.\cite{buhler2017html5}
@@ -671,14 +672,14 @@ document.write("Your Login was succesful");
 </script>
 </div>
 \end{lstlisting}
-Das Beispiel bildet ein simpler Fall von JavaScript ab. Der Code erzeugt lediglich ein Text in der HTML-Klasse. Eine der beliebtesten Verwendungen von JavaScript sind Fenster, die zur Benachrichtigung oder Warnung benutzt werden. In Verbindung mit Event-Handler, die auf bestimmte Ereignisse reagieren, kann so, je nach Anwendung Fenster oder andere Elemente erzeugt werden. Ein Beispiel für solch ein Event-Handler wäre das "onclick". Dadurch lässt sich JavaScript-Code erst ausführen wenn bspw. auf ein Button geklickt wird. Neben Fenstern gibt es zahlreiche weitere Verwendungsmöglichkeiten, wie zum Beispiel Formulare, Textfelder, Checkboxen usw. Eine besondere Variante von JavaScript ist \textbf{\ac{Ajax}}, welches ein weiteres wichtiges Feature mit in die Webentwicklung einbringt. \ac{Ajax} kommt vor allem zum Einsatz, wenn es um Elemente geht die nicht durch eine Aktualisierung des Browser ausgelöst werden sollen. \ac{Ajax} ermöglicht in solch einem Fall die dynamische Anfrage. Die Nachfolgende Abbildung erklärt das Funktionsprinzip von \ac{Ajax} sehr genau.
+Das Beispiel bildet ein simpler Fall von JavaScript ab. Der Code erzeugt lediglich ein Text in der HTML-Klasse. Eine der beliebtesten Verwendungen von JavaScript sind Fenster, die zur Benachrichtigung oder Warnung benutzt werden. In Verbindung mit Event-Handler, die auf bestimmte Ereignisse reagieren, kann so, je nach Anwendung Fenster oder andere Elemente erzeugt werden. Ein Beispiel für solch ein Event-Handler wäre das "onclick". Dadurch lässt sich JavaScript-Code erst ausführen wenn bspw. auf ein Button geklickt wird. Neben Fenstern gibt es zahlreiche weitere Verwendungsmöglichkeiten, wie zum Beispiel Formulare, Textfelder, Checkboxen usw. Eine besondere Variante von JavaScript ist \textbf{\ac{Ajax}}, welches ein weiteres wichtiges Feature mit in die Webentwicklung einbringt. \ac{Ajax} kommt vor allem zum Einsatz, wenn es um Elemente geht die nicht durch eine Aktualisierung des Browser ausgelöst werden sollen. \ac{Ajax} ermöglicht in solch einem Fall die dynamische Anfrage. Die Nachfolgende \autoref{img:/AjaxUseCase} erklärt das Funktionsprinzip von \ac{Ajax} sehr genau.
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=1.0]{images/AjaxUseCase}
-	\caption{Anwendungsfall von Ajax} %TODO Quellenangabe
+	\caption{Anwendungsfall von Ajax, \cite{buhler2018webtechnologien}} 
 	\label{img:/AjaxUseCase}
 \end{figure}
-Während ein User ein Textfeld beschreibt wird im Hintergrund, mithilfe des JavaScript-Objektes XMLHttpRequest, eine Anfrage an den Webserver gesendet. Dieser kann mit ersten Teilergebnissen antworten und so dem User bspw eine Autovervollständigung anbieten. Ajax ist in dem Fall keine neue Technologie sondert verwendet JavaScript anders um mit dem Webserver im Hintergrund zu kommunizieren. In diesem Fall ist die Autovervollständigung lediglich ein einfaches Beispiel um die Funktion von \ac{Ajax} zu verstehen. Darüber hinaus gibt es weitaus mehr Anwendungsfälle von \ac{Ajax}. Bei aufwändigen Webseiten kommt ein weiteres Element zur Webentwicklung hinzu, das die Entwicklung erleichtern soll. Dabei handelt es sich um Frameworks. Wie es für \ac{CSS} Bootstrap als Framework gibt, so werden viele auch im Zusammenhang mit JavaScript angeboten. Eines der beliebtesten Frameworks ist \textbf{jQuery}. Mit jQuery wird das Programmieren von JavaScript unterstützt. Außerdem orientiert es sich an der Darstellung von \ac{CSS} wie bspw. der Zugriff auf ein Element über \$(\dq \#bereich1\dq) oder \$(\dq .farbe1\dq). Wie JavaScript kann auch jQuery auf die Elemente der \ac{HTML}-Seite zugreifen. Der Standardaufbau, welcher in der folgenden Abbildung dargestellt ist, zeigt eine Merkmal auf das zu achten ist.
+Während ein User ein Textfeld beschreibt wird im Hintergrund, mithilfe des JavaScript-Objektes XMLHttpRequest, eine Anfrage an den Webserver gesendet. Dieser kann mit ersten Teilergebnissen antworten und so dem User bspw eine Autovervollständigung anbieten. Ajax ist in dem Fall keine neue Technologie sondert verwendet JavaScript anders um mit dem Webserver im Hintergrund zu kommunizieren. In diesem Fall ist die Autovervollständigung lediglich ein einfaches Beispiel um die Funktion von \ac{Ajax} zu verstehen. Darüber hinaus gibt es weitaus mehr Anwendungsfälle von \ac{Ajax}. Bei aufwändigen Webseiten kommt ein weiteres Element zur Webentwicklung hinzu, das die Entwicklung erleichtern soll. Dabei handelt es sich um Frameworks. Wie es für \ac{CSS} Bootstrap als Framework gibt, so werden viele auch im Zusammenhang mit JavaScript angeboten. Eines der beliebtesten Frameworks ist \textbf{jQuery}. Mit jQuery wird das Programmieren von JavaScript unterstützt. Außerdem orientiert es sich an der Darstellung von \ac{CSS} wie bspw. der Zugriff auf ein Element über \$(\dq \#bereich1\dq) oder \$(\dq .farbe1\dq). Wie JavaScript kann auch jQuery auf die Elemente der \ac{HTML}-Seite zugreifen. Der Standardaufbau, welcher in dem folgenden \autoref{lst:jQueryExample} dargestellt ist, zeigt eine Merkmal auf das zu achten ist.
 \begin{lstlisting}[language=HTML,caption=Example Listing of jQuery,label={lst:jQueryExample}]
 <script> $(document).ready(function(){
 /* Hier der jQuery-Code */ });
@@ -770,6 +771,7 @@ Eine wichtige Anforderung an Tests ist, dass diese schnell und effizient ablaufe
 \pagebreak
 
 \section{Implementierung des Chatservers ejabberd}
+
 \label{sec:ChatserverEntwicklung}
 
 Die Grundlagen von ejabberd wurden im \autoref{sec:ejabberd} erläutert. In diesem Abschnitt wird beschrieben, welche Schritte notwendig sind, um den Chatserver ejabberd zu installieren und gemäß den Anforderungen aus \autoref{Anforderungen} zu konfigurieren. 
@@ -865,8 +867,56 @@ $ wget -O - https://get.acme.sh | sh
 
 \subsection{Entwicklung der GUI}
 \label{subsec:EntwicklungGUI}
+Einleitend wurde im \autoref{subsec:GuiPython} auf die Möglichkeiten einer grafischen Benutzeroberfläche mit Python eingegangen. Mit dem Resultat der Entscheidungsmatrizen aus \autoref{tab:EntscheidungsmatrixFrameworkart} und \autoref{tab:EntscheidungsmatrixWebFramework} erfolgt die Umsetzung mithilfe der in \autoref{sec:Benutzeroberfläche} erläuterten Werkzeuge einer Webentwicklung. Basierend auf den Start eines Web-Frontends %TODO vllt Quelle reinbringen
+bildet eine Rahmenstruktur die Basis der Webseite.
 
-\subsection{Implemintierung des Backends}
+\subsubsection{Strukturaufbau der Webseite}
+\label{subsubsec: StrukturaufbauWebseite}
+Eine Struktur als Rahmen der Webseite basiert grundlegend auf die Verwendung von \ac{HTML}. Für die Webseite bedeutet dies, dass die Struktur aus div-Boxen, welches ein \ac{HTML}-Elementen darstellt, besteht. Die div-Box kann den Tags, welche in \autoref{sec:HTMLCSSJS} erläutert wurden, zugeordnet werden, und bildet dadurch eine weitere Variante der \ac{HTML}-Tags. Grundsätzlich basiert eine Webseite auf einer index.html Datei, welche als Ausgangspunkt für den ersten Aufruf eines Nutzers dient. Bezogen auf die Struktur gibt es bei der Web-Entwicklung lediglich Vorschläge wie eine Umsetzung erfolgen kann, dennoch ist das Konzept nach eigenen Anforderungen zu definieren. Demnach kann eine Webseite komplett in der index.html Datei ausgeliefert werden, oder für jede Route, die der Nutzer adressieren kann, wird eine neue \ac{HTML}-Datei ausgeliefert. Im Rahmen der Studienarbeit wird das zweite Konzept verfolgt, weshalb die index.html Datei lediglich als Basis für eine einheitliche Struktur dient. Wie die nachfolgende \autoref{img:index-struktur} zeigt, bildet der nav-Tag das Konstrukt welches der Hauptbestandteil der index-Seite darstellt.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth]{images/indexbody}
+	\caption{Basis-Konstrukt der Index-Seite, eigene Darstellung}
+	\label{img:index-struktur}
+\end{figure}
+Der nav-Tag wird unter der Verwendung einer Navigationsleiste in HTML5 benutzt. Das Konstrukt ist Teil der index-Datei, um eine einheitliche Navigationsleiste für jede weitere Webseite zu definieren. Des Weiteren sind dieser Leiste HTML-Elemente zuzuordnen. Demnach ist der strukturelle Aufbau mit den Ergänzung an dem Basis-Konstrukt in der folgenden \autoref{img:index-strukturInhalt} dargestellt.\\
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth]{images/indexbodyInhalt}
+	\caption{Erweiterung der Navigationsleiste um weitere HTML-Elemente, eigene Darstellung}
+	\label{img:index-strukturInhalt}
+\end{figure}\\
+Die Erweiterungen beinhalten zwei i-Tags, welche Icons darstellen bzw. hervorheben sollen. Der a-Tag definiert eine Referenz in Form eines Hyperlinks, welcher zu einer angegebenen Seite verzweigen kann. Grundidee ist hierbei die Verzweigung des Logos auf die index-Seite bzw. auf die Webseite, die der Nutzer als home-Seite betrachten soll. Die div-Box als letztes Element der Index-Seite beinhaltet weitere Elemente, die keine Relevanz für den Strukturaufbau der Webseite darstellt. Diesem Element sind überwiegend weitere Links und Textfelder zugeordnet, wie es der \autoref{img:Navbar} zu entnehmen ist. Den \ac{HTML}-Elementen kann mithilfe von \ac{CSS} gestalterische Aspekte verliehen werden. Diese Aufgabe kann das unter \autoref{sec:HTMLCSSJS} vorgestellte Framework namens Bootstrap übernehmen. Dies ist mitunter der Grund weshalb den \ac{HTML}-Elementen solche Klassennamen gegeben werden. Bezogen auf diese definierten Klassennamen kann durch einbinden der bootstrap.css Datei im header die definierten Styles verwendet werden. Mit kleinen Ergänzungen stellt die \autoref{img:Navbar} die vollständige index-Seite dar.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth]{images/indexHTML&CSS}
+	\caption{Webbrowserdarstellung der Index-Seite, eigene Darstellung}
+	\label{img:Navbar}
+\end{figure}\\
+Aufbauend auf der Index-Seite können alle weiteren Webseiten die Navigationsleiste über die index.html Datei erben. Dadurch kann eine durchgängige Struktur beibehalten werden. Die Index-Seite bildet daher keine Möglichkeit durch einen Nutzer direkt adressiert zu werden. Die erste Anlaufstelle eines unangemeldeten Nutzers wird durch die Login-Seite abgebildet. Unabhängig von der Navigationsleiste bietet die login.html Datei ein Formular für den Anmeldevorgang. Mithilfe von Bootstrap wird die Basis-Struktur durch div-Boxen und Klassennamen definiert, wie sie der folgenden \autoref{img:BasisStrukturLogin} zu entnehmen sind.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth]{images/loginBasisStruktur}
+	\caption{Basis-Struktur der login-Seite, eigene Darstellung}
+	\label{img:BasisStrukturLogin}
+\end{figure}
+ Basierend auf diesem Aufbau bildet die Klasse \textit{d-flex justify-content-center} die Möglichkeit weitere div-Boxen flexibel anzuordnen. Eine Variante wie sie in \autoref{sec:HTMLCSSJS} unter \ac{CSS} erläutert wurde. Die \autoref{img:BasisStrukturLogin} bildet noch kein Formular der Login-Seit ab, sondern lediglich Container für eine korrekte Anordnung. Im folgenden wird der div-Box mit der Klasse \textit{content-section pt-5 pl-5} ein form-Tag hinzugefügt um in Kooperation mit Bootstrap ein Formular bezogen auf die Anmeldung zu konstruieren.
+ \begin{figure}[h]
+ 	\centering
+ 	\includegraphics[width=\linewidth]{images/loginBasisStruktur&FormContainer}
+ 	\caption{Integration des Formular-Tags in die Login-Basisstruktur, eigene Darstellung}
+ 	\label{img:BasisStrukturLoginUnd Formular}
+ \end{figure}
+Die Design-Elemente werden über der bootstrap.css Datei dem Formular mitgegeben. Der strukturelle Aufbau der Login-Seite ist damit vollendet. Für das Formular werden dem form-Container Textfelder, Buttons und ähnliches hinzugefügt, welche das Formular gestalterisch vervollständigen. Diese Elemente sind in der \autoref{img:LoginSeiteVollständig} dargestellt. Außerdem bildet die \autoref{img:LoginSeiteVollständig} die vollständige Login-Seite ab, wobei dieser Webseite eine weitere div-Box zugeteilt wurde, welches für die Struktur keine Relevanz darstellt und daher nicht aufgeführt wurde.
+ \begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth]{images/loginSeiteFertig}
+	\caption{Vollständige Login-Seite, eigene Darstellung}
+	\label{img:LoginSeiteVollständig}
+\end{figure}
+Aufgrund der Ähnlichkeit der Registrierungs-Seite zur Login-Seite erfolgt dafür keine detaillierte Erläuterung sondern lediglich die Darstellung der strukturierten Webseite bei der Vollendung.
+
+\subsection{Implementierung des Backends}
 \label{subsec:Backend}
 
 \newpage
