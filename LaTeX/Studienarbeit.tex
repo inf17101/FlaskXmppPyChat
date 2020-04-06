@@ -247,6 +247,9 @@ Ort, Datum & Unterschrift
 \acro{Ajax}{Asynchronous JavaScript and XML}
 \acro{ORM}{Object Relational Mapper}
 \acro{CA}{Certification Authority}
+\acro{RSA}{Rivest-Shamir-Adleman}
+\acro{BSI}{Bundesamt für Sicherheit in der Informationstechnik}
+\acro{PFS}{Perfect Forward Secrecy}
 \end{acronym}
 
 %abbildungsverzeichnis
@@ -774,13 +777,9 @@ Eine wichtige Anforderung an Tests ist, dass diese schnell und effizient ablaufe
 
 \label{sec:ChatserverEntwicklung}
 
-Die Grundlagen von ejabberd wurden im \autoref{sec:ejabberd} erläutert. In diesem Abschnitt wird beschrieben, welche Schritte notwendig sind, um den Chatserver ejabberd zu installieren und gemäß den Anforderungen aus \autoref{Anforderungen} zu konfigurieren. 
+Die Grundlagen von ejabberd wurden im \autoref{sec:ejabberd} erläutert. In diesem Abschnitt wird beschrieben, welche Schritte notwendig sind, um den Chatserver ejabberd zu installieren und gemäß den Anforderungen aus \autoref{Anforderungen} zu konfigurieren.
 
-\bigskip
-
-\textbf{Hardware und Betriebssystem:}
-
-\smallskip
+\subsubsection*{Hardware und Betriebssystem}
 
 Die Mindestanforderungen an Hardware sind in der ejabberd Dokumentation in \cite{ejabberdDocGettingStarted} nicht beschrieben. Die Dokumentation enthält Richtwerte für die Anzahl an Cores und die Menge an Arbeitsspeicher (RAM). Das System unterstützt bei 16 GB RAM und vier Cores insgesamt 200-300 Benutzer und zehn Clients gleichzeitig. Der Betreiber des Systems muss die Richtwerte an die Skalierung seines Systems selbst anpassen. Weil das System nach den Anforderungen keine große Anzahl an Benutzern unterstützen muss, wird eine Installation mit den folgenden Hardwarespezifikationen auf einer virtuellen Maschine umgesetzt:
 
@@ -792,11 +791,8 @@ Die Mindestanforderungen an Hardware sind in der ejabberd Dokumentation in \cite
 
 Die ejabberd Software unterstützt nach \autoref{sec:ejabberd} das Betriebssystem Linux. Für die Installation wird ein Linux Ubuntu 18.04 (LTS) gewählt, weil das Betriebssystem lizenzfrei ist und kostenlos benutzt werden kann.
 
-\bigskip
+\subsubsection*{Installation}
 
-\textbf{Installation:}
-
-\bigskip
 Ejabberd wird als einzelne Instanz installiert. Es wird keine Installation als Cluster, das einen Verbund aus mehreren gleichwertigen ejabberd Instanzen definiert, benötigt.
 
 Nach \autoref{sec:ejabberd} ist die interne Mnesia Datenbank des Chatservers zu klein, um einen voll umfänglichen Testbetrieb zu realisieren. Aus diesem Grund wird eine MySQL-Datenbank installiert und eine sichere Installation durchgeführt. Die sichere Installation entfernt vorinstallierte Datenbanken und stellt sicher, dass die Datenbank über keine andere IP-Adresse als die localhost IP-Adresse verfügbar ist.
@@ -847,6 +843,43 @@ $ apt install socat curl
 $ wget -O - https://get.acme.sh | sh
 \end{lstlisting}
 
+Mit folgendem Befehl wird ein \ac{RSA}-Zertifikat angefordert, wobei die Zeichenkette \glqq xmpp-dhbw.spdns.org\grqq der Domainname ist. Der Befehl ist mit dem root Benutzer durchzuführen.
+
+\bigskip
+
+\begin{lstlisting}[language=bash, caption={Installation des Let's Encrpt Zertifikats durch den ACME-Client}]
+$ bash /root/.acme.sh/acme.sh --issue -d xmpp-dhbw.spdns.org --keylength 4096 --standalone
+\end{lstlisting}
+
+Das Argument \glqq keylength 4096\grqq definiert die Länge des privaten Schlüssels in Bit. Laut den technischen Empfehlungen des \ac{BSI} ist ein Schlüssel mit 2000 bit Länge bis Ende des Jahres 2022 sicher. Danach sollen Schlüssel mit einer Mindestlänge von 3000 bit verwendet werden, die das \ac{BSI} bis Ende 2023 als sicher einstuft.\cite{empfehlungBSI}
+
+Nach den Anforderungen aus \autoref{Anforderungen}, wird zur Sicherheit ein privater Schlüssel mit 4096 bit Länge konfiguriert. Der Ablauf einer Verschlüsselung mit Hilfe des \ac{RSA}-Verfahrens ist in [Kapitelnummer einfügen] beschrieben.
+
+Das Zertifikat und die Schlüssel befinden sich nach ihrer Beantragung im Ordner \texttt{/root/.acme.sh/xmpp-dhbw.spdns.org}. Diese werden im ejabberd-Server in der Konfiguration eingebunden. Dazu wird ein Unterverzeichnis im Installationspfad von ejabberd erstellt (Befehl 1) und das Zertifikat und der private Schlüssel in den Unterordner kopiert (Befehle 2-3). Der Unterordner kann in der Konfiguration von ejabberd angegeben werden.
+Die letzten drei Befehle schränken die Berechtigungen ein. Sie machen den Ordner selbst und die Zertifikatsdateien zum Eigentum vom ejabberd Benutzer. Der \texttt{chmod}-Befehl definiert mit 600 als Argument, das die Datei nur vom ejabberd Benutzer gelesen und beschrieben werden dürfen. Alle anderen Benutzer, die auf dem System existieren werden davon ausgeschlossen.
+
+Die Befehle sind weiterhin mit dem root Benutzer durchzuführen.
+
+\bigskip
+
+\begin{lstlisting}[language=bash, caption={Kopieren der Zertifikate in ein Unterverzeichnis und Einschränkung der Rechte}]
+$ mkdir /etc/ejabberd/certs
+$ cp /root/.acme.sh/xmpp-dhbw.spdns.org/fullchain.cer /etc/ejabberd/certs/fullchain.pem
+$ cp /root/.acme.sh/xmpp-dhbw.spdns.org/xmpp-dhbw.spdns.org.key /etc/ejabberd/certs/
+$ chown ejabberd:ejabberd /etc/ejabberd/certs/
+$ chown ejabberd:ejabberd /etc/ejabberd/certs/*
+$ chmod 600 /etc/ejabberd/certs/*
+\end{lstlisting}
+
+Für \ac{PFS} wird eine Datei erzeugt, die Diffie-Hellman (DH) Parameter enthält. Die DH-Parameter bestehen aus zwei Zahlen p (eine sehr große Primzahl) und g (Generatorwert, in openSSL immer 2). Die DH-Parameter werden für den Schlüsselaustausch zwischen Client und ejabberd-Server verwendet, um zu gewährleisten, dass bei jeder Verbindung im Sinne der \ac{PFS} ein neuer Sitzungsschlüssel erzeugt wird und nicht über einen unsicheren Kommunikationskanal ausgetauscht werden muss. Durch das DH-Verfahren können sich beide Kommunikationspartner auf einen geheimen Sitzungsschlüssel einigen ohne ihn übertragen zu müssen. Für die Berechnung des Schlüssels werden nur die DH-Parameter aus der Datei übertragen. Nach der Sitzung wird der erzeugte Schlüssel gelöscht. Durch das Verfahren wird verhindert, dass der Sitzungsschlüssel rekonstruiert werden kann. Eine Datei mit DH-Parameter zu erzeugen, benötigt viele CPU-Ressourcen und nimmt einige Zeit in Anspruch.\cite{perfectForwardSecrecy}
+
+Der folgende Befehl erzeugt DH-Parameter mit einer Länge von 4096 bit.
+
+\bigskip
+
+\begin{lstlisting}[language=bash, caption={Erzeugen von Diffie-Hellman-Parametern für den ejabberd-Server}]
+$ openssl dhparam -out /etc/ejabberd/dh4096.pem 4096
+\end{lstlisting}
 
 
 \subsection{Anbindung des Chatservers}
