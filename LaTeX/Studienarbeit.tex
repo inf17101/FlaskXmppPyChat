@@ -250,6 +250,7 @@ Ort, Datum & Unterschrift
 \acro{RSA}{Rivest-Shamir-Adleman}
 \acro{BSI}{Bundesamt für Sicherheit in der Informationstechnik}
 \acro{PFS}{Perfect Forward Secrecy}
+\acro{ACL}{Access Control List}
 \end{acronym}
 
 %abbildungsverzeichnis
@@ -756,7 +757,7 @@ Tests eines komplexen Software-Systems lassen sich in verschiedene Testarten ein
 	\label{img:Testarten}
 \end{figure}
 
-Die häufigsten Testarten lassen sich in vier Bereiche aufteilen - Integrationstests, Unittests, Systemtests und Abnahmetests, siehe \autoref{img:Testarten}. \textbf{Integrationstests} sind abgestimmte Reihen von mehreren Tests, die dazu dienen, verschiedene voneinander abhängige Komponenten eines komplexen Systems im Zusammenspiel miteinander zu prüfen. Für den Integrationstest erstellt man nun Testszenarien, die das Zusammenwirken der beiden betroffenen Komponenten zeigen. Die Anzahl der Integrationsstufen richtet sich nach der Komplexität der Software. \textbf{Systemtests} werden durchgeführt, um die gesamte Software gegen die gesamten Anforderungen des Kunden zu testen. Das beinhaltet alle funktionalen Anforderungen und nicht funktionalen Anforderungen, wie zum Beispiel Qualität oder Bedienbarkeit. Weil Systemtests die gesamte Software testen, sind diese zum Zeitpunkt der Fertigstellung der Software durchzuführen. Idealerweise wird die Produktivumgebung des Kunden zuerst nachgestellt und die Software mit Live-Szenarien aus dem Produktivbetrieb getestet. Ein \textbf{Abnahmetest}, \textbf{Verfahrenstest}, \textbf{Akzeptanztest} oder auch \textbf{User Acceptance Test} ist ein Test der ausgelieferten Software durch den Kunden und/oder Auftraggeber. Der Test wird oft mit Kopien von Echtdaten in der Produktionsumgebung des Kunden durchgeführt. Diese Testart hat nicht das Ziel Fehler zu entdecken, sondern das der Kunde Vertrauen in das Endprodukt gewinnt. Fehler sollten schon durch andere Testarten entdeckt worden und behoben sein. Zum Beispiel durch \textbf{Unittests}. Unittests eignen sich dafür, bei jedem Entwicklungsstand einzusetzen. Diese Art von Tests werden in der Softwareentwicklung durchgeführt, um kleine, funktionale Einzelteile (\textbf{Units}) zu testen. Ein \textbf{Unit} kann dabei ein kleiner Codeabschnitt sein oder eine Methode einer Klasse sein. Weil Algorithmen auf Modulebene meist nur eine begrenzte Komplexität aufweisen und über klar definierte Schnittstellen aktiviert werden, können sie mit relativ wenigen Testfällen ziemlich umfassend getestet werden.\cite{witte2019testmanagement}
+Die häufigsten Testarten lassen sich in vier Bereiche aufteilen - Integrationstests, Unittests, Systemtests und Abnahmetests, siehe \autoref{img:Testarten}. \textbf{Integrationstests} sind abgestimmte Reihen von mehreren Tests, die dazu dienen, verschiedene voneinander abhängige Komponenten eines komplexen Systems im Zusammenspiel miteinander zu prüfen. Für den Integrationstest erstellt man nun Testszenarien, die das Zusammenwirken der beiden betroffenen Komponenten zeigen. Die Anzahl der Integrationsstufen richtet sich nach der Komplexität der Software. \textbf{Systemtests} werden durchgeführt, um die gesamte Software gegen die gesamten Anforderungen des Kunden zu testen. Das beinhaltet alle funktionalen Anforderungen und nicht funktionalen Anforderungen, wie zum Beispiel Qualität oder Bedienbarkeit. Weil Systemtests die gesamte Software testen, sind diese zum Zeitpunkt der Fertigstellung der Software durchzuführen. Idealerweise wird die Produktivumgebung des Kunden zuerst nachgestellt und die Software mit Live-Szenarien aus dem Produktivbetrieb getestet. Ein \textbf{Abnahmetest}, \textbf{Verfahrenstest}, \textbf{Akzeptanztest} oder auch \textbf{User Acceptance Test} ist ein Test der ausgelieferten Software durch den Kunden und/oder Auftraggeber. Der Test wird oft mit Kopien von echten Daten in der Produktionsumgebung des Kunden durchgeführt. Diese Testart hat nicht das Ziel Fehler zu entdecken, sondern das der Kunde Vertrauen in das Endprodukt gewinnt. Fehler sollten schon durch andere Testarten entdeckt worden und behoben sein. Zum Beispiel durch \textbf{Unittests}. Unittests eignen sich dafür, bei jedem Entwicklungsstand einzusetzen. Diese Art von Tests werden in der Softwareentwicklung durchgeführt, um kleine, funktionale Einzelteile (\textbf{Units}) zu testen. Ein \textbf{Unit} kann dabei ein kleiner Codeabschnitt sein oder eine Methode einer Klasse sein. Weil Algorithmen auf Modulebene meist nur eine begrenzte Komplexität aufweisen und über klar definierte Schnittstellen aktiviert werden, können sie mit relativ wenigen Testfällen ziemlich umfassend getestet werden.\cite{witte2019testmanagement}
 
 \smallskip
 
@@ -881,6 +882,35 @@ Der folgende Befehl erzeugt DH-Parameter mit einer Länge von 4096 bit.
 $ openssl dhparam -out /etc/ejabberd/dh4096.pem 4096
 \end{lstlisting}
 
+Nachdem alle zuvor erläuterten Vorbereitungsschritte durchgeführt sind, kann der ejabberd-Server gestartet und ein automatisches Starten des Dienstes beim Bootvorgang aktiviert werden:
+
+\bigskip
+
+\begin{lstlisting}[language=bash, caption={Erzeugen von Diffie-Hellman-Parametern für den ejabberd-Server}]
+$ sudo systemctl start ejabberd #start ejabberd service
+$ sudo systemctl enable ejabberd #auto start on boot
+$ sudo systemctl status ejabberd
+\end{lstlisting}
+
+Liefert die Statusabfrage (Befehl 3) keine Fehler, muss im nächsten Schritt ein Benutzer angelegt werden, der die nötigen Rechte besitzt, sich in das webbasierte Administrationsportal einzuloggen. Im Auslieferungszustand ist in der \ac{ACL} des ejabberd-Servers der Zugriff für die Administration auf den Benutzer \texttt{admin} beschränkt.\cite{ejabberdMGMT}
+
+Alle anders genannten Benutzer können sich mit ihrem Passwort im Administrationsportal einloggen, sie können aber keine Konfigurationen lesen oder verändern. Dieses Verhalten wurde durch einen Selbstversuch festgestellt. Über das in erlang programmierte Skript kann ejabberd verwaltet werden. Der Benutzer \textbf{admin} wird mit folgendem Befehl angelegt:\cite{ejabberdMGMT}
+
+\begin{lstlisting}[language=bash, caption={Erzeugen von Diffie-Hellman-Parametern für den ejabberd-Server}]
+$ sudo ejabberdctl register admin ejabberd-server passwort
+\end{lstlisting}
+
+Das Argument \texttt{register} ermöglicht das Anlegen des Benutzers. Das Argument \texttt{ejabberd-server} definiert die Domain innerhalb derer der Benutzer gültig ist. Es dürfen mehrere Domains auf dem Server registriert werden. Im Auslieferungszustand ist eine Domain \texttt{localhost} konfiguriert und das Administrationsportal ist unter \texttt{http://localhost:5280/admin} erreichbar. Damit das Administrationsportal mit dem Browser über die oben genannte Domain \texttt{http://xmpp-dhbw.spdns.org/admin} erreichbar ist und sich mit dem erstellten Benutzer innerhalb der Domain \texttt{ejabberd-server} eingeloggt werden kann, muss die Konfigurationsdatei angepasst werden.\cite{ejabberdMGMT}
+
+Die Konfiguration von ejabberd über seine Konfigurationsdatei ist im nächsten Kapitel beschrieben.
+
+
+\subsection{Konfiguration von ejabberd}
+\label{subsec:Konfiguration}
+
+Dieses Kapitel stellt eine Zusammenfassung wichtiger Konfigurationsschritte dar, die gemäß den Anforderungen aus \autoref{Anforderungen} durchgeführt wurden.
+
+
 
 \subsection{Anbindung des Chatservers}
 \label{subsec:Anbindung}
@@ -888,8 +918,6 @@ $ openssl dhparam -out /etc/ejabberd/dh4096.pem 4096
 \subsection{Security}
 \label{subsec:Security}
 
-\subsection{Konfiguration von ejabberd}
-\label{subsec:Konfiguration}
 
 \newpage
 
