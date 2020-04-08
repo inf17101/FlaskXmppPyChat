@@ -1,5 +1,4 @@
 \documentclass[a4paper,titlepage,halfparskip,12pt]{scrreprt}
-
 \usepackage[ngerman]{babel, varioref}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -28,6 +27,7 @@
 \definecolor{mymauve}{rgb}{0.58,0,0.82}
 \definecolor{burntorange}{rgb}{0.8, 0.33, 0.0}
 \definecolor{cornellred}{rgb}{0.7, 0.11, 0.11}
+
 
 \usepackage{listingsutf8}
 \lstset{
@@ -62,6 +62,47 @@ literate=%
 frame=single,
 frameround=ffff
 }
+
+%% start defining yaml listings layout
+\newcommand\YAMLcolonstyle{\color{red}\mdseries}
+\newcommand\YAMLkeystyle{\color{black}\bfseries}
+\newcommand\YAMLvaluestyle{\color{blue}\mdseries}
+
+\makeatletter
+
+% here is a macro expanding to the name of the language
+% (handy if you decide to change it further down the road)
+\newcommand\language@yaml{yaml}
+
+\expandafter\expandafter\expandafter\lstdefinelanguage
+\expandafter{\language@yaml}
+{
+  keywords={true,false,null,y,n},
+  keywordstyle=\color{blue}\bfseries,
+  basicstyle=\YAMLkeystyle,                                 % assuming a key comes first
+  sensitive=false,
+  comment=[l]{\#},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{mygreen}\ttfamily,
+  stringstyle=\YAMLvaluestyle\ttfamily,
+  moredelim=[l][\color{orange}]{\&},
+  moredelim=[l][\color{magenta}]{*},
+  moredelim=**[il][\YAMLcolonstyle{:}\YAMLvaluestyle]{:},   % switch to value style at :
+  morestring=[b]',
+  morestring=[b]",
+  literate =    {---}{{\ProcessThreeDashes}}3
+                {>}{{\textcolor{red}\textgreater}}1     
+                {|}{{\textcolor{red}\textbar}}1 
+                {\ -\ }{{\mdseries\ -\ }}3,
+}
+
+% switch to key style at EOL
+\lst@AddToHook{EveryLine}{\ifx\lst@language\language@yaml\YAMLkeystyle\fi}
+\makeatother
+
+\newcommand\ProcessThreeDashes{\llap{\color{cyan}\mdseries-{-}-}}
+
+% end defining yaml listings layout
 
 %meta data
 \usepackage[hidelinks]{hyperref}
@@ -251,6 +292,7 @@ Ort, Datum & Unterschrift
 \acro{BSI}{Bundesamt für Sicherheit in der Informationstechnik}
 \acro{PFS}{Perfect Forward Secrecy}
 \acro{ACL}{Access Control List}
+\acro{YAML}{YAML Ain't Markup Language}
 \end{acronym}
 
 %abbildungsverzeichnis
@@ -506,7 +548,7 @@ Die nachfolgende \autoref{tab:EntscheidungsmatrixFrameworkart} spiegelt die Erge
 		\hline
 		\textbf{Gesamtwertungszahl} & \textbf{100\%} & \textbf{2,161} & \textbf{1,831} \\
 	\end{tabular}
-\caption{Entscheidungsmatrix der Frameworkart}
+\caption{Entscheidungsmatrix der Frameworkart} %TODO Tabellen caption über die Tabelle positionieren
 \label{tab:EntscheidungsmatrixFrameworkart}
 \end{table} \\
 Die \autoref{tab:EntscheidungsmatrixFrameworkart} bildet eine Hilfestellung zur Entscheidung einer passenden Frameworkart für das Projekt. Die Bewertung der Tools entsprechend der Kriterien folgt dem Benotungsschema der akademischen Bildung. Demnach ist eine 1 sehr gut und eine 6 ungenügend. Im Kriterium Nutzerfreundlichkeit schließen beide Frameworks mit der gleichen Note ab, da die Nutzerfreundlichkeit abhängig vom Designstil ist und bei beiden Frameworks umgesetzt werden kann. Die Schwierigkeit, wie das Kriterium in der Einführung definiert wurde, bekommt beim Web-Framework eine bessere Bewertung. Grund hierfür ist, dass für das Web-Framework überwiegend keine aufwändigen Module in Python benötigt werden. Die Gestaltung erfolgt nämlich über HTML und CSS, welche dann mit einem schlichten Modul verknüpft bzw. aufgerufen werden können. Aufgrund von Vorkenntnissen sowohl in HTML als auch in CSS wird die Schwierigkeit für das Web-Framework besser bewertet. Bei der Umsetzbarkeit steht das Tool-Framework aufgrund der Verwendung eines gesamten Moduls besser da. Ein Web-Framework bringt HTML, CSS und das Modul mit was ein größeren Umfang bedeutet. Vor allem muss der Programmierer mit allen Elementen umgehen können, weshalb eine Umsetzung schwieriger sein könnte. In der Kompatibilität wird das Web-Framework aufgrund der Unabhängigkeit bezüglich des Betriebssystem besser bewertet. Außerdem kann eine ausgelieferte HTML-Seite von nahezu allen Browsern gelesen werden, und eine Möglichkeit die Lösung auf mobilen Endgeräten zu benutzen ist ebenfalls enthalten. Im Design unterscheiden sich die Frameworkarten nicht. Beide bieten vielerlei Möglichkeiten im Bezug auf die Gestaltung. Aufgrund des Projektes einen Chat über \ac{XMPP} und ejabberd zu realisieren wird schon hauptsächlich das Internet genutzt. Dadurch bietet es sich den Server eine HTML-Seite ausliefern zulassen. Aus diesem Grund wird das Web-Framework im Rahmen dieses Kriteriums besser bewertet. Anhand der Gesamtwertungszahl entsprechend der Benotung und der Gewichtung sind beide Frameworks zu empfehlen, dennoch schließt das Web-Framework besser ab, weshalb im weiteren Verlauf ein Web-Framework zum Einsatz kommen soll. \cite{FrameworkOverview} \cite{WebFramework}\\
@@ -896,11 +938,15 @@ Liefert die Statusabfrage (Befehl 3) keine Fehler, muss im nächsten Schritt ein
 
 Alle anders genannten Benutzer können sich mit ihrem Passwort im Administrationsportal einloggen, sie können aber keine Konfigurationen lesen oder verändern. Dieses Verhalten wurde durch einen Selbstversuch festgestellt. Über das in erlang programmierte Skript kann ejabberd verwaltet werden. Der Benutzer \textbf{admin} wird mit folgendem Befehl angelegt:\cite{ejabberdMGMT}
 
+\bigskip
+
 \begin{lstlisting}[language=bash, caption={Erzeugen von Diffie-Hellman-Parametern für den ejabberd-Server}]
 $ sudo ejabberdctl register admin ejabberd-server passwort
 \end{lstlisting}
 
 Das Argument \texttt{register} ermöglicht das Anlegen des Benutzers. Das Argument \texttt{ejabberd-server} definiert die Domain innerhalb derer der Benutzer gültig ist. Es dürfen mehrere Domains auf dem Server registriert werden. Im Auslieferungszustand ist eine Domain \texttt{localhost} konfiguriert und das Administrationsportal ist unter \texttt{http://localhost:5280/admin} erreichbar. Damit das Administrationsportal mit dem Browser über die oben genannte Domain \texttt{http://xmpp-dhbw.spdns.org/admin} erreichbar ist und sich mit dem erstellten Benutzer innerhalb der Domain \texttt{ejabberd-server} eingeloggt werden kann, muss die Konfigurationsdatei angepasst werden.\cite{ejabberdMGMT}
+
+Nach \cite{ejabberdDoc} ändert ejabberd die Konfigurationsdatei nicht, wenn ein Administrator Änderungen über das Administrationsportal durchführt. Es empfiehlt sich daher, die Administrationsoberfläche für die Benutzerverwaltung zu benutzen und die Konfiguration innerhalb der Datei anzupassen.
 
 Die Konfiguration von ejabberd über seine Konfigurationsdatei ist im nächsten Kapitel beschrieben.
 
@@ -910,7 +956,97 @@ Die Konfiguration von ejabberd über seine Konfigurationsdatei ist im nächsten 
 
 Dieses Kapitel stellt eine Zusammenfassung wichtiger Konfigurationsschritte dar, die gemäß den Anforderungen aus \autoref{Anforderungen} durchgeführt wurden.
 
+Ejabberd bietet zwei Konfigurationsdateien, die sich im Format unterscheiden. Mit beiden Dateien können dieselben Konfigurationen vorgenommen werden. Es empfiehlt sich, sich für ein Format zu entscheiden, um Inkonsistenzen oder Konfigurationsfehler zu vermeiden.
 
+\autoref{img:YAMLconfig} zeigt die Konfiguration in der Formatierung \ac{YAML} und \autoref{img:ErlangConfig} in der Formatierung Erlang auch Legacy Configuration gennant. Nach dem offiziellen ejabberd Configuration Guide \cite{ejabberdDoc} ist die im Format Erlang existierende Datei \texttt{ejabberd.cfg} veraltet und Administratoren sollten diese in das Format \ac{YAML} umwandeln. Bei Neuinstallationen sollen Konfigurationen direkt in der Datei \texttt{ejabberd.yml} vorgenommen werden. Diese ist im Format \ac{YAML} geschrieben.
+
+\begin{figure}
+\centering
+\begin{minipage}{.5\textwidth}
+  \centering
+  \includegraphics[width=.8\linewidth]{images/exampleYAMLConfig}
+  \caption{Formatierung: \texttt{YAML}}
+  \label{img:YAMLconfig}
+\end{minipage}%
+\begin{minipage}{.5\textwidth}
+  \centering
+  \includegraphics[width=.9\linewidth]{images/ejabberdErlangConfig}
+  \caption{Formatierung: \texttt{Erlang}}
+  \label{img:ErlangConfig}
+\end{minipage}
+\end{figure}
+
+Eine genaue Beschreibung der Syntax und dem Aufbau ist in \cite{specificationYAML} vorhanden. \ac{YAML} ist eine vereinfachte Auszeichnungssprache (engl. markup language). Das Ziel des Designs \ac{YAML} ist die Annahme, dass sich jede beliebige Datenstruktur mit assoziativen Listen, Listen (Arrays) und Einzelwerten (Skalaren) darstellen lässt. In \autoref{img:YAMLconfig} beginnt ein in \ac{YAML} formatierter Abschnitt mit drei Bindestrichen. Danach ist beispielhaft ein Skalar \texttt{loglevel} aufgeführt, das wieder auf ein Skalar \texttt{3} abbildet. Diese Syntax entspricht dem Key-Value-Prinzip (Schlüssel-Wert-Prinzip). Die Skalare links vom Doppelpunkt sind Variablen, die auch innerhalb der \ac{YAML}-Datei mit \glqq \texttt{\{ variable \}}\grqq referenziert werden können. Werden mehrere Key-Value-Paare Zeile für Zeile aufgelistet, stellt diese Auflistung eine assoziative Liste dar. Das Skalar \texttt{host} ist eine Liste, die mehrere Elemente enthält. Deren Elemente beginnen mit einem Bindestrich. Eine Verschachtelung von Ausdrücken ist durch Einrücken von Ausdrücken möglich. \ac{YAML} erlaubt keine Verwendung von Tabulatoren. Eine Einrückung wird durch eine bestimmte Anzahl an Leerzeichen erzielt. Zeilen mit \texttt{\#} am Anfang sind Kommentare. Durch dieses Konzept ist \ac{YAML} wesentlich leichter von Menschen zu lesen und zu schreiben, außerdem vereinfacht es die Weiterverarbeitung der Daten, da die meisten Sprachen, wie C++, Python oder Java solche Konstrukte bereits integriert haben.
+
+Für das Projekt wird die Konfiguration von ejabberd entsprechend den Empfehlungen aus dem Configuration Guide \cite{ejabberdDoc} in der Auszeichnungssprache \ac{YAML} durchgeführt.
+
+\subsubsection*{Aspekte der Konfiguration}
+
+\begin{itemize}
+\item Es werden ausschließlich Clients, die die Kommunikation über das Protokoll \ac{XMPP} unterstützt, wie zum Beispiel Gajim oder Morzilla Thunderbird.
+
+\item Neue Accounts von Benutzern können über In-Band-Registration, das bedeutet, direkt über den \ac{XMPP}-Client eröffnet werden.
+
+\item Es ist grundsätzlich jedem Benutzer gestattet einen Account anzulegen.
+
+\item Aus- und eingehende Kommunikation ist über \ac{TLS} verschlüsselt. Kann der verschlüsselte Kanal nicht aufgebaut werden, zum Beispiel weil der Client die vom Server angebotenen Verschlüsselungsalgorithmen nicht unterstützt, wird die Verbindung abgebrochen.
+
+\item Die Sammlung kryptographischer Verfahren zur Verschlüsselung von Transportdaten (engl. Cipher-Suites) ist im Sinne der Anforderungen aus \autoref{Anforderungen} und des Datenschutzes aus \autoref{chap:Datenschutz} sehr strikt.
+
+\item Die Konfiguration ist nicht für ein Cluster-System oder für die Kopplung von mehreren \ac{XMPP}-Servern vorgesehen.
+
+\end{itemize}
+
+\autoref{tab:PortsEjabberd} zeigt eine Übersicht über alle Standardports und ihrer zugehörigen Dienste.
+
+\begin{table}[h]
+\centering
+\caption{Übersicht über Ports von ejabberd und deren Dienste}
+\begin{tabular}{|l|p{.9\textwidth}|}
+\hline
+\textbf{Port} & \textbf{Beschreibung} \\
+\hline
+\textbf{5222} & Clients, die sich über \ac{XMPP} mit dem Server verbinden und kommunizieren wollen, benutzen diesen Port. \\
+\hline
+\textbf{5223} & \ac{XMPP}-Clients, die sich direkt über \ac{TLS} mit dem Server verbinden wollen, benutzen diesen Port. \\
+\hline
+\textbf{5269} & Server, die sich mit dem ejabberd-Server verbinden wollen, nutzen diesen Port. \\
+\hline
+\textbf{5270} & Server, die sich direkt über \ac{TLS} mit dem ejabberd-Server verbinden wollen, benutzen diesen Port.  \\
+\hline
+\textbf{5280} & Der Zugriff auf das webbasierte Administrationsportal ist unter diesem Port für autorisierte Benutzer möglich. \\
+\hline
+\end{tabular}
+\label{tab:PortsEjabberd}
+\end{table}
+
+Die im Folgenden beschriebenen Konfigurationen weichen von der Standardkonfiguration im Auslieferungszustand ab und dienen dem Zweck einer datenschutzfreundlichen und sicheren Konfiguration.
+
+\subsubsection*{Konfiguration des Logging}
+
+Das Log-Level bestimmt den Grad der Ausführlichkeit von Einträgen in eine Protokolldatei. Es beeinflusst die Anzahl und den Detailgrad der Informationen, die die Software von ejabberd während dem Betrieb aufzeichnet.\cite{ejabberdDoc}
+
+Verfügbare Log-Level nach \cite{ejabberdDoc}:
+
+\begin{description}
+\item[0] Der Server protokolliert alle Aktivitäten, zum Beispiel IP-Adressen von Clients, weitere Informationen zur Verbindung, Fehler und Warnungen.
+\item[1] Critical: nur kritische, interne Fehler werden protokolliert. Warnungen und andere Informationen über Benutzer und Verbindungen sind ausgeschlossen.
+\item[2] Error: Jeder Fehler wird protokolliert. Andere Informationen über Benutzer oder Verbindungen werden nicht gespeichert.
+\item[3] Warning: Alle Warnungen und Fehler werden protokolliert, Verbindungsdetails und Informationen über den Benutzer nicht.
+\item[4] Info: Verbindungsdetails und Informationen über den Benutzer werden protokolliert, zusätzlich Warnungen und Fehler jeglicher Art.
+\item[5] Debug: Alle Informationen, Fehler und Warnungen werden protokolliert. Detaillierte Informationen über einzelne Module für die Fehlersuche werden erhoben.
+\end{description}
+
+Das Log-Level wird auf den Wert \texttt{3} (Warning) gesetzt. Dadurch wird verhindert, das Anmeldevorgänge von Clients oder das Versenden von Nachrichten erfasst wird. Nur Warnungen oder Fehler werden protokolliert.\cite{ejabberdDoc}
+
+\bigskip
+
+\begin{lstlisting}[language=yaml, caption={Einstellung für das Log-Level von ejabberd}]
+loglevel: 3
+hide_sensitive_log_data: true
+\end{lstlisting}
+
+Weil die Option \texttt{hide\_sensitive\_log\_data} aktiviert ist, werden keine IP-Adressen und sensitive Daten protokolliert. Diese Einstellung erhöht die Privatsphäre der Benutzer.\cite{ejabberdDoc}
 
 \subsection{Anbindung des Chatservers}
 \label{subsec:Anbindung}
