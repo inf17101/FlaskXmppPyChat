@@ -293,6 +293,7 @@ Ort, Datum & Unterschrift
 \acro{PFS}{Perfect Forward Secrecy}
 \acro{ACL}{Access Control List}
 \acro{YAML}{YAML Ain't Markup Language}
+\acro{DNS}{Domain Name System}
 \end{acronym}
 
 %abbildungsverzeichnis
@@ -1019,7 +1020,7 @@ Für das Projekt wird die Konfiguration von ejabberd entsprechend den Empfehlung
 \end{tabular}
 \label{tab:PortsEjabberd}
 \end{table}
-
+%TODO xmpp compliance check am ende der config durchführen und beschreiben
 Die im Folgenden beschriebenen Konfigurationen weichen von der Standardkonfiguration im Auslieferungszustand ab und dienen dem Zweck einer datenschutzfreundlichen und sicheren Konfiguration.
 
 \subsubsection*{Konfiguration des Logging}
@@ -1047,6 +1048,20 @@ hide_sensitive_log_data: true
 \end{lstlisting}
 
 Weil die Option \texttt{hide\_sensitive\_log\_data} aktiviert ist, werden keine IP-Adressen und sensitive Daten protokolliert. Diese Einstellung erhöht die Privatsphäre der Benutzer.\cite{ejabberdDoc}
+
+\subsubsection*{Konfiguration des Host}
+
+Die Liste \texttt{hosts} in \autoref{lst:configHosts} auf Seite \pageref{lst:configHosts} definiert die Domains, deren Benutzer zugeordnet werden können. Eine ejabberd-Instanz kann mehrere Domains verwalten und bedienen. Das Listing zeigt die Konfiguration von ejabberd mit der Domain \texttt{ejabberd-server}. Es ist zulässig, der Liste weitere Domains hinzuzufügen. Für das Projekt wird jedoch nur eine Domain benötigt.
+
+\bigskip
+
+\begin{lstlisting}[language=yaml, caption={Konfiguration der Domains},label={lst:configHosts}]
+hosts:
+  - "ejabberd-server"
+\end{lstlisting}
+
+Die Domain ist gleichzeitig die \ac{XMPP}-Domain mit der Benutzer adressiert werden können. Der Name des Benutzers muss innerhalb der Domain eindeutig sein und mit der vollständigen Domain konkateniert werden, zum Beispiel: \texttt{testuser@ejabberd-server}. Andernfalls ist die Adressierung zum Beispiel für das Versenden und dem Empfang einer Nachricht inkorrekt.
+%TODO eventuell Grafik mit Senderdomain und Empfängerdomain und dazwischen Server
 
 \subsection{Anbindung des Chatservers}
 \label{subsec:Anbindung}
