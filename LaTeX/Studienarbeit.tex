@@ -1064,19 +1064,34 @@ Weil die Option \texttt{hide\_sensitive\_log\_data} aktiviert ist, werden keine 
 
 \subsection{Entwicklung der GUI}
 \label{subsec:EntwicklungGUI}
-Einleitend wurde im \autoref{subsec:GuiPython} auf die Möglichkeiten einer grafischen Benutzeroberfläche mit Python eingegangen. Mit dem Resultat der Entscheidungsmatrizen aus \autoref{tab:EntscheidungsmatrixFrameworkart} und \autoref{tab:EntscheidungsmatrixWebFramework} erfolgt die Umsetzung mithilfe der in \autoref{sec:Benutzeroberfläche} erläuterten Werkzeuge einer Webentwicklung. Basierend auf den Start eines Web-Frontends %TODO vllt Quelle reinbringen
-bildet eine Rahmenstruktur die Basis der Webseite.
+Einleitend wurde im \autoref{subsec:GuiPython} auf die Möglichkeiten einer grafischen Benutzeroberfläche mit Python eingegangen. Mit dem Resultat der Entscheidungsmatrizen aus \autoref{tab:EntscheidungsmatrixFrameworkart} und \autoref{tab:EntscheidungsmatrixWebFramework} erfolgt die Umsetzung mithilfe der in \autoref{sec:Benutzeroberfläche} erläuterten Werkzeuge einer Webentwicklung. Für die Entwicklung eines Web-Frontends %TODO vllt Quelle reinbringen
+bildet eine Rahmenstruktur die Basis der Webseite. Der Rahmen bezieht sich dabei auf ein einzelnes \ac{HTML}-Dokument. Um nun auf den \ac{HTML}-Aufbau der Webseiten einzugehen ist das Verständnis über die Verknüpfung und Auslieferzeitpunkten der Einzelseiten relevant. Für diese Verknüpfung können die nachfolgenden Abbildungen betrachtet werden.
+\begin{figure}[h]
+	\begin{minipage}[c]{.4\textwidth}
+		\includegraphics[width=\textwidth]{images/HTMLDateienOrdner}
+		\caption{Zugriff über ID, eigene Darstellung}
+		\label{img:HTMLDateienOrdner}
+	\end{minipage}
+	\hspace{0.05\linewidth}% Abstand zwischen Bilder
+	\begin{minipage}[c]{.4\textwidth}
+		\includegraphics[scale=0.7]{images/HTMLDateienAufrufbaum}
+		\caption{Zugriff über Klasse, eigene Darstellung}
+		\label{img:DateinAufrufbaum}
+	\end{minipage}
+\end{figure}
+\autoref{img:HTMLDateienOrdner} zeigt welche HTML-Dateien für die Applikation relevant sind und wo diese in der Ordnerstruktur zu finden sind. Die zweite \autoref{img:DateinAufrufbaum} zeigt wie die Seiten gegenseitig benötigt werden. Hierbei handelt es sich nicht um den Source-Code sondern um die Aufrufstruktur für den Nutzer. Mit der \textit{index.html} in kursiver Schrift wird angedeutet, dass kein Nutzer diese Seite ausgeliefert bekommt. Dieses \ac{HTML}-Dokument dient lediglich als Basis. Die weiteren Dateien erben den Inhalt der index.html, was die UML-Notation andeuten soll. Auf der zweiten Ebene hat der Nutzer die Möglichkeit zwischen den Dateien, welche hinter einer Route liegen, zu wechseln, je nach Verwendung. Mit dem Verständnis über die Beziehungen der Dateien wird im Folgenden auf den \ac{HTML}-Aufbau der einzelnen HTML-Dokumenten eingegangen.
 
-\subsubsection{Strukturaufbau der Webseite}
-\label{subsubsec: StrukturaufbauWebseite}
-Eine Struktur als Rahmen der Webseite basiert grundlegend auf die Verwendung von \ac{HTML}. Für die Webseite bedeutet dies, dass die Struktur aus div-Boxen, welches ein \ac{HTML}-Elementen darstellt, besteht. Die div-Box kann den Tags, welche in \autoref{sec:HTMLCSSJS} erläutert wurden, zugeordnet werden, und bildet dadurch eine weitere Variante der \ac{HTML}-Tags. Grundsätzlich basiert eine Webseite auf einer index.html Datei, welche als Ausgangspunkt für den ersten Aufruf eines Nutzers dient. Bezogen auf die Struktur gibt es bei der Web-Entwicklung lediglich Vorschläge wie eine Umsetzung erfolgen kann, dennoch ist das Konzept nach eigenen Anforderungen zu definieren. Demnach kann eine Webseite komplett in der index.html Datei ausgeliefert werden, oder für jede Route, die der Nutzer adressieren kann, wird eine neue \ac{HTML}-Datei ausgeliefert. Im Rahmen der Studienarbeit wird das zweite Konzept verfolgt, weshalb die index.html Datei lediglich als Basis für eine einheitliche Struktur dient. Wie die nachfolgende \autoref{img:index-struktur} zeigt, bildet der nav-Tag das Konstrukt welches der Hauptbestandteil der index-Seite darstellt.
+
+\subsubsection*{Strukturaufbau der Webseiten}
+\label{subsubsec: StrukturaufbauWebseiten}
+Eine Struktur als Rahmen der Webseite basiert grundlegend auf die Verwendung von \ac{HTML}. Für die Webseite bedeutet dies, dass die Struktur aus div-Boxen, welches ein \ac{HTML}-Elementen darstellt, besteht. Die div-Box kann den Tags, welche in \autoref{sec:HTMLCSSJS} erläutert wurden, zugeordnet werden, und bildet dadurch eine weitere Variante der \ac{HTML}-Tags. Grundsätzlich basiert eine Webseite auf einer index.html Datei, welche als Ausgangspunkt für den ersten Aufruf eines Nutzers dient. Bezogen auf die Struktur gibt es bei der Web-Entwicklung lediglich Vorschläge wie eine Umsetzung erfolgen kann, dennoch ist das Konzept nach eigenen Anforderungen zu definieren. Demnach kann eine Webseite komplett in der \textbf{index.html} Datei ausgeliefert werden, oder für jede Route, die der Nutzer adressieren kann, wird eine neue \ac{HTML}-Datei ausgeliefert. Im Rahmen der Studienarbeit wird das zweite Konzept verfolgt, weshalb die index.html Datei lediglich als Basis für eine einheitliche Struktur dient. Dieses Konzept ist in der \autoref{img:DateinAufrufbaum} dargestellt. Außerdem ist daraus ersichtlich, dass die index.html nicht direkt ausgeliefert wird. Wie die nachfolgende \autoref{img:index-struktur} zeigt, bildet der nav-Tag das Konstrukt welches der Hauptbestandteil der index-Seite darstellt.
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=\linewidth]{images/indexbody}
 	\caption{Basis-Konstrukt der Index-Seite, eigene Darstellung}
 	\label{img:index-struktur}
 \end{figure}
-Der nav-Tag wird unter der Verwendung einer Navigationsleiste in HTML5 benutzt. Das Konstrukt ist Teil der index-Datei, um eine einheitliche Navigationsleiste für jede weitere Webseite zu definieren. Des Weiteren sind dieser Leiste HTML-Elemente zuzuordnen. Demnach ist der strukturelle Aufbau mit den Ergänzung an dem Basis-Konstrukt in der folgenden \autoref{img:index-strukturInhalt} dargestellt.\\
+Der nav-Tag wird unter der Verwendung einer Navigationsleiste in HTML5 benutzt. Das Konstrukt ist Teil der index-Datei, um eine einheitliche Navigationsleiste für jede weitere Webseite zu definieren. Des Weiteren sind dieser Leiste HTML-Elemente zuzuordnen. Der strukturelle Aufbau mit den Ergänzung an dem Basis-Konstrukt ist in der folgenden \autoref{img:index-strukturInhalt} dargestellt.
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=\linewidth]{images/indexbodyInhalt}
@@ -1090,28 +1105,91 @@ Die Erweiterungen beinhalten zwei i-Tags, welche Icons darstellen bzw. hervorheb
 	\caption{Webbrowserdarstellung der Index-Seite, eigene Darstellung}
 	\label{img:Navbar}
 \end{figure}\\
-Aufbauend auf der Index-Seite können alle weiteren Webseiten die Navigationsleiste über die index.html Datei erben. Dadurch kann eine durchgängige Struktur beibehalten werden. Die Index-Seite bildet daher keine Möglichkeit durch einen Nutzer direkt adressiert zu werden. Die erste Anlaufstelle eines unangemeldeten Nutzers wird durch die Login-Seite abgebildet. Unabhängig von der Navigationsleiste bietet die login.html Datei ein Formular für den Anmeldevorgang. Mithilfe von Bootstrap wird die Basis-Struktur durch div-Boxen und Klassennamen definiert, wie sie der folgenden \autoref{img:BasisStrukturLogin} zu entnehmen sind.
+Aufbauend auf der Index-Seite können alle weiteren Webseiten die Navigationsleiste über die index.html Datei erben, wie es das Konzept aus \autoref{img:DateinAufrufbaum} darstellt. Dadurch kann eine durchgängige Struktur beibehalten werden. Die Index-Seite bildet daher keine Möglichkeit durch einen Nutzer direkt adressiert zu werden. Die erste Anlaufstelle eines unangemeldeten Nutzers wird durch die Login-Seite abgebildet. Unabhängig von der Navigationsleiste bietet die \textbf{login.html} Datei ein Formular für den Anmeldevorgang. Mithilfe von Bootstrap wird die Basis-Struktur durch div-Boxen und Klassennamen definiert, wie sie der folgenden \autoref{img:BasisStrukturLogin} zu entnehmen sind.
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=\linewidth]{images/loginBasisStruktur}
 	\caption{Basis-Struktur der login-Seite, eigene Darstellung}
 	\label{img:BasisStrukturLogin}
 \end{figure}
- Basierend auf diesem Aufbau bildet die Klasse \textit{d-flex justify-content-center} die Möglichkeit weitere div-Boxen flexibel anzuordnen. Eine Variante wie sie in \autoref{sec:HTMLCSSJS} unter \ac{CSS} erläutert wurde. Die \autoref{img:BasisStrukturLogin} bildet noch kein Formular der Login-Seit ab, sondern lediglich Container für eine korrekte Anordnung. Im folgenden wird der div-Box mit der Klasse \textit{content-section pt-5 pl-5} ein form-Tag hinzugefügt um in Kooperation mit Bootstrap ein Formular bezogen auf die Anmeldung zu konstruieren.
- \begin{figure}[h]
- 	\centering
- 	\includegraphics[width=\linewidth]{images/loginBasisStruktur&FormContainer}
- 	\caption{Integration des Formular-Tags in die Login-Basisstruktur, eigene Darstellung}
- 	\label{img:BasisStrukturLoginUnd Formular}
- \end{figure}
-Die Design-Elemente werden über der bootstrap.css Datei dem Formular mitgegeben. Der strukturelle Aufbau der Login-Seite ist damit vollendet. Für das Formular werden dem form-Container Textfelder, Buttons und ähnliches hinzugefügt, welche das Formular gestalterisch vervollständigen. Diese Elemente sind in der \autoref{img:LoginSeiteVollständig} dargestellt. Außerdem bildet die \autoref{img:LoginSeiteVollständig} die vollständige Login-Seite ab, wobei dieser Webseite eine weitere div-Box zugeteilt wurde, welches für die Struktur keine Relevanz darstellt und daher nicht aufgeführt wurde.
- \begin{figure}[h]
+Basierend auf diesem Aufbau bildet die Klasse \textit{d-flex justify-content-center} die Möglichkeit weitere div-Boxen flexibel anzuordnen. Eine Variante wie sie in \autoref{sec:HTMLCSSJS} unter \ac{CSS} erläutert wurde. Die \autoref{img:BasisStrukturLogin} bildet noch kein Formular der Login-Seit ab, sondern lediglich Container für eine korrekte Anordnung. Im Folgenden wird der div-Box mit der Klasse \textit{content-section pt-5 pl-5} ein form-Tag hinzugefügt, um in Kooperation mit Bootstrap ein Formular, bezogen auf die Anmeldung, zu konstruieren.
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.55]{images/loginBasisStruktur&FormContainer}
+	\caption{Integration des Formular-Tags in die Login-Basisstruktur, eigene Darstellung}
+	\label{img:BasisStrukturLoginUnd Formular}
+\end{figure}\\
+Die Design-Elemente werden über der bootstrap.css Datei dem Formular mitgegeben. Der strukturelle Aufbau der Login-Seite ist damit vollendet. Für das Formular werden dem form-Container Textfelder, Buttons und ähnliches hinzugefügt, welche das Formular gestalterisch vervollständigen. Diese Elemente sind in der \autoref{img:LoginSeiteVollständig} dargestellt. Außerdem bildet die \autoref{img:LoginSeiteVollständig} die vollständige Login-Seite ab, wobei dieser Webseite eine weitere div-Box zugeteilt wird, welches für die Struktur keine Relevanz darstellt und daher nicht aufgeführt wurde.
+\begin{figure}[h]
 	\centering
 	\includegraphics[width=\linewidth]{images/loginSeiteFertig}
 	\caption{Vollständige Login-Seite, eigene Darstellung}
 	\label{img:LoginSeiteVollständig}
 \end{figure}
-Aufgrund der Ähnlichkeit der Registrierungs-Seite zur Login-Seite erfolgt dafür keine detaillierte Erläuterung sondern lediglich die Darstellung der strukturierten Webseite bei der Vollendung.
+Aufgrund der Ähnlichkeit der \textbf{Registrierungs-Seite} zur Login-Seite erfolgt dafür keine detaillierte Erläuterung sondern lediglich die Darstellung der strukturierten Webseite mit den HTML-Inhalten und der Designdarstellung dieser Route. Einziges unterscheidendes Merkmal zur Login-Seite sind die HTML-Elemente innerhalb des Formulars, welche sich vor allem in der Anzahl unterscheiden. Die folgende \autoref{img:RegisterSeiteVollständig} zeigt sowohl die Struktur als auch die Darstellung für den Nutzer.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth]{images/RegisterPage}
+	\caption{Vollständige Registrierungs-Seite, eigene Darstellung}
+	\label{img:RegisterSeiteVollständig}
+\end{figure}
+Aus der \autoref{img:RegisterSeiteVollständig} sind die erwähnten Unterschiede nicht zu entnehmen, da Sie keine Einwirkung auf die Grundstruktur der Registrierungsseite haben und daher wurden diese nicht mit in die form-Box aufgenommen. Die Hauptseite des Web-Clients wird dem Nutzer durch die \textbf{gochat.html} Datei ausgeliefert. Wie der \autoref{img:DateinAufrufbaum} zu entnehmen ist, kann der Nutzer die Seite von der login.html Seite erreichen. Dabei handelte es sich um einen normalen Anmeldevorgang. Die gochat.html Datei beinhaltet den Aufbau des Chats sowie zahlreiche weitere Funktionen welche dem Nutzer nur angeboten werden wenn er angemeldet ist. Ein Securityaspekt, welcher im routing geregelt wird und kein Bestandteil der HTML-Dokumente ist. Die gochat.html Datei gliedert sich in mehrere HTML-Tags bzw. in mehrere div-Boxen, auf die im einzelnen detaillierter eingegangen wird. Dafür stellt die erste \autoref{img:BasisStruktur1Gochat} eine Art erste Ebene dar, welche die einzelnen Elemente voneinander abgrenzt und eine Struktur für die Teilbereiche bildet.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth]{images/BasisStruktur1Gochat}
+	\caption{Strukturierung von gochat.html auf der ersten Ebene, eigene Darstellung}
+	\label{img:BasisStruktur1Gochat}
+\end{figure}
+Die ausgegraute div-Box mit der Klasse \textit{navbar} wird ausschließlich für die Vollständigkeit mitaufgeführt. Die Klasse ist Teil der index.html und wird von gochat.html geerbt. Dadurch besteht die erste Ebene aus den drei anderen div-Boxen. Die erste div-Box mit der id \textit{containerMain} deckt den gesamten Viewport der Webseite ab. Dadurch ergibt sich die Möglichkeit innere Container entsprechend des Viewports anzupassen.\\
+Ein relevantes Merkmal ist dabei die Klasse \textit{row}, welches Bestandteil von Bootstrap ist. Die Klasse kann in mehreren Situationen zum Einsatz kommen. Im Fall von der gochat.html handelt es sich um das Grid-System von Bootstrap. Dieses bietet die Möglichkeit Container bzw. div-Boxen in dem von Bootstrap spezifizierten Grid auszurichten. Dadurch wird dem Anwender die Möglichkeit geboten eine row zu definieren und diese, wie die nachfolgende Abbildung zeigt, in columns zu unterteilen.
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.9]{images/GridSystem}
+	\caption{Das Grid System von Bootstrap, \cite{krause2016introducing}}
+	\label{img:GridSystem}
+\end{figure}
+Mit diesem Konzept können die Inhalte problemlos aneinander gereiht bzw. angeordnet werden. \cite{krause2016introducing}\\
+Aufgrund dieser Konzeptionierung wird der id \textit{content-window} die Klasse \textit{col} zugeordnet. Damit wird gewährleistet, dass sich die div-Box wie eine Spalte anordnet. Die Anordnung kann außerdem über eigene CSS-Styles definiert werden, wie es bei dem Sidepanel der Fall ist. Da die CSS keine detaillierte Auswirkung auf die Struktur hat wird auf diese Styles nicht genaueres eingegangen. Im Folgenden soll das Sidepanel mit seinem Container im Vordergrund stehen. Um die innere Struktur zu definieren sind die Aufgaben bzw. die Anzeigemöglichkeiten des Sidepanels zu definieren. Entsprechend der Aufgaben können Boxen angelegt werden welche den Inhalt im weiteren Verlauf spezifizieren. Demnach sind folgende Bestandteile:
+\begin{itemize}
+	\item Profilanzeige
+	\item Suchfunktion innerhalb der eigenen Kontaktliste
+	\item Kontaktliste für Einzel- und Gruppenchats
+	\item Zusätzliche Optionen
+\end{itemize}
+relevant für das Sidepanel. Zur Integration in die gochat.html wird für jedem Bestandteil einen eigenen Container definiert. Diese werden dem Sidepanel zugeordnet, wie es auf der nachfolgenden Abbildung dargestellt ist.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth]{images/BasisStruktur1GochatSidepanel}
+	\caption{Erweiterung des Sidepanels um die aufgezählten Bestandteile, eigene Darstellung}
+	\label{img:Sidepanel}
+\end{figure}
+Die eigenständigen Container bietet die Möglichkeit die Elemente getrennt voneinander zu gestalten. Außerdem kann dadurch den Elementen im weiteren Verlauf dynamische Aspekte zugeteilt werden. Damit steht die Struktur des Sidepanels. Den einzelnen Containern können weitere HTML-Elemente zugeordnet werden. Das bedeutet eine tiefere Verschachtelung, die nicht nähers erläutert wird. Lediglich auf Elemente welche der Nutzer sehen kann soll kurz dargestellt werden. Für die id \textit{profile} bedeutet das, ein img-Tag für das Profilbild und ein p-Tag für den Namen des Nutzers.\\
+Der \textit{search}-Box kann ein Inputfield zugeordnet werden, welches dem Nutzer die Möglichkeit bietet Texte einzugeben. \cite{bootstrapOnline}\\
+Für \textit{contacts} gibt es keine erwähnenswerte Inhalte. Mit der Umsetzung der zusätzlichen Optionen wird der \textit{bottom-bar} zwei Buttons zugeteilt, welche diese Optionen bereitstellen sollen. Für die div-Box mit der id \textit{content-wndow} ist die Vorgehensweise identisch um alle Aufgabenbereiche, aus den Anforderungen, in der grafischen Benutzeroberfläche abzudecken. Diesem Container müssen daher folgende Bestandteile zugeordnet werden.
+\begin{itemize}
+	\item Profilanzeige des Chatpartners
+	\item Nachrichtenansicht
+	\item Möglichkeit eine Nachricht einzugeben (Textfeld)
+\end{itemize}
+In Abhängigkeit dieser definierten Bestandteile wird jedem ein Container zugeteilt, der die definierten Aufgaben innehalten soll.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth]{images/BasisStruktur1GochatContentWindow}
+	\caption{Erweiterung des Containers \textit{content-window} um die aufgezählten Bestandteile, eigene Darstellung}
+	\label{img:Content-window}
+\end{figure}
+Der Klasse \textit{contact-profil} sind die gleichen HTML-Elemente untergeordnet wie es schon bei der div-Box \textit{profile} der Fall war. Ergänzend dazu ist dem Kontaktprofil des Chatpartners ein Dropdownmenü zugeteilt, welches weitere Optionen bereitstellen soll. Für die Struktur von gochat.html werden diese Unterpunkte nicht benötigt. Außerdem ist das Dropdownmenü überwiegend ein CSS-Element, weshalb es kein wichtiger Aspekt in der Struktur darstellt. Der Container mit der id \textit{messages-container} bildet lediglich einen Rahmen um die Nachrichten des Chats, weshalb der Container keine weiteren HTML-Elemente aufzeigt. Die Nachrichten entstehen zur Laufzeit und sind daher kein Bestandteil der Struktur. Das Hauptmerkmal der Klasse \textit{input-group} ist das Textfeld und der Button, welches es innehat. Dadurch wird dem Nutzer gewährleistet seine Nachrichten einzugeben und über ein Button zu senden. Weitere HTML-Elemente spielen in der Struktur keine Rolle und sind daher nicht weiters aufgeführt. Alle Elemente, welche die Struktur der gochat.html Datei beschreiben sind in der \autoref{img:Content-window} aufgeführt. Unter der Verwendung von Bootstrap und eigenen Styles zeigt die \autoref{img:GochatUserview} die Hauptseite aus der Sicht des Nutzers.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth]{images/GochatUserAnsicht}
+	\caption{gochat.html aus Sicht des Nutzers, eigene Darstellung}
+	\label{img:GochatUserview}
+\end{figure}
+Mit der fertigen Struktur von gochat.html wurden alle Webseiten, die der Webserver ausliefert, erläutert. Das Erscheinungsbild, wie es bspw. in \autoref{img:GochatUserview} dargestellt ist entsteht hauptsächlich unter der Verwendung von \ac{CSS}. Diese Details werden aufgrund der Redundanzen und der Ähnlichkeit zu den Beispielen aus \autoref{sec:HTMLCSSJS} nicht nähers erläutert und können dem Source-Code entnommen werden. Eine größere Relevanz spielen die dynamischen Elemente, welche das Nutzerverhalten direkt beeinflussen können. Aus diesem Grund wird der JavaScript Code mit Bezug zur jeweiligen HTML-Datei detaillierter erläutert.
+
+\subsubsection*{Integration dynamischer Elemente in die Webseiten}
+\label{subsubsec:DynamischeElementeWebseiten}
+
 
 \subsection{Implementierung des Backends}
 \label{subsec:Backend}
