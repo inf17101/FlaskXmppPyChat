@@ -294,6 +294,9 @@ Ort, Datum & Unterschrift
 \acro{ACL}{Access Control List}
 \acro{YAML}{YAML Ain't Markup Language}
 \acro{DNS}{Domain Name System}
+\acro{AES}{Advanced Encryption Standard}
+\acro{DES}{Data Encryption Standard}
+\acro{SSL}{Secure Socket Layer}
 \end{acronym}
 
 %abbildungsverzeichnis
@@ -399,52 +402,7 @@ Für den Austausch von Daten gibt es zwei elementare Konzepte. Zum einen die \ac
 \newpage
 
 
-\section{Python}
-\label{sec:Python}
-\newpage
-
-%TODO Lizenzfreihei (GPL Lizenz) mit reinbringen, Unterstützte BS (Windows, Linux, etc)
-\section{Ejabberd}
-\label{sec:ejabberd}
-Ejabberd ist einer der bekanntesten freien \ac{XMPP}-Server auf der Welt und kann in vielerlei Hinsicht verwendet werden. Sowohl Großprojekte als auch kleine Instanzen machen sich die Eigenschaften von ejabberd zum Vorteil. Der Start von ejabberd ist dem Jahr 2002 zuzuordnen. Ejabberd ist eine Abkürzung und steht für \glqq Erlang Jabber Daemon\grqq. Wie die Definition zeigt bezieht sich ejabberd auf die Programmiersprache Erlang. Grund hierfür ist, dass die ejabberd Software in Erlang geschrieben ist. Seit dem Start wurde es von Grund auf für die Unternehmensbereitstellung entwickelt, vor allem mit dem Ziel robust zu sein. Aufgrund davon, dass der Fokus auf die Unternehmen lag, war es wichtig die Fehleranfälligkeit von ejabberd zu minimieren. Ein Vorteil der sich bis zum heutigen Zeitpunkt bewahrt hat. Außerdem kann ejabberd die Ressourcen mehrerer geclusterter Systeme nutzen. Des Weiteren besitzt ejabberd die Eigenschaft der Skalierbarkeit, indem die Kapazitäten mit wenig Aufwand erhöht werden kann. Während der Entstehungsphase war das \ac{XMPP}-Protokoll, welches in \autoref{sec:XMPP} beschrieben wird, noch unter dem Namen Jabber bekannt. Ejabberd kann verschieden benutzt werden. Im Fall der Studienarbeit wird die Community Edition von ejabberd benutzt, welche als open source zur Verfügung steht. Neben der Community Edition gibt es auch noch Möglichkeiten einer Business Edition, welches vor allem für die großen Unternehmen mit besserem Support rund um die Uhr und größeren Funktionen konzeptioniert ist. Die Architektur eines ejabberd services erweitert die Kernfunktionen von \ac{XMPP}, welches das Senden von Nachrichten ist, um Faktoren wie die Skalierbarkeit, Konfigurierbarkeit und Fehlertoleranz. Außerdem gilt die Architektur von ejabberd als Modular. Das bedeutet, dass es an den Zweck eines Projektes angepasst werden kann. Die Modularität bringt bspw. Funktionen wie Gruppenchat mit ein.
-
-\bigskip
-
-\textbf{Relevante Funktionen:}
-
-\begin{itemize}
-	\item Einzelchat
-	\item Gruppenchat (auch als Multi-User-Chat (\ac{MUC}) bezeichnet)
-	\item Offline Nachrichten 
-	\item Web-Unterstützung
-	\item Nachrichtenübermittlungsbestätigung
-	\item Übermittlung des Online-Status
-	\item Verschlüsselte Übertragung von Nachrichten
-	\item Kontaktliste jedes Benutzers
-\end{itemize}
-Eine wichtige Eigenschaft ist das Authentifizieren von Nutzern, welches ebenfalls von ejabberd unterstützt wird. Dafür kann ejabberd sowohl mit einer internen, als auch mit einer externen Datenbank zusammenarbeiten. Aufgrund der genannten Eigenschaften und Funktionen von ejabberd, werden eine Vielzahl an mögliche Anwendungsgebieten abgedeckt. Während für viele kleine Projekte die interne Datenbank Mnesia ausreichend ist, wird im Rahmen der Studienarbeit mit einer externen Datenbank gearbeitet.\cite{ejabberdDoc}
-
-\section{Chatserver}
-\label{sec:Chatserver}
-
-\begin{lstlisting}[language=Python,caption=Example Listing Python,label={lst:Example}]
-"""The first step is to create an SMTP object, each object is used for connection 
-with one server."""
-
-import smtplib
-server = smtplib.SMTP('smtp.gmail.com', 587)
-
-#Next, log in to the server
-server.login("youremailusername", "password")
-
-#Send the mail
-msg = "
-Hello!" # The /n separates the message from the headers
-server.sendmail("you@gmail.com", "target@example.com", msg)
-\end{lstlisting}
-
-
-\section{Datenbank}
+\section{Grundlagen von Datenbanken}
 \label{sec:Datenbank}
 Für den Aufbau eines Chatsystems ist ein Datenbanksystem notwendig. Die Datenbank wird benötigt, weil Informationen und Parameter für die Authentifizierung des Benutzers gespeichert werden müssen. Außerdem ist die interne Datenbank Mnesia eines Ejabberd-Chatservers nicht für den Mehrbenutzer-Betrieb ausgelegt. Mnesia ist in der Sprache Erlang entwickelt. Sie besitzt eine weiche Echtzeitfähigkeit und ist auf Geschwindigkeit optimiert \cite{MnesiaDoc}, die verfügbare Speicherkapazität von maximal 2 Gigabyte für den Betrieb ist nicht ausreichend für ein Mehrbenutzer-System \cite{ejabberdDoc}. Ein Mehrbenutzer-Betrieb eines Ejabberd-Chatservers benötigt eine Datenbank, in der Nachrichtenverläufe, Kontakte jedes Benutzers und weitere Parameter gespeichert werden können.
 
@@ -812,16 +770,39 @@ Eine wichtige Anforderung an Tests ist, dass diese schnell und effizient ablaufe
 \chapter{Umsetzung und Implementierung}
 \label{chap:Umsetzung}
 
-\section{Vorbereitung}
-\label{sec:Vorbereitung}
+\pagebreak
+
+\section{Ejabberd als moderner Chatserver}
+\label{sec:ejabberd}
+
+%TODO Lizenzfreihei (GPL Lizenz) mit reinbringen, Unterstützte BS (Windows, Linux, etc)
+Ejabberd ist einer der bekanntesten freien \ac{XMPP}-Server auf der Welt und kann in vielerlei Hinsicht verwendet werden. Sowohl Großprojekte als auch kleine Instanzen machen sich die Eigenschaften von ejabberd zum Vorteil. Der Start von ejabberd ist dem Jahr 2002 zuzuordnen. Ejabberd ist eine Abkürzung und steht für \glqq Erlang Jabber Daemon\grqq. Wie die Definition zeigt bezieht sich ejabberd auf die Programmiersprache Erlang. Grund hierfür ist, dass die ejabberd Software in Erlang geschrieben ist. Seit dem Start wurde es von Grund auf für die Unternehmensbereitstellung entwickelt, vor allem mit dem Ziel robust zu sein. Aufgrund davon, dass der Fokus auf die Unternehmen lag, war es wichtig die Fehleranfälligkeit von ejabberd zu minimieren. Ein Vorteil der sich bis zum heutigen Zeitpunkt bewahrt hat. Außerdem kann ejabberd die Ressourcen mehrerer geclusterter Systeme nutzen. Des Weiteren besitzt ejabberd die Eigenschaft der Skalierbarkeit, indem die Kapazitäten mit wenig Aufwand erhöht werden kann. Während der Entstehungsphase war das \ac{XMPP}-Protokoll, welches in \autoref{sec:XMPP} beschrieben wird, noch unter dem Namen Jabber bekannt. Ejabberd kann verschieden benutzt werden. Im Fall der Studienarbeit wird die Community Edition von ejabberd benutzt, welche als open source zur Verfügung steht. Neben der Community Edition gibt es auch noch Möglichkeiten einer Business Edition, welches vor allem für die großen Unternehmen mit besserem Support rund um die Uhr und größeren Funktionen konzeptioniert ist. Die Architektur eines ejabberd services erweitert die Kernfunktionen von \ac{XMPP}, welches das Senden von Nachrichten ist, um Faktoren wie die Skalierbarkeit, Konfigurierbarkeit und Fehlertoleranz. Außerdem gilt die Architektur von ejabberd als Modular. Das bedeutet, dass es an den Zweck eines Projektes angepasst werden kann. Die Modularität bringt bspw. Funktionen wie Gruppenchat mit ein.
+
+\bigskip
+
+\textbf{Relevante Funktionen:}
+
+\begin{itemize}
+	\item Einzelchat
+	\item Gruppenchat (auch als Multi-User-Chat (\ac{MUC}) bezeichnet)
+	\item Offline Nachrichten 
+	\item Web-Unterstützung
+	\item Nachrichtenübermittlungsbestätigung
+	\item Übermittlung des Online-Status
+	\item Verschlüsselte Übertragung von Nachrichten
+	\item Kontaktliste jedes Benutzers
+\end{itemize}
+Eine wichtige Eigenschaft ist das Authentifizieren von Nutzern, welches ebenfalls von ejabberd unterstützt wird. Dafür kann ejabberd sowohl mit einer internen, als auch mit einer externen Datenbank zusammenarbeiten. Aufgrund der genannten Eigenschaften und Funktionen von ejabberd, werden eine Vielzahl an mögliche Anwendungsgebieten abgedeckt. Während für viele kleine Projekte die interne Datenbank Mnesia ausreichend ist, wird im Rahmen der Studienarbeit mit einer externen Datenbank gearbeitet.\cite{ejabberdDoc}
 
 \pagebreak
 
 \section{Implementierung des Chatservers ejabberd}
-
 \label{sec:ChatserverEntwicklung}
 
 Die Grundlagen von ejabberd wurden im \autoref{sec:ejabberd} erläutert. In diesem Abschnitt wird beschrieben, welche Schritte notwendig sind, um den Chatserver ejabberd zu installieren und gemäß den Anforderungen aus \autoref{Anforderungen} zu konfigurieren.
+
+\section{Installation des Chatservers ejabberd}
+\label{sec:InstallationEjabberd}
 
 \subsubsection*{Hardware und Betriebssystem}
 
@@ -906,7 +887,7 @@ Die Befehle sind weiterhin mit dem root Benutzer durchzuführen.
 
 \bigskip
 
-\begin{lstlisting}[language=bash, caption={Kopieren der Zertifikate in ein Unterverzeichnis und Einschränkung der Rechte}]
+\begin{lstlisting}[language=bash, caption={Kopieren der Zertifikate in ein Unterverzeichnis und Einschränkung der Rechte},label={lst:ejabberdCerts}]
 $ mkdir /etc/ejabberd/certs
 $ cp /root/.acme.sh/xmpp-dhbw.spdns.org/fullchain.cer /etc/ejabberd/certs/fullchain.pem
 $ cp /root/.acme.sh/xmpp-dhbw.spdns.org/xmpp-dhbw.spdns.org.key /etc/ejabberd/certs/
@@ -921,7 +902,7 @@ Der folgende Befehl erzeugt DH-Parameter mit einer Länge von 4096 bit.
 
 \bigskip
 
-\begin{lstlisting}[language=bash, caption={Erzeugen von Diffie-Hellman-Parametern für den ejabberd-Server}]
+\begin{lstlisting}[language=bash, caption={Erzeugen von Diffie-Hellman-Parametern für den ejabberd-Server},label={lst:DHParameters}]
 $ openssl dhparam -out /etc/ejabberd/dh4096.pem 4096
 \end{lstlisting}
 
@@ -929,7 +910,7 @@ Nachdem alle zuvor erläuterten Vorbereitungsschritte durchgeführt sind, kann d
 
 \bigskip
 
-\begin{lstlisting}[language=bash, caption={Erzeugen von Diffie-Hellman-Parametern für den ejabberd-Server}]
+\begin{lstlisting}[language=bash, caption={Starten der ejabberd-Instanz}]
 $ sudo systemctl start ejabberd #start ejabberd service
 $ sudo systemctl enable ejabberd #auto start on boot
 $ sudo systemctl status ejabberd
@@ -941,7 +922,7 @@ Alle anders genannten Benutzer können sich mit ihrem Passwort im Administration
 
 \bigskip
 
-\begin{lstlisting}[language=bash, caption={Erzeugen von Diffie-Hellman-Parametern für den ejabberd-Server}]
+\begin{lstlisting}[language=bash, caption={Anlegen eines Benutzers für die Verwaltung von ejabberd}]
 $ sudo ejabberdctl register admin ejabberd-server passwort
 \end{lstlisting}
 
@@ -952,8 +933,8 @@ Nach \cite{ejabberdDoc} ändert ejabberd die Konfigurationsdatei nicht, wenn ein
 Die Konfiguration von ejabberd über seine Konfigurationsdatei ist im nächsten Kapitel beschrieben.
 
 
-\subsection{Konfiguration von ejabberd}
-\label{subsec:Konfiguration}
+\section{Konfiguration von ejabberd}
+\label{sec:Konfiguration}
 
 Dieses Kapitel stellt eine Zusammenfassung wichtiger Konfigurationsschritte dar, die gemäß den Anforderungen aus \autoref{Anforderungen} durchgeführt wurden.
 
@@ -1063,19 +1044,54 @@ hosts:
 Die Domain ist gleichzeitig die \ac{XMPP}-Domain mit der Benutzer adressiert werden können. Der Name des Benutzers muss innerhalb der Domain eindeutig sein und mit der vollständigen Domain konkateniert werden, zum Beispiel: \texttt{testuser@ejabberd-server}. Andernfalls ist die Adressierung zum Beispiel für das Versenden und dem Empfang einer Nachricht inkorrekt.
 %TODO eventuell Grafik mit Senderdomain und Empfängerdomain und dazwischen Server
 
-\subsection{Anbindung des Chatservers}
-\label{subsec:Anbindung}
+\subsubsection*{Konfiguration der Zertifikate}
 
-\subsection{Security}
-\label{subsec:Security}
+Wie Zertifikate für die Verschlüsselung der Transportdaten beantragt werden können, ist in \autoref{sec:ChatserverEntwicklung} beschrieben. Nach \autoref{lst:ejabberdCerts} befindet sich das Zertifikat und die Datei, die den privaten Schlüssel enthält, im Ornder \texttt{/etc/ejabberd/certs}. Der Ort der Zertifikate muss in der Konfigurationsdatei angegeben werden, sodass ejabberd und ein Client einen verschlüsselten Kanal aufbauen können.
 
+\bigskip
+
+\begin{lstlisting}[language=yaml, caption={Konfiguration der Zertifikate}]
+certfiles:
+  - "/etc/ejabberd/certs/fullchain.pem"
+  - "/etc/ejabberd/certs/xmpp-dhbw.spdns.org.key"
+\end{lstlisting}
+
+In der Liste \texttt{certfiles} sind das \ac{RSA}-Zertifikat und die Datei, die den privaten Schlüssel für das Entschlüsseln empfangener Daten beinhaltet, angegeben. Nun kann ein Client das Zertifikat anfordern, mit Hilfe des öffentlichen Schlüssels die Authentizität des Servers überprüfen und die Nachrichten verschlüsseln. Der Server kann die empfangene Nachricht mit seinem privaten Schlüssel aus der \texttt{.key}-Datei entschlüsseln.
+
+\subsubsection*{Konfiguration der \ac{TLS}-Parameter}
+
+Der Betreiber von verschlüsselten Diensten muss zwischen Abwärtskompatibiltät und Sicherheit abwägen. Beide Aspekte beeinflussen sich gegenseitig. Der Betreiber muss festlegen, ob die Anforderungen an das System ihn dazu zwingen, die Sicherheit des Systems zu reduzieren, sodass Clients, die nur schwächere Verschlüsselungsalgorithmen beherrschen, ebenfalls unterstützt werden. Ist das nicht der Fall, können solche Clients ausgeschlossen und nur noch als sicher eingestufte Algorithmen erlaubt werden, um die Gefährdung der Benutzer zu minimieren.\cite{melzer2010web}
+
+Ein Betreiber eines IT-Service kann sich im offiziellen Wiki des Morzilla Project bei der Wahl der \ac{TLS}-Parameter Unterstützung einholen. Unter \url{https://wiki.mozilla.org/Security/Server_Side_TLS} sind empfohlene Konfigurationen aufgelistet, die nach Kompatibiltätsgrad gruppiert sind.
+Die Cipher Suites, die im Auslieferungszustand vorhanden sind, sind für eine optimale Abwärtskompatibiltät zu Clients und zu anderen \ac{XMPP}-Servern ausgelegt und sind nicht sehr strikt. Die Anforderungen aus \autoref{Anforderungen} beinhaltet eine datenschutzfreundliche und sichere Konfiguration. Aus diesem Grund werden nur aktuelle Verschlüsselungsalgorithmen erlaubt und ältere, bereits von der \ac{BSI} als unsicher eingestufte Cipher-Suites werden ausgeschlossen (Stand April 2020).
+
+\bigskip
+
+\begin{lstlisting}[language=yaml, caption={Konfiguration der \ac{TLS} Cipher Suites}, label={lst:ejabberdCipherSuites}]
+define_macro:
+  'TLS_CIPHERS': "ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256"
+  'TLS_OPTIONS':
+    - "no_sslv3"
+    - "no_tlsv1"
+    - "no_tlsv1_1"
+    - "cipher_server_preference"
+    - "no_compression"
+  'DH_FILE': "/etc/ejabberd/dh4096.pem"
+
+c2s_ciphers: 'TLS_CIPHERS'
+s2s_ciphers: 'TLS_CIPHERS'
+c2s_protocol_options: 'TLS_OPTIONS'
+s2s_protocol_options: 'TLS_OPTIONS'
+c2s_dhfile: 'DH_FILE'
+s2s_dhfile: 'DH_FILE'
+\end{lstlisting}
+
+Um benutzerdefinierte Cipher-Suites für den \ac{TLS}-Verbindungsaufbau zu konfigurieren, werden wie in \autoref{lst:ejabberdCipherSuites} dargestellt, Makros definiert. Das Schlüsselwort \texttt{define\_macro} leitet die Definition von Makros ein. Ein Makro beginnt und endet mit einem Hochkomma, dazwischen wird ein Bezeichner definiert. Dem Makro ist ein Wert zugewiesen. In Zeile 2 des Listings ist das Makro \texttt{TLS\_CIPHERS} definiert, das auf einen Zeichensatz abbildet, der die strikteren Cipher-Suites enthält. So werden nur als sicher eingestufte Verschlüsselungsalgorithmen wie zum Beispiel \ac{AES} mit 128 Bit oder 256 Bit unterstützt. Bereits als unsicher eingestufte Verschlüsselungen wie \ac{DES} werden damit deaktiviert. Das Makro \texttt{TLS\_OPTIONS} definiert die \ac{SSL}-Versionen. Durch den Parameter \texttt{no\_tlsv1\_1} in der Liste, wird ausgeschlossen, das ein Client sich über ältere \ac{SSL}-Protokollversionen als \ac{TLS}-Version 1.2 mit dem Server verbinden kann. Nur \ac{TLS}-Version 1.2 oder höher werden vom Server unterstützt. Können Server und Client keine Verschlüsselungsalgorithmen oder \ac{TLS}-Versionen vereinbaren, die sie beide unterstützen, lehnt der Server die Verbindung ab. In Zeile 9 ist das Makro \texttt{DH\_FILE} definiert, das auf den absoluten Pfad zur der Datei abbildet, die die erzeugten Diffie-Hellman-Parameter (\autoref{lst:DHParameters}) enthält. In den letzten sechs Zeilen ist aufgezeigt, wie die Makros innerhalb der Konfigurationsdatei referenziert und genutzt werden können. Die benutzerdefinierten Cipher-Suites werden für Verbindungen von Client zu Server (\texttt{c2s\_ciphers}) und Server zu Server(\texttt{s2s\_ciphers} konfiguriert. Zusätzlich werden die benutzerdefinierten Protokollversionen und die Diffie-Hellman-Parameter dem ejabberd-Server zugewiesen. Die Verbindung ist somit mit aktuellen Algorithmen verschlüsselt und Perfect Forward Secrecy (\ac{PFS}) durch die Diffie-Hellman-Parameter vorhanden.
 
 \newpage
 
 \section{Entwicklung des Chat-Clients}
 \label{sec:ClientEntwicklung}
-
-\ac{HTML}
 
 \subsection{Entwicklung der GUI}
 \label{subsec:EntwicklungGUI}
