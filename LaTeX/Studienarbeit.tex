@@ -297,6 +297,8 @@ Ort, Datum & Unterschrift
 \acro{AES}{Advanced Encryption Standard}
 \acro{DES}{Data Encryption Standard}
 \acro{SSL}{Secure Socket Layer}
+\acro{DOS}{Denial of Service}
+\acro{URI}{Uniform Resource Identifier}
 \end{acronym}
 
 %abbildungsverzeichnis
@@ -1086,7 +1088,57 @@ c2s_dhfile: 'DH_FILE'
 s2s_dhfile: 'DH_FILE'
 \end{lstlisting}
 
-Um benutzerdefinierte Cipher-Suites für den \ac{TLS}-Verbindungsaufbau zu konfigurieren, werden wie in \autoref{lst:ejabberdCipherSuites} dargestellt, Makros definiert. Das Schlüsselwort \texttt{define\_macro} leitet die Definition von Makros ein. Ein Makro beginnt und endet mit einem Hochkomma, dazwischen wird ein Bezeichner definiert. Dem Makro ist ein Wert zugewiesen. In Zeile 2 des Listings ist das Makro \texttt{TLS\_CIPHERS} definiert, das auf einen Zeichensatz abbildet, der die strikteren Cipher-Suites enthält. So werden nur als sicher eingestufte Verschlüsselungsalgorithmen wie zum Beispiel \ac{AES} mit 128 Bit oder 256 Bit unterstützt. Bereits als unsicher eingestufte Verschlüsselungen wie \ac{DES} werden damit deaktiviert. Das Makro \texttt{TLS\_OPTIONS} definiert die \ac{SSL}-Versionen. Durch den Parameter \texttt{no\_tlsv1\_1} in der Liste, wird ausgeschlossen, das ein Client sich über ältere \ac{SSL}-Protokollversionen als \ac{TLS}-Version 1.2 mit dem Server verbinden kann. Nur \ac{TLS}-Version 1.2 oder höher werden vom Server unterstützt. Können Server und Client keine Verschlüsselungsalgorithmen oder \ac{TLS}-Versionen vereinbaren, die sie beide unterstützen, lehnt der Server die Verbindung ab. In Zeile 9 ist das Makro \texttt{DH\_FILE} definiert, das auf den absoluten Pfad zur der Datei abbildet, die die erzeugten Diffie-Hellman-Parameter (\autoref{lst:DHParameters}) enthält. In den letzten sechs Zeilen ist aufgezeigt, wie die Makros innerhalb der Konfigurationsdatei referenziert und genutzt werden können. Die benutzerdefinierten Cipher-Suites werden für Verbindungen von Client zu Server (\texttt{c2s\_ciphers}) und Server zu Server(\texttt{s2s\_ciphers} konfiguriert. Zusätzlich werden die benutzerdefinierten Protokollversionen und die Diffie-Hellman-Parameter dem ejabberd-Server zugewiesen. Die Verbindung ist somit mit aktuellen Algorithmen verschlüsselt und Perfect Forward Secrecy (\ac{PFS}) durch die Diffie-Hellman-Parameter vorhanden.
+Um benutzerdefinierte Cipher-Suites für den \ac{TLS}-Verbindungsaufbau zu konfigurieren, werden wie in \autoref{lst:ejabberdCipherSuites} dargestellt, Makros definiert. Das Schlüsselwort \texttt{define\_macro} leitet die Definition von Makros ein. Ein Makro beginnt und endet mit einem Hochkomma, dazwischen wird ein Bezeichner definiert. Dem Makro ist ein Wert zugewiesen. In Zeile 2 des Listings ist das Makro \texttt{TLS\_CIPHERS} definiert, das auf einen Zeichensatz abbildet, der die strikteren Cipher-Suites enthält. So werden nur als sicher eingestufte Verschlüsselungsalgorithmen wie zum Beispiel \ac{AES} mit 128 Bit oder 256 Bit unterstützt. Bereits als unsicher eingestufte Verschlüsselungen wie \ac{DES} werden damit deaktiviert. Das Makro \texttt{TLS\_OPTIONS} definiert die \ac{SSL}-Versionen. Durch den Parameter \texttt{no\_tlsv1\_1} in der Liste, wird ausgeschlossen, das ein Client sich über ältere \ac{SSL}-Protokollversionen als \ac{TLS}-Version 1.2 mit dem Server verbinden kann. Nur \ac{TLS}-Version 1.2 oder höher werden vom Server unterstützt. Können Server und Client keine Verschlüsselungsalgorithmen oder \ac{TLS}-Versionen vereinbaren, die sie beide unterstützen, lehnt der Server die Verbindung ab. In Zeile 9 ist das Makro \texttt{DH\_FILE} definiert, das auf den absoluten Pfad zur der Datei abbildet, die die erzeugten Diffie-Hellman-Parameter (\autoref{lst:DHParameters}) enthält. In den letzten sechs Zeilen ist aufgezeigt, wie die Makros innerhalb der Konfigurationsdatei referenziert und genutzt werden können. Die benutzerdefinierten Cipher-Suites werden für Verbindungen von Client zu Server (\texttt{c2s\_ciphers}) und Server zu Server (\texttt{s2s\_ciphers} konfiguriert. Zusätzlich werden die benutzerdefinierten Protokollversionen und die Diffie-Hellman-Parameter dem ejabberd-Server zugewiesen. Die Verbindung ist somit mit aktuellen Algorithmen verschlüsselt und Perfect Forward Secrecy (\ac{PFS}) durch die Diffie-Hellman-Parameter vorhanden.
+
+\subsubsection*{Konfiguration der Dienste}
+
+Für die Kommunikation mit Clients oder Servern müssen die Standard-Ports aus \autoref{tab:PortsEjabberd} konfiguriert werden. \autoref{lst:ejabberdPortsConfig} zeigt die Standardkonfiguration, die so ergänzt wurde, dass die Änderungen die Sicherheit des Gesamtsystems positiv beeinflussen.
+
+\bigskip
+
+\begin{lstlisting}[language=yaml, caption={Konfiguration der Ports}, label={lst:ejabberdPortsConfig}]
+listen:
+  -
+    port: 5222
+    ip: "::"
+    module: ejabberd_c2s
+    starttls_required: true
+    max_stanza_size: 65536
+    shaper: c2s_shaper
+    access: c2s
+  -
+    port: 5223
+    ip: "::"
+    module: ejabberd_c2s
+    tls: true
+    max_stanza_size: 65536
+    shaper: c2s_shaper
+    access: c2s
+  -
+    port: 5269
+    ip: "::"
+    module: ejabberd_s2s_in
+  -
+    port: 5270
+    ip: "::"
+    module: ejabberd_s2s_in
+    tls: true
+  -
+    port: 5280
+    ip: "::"
+    module: ejabberd_http
+    web_admin: true
+\end{lstlisting}
+
+\ac{XMPP}-Clients verbinden sich über Port 5222 mit dem Chatserver. Das wird dadurch festgelegt, dass diesem Port das Modul \texttt{ejabberd\_c2s} zugewiesen wird. Der Wert \glqq ::\grqq für die IP-Adresse bewirkt, dass der Server auf jeder seiner Netzwerkkarten und IP-Adressen Anfragen akzeptiert. Die Standardkonfiguration wird so ergänzt, dass \texttt{STARTTLS} bei jedem Verbindungsversuch vorausgesetzt wird. Die Option \texttt{max\_stanza\_size} bestimmt die maximale Anzahl an Bytes, die ein \ac{XMPP}-Stanza haben darf. Ist die Anzahl an Bytes über den konfigurierten Wert (65536), wird die Verbindung abgebrochen. In der Standardkonfiguration ist dieser Wert auf \texttt{infinity} gesetzt. Ein Angreifer kann den Server überlasten, wenn er eine hohe Anzahl an sehr großen \ac{XMPP}-Stanzas pro Session sendet. Diese Art des Angriffs bezeichnet man als \ac{DOS}. Die Begrenzung des Wertes vermindert die Wahrscheinlichkeit für den Erfolg eines solchen Angriffs.\cite{XMPPDOS}
+
+Der Port 5223 ergänzt die Standardkonfiguration, sodass sich ein Client direkt via \ac{TLS} verbinden kann. Das bewirkt die Einstellung \texttt{tls: true}, die \texttt{starttls\_required: true} ersetzt.
+
+Für die Verbindung von \ac{XMPP}-Servern zur ejabberd-Instanz ist der Standardport 5269 zuständig. Die Einstellung \texttt{ejabberd\_s2s\_in} bindet diesen Dienst an den Port. Für alle Verbindungen, die durch andere Server initiiert werden, ist \texttt{STARTTLS} notwendig. Das ist in der Standardkonfiguration in einer globalen Einstellung bereits festgelegt. Die globale Einstellung innerhalb der Konfigurationsdatei ist in diesem Listing nicht sichtbar.
+
+Der Port 5270 ergänzt ebenfalls die Standardkonfiguration und dient dazu, dass Server sich direkt via \ac{TLS} mit ejabberd verbinden können.
+
+Der Port 5280 implementiert das Modul \texttt{ejabberd\_http}. Durch die Einstellung \texttt{web\_admin: true} ist das Administrationsportal unter diesem Port verfügbar. Der Administrator dieses Projekts kann sich zum Beispiel unter dieser \ac{URI} in das Webportal einloggen: \texttt{https://xmpp-dhbw.spdns.org:5280/admin}.
 
 \newpage
 
