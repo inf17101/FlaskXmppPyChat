@@ -135,6 +135,7 @@ frameround=ffff
 %\renewcommand*\chapterheadendvskip{%
 %  \vspace*{1\baselineskip plus .1\baselineskip minus .167\baselineskip}}
 
+%TODO überall eigene Darstellung unter Abbildungen hinzufügen
 
 \begin{document}
 
@@ -299,6 +300,9 @@ Ort, Datum & Unterschrift
 \acro{SSL}{Secure Socket Layer}
 \acro{DOS}{Denial of Service}
 \acro{URI}{Uniform Resource Identifier}
+\acro{SASL}{Simple Authentication and Security Layer}
+\acro{RFC}{Request for Comments}
+\acro{MD5}{Message Digest Algorithm 5}
 \end{acronym}
 
 %abbildungsverzeichnis
@@ -924,7 +928,7 @@ Alle anders genannten Benutzer können sich mit ihrem Passwort im Administration
 
 \bigskip
 
-\begin{lstlisting}[language=bash, caption={Anlegen eines Benutzers für die Verwaltung von ejabberd}]
+\begin{lstlisting}[language=bash, caption={Anlegen eines Benutzers für die Verwaltung von ejabberd},label={lst:AddAdminUserEjabberd}]
 $ sudo ejabberdctl register admin ejabberd-server passwort
 \end{lstlisting}
 
@@ -1058,14 +1062,14 @@ certfiles:
   - "/etc/ejabberd/certs/xmpp-dhbw.spdns.org.key"
 \end{lstlisting}
 
-In der Liste \texttt{certfiles} sind das \ac{RSA}-Zertifikat und die Datei, die den privaten Schlüssel für das Entschlüsseln empfangener Daten beinhaltet, angegeben. Nun kann ein Client das Zertifikat anfordern, mit Hilfe des öffentlichen Schlüssels die Authentizität des Servers überprüfen und die Nachrichten verschlüsseln. Der Server kann die empfangene Nachricht mit seinem privaten Schlüssel aus der \texttt{.key}-Datei entschlüsseln.
+In der Liste \texttt{certfiles} sind das \ac{RSA}-Zertifikat und die Datei, die den privaten Schlüssel für das Entschlüsseln empfangener Daten beim Aushandeln des Session-Keys beinhaltet, angegeben. Nun kann ein Client das Zertifikat anfordern, mit Hilfe des öffentlichen Schlüssels die Authentizität des Servers überprüfen und den erzeugten Session-Key verschlüsselt übertragen. Der Server entschlüsselt den Session-Key mit seinem privaten Schlüssel aus der \texttt{.key}-Datei.
 
 \subsubsection*{Konfiguration der \ac{TLS}-Parameter}
 
-Der Betreiber von verschlüsselten Diensten muss zwischen Abwärtskompatibiltät und Sicherheit abwägen. Beide Aspekte beeinflussen sich gegenseitig. Der Betreiber muss festlegen, ob die Anforderungen an das System ihn dazu zwingen, die Sicherheit des Systems zu reduzieren, sodass Clients, die nur schwächere Verschlüsselungsalgorithmen beherrschen, ebenfalls unterstützt werden. Ist das nicht der Fall, können solche Clients ausgeschlossen und nur noch als sicher eingestufte Algorithmen erlaubt werden, um die Gefährdung der Benutzer zu minimieren.\cite{melzer2010web}
+Der Betreiber von verschlüsselten Diensten muss zwischen Abwärtskompatibilität und Sicherheit abwägen. Beide Aspekte beeinflussen sich gegenseitig. Der Betreiber muss festlegen, ob die Anforderungen an das System ihn dazu zwingen, die Sicherheit des Systems zu reduzieren, sodass Clients, die nur schwächere Verschlüsselungsalgorithmen beherrschen, ebenfalls unterstützt werden. Ist das nicht der Fall, können solche Clients ausgeschlossen und nur noch als sicher eingestufte Algorithmen erlaubt werden, um die Gefährdung der Benutzer zu minimieren.\cite{melzer2010web}
 
-Ein Betreiber eines IT-Service kann sich im offiziellen Wiki des Morzilla Project bei der Wahl der \ac{TLS}-Parameter Unterstützung einholen. Unter \url{https://wiki.mozilla.org/Security/Server_Side_TLS} sind empfohlene Konfigurationen aufgelistet, die nach Kompatibiltätsgrad gruppiert sind.
-Die Cipher Suites, die im Auslieferungszustand vorhanden sind, sind für eine optimale Abwärtskompatibiltät zu Clients und zu anderen \ac{XMPP}-Servern ausgelegt und sind nicht sehr strikt. Die Anforderungen aus \autoref{Anforderungen} beinhaltet eine datenschutzfreundliche und sichere Konfiguration. Aus diesem Grund werden nur aktuelle Verschlüsselungsalgorithmen erlaubt und ältere, bereits von der \ac{BSI} als unsicher eingestufte Cipher-Suites werden ausgeschlossen (Stand April 2020).
+Ein Betreiber eines IT-Service kann sich im offiziellen Wiki des Morzilla Project bei der Wahl der \ac{TLS}-Parameter Unterstützung einholen. Unter \url{https://wiki.mozilla.org/Security/Server_Side_TLS} sind empfohlene Konfigurationen aufgelistet, die nach Kompatibilitätsgrad gruppiert sind.
+Die Cipher-Suites, die im Auslieferungszustand vorhanden sind, sind für eine optimale Abwärtskompatibilität zu Clients und zu anderen \ac{XMPP}-Servern ausgelegt und sind nicht sehr strikt. Die Anforderungen aus \autoref{Anforderungen} beinhaltet eine datenschutzfreundliche und sichere Konfiguration. Aus diesem Grund werden nur aktuelle Verschlüsselungsalgorithmen erlaubt und ältere, bereits von der \ac{BSI} als unsicher eingestufte Cipher-Suites werden ausgeschlossen (Stand April 2020).
 
 \bigskip
 
@@ -1088,7 +1092,7 @@ c2s_dhfile: 'DH_FILE'
 s2s_dhfile: 'DH_FILE'
 \end{lstlisting}
 
-Um benutzerdefinierte Cipher-Suites für den \ac{TLS}-Verbindungsaufbau zu konfigurieren, werden wie in \autoref{lst:ejabberdCipherSuites} dargestellt, Makros definiert. Das Schlüsselwort \texttt{define\_macro} leitet die Definition von Makros ein. Ein Makro beginnt und endet mit einem Hochkomma, dazwischen wird ein Bezeichner definiert. Dem Makro ist ein Wert zugewiesen. In Zeile 2 des Listings ist das Makro \texttt{TLS\_CIPHERS} definiert, das auf einen Zeichensatz abbildet, der die strikteren Cipher-Suites enthält. So werden nur als sicher eingestufte Verschlüsselungsalgorithmen wie zum Beispiel \ac{AES} mit 128 Bit oder 256 Bit unterstützt. Bereits als unsicher eingestufte Verschlüsselungen wie \ac{DES} werden damit deaktiviert. Das Makro \texttt{TLS\_OPTIONS} definiert die \ac{SSL}-Versionen. Durch den Parameter \texttt{no\_tlsv1\_1} in der Liste, wird ausgeschlossen, das ein Client sich über ältere \ac{SSL}-Protokollversionen als \ac{TLS}-Version 1.2 mit dem Server verbinden kann. Nur \ac{TLS}-Version 1.2 oder höher werden vom Server unterstützt. Können Server und Client keine Verschlüsselungsalgorithmen oder \ac{TLS}-Versionen vereinbaren, die sie beide unterstützen, lehnt der Server die Verbindung ab. In Zeile 9 ist das Makro \texttt{DH\_FILE} definiert, das auf den absoluten Pfad zur der Datei abbildet, die die erzeugten Diffie-Hellman-Parameter (\autoref{lst:DHParameters}) enthält. In den letzten sechs Zeilen ist aufgezeigt, wie die Makros innerhalb der Konfigurationsdatei referenziert und genutzt werden können. Die benutzerdefinierten Cipher-Suites werden für Verbindungen von Client zu Server (\texttt{c2s\_ciphers}) und Server zu Server (\texttt{s2s\_ciphers} konfiguriert. Zusätzlich werden die benutzerdefinierten Protokollversionen und die Diffie-Hellman-Parameter dem ejabberd-Server zugewiesen. Die Verbindung ist somit mit aktuellen Algorithmen verschlüsselt und Perfect Forward Secrecy (\ac{PFS}) durch die Diffie-Hellman-Parameter vorhanden.
+Um benutzerdefinierte Cipher-Suites für den \ac{TLS}-Verbindungsaufbau zu konfigurieren, werden wie in \autoref{lst:ejabberdCipherSuites} dargestellt, Makros definiert. Das Schlüsselwort \texttt{define\_macro} leitet die Definition von Makros ein. Ein Makro beginnt und endet mit einem Hochkomma, dazwischen wird ein Bezeichner definiert. Dem Makro ist ein Wert zugewiesen. In Zeile 2 des Listings ist das Makro \texttt{TLS\_CIPHERS} definiert, das auf einen Zeichensatz abbildet, der die strikteren Cipher-Suites enthält. So werden nur als sicher eingestufte Verschlüsselungsalgorithmen wie zum Beispiel \ac{AES} mit 128 Bit oder 256 Bit unterstützt. Bereits als unsicher eingestufte Verschlüsselungen wie \ac{DES} werden damit deaktiviert. Das Makro \texttt{TLS\_OPTIONS} definiert die \ac{SSL}-Versionen. Durch den Parameter \texttt{no\_tlsv1\_1} in der Liste, wird ausgeschlossen, dass sich ein Client über ältere \ac{SSL}-Protokollversionen als \ac{TLS}-Version 1.2 mit dem Server verbinden kann. Nur \ac{TLS}-Version 1.2 oder höher werden vom Server unterstützt. Können Server und Client keine Verschlüsselungsalgorithmen oder \ac{TLS}-Versionen vereinbaren, die sie beide unterstützen, lehnt der Server die Verbindung ab. In Zeile 9 ist das Makro \texttt{DH\_FILE} definiert, das auf den absoluten Pfad zur der Datei abbildet, die die erzeugten Diffie-Hellman-Parameter (\autoref{lst:DHParameters}) enthält. In den letzten sechs Zeilen ist aufgezeigt, wie die Makros innerhalb der Konfigurationsdatei referenziert und genutzt werden können. Die benutzerdefinierten Cipher-Suites werden für Verbindungen von Client zu Server (\texttt{c2s\_ciphers}) und Server zu Server (\texttt{s2s\_ciphers} konfiguriert. Zusätzlich werden die benutzerdefinierten Protokollversionen und die Diffie-Hellman-Parameter dem ejabberd-Server zugewiesen. Die Verbindung ist somit mit aktuellen Algorithmen verschlüsselt und Perfect Forward Secrecy (\ac{PFS}) durch die Diffie-Hellman-Parameter vorhanden.
 
 \subsubsection*{Konfiguration der Dienste}
 
@@ -1139,6 +1143,75 @@ Für die Verbindung von \ac{XMPP}-Servern zur ejabberd-Instanz ist der Standardp
 Der Port 5270 ergänzt ebenfalls die Standardkonfiguration und dient dazu, dass Server sich direkt via \ac{TLS} mit ejabberd verbinden können.
 
 Der Port 5280 implementiert das Modul \texttt{ejabberd\_http}. Durch die Einstellung \texttt{web\_admin: true} ist das Administrationsportal unter diesem Port verfügbar. Der Administrator dieses Projekts kann sich zum Beispiel unter dieser \ac{URI} in das Webportal einloggen: \texttt{https://xmpp-dhbw.spdns.org:5280/admin}.
+
+
+\subsection*{Konfiguration der Zugriffskontrolle}
+
+Ein Client authentifiziert sich gegenüber dem ejabberd-Server mittels \ac{SASL}. Nach \cite{SASLDescription} ist \ac{SASL} ein Framework, das von verschiedenen Protokollen im Internet für die Authentifizierung verwendet wird. Mittels \ac{SASL} handeln Client und Server standardisiert Authentifizierungsmethoden aus, die von der Applikation transparent genutzt werden.  Der Betreiber eines ejabberd-Servers sollte für eine sichere Konfiguration veraltete Authentifizierungsmethoden ausschließen.  
+
+\bigskip
+
+\begin{lstlisting}[language=yaml, caption={Ausschluss unsicherer Authentifizierungsmethoden}]
+disable_sasl_mechanisms:
+  - "digest-md5"
+  - "x-oauth2"
+\end{lstlisting}
+
+Authentifizierungsmethoden die ausgeschlossen werden sollen, werden in die Liste \texttt{disable\_sasl\_mechanisms} eingetragen. Nach \ac{RFC} 6331 ist \texttt{digest-md5} veraltet und unsicher. Er benutzt intern einen \ac{MD5}, den ein Angreifer leicht ermitteln kann und ist empfindlich gegenüber Man-In-The-Middle-Angriffe.\cite{DigestMD5Vulnerabilty}
+
+Auch \texttt{x-oauth2} hat mehrere Sicherheitslücken. Die Methode ist empfindlich gegenüber \ac{DOS}-Angriffe. Nach \cite{xOAuthVulnerabilty} kann ein nicht authentifizierter Angreifer, den Server überlasten.
+
+In \autoref{lst:AddAdminUserEjabberd} auf Seite \pageref{lst:AddAdminUserEjabberd} ist beschrieben, wie ein Benutzer mit administrativen Rechten auf dem Server angelegt werden kann. In der Standardkonfiguration ist der Benutzer \glqq admin\grqq berechtigt auf das Administrationsportal mit der Domain \texttt{localhost} zuzugreifen. Damit der Benutzer berechtigt ist, auf die für das Projekt erstellte Domain \texttt{ejabberd-server} zuzugreifen, muss die \ac{ACL} angepasst werden. Hierfür trägt ändert man im Abschnitt \texttt{acl} der Konfigurationsdatei die Domain, auf die der Benutzer \glqq admin\grqq verweist. Das Ergebnis der Änderung ist in \autoref{lst:aclChangeAdmin} dargestellt.
+
+\bigskip
+
+\begin{lstlisting}[language=yaml, caption={Anpassung der Access Control List (ACL) für den administrativen Zugriff},label={lst:aclChangeAdmin}]
+acl:
+  admin:
+     user:
+       - "admin": "ejabberd-server"
+\end{lstlisting}
+
+
+Nach all den durchgeführten Änderungen muss der Server mit dem Kommando \texttt{sudo systemctl restart ejabberd} neu gestartet werden.
+
+\subsubsection*{Überblick über das Administrationsportal}
+
+Der Administrator kann sich mit Benutzername und Passwort in das Webportal einloggen. \autoref{img:AdminPortalEjabberdOverview} zeigt im linken Bild das Webportal nach einem Login.
+
+\begin{figure}[h]
+\centering
+\begin{minipage}{.5\textwidth}
+  \centering
+  \includegraphics[width=.9\linewidth]{images/AdminPortalEjabberdOverview}
+\end{minipage}%
+\begin{minipage}{.5\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{images/AdminPortalAddUsers}
+\end{minipage}
+\caption{Links Übersicht: Administrationsportal, rechts: Übersicht: Benutzerverwaltung, eigene Darstellung}
+\label{img:AdminPortalEjabberdOverview}
+\end{figure}
+
+Mit einem Klick auf \texttt{Virtuelle Hosts} sieht man alle Domains, die auf dem ejabberd-Server registriert sind. Für dieses Projekt sieht man in der Übersicht die Domain \texttt{ejabberd-server} und die Anzahl der vorhandenen und aktuell angemeldeten Benutzer. Klickt man auf eine Domain und dann in der Auswahl auf \texttt{Benutzer}, können Benutzer verwaltet werden, siehe \autoref{img:AdminPortalEjabberdOverview} rechte Abbildung.
+
+\subsubsection*{Konfiguration weiterer Module}
+
+Welche weiteren Möglichkeiten es gibt, die Konfiguration von ejabberd sicherer und datenschutzfreundlicher zu machen, zeigt dieser Abschnitt auf.
+
+Mit Shaper-Rules lassen sich unter anderem die maximale Anzahl an Verbindungen (Sessions) pro Benutzer einschränken.  
+
+\bigskip
+
+\begin{lstlisting}[language=yaml, caption={Anpassung der Shaper-Rules}]
+shaper_rules:
+  max_user_sessions: 10
+  max_user_offline_messages:
+    - 5000: admin
+    - 500
+\end{lstlisting}
+
+Wie im Listing dargestellt, werden die Anzahl an Sessions pro Benutzer auf zehn verringert, um eine Überlastung des Servers und damit einen Systemausfall vorzubeugen. Zusätzlich wird die maximale Anzahl an Nachrichten, die der Server speichert, bis der Benutzer erneut online ist auf 500 reduziert. Diese Art von Nachrichten werden als Offline-Nachrichten bezeichnet. Die Anzahl an Offline-Nachrichten für den Benutzer \glqq admin\grqq mit 5000 Nachrichten ist vorkonfiguriert.
 
 \newpage
 
