@@ -303,6 +303,7 @@ Ort, Datum & Unterschrift
 \acro{SASL}{Simple Authentication and Security Layer}
 \acro{RFC}{Request for Comments}
 \acro{MD5}{Message Digest Algorithm 5}
+\acro{MAM}{Message Archive Management}
 \end{acronym}
 
 %abbildungsverzeichnis
@@ -1212,6 +1213,43 @@ shaper_rules:
 \end{lstlisting}
 
 Wie im Listing dargestellt, werden die Anzahl an Sessions pro Benutzer auf zehn verringert, um eine Überlastung des Servers und damit einen Systemausfall vorzubeugen. Zusätzlich wird die maximale Anzahl an Nachrichten, die der Server speichert, bis der Benutzer erneut online ist auf 500 reduziert. Diese Art von Nachrichten werden als Offline-Nachrichten bezeichnet. Die Anzahl an Offline-Nachrichten für den Benutzer \glqq admin\grqq mit 5000 Nachrichten ist vorkonfiguriert.
+
+Ein weiteres wichtiges Modul ist \texttt{mod\_disco}. Dieses Modul erlaubt es, einem Client Kontaktinformationen zu zustellen, damit ein Benutzer Spam oder Missbrauch melden kann.
+
+\bigskip
+
+\begin{lstlisting}[language=yaml, caption={Kontaktinformationen für Spam- oder Missbrauchsmeldungen}]
+mod_disco:
+  server_info:
+    -
+      modules: all
+      name: "abuse-addresses"
+      urls:
+        - "mailto:admin@mail.de"
+    -
+      modules: all
+      name: "support-addresses"
+      urls:
+        - "mailto:admin@mail.de"
+\end{lstlisting}
+
+Das Listing zeigt wie in der Liste \texttt{server\_info} zusätzliche Informationen über den Server hinterlegt werden können. Ejabberd ünterstützt die \ac{XMPP}-Erweiterung \texttt{XEP-0157: Contact Addresses for XMPP Services}. Der Client sendet eine Anforderung über \ac{XMPP}. Der Server sendet dem Client die Kontaktinformationen zu. Der Client präsentiert dem Benutzer die Ergebnisse. Der genaue Ablauf ist in  \cite{xepContactInformation} beschrieben. Der Wert \texttt{all} bei \texttt{modules} bewirkt, dass die für alle Module, die ejabberd dem Client zur Verfügung steht, die Kontaktinformationen zugeordnet ist. Alternativ lässt sich eine Liste von bestimmten Modulen übergeben. Die Kontaktinformation ist dann nur für die in der Liste angegebenen Modulen abrufbar. Über den \texttt{url} Parameter lassen sich E-Mail Adressen oder bestimmte \ac{URI}s angeben.
+
+Das Modul \texttt{mod\_last} protokolliert den Zeitpunkt, zu dem sich ein Client am System an- oder abmeldet. Im Sinne einer datenschutzfreundlichen Konfiguration wird das Modul durch Auskommentieren in der Konfigurationsdatei deaktiviert.
+
+Für den Abschnitt Machine Learning in der Arbeit werden die Nachrichten benötigt, die sich Benutzer gegenseitig senden. Dafür ist eine Speicherung des Nachrichtenverlaufs notwendig. Zudem gibt es Clients, deren interner Speicherplatz zu gering ist, um Nachrichten selbst persistent zu speichern. Aus diesen Gründen kann das Modul \ac{MAM} aktiviert werden. Es ist in der \ac{XMPP}-Erweiterung \texttt{XEP-0313} definiert.\cite{xepMAM}
+
+Wichtige Funktionen von \ac{MAM} nach \cite{xepMAM}:
+
+\begin{itemize}
+\item Archivierung von Nachrichten auf dem Server
+\item Archivierung der Nachrichten eines Multi-User-Chats (Gruppen-Chat)
+\item Abruf der Nachrichten durch ein \ac{XMPP}-Query Request durch Clients
+\item Synchronisation des Nachrichtenverlaufs zwischen mehreren Clients
+\end{itemize}
+
+\texttt{XEP-0313} spezifiziert viele weitere Funktionen, für die \ac{MAM} eingesetzt werden kann. In diesem Projekt wird jedoch nur die erste Funktion implementiert.
+
 
 \newpage
 
