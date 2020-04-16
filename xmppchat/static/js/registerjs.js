@@ -23,7 +23,6 @@ $('#register-form-button').click(function(event){
         modular_ajax(url, type, form_data)
     }
 
-
 });
 
 function checkFormIsFilled(form_data)
@@ -52,20 +51,34 @@ function removePreviousErrorMsgs()
     $("#confirmPassword-invalid").text("")
 }
 
+
 function formIsValid(form_data)
 {
-    var form_error = false
+    //var form_error = false
     if(!form_data.hasOwnProperty("username") && !form_data.hasOwnProperty("eMail") && !form_data.hasOwnProperty("password") && !form_data.hasOwnProperty("confirmPassword"))
     {
         return false
     }
 
-
+    var usernameError = validateUsername(form_data.username, "username")
     var emailError = validateEmail(form_data.eMail, "eMail")
     var passwdError = validatePassword(form_data.password, "password")
     var confirmPasswdError = validateConfirm(form_data.password, form_data.confirmPassword, "confirmPassword")
     //console.log(emailError && passwdError && confirmPasswdError)
-    return emailError && passwdError && confirmPasswdError
+    return usernameError && emailError && passwdError && confirmPasswdError
+}
+
+function validateUsername(username, id_key){
+    var re = /^[A-Za-z]+[0-9]*$/;
+    if(!username.match(re))
+    {
+        var item = document.getElementById(id_key)
+        item.className += " is-invalid"
+        var error_item = document.getElementById(id_key+"-invalid")
+        error_item.innerText = "Invalid username. The username have to start with a letter. Please try again."
+        return false
+    }
+    return true
 }
 
 function validateEmail(email, id_key) {
