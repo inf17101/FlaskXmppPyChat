@@ -1248,8 +1248,14 @@ Wichtige Funktionen von \ac{MAM} nach \cite{xepMAM}:
 \item Synchronisation des Nachrichtenverlaufs zwischen mehreren Clients
 \end{itemize}
 
-\texttt{XEP-0313} spezifiziert viele weitere Funktionen, für die \ac{MAM} eingesetzt werden kann. In diesem Projekt wird jedoch nur die erste Funktion implementiert.
+\texttt{XEP-0313} spezifiziert viele weitere Funktionen, für die \ac{MAM} eingesetzt werden kann. In diesem Projekt wird jedoch nur die erste Funktion implementiert. Nach \cite{xepMAM} muss ein \ac{XMPP}-Server \ac{MAM} nicht zwingend bereitstellen und die Kontrolle über die Einstellungen kann der Betreiber des Servers festlegen. Das Protokoll erlaubt einem Benutzer aber auch, die Einstellungen für die Nachrichtenarchivierung selbst festzulegen, sodass dieser entscheiden kann, ob er Nachrichten auf dem Server archivieren möchte oder nicht. Ein Client, der diese XEP-Erweiterung unterstützt, informiert den Server über die Änderungen in den Einstellungen oder kann die aktuellen Einstellungen vom Server abfragen.
 
+\begin{figure}[h]
+\centering
+\includegraphics[width=.8\linewidth]{images/XEP0313_GetRequest}
+\caption{Anfrage des Client zum Abruf der aktuellen \ac{MAM} Einstellungen}
+\label{img:MAMGetRequest}
+\end{figure}
 
 \newpage
 
