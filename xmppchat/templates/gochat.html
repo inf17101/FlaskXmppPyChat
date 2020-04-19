@@ -932,23 +932,47 @@
   $(document).ready( function() {
     $("#input-message").emojioneArea();
   });
-  // Aenderung
+
+  // to set first contact acitve after login
   $(document).ready( function() {
+    var stopIntervall 
+    stopIntervall = setInterval(function() {
+      console.log("intervall")
+      checkExistingofElement(stopIntervall)
+    }, 100);
+  });
+
+  // to Check if one contact is exisiting
+  function checkExistingofElement(stopIntervall){
+    $('#contacts_list').each(function(){
+        if($(this).children().length > 0){
+          filterFirstContact()
+          console.log("stopIntervall")
+          clearInterval(stopIntervall);
+        }
+    });
+  }
+
+  // To find first Contact to user them for function "set first contact active"
+  function filterFirstContact(){
     var ul_tag, li
     $(".contact.active").removeClass('active');
     ul_tag = document.getElementById('contacts_list');
-    li = ul_tag.getElementsByTagName("li")[500];
-    // Aenderung
-    var checkExist = setInterval(function() {
-    if (typeof li === "undefined") {
-        li = ul_tag.getElementsByTagName("li")[0];
-        $(li).addClass("active")
-        firstactiveContact(li);  
-        clearInterval(checkExist);
-      }
-    }, 100);
-    // Aenderung Ende  
-  });
+    li = ul_tag.getElementsByTagName("li")[0];
+    $(li).addClass("active")
+    firstactiveContact(li);  
+  }
+
+  // To make the mainWindow to the active contact
+  function firstactiveContact(li) {
+  var name = li.getElementsByTagName('p')[0].innerHTML
+  var contactImageSrc = li.getElementsByTagName('img')[0].src
+  $(".contact-profile").children()[1].innerHTML = name;
+  $(".contact-profile").children()[0].src = contactImageSrc;
+
+  var peer_name = $(".contact-profile").children()[1].innerHTML
+  fill_in_chat_msgs_single_chat($('#NameOnlineAvatar').text(), peer_name);
+}
 
   // to clear inout by closeButton
   $('#closeModalButton').click(function(){
@@ -1031,17 +1055,7 @@ function addContactToList(name, preview_message)
         </li>`);
 }
 
-// Aenderung
-function firstactiveContact(li) {
-  var name = li.getElementsByTagName('p')[0].innerHTML
-  var contactImageSrc = li.getElementsByTagName('img')[0].src
-  $(".contact-profile").children()[1].innerHTML = name;
-  $(".contact-profile").children()[0].src = contactImageSrc;
 
-  var peer_name = $(".contact-profile").children()[1].innerHTML
-  fill_in_chat_msgs_single_chat($('#NameOnlineAvatar').text(), peer_name);
-}
-// Aenderung Ende
 </script>
 
 
@@ -1344,7 +1358,8 @@ $(document).ready( function () {
       $('#contacts').toggleClass("GroupContacts");
       $('#contacts').toggleClass("SingleContacts");
       change_button();
-      console.log("ClassNow: SingleContacts")
+      fillInContactPeers()
+      /*
       $("#contacts").append(`<ul id='contacts_list'>
           <li class="contact">
             <div class="wrap">
@@ -1466,7 +1481,7 @@ $(document).ready( function () {
               </div>
             </div>
           </li>
-        </ul>`)
+        </ul>`)*/
     }
   });
 
