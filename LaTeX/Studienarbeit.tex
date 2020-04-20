@@ -304,6 +304,7 @@ Ort, Datum & Unterschrift
 \acro{RFC}{Request for Comments}
 \acro{MD5}{Message Digest Algorithm 5}
 \acro{MAM}{Message Archive Management}
+\acro{HTTP}{Hypertext Transfer Protocol}
 \end{acronym}
 
 %abbildungsverzeichnis
@@ -411,7 +412,7 @@ Für den Austausch von Daten gibt es zwei elementare Konzepte. Zum einen die \ac
 
 \section{Grundlagen von Datenbanken}
 \label{sec:Datenbank}
-Für den Aufbau eines Chatsystems ist ein Datenbanksystem notwendig. Die Datenbank wird benötigt, weil Informationen und Parameter für die Authentifizierung des Benutzers gespeichert werden müssen. Außerdem ist die interne Datenbank Mnesia eines Ejabberd-Chatservers nicht für den Mehrbenutzer-Betrieb ausgelegt. Mnesia ist in der Sprache Erlang entwickelt. Sie besitzt eine weiche Echtzeitfähigkeit und ist auf Geschwindigkeit optimiert \cite{MnesiaDoc}, die verfügbare Speicherkapazität von maximal 2 Gigabyte für den Betrieb ist nicht ausreichend für ein Mehrbenutzer-System \cite{ejabberdDoc}. Ein Mehrbenutzer-Betrieb eines Ejabberd-Chatservers benötigt eine Datenbank, in der Nachrichtenverläufe, Kontakte jedes Benutzers und weitere Parameter gespeichert werden können.
+Für den Aufbau eines Chatsystems ist ein Datenbanksystem notwendig. Die Datenbank wird benötigt, weil Informationen und Parameter für die Authentifizierung des Benutzers gespeichert werden müssen. Außerdem ist die interne Datenbank Mnesia eines Ejabberd-Chatservers nicht für den Mehrbenutzer-Betrieb ausgelegt. Mnesia ist in der Sprache Erlang entwickelt. Sie besitzt eine weiche Echtzeitfähigkeit und ist auf Geschwindigkeit optimiert \cite{MnesiaDoc}. Die verfügbare Speicherkapazität von maximal 2 Gigabyte für den Betrieb ist nicht ausreichend für ein Mehrbenutzer-System \cite{ejabberdDoc}. Ein Mehrbenutzer-Betrieb eines ejabberd-Servers benötigt eine Datenbank, in der Nachrichtenverläufe, Kontakte jedes Benutzers und weitere Parameter gespeichert werden können.
 
 \pagebreak
 
@@ -1011,6 +1012,25 @@ Für das Projekt wird die Konfiguration von ejabberd entsprechend den Empfehlung
 %TODO xmpp compliance check am ende der config durchführen und beschreiben
 Die im Folgenden beschriebenen Konfigurationen weichen von der Standardkonfiguration im Auslieferungszustand ab und dienen dem Zweck einer datenschutzfreundlichen und sicheren Konfiguration.
 
+\subsubsection*{Änderung der Datenbank}
+
+Wie in \autoref{sec:Datenbank} beschrieben, ist die interne Mnesia Datenbank nicht für die Verwendung in Produktivumgebungen geeignet und hat nur eine Speicherkapazität von maximal 2 GB. Aus diesem Grund wird die Konfigurationsdatei so angepasst, dass alle Daten in der in \autoref{sec:InstallationEjabberd} installierten MySQL Datenbank gespeichert werden. \autoref{lst:EjabberdDBEinstellung} zeigt die Einstellungen für die Datenbank, die ejabberd verwenden soll.
+
+\bigskip
+
+\begin{lstlisting}[language=yaml, caption={Anpassung der Einstellungen für die Datenbank},label={lst:EjabberdDBEinstellung}]
+auth_method: sql
+default_db: sql
+sql_type: mysql
+sql_server: "127.0.0.1"
+sql_database: "ejabberd"
+sql_username: "ejabberd"
+sql_password: "passwort"
+sql_port: 3306
+\end{lstlisting}
+
+Als Standarddatenbank wird mysql festgelegt. Die Datenbank läuft auf demselben Server wie ejabberd und der Datenbankname ist der des installierten SQL-Schemas, siehe \autoref{sec:InstallationEjabberd}. Hier ist kritisch anzumerken, dass die Zugangsdaten der Datenbank direkt sichtbar in der Konfigurationsdatei hinterlegt sind. Im offiziellen Administration Guide \cite{plainTextConfigSecurity} ist empfohlen, dass nur autorisierte Benutzer ein Lese- und Schreibrecht auf die Konfigurationsdatei bekommen sollen. Dabei stellt sich allerdings die Frage, inwiefern sich das System trotz der eingeschränkten Rechte von Angreifern kompromittieren lässt. Erlangt ein Angreifer die Benutzerdaten eines autorisierten Benutzers hat er uneingeschränkten Zugriff auf sensible Informationen. Wünschenswert wäre eine bessere Möglichkeit, sensible Informationen abzusichern.
+
 \subsubsection*{Konfiguration des Logging}
 
 Das Log-Level bestimmt den Grad der Ausführlichkeit von Einträgen in eine Protokolldatei. Es beeinflusst die Anzahl und den Detailgrad der Informationen, die die Software von ejabberd während dem Betrieb aufzeichnet.\cite{ejabberdDoc}
@@ -1146,7 +1166,7 @@ Der Port 5270 ergänzt ebenfalls die Standardkonfiguration und dient dazu, dass 
 Der Port 5280 implementiert das Modul \texttt{ejabberd\_http}. Durch die Einstellung \texttt{web\_admin: true} ist das Administrationsportal unter diesem Port verfügbar. Der Administrator dieses Projekts kann sich zum Beispiel unter dieser \ac{URI} in das Webportal einloggen: \texttt{https://xmpp-dhbw.spdns.org:5280/admin}.
 
 
-\subsection*{Konfiguration der Zugriffskontrolle}
+\subsubsection*{Konfiguration der Zugriffskontrolle}
 
 Ein Client authentifiziert sich gegenüber dem ejabberd-Server mittels \ac{SASL}. Nach \cite{SASLDescription} ist \ac{SASL} ein Framework, das von verschiedenen Protokollen im Internet für die Authentifizierung verwendet wird. Mittels \ac{SASL} handeln Client und Server standardisiert Authentifizierungsmethoden aus, die von der Applikation transparent genutzt werden.  Der Betreiber eines ejabberd-Servers sollte für eine sichere Konfiguration veraltete Authentifizierungsmethoden ausschließen.  
 
@@ -1237,7 +1257,7 @@ Das Listing zeigt wie in der Liste \texttt{server\_info} zusätzliche Informatio
 
 Das Modul \texttt{mod\_last} protokolliert den Zeitpunkt, zu dem sich ein Client am System an- oder abmeldet. Im Sinne einer datenschutzfreundlichen Konfiguration wird das Modul durch Auskommentieren in der Konfigurationsdatei deaktiviert.
 
-Für den Abschnitt Machine Learning in der Arbeit werden die Nachrichten benötigt, die sich Benutzer gegenseitig senden. Dafür ist eine Speicherung des Nachrichtenverlaufs notwendig. Zudem gibt es Clients, deren interner Speicherplatz zu gering ist, um Nachrichten selbst persistent zu speichern. Aus diesen Gründen kann das Modul \ac{MAM} aktiviert werden. Es ist in der \ac{XMPP}-Erweiterung \texttt{XEP-0313} definiert.\cite{xepMAM}
+Für den Abschnitt Machine Learning in der Arbeit werden die Nachrichten benötigt, die sich Benutzer gegenseitig senden. Dafür ist eine Speicherung des Nachrichtenverlaufs notwendig. Zudem gibt es Clients, deren interner Speicherplatz zu gering ist, um Nachrichten selbst persistent zu speichern. Aus diesen Gründen kann das Modul \ac{MAM} aktiviert werden. Es ist in der \ac{XMPP}-Erweiterung \texttt{XEP-0313} spezifiziert.\cite{xepMAM}
 
 Wichtige Funktionen von \ac{MAM} nach \cite{xepMAM}:
 
@@ -1248,14 +1268,66 @@ Wichtige Funktionen von \ac{MAM} nach \cite{xepMAM}:
 \item Synchronisation des Nachrichtenverlaufs zwischen mehreren Clients
 \end{itemize}
 
-\texttt{XEP-0313} spezifiziert viele weitere Funktionen, für die \ac{MAM} eingesetzt werden kann. In diesem Projekt wird jedoch nur die erste Funktion implementiert. Nach \cite{xepMAM} muss ein \ac{XMPP}-Server \ac{MAM} nicht zwingend bereitstellen und die Kontrolle über die Einstellungen kann der Betreiber des Servers festlegen. Das Protokoll erlaubt einem Benutzer aber auch, die Einstellungen für die Nachrichtenarchivierung selbst festzulegen, sodass dieser entscheiden kann, ob er Nachrichten auf dem Server archivieren möchte oder nicht. Ein Client, der diese XEP-Erweiterung unterstützt, informiert den Server über die Änderungen in den Einstellungen oder kann die aktuellen Einstellungen vom Server abfragen.
+\texttt{XEP-0313} spezifiziert viele weitere Funktionen, für die \ac{MAM} eingesetzt werden kann. In diesem Projekt wird jedoch nur die erste Funktion implementiert. Nach \cite{xepMAM} muss ein \ac{XMPP}-Server \ac{MAM} nicht zwingend bereitstellen und die Kontrolle über die Einstellungen kann der Betreiber des Servers festlegen. Das Protokoll erlaubt einem Benutzer aber auch, die Einstellungen für die Nachrichtenarchivierung selbst festzulegen, sodass dieser entscheiden kann, ob er Nachrichten auf dem Server archivieren möchte oder nicht. Ein Client, der diese XEP-Erweiterung unterstützt, informiert den Server über die Änderungen in den Einstellungen oder kann die aktuellen Einstellungen vom Server abfragen.\cite{xepMAM}
+
+\newpage
+
+\autoref{img:MAMGetRequest} zeigt typische Kommunikationsverläufe. Der Client sendet eine Anfrage vom Typ \texttt{get} mit seiner Benutzer-ID. Im Element \texttt{prefs} gibt er das Protokoll \ac{MAM} an. Darunter sind zwei mögliche Antworten des Servers abgebildet. Im ersten Fall unterstützt der Server \ac{MAM} und antwortet mit den aktuellen Einstellungen des Benutzers. Das \texttt{prefs}-Element muss vorhanden sein. Dieses enthält die konfigurierten Richtlinien für die Archivierung. Die Elemente \texttt{always} und \texttt{never} müssen immer im \texttt{prefs}-Element enthalten sein, auch wenn sie leer sind. Sie beinhalten eine Liste von \texttt{jid}-Elemente (Jabber-IDs). Für die Jabber-IDs im Element \texttt{always} ist die Archivierung immer aktiv. Für die IDs im Element \texttt{never} archiviert der Server niemals Nachrichtenverläufe. Im dritten Teilbild ist eine alternative Antwort des Servers an den Client dargestellt. Der Server antwortet mit einer \ac{XMPP}-Nachricht vom Typ \texttt{error} und dem Element \texttt{feature-not-implemented}, wenn er \ac{MAM} nicht unterstützt oder die Funktion deaktiviert ist.\cite{xepMAM}
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=.8\linewidth]{images/XEP0313_GetRequest}
-\caption{Anfrage des Client zum Abruf der aktuellen \ac{MAM} Einstellungen}
+\includegraphics[width=.7\linewidth]{images/XEP0313_GetRequest}
+\caption{Anfrage des Client zum Abruf der aktuellen \ac{MAM} Einstellungen \cite{xepMAM}, eigene Darstellung}
 \label{img:MAMGetRequest}
 \end{figure}
+
+Der Autor von \cite{xepMAM} beschreibt, dass die Einstellungen der Archivierung mit einer Anfrage vom Typ \texttt{set} auch verändert werden können. Die Anfrage ist in \autoref{img:MAMUpdate} gezeigt.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=.8\linewidth]{images/XEP0313_UpdateRequest}
+\caption{Aktualisierung der Archivierungseinstellungen durch den Client \cite{xepMAM}, eigene Darstellung}
+\label{img:MAMUpdate}
+\end{figure}
+
+Der Server speichert die Einstellungen nach Erhalt der Anfrage. Er archiviert von diesem Zeitpunkt alle Nachrichten für die Jabber-ID \texttt{romeo@montague.lit}. Für den Benutzer der ID \texttt{montague@montague.lit} werden keine Nachrichten mehr in der Datenbank gespeichert.
+
+Das folgende Listing zeigt die Einstellungen für \ac{MAM} von ejabberd, die für dieses Projekt konfiguriert sind.
+
+\bigskip
+
+\begin{lstlisting}[language=yaml, caption={Konfiguration der Einstellungen für die Nachrichtenarchivierung}]
+mod_mam:
+    db_type: sql
+    assume_mam_usage: true
+    default: always
+    request_activates_archiving: true
+\end{lstlisting}
+
+%TODO alle erwähnten Machine Learing Abschnitte noch konkret durch die Abschnittnummer ersetzen
+Das Modul \texttt{mod\_mam} realisiert die zuvor beschrieben Funktionen von \ac{MAM}. Einerseits schreibt der Datenschutz vor, dass der Benutzer Kontrolle über seine Daten behalten muss, andererseits werden die Nachrichtenverläufe für den Abschnitt Machine Learning benötigt. Aus diesem Grund ist ein Kompromiss in der Einstellung festzulegen. Die Nachrichten sollen nur archiviert werden, wenn ein Benutzer das ausdrücklich veranlasst. Durch der aktivierten Einstellung \texttt{request\_activates\_archiving} speichert ejabberd nur dann Nachrichten, wenn der Client eine Anfrage sendet, die diese Archivierung aktiviert. Sendet ein Client diese Anfrage, werden ab diesem Zeitpunkt an alle Nachrichten des Client gespeichert. Mit \texttt{db\_type: sql} wird festgelegt, dass die Nachrichten in der in \autoref{sec:InstallationEjabberd} installierten MySQL Datenbank gespeichert werden.
+
+Über das Modul \texttt{mod\_roster} kann vermieden werden, dass bei jedem Login die gesamte Kontaktliste (Roster) eines Benutzers erneut heruntergeladen werden muss. Das folgende Listing zeigt die Einstellungen.
+
+\bigskip
+
+\begin{lstlisting}[language=yaml, caption={Einstellungen des Moduls mod\_rosters}]
+mod_roster:
+  versioning: true
+\end{lstlisting}
+
+Dadurch wird die \ac{XMPP}-Erweiterung \texttt{XEP-0237: Roster Versioning} \cite{xep0237RosterVersioning} aktiviert und sorgt dafür, dass die Kontaktliste nur bei Änderungen erneut heruntergeladen werden muss. Das Verfahren spart damit Bandbreite ein.
+
+Abschließend werden aus Sicherheitsgründen das Modul \texttt{mod\_version} und \texttt{mod\_http\_api} angepasst. Die Anpassungen sind in \autoref{lst:ejabberdImportantSecuritySettings} dargestellt.
+
+\begin{lstlisting}[language=yaml, caption={Konfiguration relevanter Module für die Sicherheit von ejabberd},label={lst:ejabberdImportantSecuritySettings}]
+mod_version: 
+  show_os: false
+
+## mod_http_api: {}
+\end{lstlisting}
+
+Ein Client kann die Version des Betriebssystems, auf dem ejabberd installiert ist, grundsätzlich abfragen. Das wird durch die Einstellung \texttt{show\_os: false} verhindert. Ebenfalls wird das Modul \texttt{mod\_http\_api} deaktiviert. Eine Administration über das \ac{HTTP} ist damit nicht möglich. Die ejabberd-Instanz kann nur noch über das erlang Kommandozeilenprogramm \texttt{ejabberdctl} verwaltet werden, siehe \autoref{lst:AddAdminUserEjabberd}.
 
 \newpage
 
