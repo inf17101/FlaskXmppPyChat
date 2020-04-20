@@ -709,7 +709,7 @@ Die Entwicklung eines Softwareprodukts ist stets aufwendig und fehlerbehaftet. E
 
 \smallskip
 
-\textbf{Häufige Fehlerarten:}
+\subsubsection*{Häufige Fehlerarten:}
 
 \smallskip
 
@@ -757,7 +757,7 @@ funktioniert und nichts anderes tut, aber nicht um alle möglichen Fehler aussch
 
 Tests eines komplexen Software-Systems lassen sich in verschiedene Testarten einordnen. Nicht jeder Test ist in jedem Entwicklungsstand möglich. Weil aber nicht jede Teststufe oder Testart zu jedem Zeitpunkt möglich ist, müssen die Testarten eindeutig voneinander abgegrenzt werden.
 
-\textbf{Testarten:}
+\subsubsection*{Testarten:}
 
 \begin{figure}[h]
 	\centering
@@ -783,8 +783,7 @@ Eine wichtige Anforderung an Tests ist, dass diese schnell und effizient ablaufe
 \section{Ejabberd als moderner Chatserver}
 \label{sec:ejabberd}
 
-%TODO Lizenzfreihei (GPL Lizenz) mit reinbringen, Unterstützte BS (Windows, Linux, etc)
-Ejabberd ist einer der bekanntesten freien \ac{XMPP}-Server auf der Welt und kann in vielerlei Hinsicht verwendet werden. Sowohl Großprojekte als auch kleine Instanzen machen sich die Eigenschaften von ejabberd zum Vorteil. Der Start von ejabberd ist dem Jahr 2002 zuzuordnen. Ejabberd ist eine Abkürzung und steht für \glqq Erlang Jabber Daemon\grqq. Wie die Definition zeigt bezieht sich ejabberd auf die Programmiersprache Erlang. Grund hierfür ist, dass die ejabberd Software in Erlang geschrieben ist. Seit dem Start wurde es von Grund auf für die Unternehmensbereitstellung entwickelt, vor allem mit dem Ziel robust zu sein. Aufgrund davon, dass der Fokus auf die Unternehmen lag, war es wichtig die Fehleranfälligkeit von ejabberd zu minimieren. Ein Vorteil der sich bis zum heutigen Zeitpunkt bewahrt hat. Außerdem kann ejabberd die Ressourcen mehrerer geclusterter Systeme nutzen. Des Weiteren besitzt ejabberd die Eigenschaft der Skalierbarkeit, indem die Kapazitäten mit wenig Aufwand erhöht werden kann. Während der Entstehungsphase war das \ac{XMPP}-Protokoll, welches in \autoref{sec:XMPP} beschrieben wird, noch unter dem Namen Jabber bekannt. Ejabberd kann verschieden benutzt werden. Im Fall der Studienarbeit wird die Community Edition von ejabberd benutzt, welche als open source zur Verfügung steht. Neben der Community Edition gibt es auch noch Möglichkeiten einer Business Edition, welches vor allem für die großen Unternehmen mit besserem Support rund um die Uhr und größeren Funktionen konzeptioniert ist. Die Architektur eines ejabberd services erweitert die Kernfunktionen von \ac{XMPP}, welches das Senden von Nachrichten ist, um Faktoren wie die Skalierbarkeit, Konfigurierbarkeit und Fehlertoleranz. Außerdem gilt die Architektur von ejabberd als Modular. Das bedeutet, dass es an den Zweck eines Projektes angepasst werden kann. Die Modularität bringt bspw. Funktionen wie Gruppenchat mit ein.
+Ejabberd ist einer der bekanntesten \ac{XMPP}-Server auf der Welt und kann in vielerlei Hinsicht verwendet werden. Er ist lizenzfrei benutzbar und unterstützt das Betriebssystem Windows, Linux und Mac OS. Sowohl Großprojekte als auch kleine Instanzen machen sich die Eigenschaften von ejabberd zum Vorteil. Der Start von ejabberd ist dem Jahr 2002 zuzuordnen. Ejabberd ist eine Abkürzung und steht für \glqq Erlang Jabber Daemon\grqq. Wie die Definition zeigt bezieht sich ejabberd auf die Programmiersprache Erlang. Grund hierfür ist, dass die ejabberd Software in Erlang geschrieben ist. Seit dem Start wurde es von Grund auf für die Unternehmensbereitstellung entwickelt, vor allem mit dem Ziel robust zu sein. Aufgrund davon, dass der Fokus auf die Unternehmen lag, war es wichtig die Fehleranfälligkeit von ejabberd zu minimieren. Ein Vorteil der sich bis zum heutigen Zeitpunkt bewahrt hat. Außerdem kann ejabberd die Ressourcen mehrerer geclusterter Systeme nutzen. Des Weiteren besitzt ejabberd die Eigenschaft der Skalierbarkeit, indem die Kapazitäten mit wenig Aufwand erhöht werden kann. Während der Entstehungsphase war das \ac{XMPP}-Protokoll, welches in \autoref{sec:XMPP} beschrieben wird, noch unter dem Namen Jabber bekannt. Ejabberd kann verschieden benutzt werden. Im Fall der Studienarbeit wird die Community Edition von ejabberd benutzt, welche als open source zur Verfügung steht. Neben der Community Edition gibt es auch noch Möglichkeiten einer Business Edition, welches vor allem für die großen Unternehmen mit besserem Support und mehr Funktionen konzeptioniert ist. Die Architektur eines ejabberd-Services erweitert die Kernfunktionen von \ac{XMPP}, welches das Senden von Nachrichten ist, um Faktoren wie die Skalierbarkeit, Konfigurierbarkeit und Fehlertoleranz.
 
 \bigskip
 
@@ -800,7 +799,21 @@ Ejabberd ist einer der bekanntesten freien \ac{XMPP}-Server auf der Welt und kan
 	\item Verschlüsselte Übertragung von Nachrichten
 	\item Kontaktliste jedes Benutzers
 \end{itemize}
-Eine wichtige Eigenschaft ist das Authentifizieren von Nutzern, welches ebenfalls von ejabberd unterstützt wird. Dafür kann ejabberd sowohl mit einer internen, als auch mit einer externen Datenbank zusammenarbeiten. Aufgrund der genannten Eigenschaften und Funktionen von ejabberd, werden eine Vielzahl an mögliche Anwendungsgebieten abgedeckt. Während für viele kleine Projekte die interne Datenbank Mnesia ausreichend ist, wird im Rahmen der Studienarbeit mit einer externen Datenbank gearbeitet.\cite{ejabberdDoc}
+
+Die Architektur von ejabberd ist modular. Das bedeutet, dass die Architektur an den Zweck eines Projektes angepasst werden kann.
+
+\autoref{img:ArchitekturEjabberd} zeigt eine Übersicht über die Architektur und die Flexibilität von ejabberd \cite{ejabberdModulesDeployment}.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth]{images/ejabberd_internals}
+	\caption{Übersicht über die Architektur von ejabberd \cite{ejabberdModulesDeployment}}
+	\label{img:ArchitekturEjabberd}
+\end{figure}
+
+Die interne Architektur von ejabberd setzt auf dem Router auf. Der Router leitet Anfragen an interne Dienste und Module weiter oder versendet Nachrichten. Neben der Kommunikation zwischen Clients und Server (c2s) unterstützt ejabberd die Kommunikation zu anderen \ac{XMPP}-Servern (s2s) und kann in bereits vorhandenen \ac{XMPP}-Domänen integriert werden. Die meisten anderen Elemente sind Plugins, die angepasst, erweitert oder ersetzt werden können, um eine benutzerdefinierte Lösung zu erstellen, die auf konkrete Anforderungen zugeschnitten ist. So lassen sich zum Beispiel Funktionen wie \ac{MUC} oder Logging benutzerdefiniert konfigurieren, siehe Feature Modules in \autoref{img:ArchitekturEjabberd}. Unerwünschte Module können deaktiviert werden. Eine wichtige Eigenschaft ist das Authentifizieren von Benutzern. Dafür kann ejabberd sowohl mit einer internen, als auch mit einer externen Datenbank zusammenarbeiten. Der Block Data Modules in \autoref{img:ArchitekturEjabberd} zeigt, dass ejabberd neben der Authentifizierung auch die Archivierung von Nachrichten (Message archive) oder die Verwaltung von Kontaktlisten (Contacts-Rosters) unterstützt. Aufgrund der genannten Eigenschaften und Funktionen von ejabberd, werden eine viele Anwendungsgebiete abgedeckt.\cite{ejabberdModulesDeployment, ejabberdDoc}
+
+Während für kleine Projekte die interne Datenbank Mnesia ausreichend ist, wird in der Studienarbeit mit einer externen Datenbank gearbeitet. In den folgenden zwei Kapiteln wird erläutert, wie eine ejabberd-Instanz mit der Verwendung einer externen MySQL Datenbank installiert werden kann. Ferner wird beschrieben, wie die Standardkonfiguration so angepasst werden kann, dass der Server sicher und datenschutzfreundlich ist.
 
 \pagebreak
 
@@ -828,7 +841,7 @@ Die ejabberd Software unterstützt nach \autoref{sec:ejabberd} das Betriebssyste
 
 Ejabberd wird als einzelne Instanz installiert. Es wird keine Installation als Cluster, das einen Verbund aus mehreren gleichwertigen ejabberd Instanzen definiert, benötigt.
 
-Nach \autoref{sec:ejabberd} ist die interne Mnesia Datenbank des Chatservers zu klein, um einen voll umfänglichen Testbetrieb zu realisieren. Aus diesem Grund wird eine MySQL-Datenbank installiert und eine sichere Installation durchgeführt. Die sichere Installation entfernt vorinstallierte Datenbanken und stellt sicher, dass die Datenbank über keine andere IP-Adresse als die localhost IP-Adresse verfügbar ist.
+Nach \autoref{sec:ejabberd} ist die interne Mnesia Datenbank des Chatservers zu klein, um einen voll umfänglichen Testbetrieb zu realisieren. Aus diesem Grund wird eine MySQL-Datenbank installiert und eine sichere Installation durchgeführt. Die sichere Installation entfernt vorinstallierte Datenbanken und stellt sicher, dass die Datenbank über keine andere IP-Adresse als über die localhost IP-Adresse erreichbar ist.
 
 \bigskip
 
@@ -1328,6 +1341,8 @@ mod_version:
 \end{lstlisting}
 
 Ein Client kann die Version des Betriebssystems, auf dem ejabberd installiert ist, grundsätzlich abfragen. Das wird durch die Einstellung \texttt{show\_os: false} verhindert. Ebenfalls wird das Modul \texttt{mod\_http\_api} deaktiviert. Eine Administration über das \ac{HTTP} ist damit nicht möglich. Die ejabberd-Instanz kann nur noch über das erlang Kommandozeilenprogramm \texttt{ejabberdctl} verwaltet werden, siehe \autoref{lst:AddAdminUserEjabberd}.
+
+Nun ist ejabberd für den Gebrauch in der Projektarbeit konfiguriert. Der Server kann nun von jedem beliebigen \ac{XMPP}-Client genutzt werden.
 
 \newpage
 
