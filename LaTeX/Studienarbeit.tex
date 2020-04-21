@@ -780,6 +780,33 @@ Eine wichtige Anforderung an Tests ist, dass diese schnell und effizient ablaufe
 \chapter{Umsetzung und Implementierung}
 \label{chap:Umsetzung}
 
+\section{Aufbau und Entwurf der Architektur des Chatsystems}
+\label{chap:Architektur}
+
+Nach den Anforderungen (\autoref{Anforderungen}) und Zielen der Arbeit (\autoref{sec:Ziele}) soll ein \ac{IMS} auf Basis eines \ac{XMPP}-Chatsystems entworfen und programmiert werden. Anschließend soll das gleiche Chatsystem auf Basis des Frameworks Apache Kafka mit Kafka Streams implementiert und mit dem \ac{XMPP}-Chatsystem verglichen werden. Hierfür muss ein verteiltes System entworfen werden, das die Anforderungen abdeckt.
+
+Der Autor Tanenbaum definiert ein verteiltes System wie folgt: \glqq Ein verteiltes System ist eine Ansammlung unabhängiger Computer, die den Benutzern wie ein einzelnes kohärentes System erscheinen.\grqq \footnote{\cite[S.19]{andrew2008verteilte}} Die Definition von Tanenbaum hat mehrere wichtige Aspekte. Der Erste besagt, dass ein verteiltes System aus Komponenten besteht, die autonom sind. Sie bieten einen Dienst an oder haben eine bestimmte Aufgabe und eine lokale Zeit. Ein zweiter Aspekt ist, dass die Benutzer glauben, sie hätten es mit einem einzigen System zu tun. Die Eigenschaft \glqq kohärenz\grqq aus der Definition besagt, dass die Komponenten in einer bestimmten Art und Weise zusammen arbeiten, um den Benutzer einen Dienst zu erbringen. Ein besonderes Merkmal ist, dass keinerlei Annahmen über die Art der Computer getroffen werden. Diese können heterogen sein. Tanenbaum \cite{andrew2008verteilte} ist der Ansicht, dass die Herausforderungen eines verteilten Systems sind, die einzelnen Teilsysteme zu synchronisieren und die Zusammenarbeit korrekt zu implementieren.
+
+Hierzu stellt sich die Frage, welche Dienste für das Chatsystem benötigt und wie die Dienste auf Komponenten sinnvoll verteilt werden. Der erste Teil der Frage kann mit Hilfe der Anforderungen aus \autoref{Anforderungen} beantwortet werden. Folgende Auflistung beinhaltet wichtige Funktionalitäten die als Komponenten zusammengefasst sind:
+
+\begin{itemize}
+\item Client für Benutzer, um Chat-Funktionalitäten durchführen zu können
+\item ejabberd als \ac{XMPP}-Server für das \ac{XMPP}-basierte Chatsystem
+\item Apache Kafka mit Kafka Streams
+\item Datenbank für Authentifizierung und Archivierung von Nachrichten
+\end{itemize}
+
+\newpage
+
+Für die Beantwortung der Fragestellung, wie die Dienste auf Komponenten verteilt werden, bedarf es noch weiteren Untersuchungen. Theoretisch könnten alle Dienste bis auf den Chat-Client auf einer einzelnen Server-Instanz realisiert werden. Ein Vorteil ist, dass einzelne Dienste ohne Netzwerklatenzen miteinander kommunizieren können und Daten direkt austauschen können. Latenzen entstehen dann nur bei der Übertragung von Nachrichten vom Server zum Chat-Client und umgekehrt oder aufgrund der Bearbeitungszeit eines Dienstes. Dieser Architektur ist kritisch anzumerken, das die einzelnen Dienste um Ressourcen konkurrieren könnten und die Funktionsfähigkeit stark von der Qualität und der Leistung des Servers abhängig ist. Hinzu kommt, dass wenn der Server ausfällt oder beschädigt wird, jeder Dienst nicht mehr erreichbar ist. Das wäre entgegen den Vorteilen und Absichten von verteilten Systemen. Um die Architektur zu verbessern müssen die Eigenschaften und Ziele von verteilten Systemen berücksichtigt werden. Tanenbaum geht darauf detailliert in \cite{andrew2008verteilte} ein.
+
+\subsubsection*{Eigenschaften von verteilten Systemen}
+
+Eine Eigenschaft ist, dass die Unterschiede der Komponenten und die Art, wie sie untereinander kommunizieren, weitestgehend vor den Benutzern verborgen bleiben. Das bedeutet, dass wenn ein Benutzer eine Nachricht zu einem anderen Benutzer über das \ac{IMS} sendet, darf ein Benutzer nicht mitbekommen, wie viele und welche Instanzen mitwirken, um die Nachricht ihrem Empfänger zuzustellen. Eine weitere wichtige Eigenschaft ist, dass Benutzer konsistent mit dem verteilten System arbeiten können, egal wo und wann diese Zusammenarbeit stattfindet. Die Tatsache, dass ein Benutzer am \ac{IMS} angemeldet ist und Nachrichten versendet, darf keine Aktionen anderer Benutzer beeinflussen. Darüber hinaus sollte es leicht erweiterbar und skalierbar sein. Dieser Aspekt ist in dem vorher beschrieben Ansatz nicht gegeben. Es können nicht beliebig viele Dienste auf einem Server realisiert werden und auch die Ressourcen eines einzelnen Servers können nicht beliebig erweitert werden. Ein weiterer Punkt ist,dass Benutzer und Anwendungen nicht bemerken sollen, dass Teile ersetzt, repariert oder neue Teile hinzugefügt werden, um mehr Benutzer oder Anwendungen bedienen zu können.\cite{andrew2008verteilte}
+Auf den Aspekt der Redundanz wird in dieser Arbeit nicht eingegangen. Das Ziel ist es nicht die Fehlertoleranz durch redundante Komponenten und Anwendungen zu gewährleisten, vielmehr soll ein Prototyp mit ausreichenden Funktionalitäten eines \ac{IMS} entwickelt werden und zwei verschiedene Implementierungsformen verglichen werden.
+
+
+
 \pagebreak
 
 \section{Ejabberd als moderner Chatserver}
