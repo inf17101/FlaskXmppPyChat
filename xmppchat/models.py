@@ -92,8 +92,8 @@ class Archiv(db.Model):
         chat_rosters = Archiv.query.filter_by(username=username).group_by("bare_peer").all()
         chat_rosters_bare_peers = [roster.bare_peer for roster in chat_rosters]
         chat_msgs = {}
-        list_peer_msgs = []
         for bare_peer in chat_rosters_bare_peers:
+            list_peer_msgs = []
             results = Archiv.query.with_entities(Archiv.txt, Archiv.xml, Archiv.created_at, Archiv.kind).filter_by(username=username).filter_by(bare_peer=bare_peer).all()
             for item in results:
                 match = re.findall(regex, item[POSITION_XML])
