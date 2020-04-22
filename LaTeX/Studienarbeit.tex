@@ -307,6 +307,9 @@ Ort, Datum & Unterschrift
 \acro{MD5}{Message Digest Algorithm 5}
 \acro{MAM}{Message Archive Management}
 \acro{HTTP}{Hypertext Transfer Protocol}
+\acro{REST}{Representational State Transfer}
+\acro{API}{Application Programming Interface}
+\acro{SSH}{Secure Shell}
 \end{acronym}
 
 %abbildungsverzeichnis
@@ -805,7 +808,24 @@ Für die Beantwortung der Fragestellung, wie die Dienste auf Komponenten verteil
 Eine Eigenschaft ist, dass die Unterschiede der Komponenten und die Art, wie sie untereinander kommunizieren, weitestgehend vor den Benutzern verborgen bleiben. Das bedeutet, dass wenn ein Benutzer eine Nachricht zu einem anderen Benutzer über das \ac{IMS} sendet, darf ein Benutzer nicht mitbekommen, wie viele und welche Instanzen mitwirken, um die Nachricht ihrem Empfänger zuzustellen. Eine weitere wichtige Eigenschaft ist, dass Benutzer konsistent mit dem verteilten System arbeiten können, egal wo und wann diese Zusammenarbeit stattfindet. Die Tatsache, dass ein Benutzer am \ac{IMS} angemeldet ist und Nachrichten versendet, darf keine Aktionen anderer Benutzer beeinflussen. Darüber hinaus sollte es leicht erweiterbar und skalierbar sein. Dieser Aspekt ist in dem vorher beschrieben Ansatz nicht gegeben. Es können nicht beliebig viele Dienste auf einem Server realisiert werden und auch die Ressourcen eines einzelnen Servers können nicht beliebig erweitert werden. Ein weiterer Punkt ist,dass Benutzer und Anwendungen nicht bemerken sollen, dass Teile ersetzt, repariert oder neue Teile hinzugefügt werden, um mehr Benutzer oder Anwendungen bedienen zu können.\cite{andrew2008verteilte}
 Auf den Aspekt der Redundanz wird in dieser Arbeit nicht eingegangen. Das Ziel ist es nicht die Fehlertoleranz durch redundante Komponenten und Anwendungen zu gewährleisten, vielmehr soll ein Prototyp mit ausreichenden Funktionalitäten eines \ac{IMS} entwickelt werden und zwei verschiedene Implementierungsformen verglichen werden.
 
+\subsubsection*{Ziele von verteilten Systemen \cite{andrew2008verteilte}}
 
+\begin{itemize}
+\item Ein verteiltes System sollte Ressourcen leicht zugreifbar machen.
+\item Es sollt die Tatsache vernünftig verbergen, dass Ressourcen über ein Netzwerk verteilt sind.
+\item Es sollt offen sein.
+\item Es sollte skalierbar sein.
+\end{itemize}
+
+Die Auflistung führt Ziele auf, die Tanenbaum \cite{andrew2008verteilte} in seinem Werk immer wieder betont. Diese sind in Bezug auf das zu entwerfende \ac{IMS} wie folgt zu interpretieren:
+
+Die Ressourcen sind die Chat-Funktionalitäten die ein Benutzer wahrnehmen kann. Das entwickelte System sollte diese Funktionalitäten dem Benutzer einfach zugänglich machen. Einfach zugänglich machen bedeutet, dass ein Benutzer nicht manuell sämtliche Dienste über viele Anmeldungen aufrufen muss, damit eine Nachricht an einem anderen Benutzer versendet wird. Vielmehr soll das \ac{IMS}, nachdem der Benutzer einen zentralen Auftrag zum Senden einer Nachricht veranlasst hat, alle benötigten Dienste selbst ansteuern und die Nachricht zuverlässig versenden. Ob und wie viele weiteren Dienste hierfür benötigt werden, soll das System vor dem Benutzer verbergen. Diesen Sachverhalt bezeichnet Tanenbaum in \cite{andrew2008verteilte} als Verteilungstransparenz. Das System muss also verbergen, dass es mit einer Datenbank oder mit ejabberd kommunizieren muss, um die Nachricht dem Empfänger zu zustellen. Neumann  definiert Skalierbarkeit sehr ausführlich in \cite{neumannDistributed1994}. Neumann ist der Auffassung, dass ein verteiltes System, das hinsichtlich seiner Ausdehnung skaliert wird, nicht an Leistung verlieren darf. Konkret für das \ac{IMS} bedeutet das, durch ein Hinzufügen oder Duplizieren von Diensten andere Teilsysteme nicht negativ beeinflusst werden dürfen. Neumann betont, dass es nicht sinnvoll ist einen Dienst nur zentral auf einem Server bereitzustellen. Er betont, dass Server einer zentralisierten Architektur zum Engpass werden können. Diese Ansicht ist zutreffend, wenn das \ac{IMS} als Produktivsystem entwickelt werden würde. Das ist aber in dieser Studienarbeit nicht der Fall und kann deshalb vernachlässigt werden.
+
+Beachtet man die oben aufgeführten Eigenschaften und Ziele der verteilten Systeme, ergibt sich für die Architektur folgender Aufbau (siehe Anhang \autoref{img:ArchitekturIMS}).
+
+Jeder Dienst wird auf einem Server verteilt mit Ausnahme der Datenbanken. Der ejabberd-Server ist in \autoref{img:ArchitekturIMS} als \texttt{xmpp-ejabberd-server} gekennzeichnet und der Apache Kafka Dienst als \texttt{xmpp-apkafka01}. Die Instanz \texttt{xmpp-webserver} realisiert die Anwendungslogik in Form einer \acs{REST} \acs{API}. Die Grundidee ist folgende: Über ein Web-Frontend werden dem Benutzer Chat-Funktionalitäten bereitgestellt, die er nach einer Anmeldung am System verwenden kann. Über das Web-Frontend kann der Benutzer auswählen, ob er über den Apache Kafka Dienst oder über ejabberd Chat-Dienste nutzen möchte. So können beide Plattformen getrennt voneinander getestet werden. Die Auswahl der Plattformen und die Koordination der Funktionen zu den speziellen Diensten übernimmt die \acs{REST} \acs{API}. Damit die \acs{REST} \acs{API} mit den beiden Plattformen kommunizieren kann, existiert das private Netzwerk \texttt{internalDMZ}, mit dem alle drei Instanzen verbunden sind (siehe \autoref{img:ArchitekturIMS}). Wählt ein Benutzer sich zum Beispiel über das Web-Frontend am \acs{API}-Endpunkt für die Benutzung von Apache Kafka an, so werden seine Nachrichten über die \acs{REST} \acs{API} zur Apache Kafka Plattform transportiert. Dieser koordiniert dann die Nachrichten. Meldet sich der Benutzer am Endpunkt für die Nutzung des ejabberd-Servers an, so werden die Nachrichten über die \acs{REST} \acs{API} via \ac{XMPP} an den ejabberd-Server gesendet und über den gleichen Weg zurück zum Client transportiert. Diese Architektur ist unempfindlich gegenüber Erweiterungen. Würden in der Zukunft weitere Plattformen hinzukommen, müssen nur neue \acs{API}-Endpunkte hinzugefügt werden und die neuen Funktionen im Code umgesetzt werden. Bestehender Code und Endpunkte müssen nicht verändert werden. Zudem kann eine Komponente einfach ausgetauscht werden, falls diese beschädigt wird. Solange die Konfiguration die Gleiche bleibt, muss die Anwendungslogik nicht angepasst werden. Auffällig ist, dass alle drei Instanzen eine öffentliche IP-Adresse im Internet haben. Der Internetzugang ist über eine Firewall gesichert und dient der Erreichbarkeit der Geräte für Debugging oder administrative Zwecke. Beispielsweise um über das \ac{SSH} Protokoll Software-Installationen durchzuführen oder Konfigurationen zu verwalten. Die \acs{REST} \acs{API} ist zusätzlich für die Clients über das Internet für \ac{IMS}-Dienste erreichbar. Die Apache Kafka und die ejabberd-Instanz werden so konfiguriert und implementiert, dass sie auch ohne der Anwendungslogik vollständig über das Internet benutzbar sind.
+
+Nachdem die Architektur nach den Aspekten eines verteilten Systems entworfen ist, wird in den nächsten Kapiteln die Umsetzung der Architektur beschrieben.
 
 \pagebreak
 
@@ -1804,5 +1824,14 @@ $ ~/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topi
 Nach der Ausführung des Consumer-Skripts, sollte die Nachricht \glqq HelloWorld\grqq auf dem Bildschirm erfolgen. Ist das nicht der Fall, überprüfen Sie Ihre durchgeführten Schritte. Das Skript blockiert den Benutzerprozess, weil der Consumer weiterhin auf eintreffende Nachrichten wartet. Um das Skript abzubrechen verwenden Sie STR+C als Shortcut auf der Tastatur.
 
 Kafka steht nun als Server-Dienst zur Verfügung und die Installation wurde durch einen Test erfolgreich validiert. Kafka kann für seine Einsatzbereiche ab jetzt vollständig verwendet werden.
+
+\chapter{Architektur des zu entwerfenden \ac{IMS}}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=.95\linewidth]{images/Studienarbeit-Netzwerkplan}
+	\caption{Architektur des zu entwickelnden \ac{IMS}}
+	\label{img:ArchitekturIMS}
+\end{figure}
 
 \end{document}
