@@ -310,6 +310,10 @@ Ort, Datum & Unterschrift
 \acro{REST}{Representational State Transfer}
 \acro{API}{Application Programming Interface}
 \acro{SSH}{Secure Shell}
+\acro{HTML}{Hypertext Markup Language}
+\acro{PDF}{Portable Document Format}
+\acro{JSON}{JavaScript Object Notation}
+\acro{XML}{Extensible Markup Language}
 \end{acronym}
 
 %abbildungsverzeichnis
@@ -783,8 +787,20 @@ Eine wichtige Anforderung an Tests ist, dass diese schnell und effizient ablaufe
 \chapter{Umsetzung und Implementierung}
 \label{chap:Umsetzung}
 
+\section{Diskussion über die Art der Benutzeroberfläche}
+\label{sec:DiskussionGUI}
+
+- Warum Webanwendung und keine Desktopanwendung?\\
+- Warum Flask und kein anderes Framework? - Besonderheiten, Statistitken, Entscheidungsmatrix\\
+- Warum entscheiden wir uns für ein Microframework?\\
+- keine Erwähnung von Gesamtkonzept\\
+- Flask Einführung\\
+- Und wie kann ich es nutzen? Beispiele auch mit ORM\\
+
+\pagebreak
+
 \section{Aufbau und Entwurf der Architektur des Chatsystems}
-\label{chap:Architektur}
+\label{sec:Architektur}
 
 Nach den Anforderungen (\autoref{Anforderungen}) und Zielen der Arbeit (\autoref{sec:Ziele}) soll ein \ac{IMS} auf Basis eines \ac{XMPP}-Chatsystems entworfen und programmiert werden. Anschließend soll das gleiche Chatsystem auf Basis des Frameworks Apache Kafka mit Kafka Streams implementiert und mit dem \ac{XMPP}-Chatsystem verglichen werden. Hierfür muss ein verteiltes System entworfen werden, das die Anforderungen abdeckt.
 
@@ -819,11 +835,13 @@ Auf den Aspekt der Redundanz wird in dieser Arbeit nicht eingegangen. Das Ziel i
 
 Die Auflistung führt Ziele auf, die Tanenbaum \cite{andrew2008verteilte} in seinem Werk immer wieder betont. Diese sind in Bezug auf das zu entwerfende \ac{IMS} wie folgt zu interpretieren:
 
-Die Ressourcen sind die Chat-Funktionalitäten die ein Benutzer wahrnehmen kann. Das entwickelte System sollte diese Funktionalitäten dem Benutzer einfach zugänglich machen. Einfach zugänglich machen bedeutet, dass ein Benutzer nicht manuell sämtliche Dienste über viele Anmeldungen aufrufen muss, damit eine Nachricht an einem anderen Benutzer versendet wird. Vielmehr soll das \ac{IMS}, nachdem der Benutzer einen zentralen Auftrag zum Senden einer Nachricht veranlasst hat, alle benötigten Dienste selbst ansteuern und die Nachricht zuverlässig versenden. Ob und wie viele weiteren Dienste hierfür benötigt werden, soll das System vor dem Benutzer verbergen. Diesen Sachverhalt bezeichnet Tanenbaum in \cite{andrew2008verteilte} als Verteilungstransparenz. Das System muss also verbergen, dass es mit einer Datenbank oder mit ejabberd kommunizieren muss, um die Nachricht dem Empfänger zu zustellen. Neumann  definiert Skalierbarkeit sehr ausführlich in \cite{neumannDistributed1994}. Neumann ist der Auffassung, dass ein verteiltes System, das hinsichtlich seiner Ausdehnung skaliert wird, nicht an Leistung verlieren darf. Konkret für das \ac{IMS} bedeutet das, durch ein Hinzufügen oder Duplizieren von Diensten andere Teilsysteme nicht negativ beeinflusst werden dürfen. Neumann betont, dass es nicht sinnvoll ist einen Dienst nur zentral auf einem Server bereitzustellen. Er betont, dass Server einer zentralisierten Architektur zum Engpass werden können. Diese Ansicht ist zutreffend, wenn das \ac{IMS} als Produktivsystem entwickelt werden würde. Das ist aber in dieser Studienarbeit nicht der Fall und kann deshalb vernachlässigt werden.
+Die Ressourcen sind die Chat-Funktionalitäten die ein Benutzer wahrnehmen kann. Das entwickelte System sollte diese Funktionalitäten dem Benutzer einfach zugänglich machen. Einfach zugänglich machen bedeutet, dass ein Benutzer nicht manuell sämtliche Dienste über viele Anmeldungen aufrufen muss, damit eine Nachricht an einem anderen Benutzer versendet wird. Vielmehr soll das \ac{IMS}, nachdem der Benutzer einen zentralen Auftrag zum Senden einer Nachricht veranlasst hat, alle benötigten Dienste selbst ansteuern und die Nachricht zuverlässig versenden. Ob und wie viele weiteren Dienste hierfür benötigt werden, soll das System vor dem Benutzer verbergen. Diesen Sachverhalt bezeichnet Tanenbaum in \cite{andrew2008verteilte} als Verteilungstransparenz. Das System muss also verbergen, dass es mit einer Datenbank oder mit ejabberd kommunizieren muss, um die Nachricht dem Empfänger zu zustellen. Neumann  definiert Skalierbarkeit sehr ausführlich in \cite{neumannDistributed1994}. Neumann ist der Auffassung, dass ein verteiltes System, das hinsichtlich seiner Ausdehnung skaliert wird, nicht an Leistung verlieren darf. Konkret für das \ac{IMS} bedeutet das, das durch ein Hinzufügen oder Duplizieren von Diensten andere Teilsysteme nicht negativ beeinflusst werden dürfen. Neumann betont, dass es nicht sinnvoll ist, einen Dienst nur zentral auf einem Server bereitzustellen. Nach seiner Meinung können Server einer zentralisierten Architektur zum Engpass werden. Diese Ansicht ist zutreffend, wenn das \ac{IMS} als Produktivsystem entwickelt werden würde. Das ist aber in dieser Studienarbeit nicht der Fall und kann deshalb vernachlässigt werden.
 
-Beachtet man die oben aufgeführten Eigenschaften und Ziele der verteilten Systeme, ergibt sich für die Architektur folgender Aufbau (siehe Anhang \autoref{img:ArchitekturIMS}).
+Das Ergebnis der Diskussion aus \autoref{sec:DiskussionGUI} bestätigt, das sich für die Art der Anwendung eine Webanwendung besonders eignet. Das erfordert, das der Benutzer mit dem \ac{IMS} direkt über den Browser interagieren kann. Die Webanwendung setzt allerdings eine Anwendungslogik voraus, die die Aktionen des Benutzers koordiniert und kontrolliert. Um das Gesamtsystem flexibel zu halten, sodass neben einem Benutzer auch andere Webdienste mit dem \ac{IMS} interagieren können, wird eine \acs{REST} \acs{API} programmiert. \acs{REST} bezeichnet einen Architekturstil, den Roy Fielding in seiner Dissertation \cite{fieldingREST} aus dem Jahr 2000 beschreibt. \ac{REST} verspricht Wiederverwendbarkeit, Erweiterbarkeit, Skalierbarkeit und die einfache Integration in die vorhandene Netz-Struktur \cite{fieldingREST}. Ressourcen werden über \acs{URI}s und über einen eindeutigen Namen aufgerufen. Die Ressourcen können in unterschiedlicher Form auftreten, wie zum Beispiel: \acs{PDF}, \acs{XML}, \acs{JSON} als moderne Form oder \acs{HTML}. Die Tatsache, dass eine Nachricht eines Benutzers über einen Aufruf einer \acs{URI}, wie zum Beispiel \texttt{https://chatportal.de/send-message}, von einem Client beauftragt werden kann, bestätigt die Vorteile des Architekturstils. Kommen in ferner Zukunft weitere Möglichkeiten für den Versand einer Nachricht hinzu, muss nur eine neue \acs{API}-Route eingerichtet werden. Das System bleibt flexibel und erweiterbar. Aus diesen Gründen wird für die Anwendungslogik eine \acs{REST} \acs{API} mit dem Framework Python Flask entwickelt.
 
-Jeder Dienst wird auf einem Server verteilt mit Ausnahme der Datenbanken. Der ejabberd-Server ist in \autoref{img:ArchitekturIMS} als \texttt{xmpp-ejabberd-server} gekennzeichnet und der Apache Kafka Dienst als \texttt{xmpp-apkafka01}. Die Instanz \texttt{xmpp-webserver} realisiert die Anwendungslogik in Form einer \acs{REST} \acs{API}. Die Grundidee ist folgende: Über ein Web-Frontend werden dem Benutzer Chat-Funktionalitäten bereitgestellt, die er nach einer Anmeldung am System verwenden kann. Über das Web-Frontend kann der Benutzer auswählen, ob er über den Apache Kafka Dienst oder über ejabberd Chat-Dienste nutzen möchte. So können beide Plattformen getrennt voneinander getestet werden. Die Auswahl der Plattformen und die Koordination der Funktionen zu den speziellen Diensten übernimmt die \acs{REST} \acs{API}. Damit die \acs{REST} \acs{API} mit den beiden Plattformen kommunizieren kann, existiert das private Netzwerk \texttt{internalDMZ}, mit dem alle drei Instanzen verbunden sind (siehe \autoref{img:ArchitekturIMS}). Wählt ein Benutzer sich zum Beispiel über das Web-Frontend am \acs{API}-Endpunkt für die Benutzung von Apache Kafka an, so werden seine Nachrichten über die \acs{REST} \acs{API} zur Apache Kafka Plattform transportiert. Dieser koordiniert dann die Nachrichten. Meldet sich der Benutzer am Endpunkt für die Nutzung des ejabberd-Servers an, so werden die Nachrichten über die \acs{REST} \acs{API} via \ac{XMPP} an den ejabberd-Server gesendet und über den gleichen Weg zurück zum Client transportiert. Diese Architektur ist unempfindlich gegenüber Erweiterungen. Würden in der Zukunft weitere Plattformen hinzukommen, müssen nur neue \acs{API}-Endpunkte hinzugefügt werden und die neuen Funktionen im Code umgesetzt werden. Bestehender Code und Endpunkte müssen nicht verändert werden. Zudem kann eine Komponente einfach ausgetauscht werden, falls diese beschädigt wird. Solange die Konfiguration die Gleiche bleibt, muss die Anwendungslogik nicht angepasst werden. Auffällig ist, dass alle drei Instanzen eine öffentliche IP-Adresse im Internet haben. Der Internetzugang ist über eine Firewall gesichert und dient der Erreichbarkeit der Geräte für Debugging oder administrative Zwecke. Beispielsweise um über das \ac{SSH} Protokoll Software-Installationen durchzuführen oder Konfigurationen zu verwalten. Die \acs{REST} \acs{API} ist zusätzlich für die Clients über das Internet für \ac{IMS}-Dienste erreichbar. Die Apache Kafka und die ejabberd-Instanz werden so konfiguriert und implementiert, dass sie auch ohne der Anwendungslogik vollständig über das Internet benutzbar sind.
+Beachtet man die oben aufgeführten Überlegungen, ergibt sich für die Architektur folgender Aufbau (siehe Anhang \autoref{img:ArchitekturIMS}).
+%TODO Grafiken einbauen
+Jeder Dienst wird auf einem Server verteilt mit Ausnahme der Datenbanken. Der ejabberd-Server ist in \autoref{img:ArchitekturIMS} als \texttt{ejabberd01} gekennzeichnet und der Apache Kafka Dienst als \texttt{apkafka01}. Die Instanz \texttt{ims-webapp01} realisiert die Anwendungslogik in Form einer \acs{REST} \acs{API}. Die Grundidee ist folgende: Über ein Web-Frontend werden dem Benutzer Chat-Funktionalitäten bereitgestellt, die er nach einer Anmeldung am System verwenden kann. Über das Web-Frontend kann der Benutzer auswählen, ob er über den Apache Kafka Dienst oder über ejabberd Chat-Dienste nutzen möchte. So können beide Plattformen getrennt voneinander getestet werden. Die Auswahl der Plattformen und die Koordination der Funktionen zu den speziellen Diensten übernimmt die \acs{REST} \acs{API}. Damit die \acs{REST} \acs{API} mit den beiden Plattformen kommunizieren kann, existiert das private Netzwerk \texttt{internalDMZ}, mit dem alle drei Instanzen verbunden sind (siehe \autoref{img:ArchitekturIMS}). Wählt ein Benutzer sich zum Beispiel über das Web-Frontend am \acs{API}-Endpunkt für die Benutzung von Apache Kafka an, so werden seine Nachrichten über die \acs{REST} \acs{API} zur Apache Kafka Plattform transportiert. Kafka koordiniert dann die Nachrichten. Meldet sich der Benutzer am Endpunkt für die Nutzung des ejabberd-Servers an, so werden die Nachrichten über die \acs{REST} \acs{API} via \ac{XMPP} an den ejabberd-Server gesendet und über den gleichen Weg zurück zum Client transportiert. Diese Architektur ist unempfindlich gegenüber Erweiterungen. Würden in der Zukunft weitere Plattformen hinzukommen, müssen nur neue \acs{API}-Endpunkte hinzugefügt werden und die neuen Funktionen im Code umgesetzt werden. Bestehender Code und Endpunkte müssen nicht verändert werden. Zudem kann eine Komponente einfach ausgetauscht werden, falls diese beschädigt wird. Solange die Konfiguration die Gleiche bleibt, muss die Anwendungslogik nicht angepasst werden. Auffällig ist, dass alle drei Instanzen eine öffentliche IP-Adresse im Internet haben. Der Internetzugang ist über eine Firewall gesichert und dient der Erreichbarkeit der Geräte für Debugging oder administrative Zwecke. Beispielsweise um über das \ac{SSH} Protokoll Software-Installationen durchzuführen oder Konfigurationen zu verwalten. Die \acs{REST} \acs{API} ist zusätzlich für die Clients über das Internet für \ac{IMS}-Dienste erreichbar. Die Apache Kafka und die ejabberd-Instanz werden so konfiguriert und implementiert, dass sie auch ohne der Anwendungslogik vollständig über das Internet benutzbar sind.
 
 Nachdem die Architektur nach den Aspekten eines verteilten Systems entworfen ist, wird in den nächsten Kapiteln die Umsetzung der Architektur beschrieben.
 
@@ -1395,6 +1413,26 @@ Nun ist ejabberd für den Gebrauch in der Projektarbeit konfiguriert. Der Server
 
 \newpage
 
+\section{Umsetzung der Entwicklung einer \acs{REST} \acs{API}}
+\label{subsec:Backend}
+
+Ausgangspunkt dieses Abschnitts ist das Ergebnis der in \autoref{sec:Architektur} definierten Architektur. Dieses Kapitel befasst sich mit der Entwicklung der \acs{REST} \acs{API}. Es zeigt wichtige Aspekte und Ideen der Umsetzung mittels des Microframeworks Python Flask auf. Zu Beginn werden Anforderungen an die \acs{REST} \acs{API} und anschließend die genaue Umsetzung und der Programm-Code erläutert.
+
+\subsubsection*{Anforderungen an die \acs{REST} \acs{API}:}
+
+\begin{itemize}
+\item Datenbankzugriffe
+\item Authentifizierung der Benutzer
+\item Schützen der Ressourcen vor nicht autorisiertem Zugriff
+\item Bereitstellen von Chat-Funktionen über \ac{XMPP} und über Kafka Streams
+\item Koordinierung des Nachrichtentransports von Clients zu benötigten Diensten des \ac{IMS}
+\item Implementierung der Chat-Funktionen, die in der Weboberfläche vom Benutzer aufgerufen werden können.
+\item Auslieferung von \ac{HTML}-, \ac{CSS}- und JavaScript-Dokumenten an den Browser des Clients
+\item Fehlerbehandlung zum Beispiel bei invaliden Übergabeparametern
+\end{itemize}
+
+\pagebreak
+
 \section{Entwicklung des Chat-Clients}
 \label{sec:ClientEntwicklung}
 
@@ -1525,10 +1563,6 @@ Mit der fertigen Struktur von gochat.html wurden alle Webseiten, die der Webserv
 
 \subsubsection*{Integration dynamischer Elemente in die Webseiten}
 \label{subsubsec:DynamischeElementeWebseiten}
-
-
-\subsection{Implementierung des Backends}
-\label{subsec:Backend}
 
 \newpage
 
