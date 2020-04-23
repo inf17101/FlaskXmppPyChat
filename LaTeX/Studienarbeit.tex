@@ -65,6 +65,22 @@ frame=single,
 frameround=ffff
 }
 
+%define Javascript language
+\lstdefinelanguage{JavaScript}{
+	keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
+	keywordstyle=\color{blue}\bfseries,
+	ndkeywords={class, export, boolean, throw, implements, import, this},
+	ndkeywordstyle=\color{darkgray}\bfseries,
+	identifierstyle=\color{black},
+	sensitive=false,
+	comment=[l]{//},
+	morecomment=[s]{/*}{*/},
+	commentstyle=\color{purple}\ttfamily,
+	stringstyle=\color{red}\ttfamily,
+	morestring=[b]',
+	morestring=[b]"
+}
+
 %% start defining yaml listings layout
 \newcommand\YAMLcolonstyle{\color{red}\mdseries}
 \newcommand\YAMLkeystyle{\color{black}\bfseries}
@@ -1563,7 +1579,277 @@ Mit der fertigen Struktur von gochat.html wurden alle Webseiten, die der Webserv
 
 \subsubsection*{Integration dynamischer Elemente in die Webseiten}
 \label{subsubsec:DynamischeElementeWebseiten}
+Der Web-Client bzw. die Webseiten benötigen für eine korrekte Ausführung JavaScript. Dadurch können Vorteile genutzt werden, welche schon unter \autoref{sec:HTMLCSSJS} erläutert wurden. Im Falle des Web-Clients bietet JavaScript die Möglichkeit HTML-Elemente zur Laufzeit zu verändern. Eine Veränderung der Styles ist ebenso möglich. Wie JavaScript in den einzelnen Webseiten verwendet wird und was für ein Nutzen es bietet soll nachfolgende erläutert werden. Die Vorgehensweise orientiert sich an dem vorherigen Abschnitt. Grund hierfür ist die Auswirkung eines JavaScript-Codes auf ein einzelnes \ac{HTML}-Dokument, weshalb die jeweilige Datei mit dem entsprechenden Codesnippet im Vordergrund steht.
 
+Den Anfang macht die \textbf{index.html} Datei. Wie schon des Öfteren erläutert bildet die index.html Datei keine Webseite, welche vom Nutzer direkt adressiert werden kann. Deshalb benötigt die Datei als Basisseite keine dynamischen Elemente. Aufgrund der Vererbung können statische Dateien, welche sowohl von Bootstrap als auch von anderen Frameworks benötigt werden, in dem Header mitangegeben werden. 
+\begin{lstlisting}[language=HTML,caption=Listing der eingebundenen JS-Dateien im Header der index.html,label={lst:HeaderWithJS}]
+<head>
+<script src="{{url_for('static',filename='js/jquery-3.4.1.min.js')}}"></script>
+<script src="{{url_for('static',filename='js/emojionearea.min.js')}}"></script>
+<script src="{{url_for('static',filename='js/bootstrap.min.js')}}"></script>
+</head>
+\end{lstlisting}
+Das \autoref{lst:HeaderWithJS} stellt dar, welche statische Dateien, die lokal auf dem Server liegen, über den relativen Pfad eingebunden werden. Dabei handelt es sich lediglich um ein Ausschnitt ausgewählter Dateien, die in direkter Beziehung zur ihrem Framework liegen. Während jQuery und Bootstrap eindeutig zu identifizieren sind, handelt es sich bei \texttt{emojionearea.min.js} um eine JavaScript-Datei welche die Einbindung von Emojis ermöglicht. Eine detaillierte Erklärung der \ac{JS}-Dateien, welche als Framework fungieren, ist nicht Bestandteil der Studienarbeit. Mit der \textbf{Login-Seite} entstehen auch die ersten dynamischen Elemente, welche in der JavaScript-Datei namens \texttt{loginjs.js} implementiert sind. Für einen Überblick sind die Aufgabenbereiche, die mithilfe von \ac{JS} gelöst werden können, zu definieren.
+\begin{itemize}
+	\item Überprüfen des Loginformulars auf eine Eingabe
+	\item Überprüfen der Logindaten auf Korrektheit
+	\item Rückmeldungen an den Benutzer
+\end{itemize}
+Um den Server zu entlasten sind vor allem die Formularfelder Clientseitig zu überprüfen. Damit ist vor allem die Überprüfung von leeren Feldern gemeint. Außerdem kann mithilfe von JavaScript die Dateninhalte, nach der Überprüfung, dem Server übermittelt werden. Wie es bei JavaScript üblich ist, hängen viele Funktionen an \ac{HTML}-Elementen. Für die Login-Seite, wie sie in der \autoref{img:LoginSeiteVollständig} dargestellt ist, werden die Funktionen an den Login- bzw. Sign in-Button gehängt. Dies ist zu Beginn des \autoref{lst:JSLoginButton} dargestellt. Durch \texttt{\$(\#login-form-button)} wird auf das \ac{HTML}-Element referenziert. 
+\begin{lstlisting}[language=Javascript,caption=Angehängte Funktion an ein HTML-Element,label={lst:JSLoginButton}]
+$('#login-form-button').click(function(event){
+event.preventDefault()
+var form = $('#login-form');
+var url = form.prop('action');
+var type = form.prop('method');
+var form_data = {
+username: document.getElementById("username").value,
+password: document.getElementById("password").value,
+remember: document.getElementById("formRememberCheck").checked }
+if (checkformIsFilled(form_data)){modular_ajax(url,type,form_data);}});
+\end{lstlisting}
+Mit \texttt{.click(function(event){...})} wird ermöglicht eine Funktion, durch einen Klick, des Anwenders, auszuführen. Der Klick stellt dabei das \texttt{event} dar. Dies wird in Zeile 2 benötigt um ggf. das Event bzw. die ausgelöste Funktion zu unterbrechen. Ein beliebte Anwendung von \texttt{preventDefault()} sind die Formulare, wie es in diesem Codesnippet ersichtlich ist. Grund dafür, ist die Bindung zu einem Button. Um nämlich die normale Funktion eines Buttons zu unterbrechen kann die Funktion aus Zeile 2 verwendet werden. Unter diesem Prinzip wird das \glqq canceln\grqq{} eines Ereignisses verstanden. \cite{w3schoolsPrevDefault}\\
+Vor der Überprüfung werden Variablen mit den jeweiligen \ac{HTML}-Elementen initialisiert. Die relevante Funktion zur Überprüfung des Formulars wird in der If-Bedingung aufgerufen und ihre Funktionsweise wird durch die \autoref{img:CheckFunctionLogin} visuell dargestellt.
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.8]{images/FunktionUeberpruefenLogin}
+	\caption{Funktionsdarstellung von \textit{checkformIsFilled(form\_data)}, eigene Darstellung}
+	\label{img:CheckFunctionLogin}
+\end{figure}
+Interessant ist hierbei die Abfrage nach dem leeren Feld, welches über \texttt{!\$.trim(value)} gelöst wird. Eine Variante, die durch jQuery ermöglicht wird. In diesem Fall ist \texttt{Trim} eine Funktion, welche alle leeren Inhalte vor und nach einem Wort bzw. String ignoriert. Ist der String danach leer, so ergibt die erste Bedingung ein True. Dadurch ist überprüft ob der Nutzer etwas eingetragen hat. Der Nutzer bekommt eine Rückmeldung und das Senden der Daten an den Server über die Funktion \texttt{modular\_ajax()} wird verhindert. Sind alle Felder korrekt ausgefüllt wird der andere Pfad ausgeführt und die Daten werden dem Server übermittelt. Dafür wird \texttt{modular\_ajax()} verwendet. Die Funktion bildetet einen Codeblock ab, welcher für Ajax Standard ist. Dabei werden die Daten in einem geeigneten Format dem Server übermittelt. Ein Ausschnitt ist im folgenden \autoref{lst:LoginDataSend} dargestellt.
+\begin{lstlisting}[language=Javascript,caption=Ausschnitt aus \textit{modular\_ajax()},label={lst:LoginDataSend}]
+function modular_ajax(url, type, formData) {
+var csrftoken = $('meta[name=csrf-token]').attr('content')
+$.ajax({
+url: url,
+data: JSON.stringify(formData),
+headers: { "X-CSRF-Token": csrftoken }, }).done(function() {}); };
+\end{lstlisting}
+Wie dem \autoref{lst:LoginDataSend} zu entnehmen ist, handelt es sich bei der Datenübertragung um eine JSON-Format. Außerdem wird dem Header das CSRF-Token mitgegeben, um die Session auf eine höheres Sicherheitslevel zu heben. Zur Vollständigkeit der JavaScript Datei gibt es lediglich noch Funktionen, die \ac{HTML}-Text ausgeben oder Klassen eines \ac{HTML}-Elements ändern. Diese haben keine große Auswirkung auf das Systemverhalten, weshalb keine detaillierte Erklärung Bestandteil der Studienarbeit ist. Die Überprüfung, wie sie dem Nutzer erscheint, ist in \autoref{img:LoginUeberpruefungsVarianten} dargestellt.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth]{images/LoginUeberpruefungJSGesamt}
+	\caption{Überprüfungsvarianten der Login-Seite aus Nutzersicht, eigene Darstellung}
+	\label{img:LoginUeberpruefungsVarianten}
+\end{figure}
+Die \autoref{img:LoginUeberpruefungsVarianten} besteht dabei aus 3 Einzelbilder von denen die zwei linken Bilder Ergebnisse der Funktion \texttt{checkformIsFilled(form\_data)} darstellen. Das dritte Bild entsteht wiederum erst nach dem Datenaustausch mit dem Server. Wie schon bei dem Strukturaufbau gibt es auch bei den dynamischen Elementen kaum Unterschiede zwischen der Login-Seite und der \textbf{Registrierung-Seite}. Die JavaScript Datei \texttt{registerjs.js} wird um Validierungs-Funktionen ergänzt. Dabei wird verhindert, dass der Nutzer ungültige Daten an den Server senden kann. Grundsätzlich handelt es sich bei der Validierung um eine regular Expression (zu dt. Regulärer Ausdruck) oder der allgemeinen Kontrolle der Inputfelder. Das folgende \autoref{lst:RegisterValidateFunction} zeigt die Validierung des Textfeldes der E-Mail-Adresse.
+\begin{lstlisting}[language=Javascript,caption=Validierungsfunktion \textit{validateEmail()},label={lst:RegisterValidateFunction}]
+function validateEmail(email, id_key) {
+if(re.test(String(email).toLowerCase()) == false) {
+var item = document.getElementById(id_key)
+item.className += " is-invalid"
+var error_item = document.getElementById(id_key+"-invalid")
+error_item.innerText= "Invalid e-mail address. Please try again."
+return false
+}
+return true };
+\end{lstlisting}
+Zu beachten ist die Variable \texttt{re}, welche eine regular expression darstellen soll. Aufgrund der Anzahl an Zeichen, ist die Variable nicht aufgeführt. Die E-Mail wird in Form der Variable \texttt{email} der test-Funktion, die auf der regular expression ausgeführt wird, mitgegeben. Dadurch wird überprüft ob die E-Mail alle typischen Merkmale aufweist. Ist dies nicht der Fall, so wird für den Nutzer eine Nachricht generiert, die als \ac{HTML}-Text dargestellt wird. Diese Art der Validierung steht symbolisch für die weiteren Funktionen, weshalb eine detaillierte Erläuterung aller Funktion nicht durchgeführt wird. Weitere Funktionen, welche nicht für die Funktionsfähigkeit zuständig sind, wie bspw. das Löschen der Benachrichtigungen oder das Leeren der Textfelder werden nicht detailliert erklärt und sind dem Source-Code zu entnehmen. Die Validierungs-Funktionen, sowie die Textnachrichten an den Nutzer, sind in der nachfolgenden \autoref{img:RegisterUeberpruefenJS} dargestellt.
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=1.25]{images/RegisterUeberpruefenJS}
+	\caption{Überprüfung der Registrierungs-Seite aus Nutzersicht, eigene Darstellung}
+	\label{img:RegisterUeberpruefenJS}
+\end{figure}\\
+Den größten Umfang an dynamischen Elementen besitzt die als Hauptseite spezifizierte \textbf{gochat.html}. Nach aktuellem Stand ist der JavaScript-Code Bestandteil dieses \ac{HTML}-Dokumentes. Hierbei wurde die Variante des script-Tags mit direktem JavaScript-Code verfolgt. Ansonsten sind keine weiteren äußeren Unterschiede zu den erklärten JavaScript-Dateien zu nennen. Aufgrund der Menge an \ac{JS}-Code werden lediglich für den Chat relevante Funktionen detailliert erläutert. Um die Funktionen, welche mithilfe von JS-Code umgesetzt werden können, zu erläutern, muss ihr jeweiliger Aufgabenbereich definiert werden. Dabei kann zur Orientierung \autoref{img:GochatUserview} betrachtet werden. Die Abbildung verknüpft die Möglichkeiten des Nutzers, mit Funktionen, die umgesetzt werden müssen. Die nachfolgende \autoref{tab:JavaScript Aufgabendefinition für gochat.html} bildet die Funktionen von gochat.html ab. Dabei sind die meisten Funktionen der \autoref{img:GochatUserview} zu entnehmen. Weitere Funktionen ergeben sich bei der Umsetzung und sind für den Nutzer nicht ersichtlich.
+\begin{table}[h]
+	\centering
+	\caption{Aufgabendefinition von der Chat-Seite}
+	\begin{tabular}{|p{2.5cm}|p{8.8cm}|p{3.5cm}|}
+		\hline
+		\textbf{Funktionen} & \textbf{Funktionsbeschreibung} & \textbf{Usability?/Chat?}  \\
+		\hline
+		Emojis & Der Nutzer kann Emojis innerhalb der Textarea verwenden. & Usability \\
+		\hline
+		Einzel- und Gruppenchat & Über eine Schaltfläche (z.B. Button) kann der Nutzer zwischen Einzel und Gruppenchat wechseln. & Usability \linebreak \& Chat\\
+		\hline
+		Kontaktliste & Kontakte müssen dynamisch in die Liste eingetragen werden, sowohl bei einem neuen Kontakt als auch beim Einloggen. & Chat\\
+		\hline
+		Kontakte \linebreak suchen & Dem Nutzer wird die Möglichkeit geboten über ein Suchfeld nach einem Kontakt zu filtern. & Usability\\
+		\hline
+		Kontakte \linebreak aktivieren & Kontakte werden entsprechend des Mausklicks aktiviert. & Usability \linebreak \& Chat\\
+		\hline
+		Kontakte \linebreak hinzufügen & Der Nutzer kann über eine Schaltfläche einen neuen Kontakt hinzufügen & Chat\\
+		\hline
+		Nachrichten senden & Der Nutzer kann seine Nachrichten über den Send-Button einem anderen Client schicken. & Chat\\
+		\hline
+		Nachrichten ausgeben & Nachrichten müssen dynamisch in den \ac{HTML}-Content ausgegeben werden. & Chat\\
+		\hline
+	\end{tabular}
+	\label{tab:JavaScript Aufgabendefinition für gochat.html}
+\end{table}
+Um die Funktionen voneinander abzugrenzen wird in der letzten Spalte angegeben, ob die Funktion Auswirkung auf den Chat hat oder ob die Umsetzung überwiegend die Benutzerfreundlichkeit unterstützt. Infolgedessen stehen die Funktionen, welche für den Chat benötigt werden, in dem Vordergrund und werden detaillierter erläutert. Die erste Funktion handelt von der \textbf{Kontaktliste}, da die weiteren Funktionen sich auf Kontakte oder ähnliches beziehen. Für jede Funktion können Aufgaben definiert werden, welche abzudecken sind. Im Falle der Kontaktliste handelt es sich um folgende Aufgaben:
+\begin{itemize}
+	\item Anzeigen aller Kontakte des angemeldeten Nutzers.
+	\item Neue Kontakte der Kontaktliste hinzufügen.
+	\item Ergänzungen wie bspw. die preview der Nachricht, der Kontaktliste hinzufügen.
+\end{itemize}
+Die Aufgaben werden, je nach Verwendung in verschiedene Funktionen realisiert. Die Kontaktliste zu füllen übernimmt die Funktion \textit{fillInContactPeers()}. Dafür werden vorab die \ac{HTML}-Elemente benötigt, wie es das nachfolgende \autoref{lst:HTMLElementsForContaclistfunction} darstellt.
+\begin{lstlisting}[language=Javascript,caption=HTML Elemente für \textit{fillInContactPeers()},label={lst:HTMLElementsForContaclistfunction}]
+var contact_ul = $("#contacts_list");
+var user_name = $('#NameOnlineAvatar').text();
+\end{lstlisting}
+Außerdem werden die Kontakte aus der Datenbank benötigt. Dafür wird mittels Ajax ein Request an den Server %TODO welche Server?
+gesendet. Der Request wird wiederum durch eine andere Funktion umgesetzt, welche zu einer anderen Aufgabe gehört und zu einem späteren Zeitpunkt erläutert wird. Die Umsetzung der zu hinzufügenden Kontakten wird innerhalb einer For-Schleife, wie es dem \autoref{lst:HTMLElementsForContaclistfunction} zu entnehmen ist, gelöst.
+\begin{lstlisting}[language=Javascript,caption=HTML Elemente für \textit{fillInContactPeers()},label={lst:HTMLElementsForContaclistfunction}]
+for (const peer of Object.keys(chat_messages[user_name]))
+{
+var position_last_message_object = chat_messages[user_name][peer].length - 1;
+var last_message_dict = chat_messages[user_name][peer][position_last_message_object];
+var message_string = last_message_dict.txt;
+if (last_message_dict.from == user_name)
+{
+message_string = "<span>You:</span> " + message_string;
+}
+// Elemente in HTML-Element einbinden
+}
+\end{lstlisting}
+Dafür wird mittels \texttt{Object.keys(chat\_messages[user\_name])} auf die Kontaktnamen, mit dem der angemeldete User geschrieben hat zugegriffen. Mithilfe der Variablen \texttt{position\_last\_message\_object} wird aus dem Response die Position der letzten Nachricht, bei dem sowohl der angemeldete User (\texttt{user\_name}) als auch der Kontakt (\texttt{peer}) übereinstimmt, gefiltert. Dadurch lässt sich in Zeile 4 die Eigenschaften der letzten Nachricht in Form eines Dictionarys ermitteln. % TODO Überprüfung ob Dictionary bei JS korrekt ist?
+Mit der If-Bedingung wird überprüft ob die Nachricht gesendet oder empfangen wurde. Danach erfolgt lediglich das Einbinden der Elemente in den \ac{HTML}-Content, wie er in der \autoref{img:Sidepanel} dargestellt ist. Mit der vervollständigten Kontaktliste kann die nächste Funktion erläutert werden. Dabei handelts es sich um die \textbf{Aktivierung des Kontaktes}. Diese Möglichkeit gehört zur Chat-Funktionalität und der Usability. Das liegt daran, dass der Nutzer eine Übersicht bekommt welcher Kontakt gerade ausgewählt ist. Außerdem wird der aktive Kontakt benötigt um ihm im Chatfenster anzuzeigen damit der angemeldete Benutzer mit diesem Kontakt schreiben kann. Daher wird der Funktion beide Aspekte zugeordnet. Für die Aktivierung der Kontakte innerhalb der Kontaktliste müssen zwei Ausgangssituation betrachtet werden. Zum Einen soll nach dem Login stets der erste Kontakt aktiviert werden. In allen anderen Fällen erfolgt die Aktivierung über einen Klick auf den entsprechenden Kontakt.
+
+Für die Umsetzung sind mögliche Fehlerquellen zu verhindern. Eine der häufigsten Fehlerquellen bei \ac{JS} ist der Zugriff auf ein Objekt, welches noch nicht vollständigen geladen wurde. JavaScript bzw. jQuery bietet hierfür durch eine \texttt{ready}-Funktion, welche auf das \ac{DOM} angewendet wird, Abhilfe.
+\begin{lstlisting}[language=Javascript,caption= Ready() Funktion von jQuery,label={lst:jQueryReadyFunction}]
+$(document).ready(function(){
+$("contacts").addClass("singleContacts") });
+\end{lstlisting}
+Das \glqq Ready\grqq, wie es im \autoref{lst:jQueryReadyFunction} dargestellt ist, bildet das Event. Dieses spezielle Event lässt sich wiederum nur auf das aktuelle \glqq document\grqq{} anwenden. In diesem speziellen Fall wird das Event erst ausgelöst wenn das \ac{DOM} vollständig geladen hat. Wird nun auf \ac{HTML}-Elemente zugegriffen, ist es sinnvoll die Funktion nach Auslösen des Events aufzurufen bzw. zu implementieren. \cite{w3schoolsJQueryReady}
+
+Diese Art der Implementierung kam bei der Aktivierung der Kontakte zum Einsatz, wobei die Intervall-Funktion den interessanteren Abschnitt bildet. Sie ist ebenfalls im \autoref{lst:IntervallFunctionForChecking} dargestellt.
+\begin{lstlisting}[language=Javascript,caption= Ready() Funktion mit der Intervall-Funktion zue Überprüfung der Kontaktliste,label={lst:IntervallFunctionForChecking}]
+$(document).ready( function() {
+var stopIntervall 
+stopIntervall = setInterval(function() {
+checkExistingofElement(stopIntervall)
+}, 1000);
+});
+\end{lstlisting}
+Mit \texttt{setInterval(function()\{\});} bietet JavaScript die Möglichkeit in einem bestimmten Zeitintervall konstant Code auszuführen.\cite{w3schoolssetInterval}\\Im Fall des \autoref{lst:IntervallFunctionForChecking} wird nach jeder Sekunde die Methode \texttt{checkExistingofElement(stopIntervall)}, welche überprüft ob sich ein Kontakt in der Kontaktliste befindet, aufgerufen. An dieser Stelle ist ein Widerspruch zur ready-Funktion zu erkennen, da diese Funktion erst ausgelöst wird wenn alles geladen ist. Grund für eine Überprüfung nach dem Prinzip (\autoref{lst:IntervallFunctionForChecking}) ist das dynamische Hinzufügen der Kontakte aus der Datenbank, welche über die Funktion \texttt{fillInContactPeers()} realisiert wurde. Der Funktion \texttt{checkExistingofElement(stopIntervall)} wird der Parameter \texttt{stopIntervall} übergeben. Die Variablen wird mit der ID der Intervall-Funktion initialisiert, um zu einem späteren Zeitpunkt die Intervall-Funktion zu stoppen. Ein Ablauf der Funktion ist in der \autoref{img:FunctionCheckExisitingofElement} dargestellt.
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.7]{images/FunctionCheckExisitingofElement}
+	\caption{Ablauf der Funktion \textit{checkExistingofElement(stopIntervall)}, eigene Darstellung}
+	\label{img:FunctionCheckExisitingofElement}
+\end{figure}
+Die Fortsetzung zur Aktivierung des ersten Kontaktes erfolgt über die Funktion \texttt{filterFirstContact()}, welche lediglich dem entsprechenden \ac{HTML}-Element eine Klasse entfernt und dem anderen eine Klasse hinzufügt. Diese Funktion wird daher nicht detailliert erläutert. Zum Abschluss der Aktivierung wird aus der vorherigen Funktion die Funktion \texttt{firstactiveContact(li)} aufgerufen. Auch diese Funktion bearbeitet die \ac{HTML}-Elemente und bildet für die Chat-Funktionalität keine größere Bedeutung. Das Ergebnis der Funktion ist, dass der erste Kontakt in den Chat-Fenster geladen wird. Wie zu Beginn der Aufgabe erwähnt, werden die Kontakte auch durch ein Klick aktiviert. Dies ist wiederum in einer separaten Funktion realisiert. Diese Funktion unterscheidet sich von \texttt{firstactiveContact(li)} kaum, hat aber kleinere Ergänzungen, welche dazu beitragen, dass die Funktion separiert wurde. Bei den Ergänzungen handelt sich bspw. um die Möglichkeit die Kontaktklasse zwischen zwei Klassen zu wechseln, was unter \ac{JS} mit \texttt{.toggleClass()} realisiert wird. Der Einsatz dieser Funktion ist im \autoref{lst:ToggleContactClass} abgebildet.
+\begin{lstlisting}[language=Javascript,caption=Togglen der Klasse des ausgewählten Kontaktes,label={lst:ToggleContactClass}]
+$(".contact.active").removeClass('active');
+$(this).toggleClass('contact');
+$(this).toggleClass('contact active');
+\end{lstlisting}
+Außerdem steht die Funktion im Zusammenhang mit der \glqq Kontakt suchen\grqq{} Funktion, welche nicht detailliert erläutert wird, da es sich dabei um eine Funktion für die Benutzerfreundlichkeit handelt. Bei einer weiteren Funktion, welche für die Chat-Funktionalität relevant ist, handelt es sich um das \textbf{Hinzufügen von Kontakten}. Der Nutzer kann die Funktion benutzen indem er einen Button unterhalb des Sidepanels, wie es in \autoref{img:GochatUserview} dargestellt ist, anklickt. Diese Anwendung durch den Benutzer schließt schon auf die Umsetzung der Funktion mit JavaScript, wobei dem Nutzer mithilfe von Bootstrap und \ac{HTML} vorab ein weiteres Fenster, wie es in der \autoref{img:AddContactWindow} dargestellt ist, angezeigt wird. 
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=1.0]{images/AddContactWindow}
+	\caption{Extrafenster aus Sicht des Nutzers um ein Kontakt hinzuzufügen, eigene Darstellung}
+	\label{img:AddContactWindow}
+\end{figure}
+Dadurch besitzt der Nutzer die Möglichkeit einen Kontakt in das Textfeld einzutragen. Mit dem Klick auf den Button \glqq Add contact\grqq{} wird seine Eingabe bestätigt. Dieser Button bzw. der Klick wird als Event zum Auslösen einer Funktion genutzt, wie es nachfolgend (\autoref{lst:AddContactClickFunction}) ausschnittsweise dargestellt wird.
+\begin{lstlisting}[language=Javascript,caption=Funktionsverknüpfung an den Kontak hinzufügen Button unter JS,label={lst:AddContactClickFunction}]
+$("#addContactButton").click(function(){}
+\end{lstlisting}
+Diese Funktion kann, wie schon beim Anmeldeformular, vor dem Senden der Daten an den Server, eine Überprüfung der Eingabe ermöglichen. Dafür wird eine regular Expression definiert, die nur Benutzernamen zulässt, welche mit einem Buchstaben anfangen und keine Sonderzeichen enthalten.
+\begin{lstlisting}[language=Javascript,caption=Überprüfung der Eingabe mittels eines regulären Ausdrucks,label={lst:AddContactClickInputCheck}]
+var letters = /^[A-Za-z]+[0-9]*$/;
+if(!addContactName.match(letters))
+{
+// Rückmeldung an den Benutzer
+return false;
+}
+\end{lstlisting}
+Das \autoref{lst:AddContactClickInputCheck} stellt die Überprüfung dar und gibt im Fehlerfall eine Rückmeldung an den Benutzer. Eine weitere Fehlerquellen ist die Eingabe seines eigenen Namens. Aufgrund der Eindeutigkeit eines Benutzernamens wäre es ergebnislos die Daten an den Server zu senden. Die letzte Überprüfung vor dem Request an den Server ist die Überprüfung der Kontaktliste. Dadurch wird verhindert ein bereits hinzugefügten Kontakt erneut hinzuzufügen. Anschließend erfolgt der Request an den Server. Sollte der Namen nicht registriert sein bekommt der Client eine Rückmeldung, welche leicht umgewandelt als \ac{HTML}-Text dem Benutzer angezeigt wird. Bei einem erfolgreichen Request wird die Funktion \texttt{addContactToList(name, preview\_message)} aufgerufen. Die Funktion fügt den Kontakt der Kontaktlist hinzu. Aufgrund der Ähnlichkeit zu bereits erläuterten Funktionen wird diese Funktion nicht detailliert erläutert. Bei Betrachtung der \autoref{tab:JavaScript Aufgabendefinition für gochat.html} ist ersichtlich, dass die Funktion des Einzel- und Gruppenchats sowie Funktionen, welche die Nachrichten betreffen, noch nicht detailliert erläutert wurden. Die Funktion für den Wechsel der Chatart ist aufgrund der Zuordnung zur Benutzerfreundlichkeit und keiner größeren Relevanz für die Chat-Funktionalität nicht erwähnenswert. Anders verhält es sich bei den Funktionen, die sich mit den Nachrichten befassen. Diese werden wiederum benötigt damit die Clients sich Nachrichten senden und anzeigen lassen können. Aufgrund der Komplexität wurde die gesamte Nachrichten-Funktionalität in mehrere Teilfunktionen ausgelagert. Einen Überblick über alle Funktionen soll die nachfolgende \autoref{tab:FunctionsForMessagesJS} bieten.
+\begin{table}[h]
+	\centering
+	\caption{Funktionen zum Nachrichten senden und anzeigen lassen}
+	\begin{tabular}{|p{6cm}|p{8.8cm}|}
+		\hline
+		\textbf{Funktionen} & \textbf{Funktionsbeschreibung} \\
+		\hline
+		pull\_chat\_hisotry(username) & Anfragen des Chatverlaufs des angemeldeten Benutzers.\\
+		\hline
+		source.onmessage = function (event) \{\} & Die Funktion öffnet ein \glqq Stream\grqq{} um Nachrichten zu empfangen.\\
+		\hline
+		printSingleChatMessage\linebreak(JSON\_DATA) & Ausgeben der Nachricht in das Chat-Fenster wenn der aktuelle Kontakt aktiv bzw. ausgewählt ist.\\
+		\hline
+		send\_msg\_single\_chat() & Funktion zum Senden der Nachrichten.\\
+		\hline
+		fill\_in\_chat\_msgs\_single\_chat\linebreak(user\_name, peer\_name) & Die Nachrichten eines Chatverlaufs ausgeben lassen.\\
+		\hline
+	\end{tabular}
+	\label{tab:FunctionsForMessagesJS}
+\end{table}
+Damit ein Nutzer zum Zeitpunkt seines Logins auf die Nachrichten zugreifen kann wird im JavaScript die Funktion \textit{pull\_chat\_hisotry(username)} unabhängig von den \ac{HTML}-Elementen aufgerufen.
+\begin{lstlisting}[language=Javascript,caption=Aufruf der Funktion mit der relevanten Variablen dekleration,label={lst:FunctioncallAndVariable}]
+var chat_messages = {};
+pull_chat_hisotry($('#NameOnlineAvatar').text());
+\end{lstlisting}
+Außerdem zeigt das \autoref{lst:FunctioncallAndVariable}, zusätzlich zum Aufruf, die Variable, welche alle Nachrichten des angemeldeten Benutzers in Form eines Dictionarys enthalten soll. Die Variable wird wiederum innerhalb der Funktion initialisiert. Bei den Einzelheiten der Funktion handelt es sich vor allem um den Post-Request an den Server mittels Ajax. 
+\begin{lstlisting}[language=Javascript,caption=Ausschnitt aus der Funktion \textit{pull\_chat\_hisotry(username)} ,label={lst:FunctionChathistory}]
+var URL = "/get_chathistory";
+const post_data = {"username": username};
+$.ajax({url: URL, type: "post",
+data: JSON.stringify(post_data),
+success: function(response_data){
+chat_messages = response_data;
+fillInContactPeers();
+}
+});
+\end{lstlisting}
+Ein Ausschnitt ist im \autoref{lst:FunctionChathistory} dargestellt und zeigt, dass die Variable \texttt{chat\_messages} mit der Antwort des Servers initialisiert wird. Demnach enthält die Variable den gesamten Nachrichtenverlauf des angemeldeten Benutzers, vorausgesetzt das Backend sendet die Daten korrekt. Mit der \texttt{URL} Variable wird die Route angesprochen, welche für die Datenübertragung zuständig ist. Nach dem erfolgreichen Request und dem Erhalt der Response wird nicht nur die Variable initialisiert, sondern auch die Funktion \texttt{fillInContactPeers()} aufgerufen, welche aber zu einem früheren Zeitpunkt bereits erläutert wurde. Mehr Funktionsinhalte kann \texttt{pull\_chat\_hisotry(username)} nicht zugeteilt werden. Die Funktion besitzt aufgrund der Initialisierung der Variable eine große Bedeutung für die Chat-Funktionalität. Die nächste Funktion \texttt{fill\_in\_chat\_msgs\_single\_chat(user\_name, peer\_name)} kann aufgrund des gefüllten Dictionarys aufgerufen werden. Übergeben werden der Funktion der Benutzername des angemeldeten Benutzers und der Name des aktiven Kontaktes. 
+\begin{lstlisting}[language=Javascript,caption=Ausschnitt aus der Funktion \textit{pull\_chat\_hisotry(username)} ,label={lst:FunctionFillInChat}]
+for (var i=0; i<chat_messages[user_name][peer_name].length; i++ ) {
+var msg_timestamp = chat_messages[user_name][peer_name][i].timestamp;
+msg_timestamp = msg_timestamp.substring(0, msg_timestamp.length-3);
+if (chat_messages[user_name][peer_name][i].from == user_name)
+{
+// Ausgeben der Nachricht als "YOU"	
+} else if(chat_messages[user_name][peer_name][i].from == peer_name)
+{	
+// Ausgeben der Nachricht als Empfangen
+}
+}
+\end{lstlisting}
+Die Funktion greift grundsätzlich auf das Dicitonary \texttt{chat\_messages} zu (\autoref{lst:FunctionFillInChat}), um die Nachrichten entsprechend des Benutzers auszugeben. Daher wird die Funktion erst nach Ausgabe der Kontaktliste aufgerufen. Wie dem \autoref{lst:FunctionFillInChat} zu entnehmen ist, wird die Ausgabe der Nachrichten in einer For-Schleife realisiert. Diese Schleife iteriert über die Anzahl der Nachrichten des Nachrichtenverlaufs zwischen den Übergabeparametern. Anschließend wird für die Ausgabe der Zeit das richtige Format einer Variable zugewiesen. In Zeile 5 erfolgt die erste Überprüfung ob es sich bei der Nachricht aus dem Dictionary um eine gesendete oder empfangene Nachricht handelt. Je nachdem welche If-Bedingung zutrifft, wird die Nachricht anders in das Chat-Fenster ausgegeben. Zum Abschluss, was das \autoref{lst:FunctionFillInChat} nicht aufzeigt, wird das \ac{HTML}-Element bzw. das Chat-Fenster herunter gescrollt. Dadurch sieht der Benutzer sofort die letzten Nachrichten. Beide erläuterte Funktionen sind für die Ausgabe von Nachrichten zuständig. Die weiteren Funktionen, bis auf \texttt{printSingleChatMessage\linebreak(JSON\_DATA)}, befassen sich mit dem Senden und Empfangen von Nachrichten. Zunächst wird das Empfangen von Nachrichten erläutert. Dafür wird das folgende \autoref{lst:EventStreamFunction} betrachtet.
+\begin{lstlisting}[language=Javascript,caption=Öffnen des Eventstreams um Nachrichten zu empfangen ,label={lst:EventStreamFunction}]
+var source = new EventSource('/stream');
+source.onmessage = function (event) {
+var result = event.data
+result = result.split("data: ").join("");
+var json_obj = JSON.parse(result);
+printSingleChatMessage(json_obj);
+};
+\end{lstlisting}
+In Zeile 1 wird die Variable \texttt{source} mit der Route, auf der gehört wird, initialisiert. Dafür wird ein Objekt von Typ \texttt{EventSource} angelegt. Dies wird laut Quellen als Interface bezeichnet, welches erlaubt Server-Sent Events zu empfangen. Vorteil dieser Variante ist die Automatisierung. Das bedeutet der Client muss beim Server nicht nachfragen, sondern kann auf der Route parallel \texttt{/stream} hören, ob ein Sent-Event auftritt.\cite{w3schoolsServerSentEvent}\\
+Das \autoref{lst:EventStreamFunction} bildet in Zeile 2 das \texttt{onmessage} Event ab. Dadurch kann eine Funktion ausgelöst werden, sobald eine Nachricht empfangen wurde. Anschließend erfolgt eine Formatierung der empfangenen Daten, damit diese zur weiteren Verarbeitung der nächsten Funktion übergeben werden können. Hierbei ist interessant wie die Daten an den Client ankommen und in welches Format diese gebracht werden.
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=1.2]{images/GochatAusgabeEmpfangenerNachrichtBearbeitet}
+	\caption{Empfangene Nachricht und Beispielwert der Variable \texttt{result}, eigene Darstellung}
+	\label{img:ReceivedMessage}
+\end{figure}\\
+\autoref{img:ReceivedMessage} zeigt einen Beispielwert der Variable \texttt{result} und stellt die Daten wie sie vom Server gesendet werden dar. Anders verhält es sich bei der \autoref{img:ReceivedMessageJSON}. Dort ist die Variable \texttt{json\_obj} dargestellt.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\textwidth]{images/GochatAusgabeEmpfangenerNachrichtJSONformat}
+	\caption{Empfangene Nachricht nach der Formatierung, eigene Darstellung}
+	\label{img:ReceivedMessageJSON}
+\end{figure}
+Die Formatierung in eine JSON-Objekt erlaubt es in der aufgerufenen Funktion \texttt{printSingleChatMessage(json\_obj)} leichter auf die Inhalte zuzugreifen. Eine detailliert Erläuterung der Funktion wird nicht erfolgen. Die Aufgabe der Funktion besteht darin die Daten aus dem JSON-Objekt zu ziehen und in die richtigen \ac{HTML}-Elementen zu integrieren, was für die Funktionsfähigkeit keine größere Bedeutung darstellt. Nachfolgend soll das Senden im Vordergrund stehen. Hierfür ist die Funktion \texttt{send\_msg\_single\_chat()} vorgesehen. Diese ist aufgrund der Abhängigkeit zu einem Event an ein \ac{HTML}-Element gebunden. Bei diesem \ac{HTML}-Element handelt es sich um den \glqq Send\grqq-Button, welcher in \autoref{img:GochatUserview} ersichtlich ist. Nach dem Klick des Buttons und dem aufrufen der Funktion werden zunächst Variablen initialisiert. Dafür wird auf \ac{HTML}-Elemente zugegriffen, welche sowohl die Nachricht aus dem Textfeld enthalten, als auch den aktiven Kontakt an wen die Nachricht gesendet werden soll.
+\begin{lstlisting}[language=Javascript,caption=Initialisierung der Variablen zum Senden einer Nachricht ,label={lst:SendFunctionInitalisation}]
+var msg = $('#input-message').val().trim();
+var to_jid = $('.contact.active').attr("id");
+var user_name = $('#NameOnlineAvatar').text();
+var dt = new Date();
+var msg_timestamp = dt.toISOString().split("T")[0] + " " + dt.toLocaleTimeString().substring(0,5); 
+\end{lstlisting}
+Der Zugriff auf die \ac{HTML}-Elemente erfolgt über die jQuery-Syntax (\autoref{lst:SendFunctionInitalisation}). Außerdem wird mithilfe von vordefinierten JavaScript Funktionen der Zeitstempel in das richtige Format gebracht. Anschließend können die Variablen der Funktion \texttt{modular\_ajax(url, type, formData)} als Parameter übergeben werden (\autoref{lst:SendFunctionAjaxCall}).
+\begin{lstlisting}[language=Javascript,caption=Aufruf der Funktion \texttt{modular\_ajax(url, type, formData)} mit allen Parametern  ,label={lst:SendFunctionAjaxCall}]
+modular_ajax("/send_message", "post", {"to_jid": to_jid + "@ejabberd-server", "from_jid": user_name+"@ejabberd-server", "msg_subject": "", "msg_body": msg, "msg_type": "chat"});
+\end{lstlisting}
+Die Funktion \texttt{modular\_ajax(url, type, formData)} übernimmt die Aufgabe, die Nachricht mit einem POST an den Server zu senden. Weitere Funktionalitäten innerhalb der Funktion beziehen sich auf den \ac{HTML}-Kontext. Dabei handelt es sich um das Leeren des Textfeldes oder dem Aufruf der Funktion, welche die Nachricht ausgibt. Relevant für die Chat-Funktionalität ist das Dictionary \texttt{chat\_messages}. Wie bereits an anderen Abschnitten erläutert, werden darin alle Nachrichten eines Benutzers gehalten. 
+\begin{lstlisting}[language=Javascript,caption=Nachricht in Dictionary einfügen  ,label={lst:SendFunctionUpdateChatMessageObject}]
+chat_messages[user_name][to_jid].push({"from": user_name, "timestamp": msg_timestamp, "txt": msg, "type": "chat"});
+\end{lstlisting}
+Daher muss zum Abschluss der Funktion das Dictionary-Objekt mithilfe der \texttt{push}-Funktion um die Nachricht, welche soeben gesendet wurde, erweitert werden (\autoref{lst:SendFunctionUpdateChatMessageObject}).
 \newpage
 
 \chapter{Datenanalyse}
