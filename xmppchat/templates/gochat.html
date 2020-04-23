@@ -462,7 +462,7 @@
     padding: 10px 0 10px 46px;
     width: 100%;
     border: none;
-    background: #3f79af;
+    background: #2d5e8b;
     color: #f5f5f5;
   }
   #containerMain #sidepanel #search input:focus {
@@ -885,7 +885,7 @@
   <div id="content-window" class="col">
     <div class="contact-profile">
       <img src="{{url_for('static', filename='img/usericon2.png')}}" alt="Avatar">
-      <p>Harvey Specter</p>
+      <p>No Contact</p>
       <div class="dropdown">
         <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-single_groupchat_options="false">
           <i class="fa fa-bars fa-lg"></i>
@@ -908,8 +908,8 @@
     </div> <!-- end chat-history -->
     
     </div>
-    <div class="input-group">
-      <textarea id="input-message" class="form-control" placeholder="Enter your message..." aria-label="Recipient's username" aria-describedby="send-submit-button"></textarea>
+    <div id="input-group-content"class="input-group">
+      <textarea id="input-message" class="form-control" placeholder="Enter your message..." maxlength="250" aria-label="Recipient's username" aria-describedby="send-submit-button"></textarea>
       <div class="input-group-append">
         <button class="btn btn-outline-primary" type="button" id="send-submit-button">Send</button>
         
@@ -929,17 +929,31 @@
 {%block scripts%}
 
 <script>
-  $(document).ready( function() {
-    $("#input-message").emojioneArea();
+ $(document).ready( function() {
+    $("#input-message").emojioneArea({ events: { keypress: function (editor, event) { 
+      var length = this.getText().length; 
+      if (length >= 250) 
+      { 
+        event.preventDefault(); 
+        document.getElementById("alertFormaxlength").style.display = "block"
+      }
+    }, keydown: function (editor, event){
+      var length = this.getText().length;
+      if (length <= 250) {
+        document.getElementById("alertFormaxlength").style.display = "none"
+      }
+
+    } }} );
   });
 
   // to set first contact acitve after login
   $(document).ready( function() {
+    $("#input-group-content").attr("style", "display:none;");
     var stopIntervall 
     stopIntervall = setInterval(function() {
       console.log("intervall")
       checkExistingofElement(stopIntervall)
-    }, 100);
+    }, 1000);
   });
 
   // to Check if one contact is exisiting
@@ -969,6 +983,8 @@
   var contactImageSrc = li.getElementsByTagName('img')[0].src
   $(".contact-profile").children()[1].innerHTML = name;
   $(".contact-profile").children()[0].src = contactImageSrc;
+  $("#input-group-content").attr("style", "display:;");
+  
 
   var peer_name = $(".contact-profile").children()[1].innerHTML
   fill_in_chat_msgs_single_chat($('#NameOnlineAvatar').text(), peer_name);
@@ -1021,9 +1037,9 @@
     dataType: "json",
     contentType: "application/json",
     success: function(response_data){
-      addContactToList(addContactName, "");
-      chat_messages[$('#NameOnlineAvatar').text()][addContactName] = [];
       $("#staticBackdrop").modal('hide');
+      chat_messages[$('#NameOnlineAvatar').text()][addContactName] = [];
+      addContactToList(addContactName, ""); 
     },
     error: function(error_data){
       console.log(error_data.responseJSON);
@@ -1041,6 +1057,7 @@
 
 function addContactToList(name, preview_message)
 {
+  var li_list, lastContact;
   var contact_ul = $('#contacts_list');
       contact_ul.append(`
     <li class="contact" id="${name}">
@@ -1053,6 +1070,11 @@ function addContactToList(name, preview_message)
             </div>
           </div>
         </li>`);
+  li_list = contact_ul.children()
+  lastContact = li_list[contact_ul.children().length -1]
+  $(".contact.active").removeClass('active');
+  $(lastContact).addClass("active")
+  firstactiveContact(lastContact)
 }
 
 
