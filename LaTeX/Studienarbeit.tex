@@ -866,8 +866,6 @@ Beachtet man die oben aufgeführten Überlegungen, ergibt sich für die Architek
 	\label{img:logischeTopologieIMS}
 \end{figure}
 
-
-%TODO Grafiken einbauen
 Jeder Dienst wird auf einem Server verteilt mit Ausnahme der Datenbanken. Ejabberd und Kafka bilden die beiden unterschiedlichen Plattformen über die Chat-Nachrichten versendet werden können. Die Instanz zwischen den Clients und den beiden Plattformen realisiert die Anwendungslogik in Form einer \acs{REST} \acs{API}, die mit dem Microframework Python Flask entwickelt wird.
 
 Die Grundidee ist folgende: Über ein Web-Frontend werden dem Benutzer Chat-Funktionalitäten bereitgestellt, die er nach einer Anmeldung am System verwenden kann. Über das Web-Frontend kann der Benutzer auswählen, ob er über den Apache Kafka Dienst oder über ejabberd Chat-Dienste nutzen möchte. Das Web-Frontend erzeugt hierzu entsprechende Requests, um der Flask Applikation mitzuteilen, für welche der beiden Plattformen sich der Benutzer anmeldet. So können beide Plattformen getrennt voneinander getestet werden. Ist ein Benutzer am \ac{IMS} angemeldet, werden die Nachrichten ausschließlich zu dem Dienst, für den sich der Benutzer zuvor angemeldet hat, koordiniert. Eine Benutzung von Apache Kafka und Ejabberd via \ac{XMPP} ist gleichzeitig nicht möglich. Die Architektur ist so entworfen, dass die \acs{REST} \acs{API} die volle Kontrolle über die Dienste für den Nachrichtentransport verfügt und alle Anfragen der Clients verarbeitet. Eine Kommunikation von Clients zu den Chat-Diensten direkt ist durch bestimmte Firewall-Regeln ausgeschlossen. Ein Client versendet und empfängt Nachrichten immer über die \acs{REST} \acs{API}. Aus Gründen des Qualitätsanspruchs werden Kafka und die ejabberd-Instanz trotzdem so konfiguriert, dass sie auch ohne der Anwendungslogik vollständig über das Internet benutzbar wären.
@@ -879,7 +877,7 @@ Abbildung \autoref{img:ArchitekturIMS} im Anhang zeigt die Netzwerktopologie des
 
 Diese Architektur ist unempfindlich gegenüber Erweiterungen. Würden in der Zukunft weitere Plattformen hinzukommen, müssen nur neue \acs{API}-Endpunkte hinzugefügt werden und die neuen Funktionen im Code umgesetzt werden. Bestehender Code und Endpunkte müssen nicht verändert werden. Zudem kann eine Komponente einfach ausgetauscht werden, falls diese beschädigt wird. Solange die Konfiguration die Gleiche bleibt, muss die Anwendungslogik nicht angepasst werden.
 
-Nachdem die Architektur nach den Aspekten eines verteilten Systems entworfen ist, wird in den nächsten Kapiteln die Umsetzung der Architektur beschrieben.
+Nachdem die Architektur nach den Aspekten eines verteilten Systems entworfen ist, wird in den nächsten Kapiteln die Umsetzung der Architektur beschrieben. In den folgenden Abschnitten werden zuerst die Installation und Konfiguration von ejabberd und von Apache Kafka Streams beschrieben. Danach wird die Umsetzung der Anwendungslogik in Python Flask erläutert und anschließend detailliert auf die Implementierung des Frontends eingegangen. Dabei werden wichtige Herausforderungen und deren Lösungsmöglichkeit diskutiert.
 
 \pagebreak
 
@@ -1466,6 +1464,13 @@ Ausgangspunkt dieses Abschnitts ist das Ergebnis der in \autoref{sec:Architektur
 \item Auslieferung von \ac{HTML}-, \ac{CSS}- und JavaScript-Dokumenten an den Browser des Clients
 \item Fehlerbehandlung zum Beispiel bei invaliden Übergabeparametern
 \end{itemize}
+
+%TODO Flask einfuehren und wie Datenbankzugriffe mit SQLAlchemy funktionieren erklaeren
+
+\subsubsection*{Konfiguration der Flask Applikation}
+
+Laut einer Statistik der Universität Maryland \cite{securityStatisticWebSites} werden Computer mit Internetzugriff alle 39 Sekunden von Hackern angegriffen. Die Statistik bestätigt, dass aufgrund dem hohen Risiko eines Angriffs, keine Leichtsinnigkeit bei der Implementierung vorhanden sein darf. Schon durch kleine Schwachstellen ist es Angreifern möglich, sensible Zugangsdaten ab zugreifen und die Kontrolle über Systeme zu übernehmen. Aus diesem Grund sollten Zugangsdaten nicht direkt in Klartext im Programm-Code stehen. Die benötigten Zugangsdaten für ejabberd, Apache Kafka und den beiden MySQL-Datenbanken werden deshalb in einer separaten Datei im Datenaustauschformat \acs{JSON} abgespeichert. Die Flask Applikation liest beim Start alle Parameter aus und konfiguriert sich selbst. Auf diese Weise bleiben sensible Zugangsdaten geschützt, weil der Zugriff auf die separate Datei über das Betriebssystem auf wenige Benutzer beschränkt wird.
+
 
 \pagebreak
 
