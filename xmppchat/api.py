@@ -113,7 +113,7 @@ def login():
             return make_response(jsonify({'redirect_to': '/login', 'feedback': 'invalid data format.', 'category': 'danger'}), 404)
         
         global session_dict
-        full_jid = req_content["username"] + "@ejabberd-server"
+        full_jid = f'{req_content["username"]}@{config["ejabberd_domain"]}'
         stream_id = str(uuid.uuid4())
         xmpp_client = EchoBot(full_jid, req_content["password"], stream_id)   
         session_dict[current_user.user_id] = {"xmpp_object": xmpp_client, "stream_id": stream_id}
@@ -127,7 +127,7 @@ def login():
         for item in plugins:
             xmpp_client.register_plugin(item)
 
-        if xmpp_client.connect((config.get("ejabberd_ip"), 5222)):
+        if xmpp_client.connect((config.get("ejabberd_ip"), config.get("ejabberd_port"))):
             t1 = threading.Thread(target=xmpp_client.process, kwargs={'block': True}, daemon=True)
             t1.start()
             return make_response(jsonify({'redirect_to': '/gochat', 'feedback': 'login successfull.', 'category': 'success'}), 200)
@@ -242,11 +242,11 @@ def add_contact():
     if result.user_id == current_user.user_id:
         return make_response(jsonify({"feedback": "invalid username. You cannot write with yourself.", "category": "danger", "exit_code": 403}), 403)
 
-    session_dict[current_user.user_id]["xmpp_object"].update_roster(user_name+"@ejabberd-server", name=user_name)
+    session_dict[current_user.user_id]["xmpp_object"].update_roster(f'{user_name}@{config["ejabberd_domain"]}', name=user_name)
     return make_response(jsonify({"feedback": "added contact successfully.", "category": "success", "exit_code": 200}), 200)
 
 def get_kafka_client():
-    return KafkaClient(hosts="10.10.8.4:9092")
+    return KafkaClient(hosts=f'{config["apache_kafka_ip"]}:{config["apache_kafka_port"]}')
 
 @csrf.exempt
 @app.route('/kafkastream/<topicname>')
