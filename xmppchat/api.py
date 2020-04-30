@@ -3,6 +3,9 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_required, login_user, logout_user, current_user
 from flask_wtf.csrf import CSRFProtect
 from datetime import datetime
+from kafka import KafkaConsumer
+from pykafka import KafkaClient
+from kafka import KafkaProducer
 #from flask_socketio import SocketIO
 import redis, uuid
 from werkzeug.urls import url_parse
@@ -43,6 +46,7 @@ from xmppchat.Validator import Validator
 from xmppchat.CustomValidatonError import CustomValidationError
 from xmppchat.xmppclient import EchoBot
 from xmppchat.UserRegistration import UserRegistration
+#from xmppchat.custom_kafka_consumer import Custom_Kafka_Consumer
 
 session_dict = {}
 
@@ -113,6 +117,9 @@ def login():
         stream_id = str(uuid.uuid4())
         xmpp_client = EchoBot(full_jid, req_content["password"], stream_id)   
         session_dict[current_user.user_id] = {"xmpp_object": xmpp_client, "stream_id": stream_id}
+        print("##### Eingeloggt ist: ", full_jid)
+        print("##### stream_id: ", stream_id)
+        print("##### User_id: ", current_user.user_id)
         plugins = ['xep_0030', 'xep_0004', 'xep_0060', 'xep_0199', 'xep_0313']
 
         xmpp_client['feature_mechanisms'].unencrypted_plain = True
@@ -183,9 +190,8 @@ def event_stream(user_id):
     stream_id = session_dict[user_id]["stream_id"]
     pubsub.subscribe(stream_id)
     for message in pubsub.listen():
-        if "data" in message and not message["data"] == 1:
-            print(message)
-            yield 'data: %s\n\n' % message['data']
+        print(message)
+        yield 'data: %s\n\n' % message['data']
 
 
 @app.route('/stream')
@@ -203,9 +209,9 @@ def send_message():
         if not all(key in JSON_Data for key in ("msg_body", "from_jid", "to_jid", "msg_type", "msg_subject")):
             return make_response(jsonify({"feedback": "invalid post data for sending messages.", "category": "danger", "exit_code": 401}), 401)
         
-        print(JSON_Data)
+        #print(JSON_Data)
         session_dict[current_user.user_id]["xmpp_object"].push_message(JSON_Data["to_jid"], JSON_Data["msg_body"], JSON_Data["msg_subject"], JSON_Data["msg_type"])
-        print("Dieser Benutzer hat die Nachricht gesendet: ", current_user.user_id)
+        print("###### Dieser Benutzer hat die Nachricht gesendet: ", current_user.user_id)
         msg_timestamp = datetime.utcnow().strftime('%Y-%m-%d %H:%M')
         return make_response(jsonify({"exit_code": 200, "feedback": "success", "timestamp": msg_timestamp}), 200)
     except Exception as e:
@@ -235,6 +241,45 @@ def add_contact():
 
     if result.user_id == current_user.user_id:
         return make_response(jsonify({"feedback": "invalid username. You cannot write with yourself.", "category": "danger", "exit_code": 403}), 403)
-    
+
     session_dict[current_user.user_id]["xmpp_object"].update_roster(user_name+"@ejabberd-server", name=user_name)
     return make_response(jsonify({"feedback": "added contact successfully.", "category": "success", "exit_code": 200}), 200)
+
+def get_kafka_client():
+    return KafkaClient(hosts="10.10.8.4:9092")
+
+@csrf.exempt
+@app.route('/kafkastream/<topicname>')
+def get_messages(topicname):
+    client = get_kafka_client()
+    def events():
+        #consumer = KafkaConsumer('test', bootstrap_servers=['10.10.8.4:9092'], auto_offset_reset='earliest', enable_auto_commit=True)
+        #print(consumer.bootstrap_connected())
+        for i in client.topics[topicname].get_simple_consumer():
+            print(i.value.decode())
+            yield 'data: {0}\n\n'.format(i.value.decode())
+    return Response(events(), mimetype="text/event-stream")
+
+@app.route('/login-kafka/<int:id>')
+def login_kafka(id):
+    global session_dict
+    user = User.query.filter_by(user_id=id).first()
+    if not user:
+        return make_response(jsonify({'error': f'could not login user with id={id}'}), 401)
+    """
+    stream_id = str(uuid.uuid4())
+    session_dict[current_user.user_id]['stream_id'] = stream_id
+    consumer = Custom_Kafka_Consumer(stream_id)
+    session_dict[current_user.user_id]['kafka_consumer'] = consumer
+    consumer.setDaemon(True)
+    consumer.start()
+    """
+    #stream_id = str(uuid.uuid4())
+    #session_dict[user.user_id] = {'stream_id': 'test'}
+    login_user(user, remember=False)
+    return make_response(jsonify({'success': 'login successfull'}), 200)
+    
+@app.route('/kafkaresults')
+def kafkaresults():
+    return render_template('testkafka.html', navs=navs,currentNav="Go Chat!")
+

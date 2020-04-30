@@ -1,0 +1,22 @@
+{% extends "index.html" %}
+{% block title %}Go Chat!{% endblock %}
+{%block content%}
+
+<div id="result" style="margin-top: 30%;"></div>
+
+{%endblock%}
+
+{%block scripts%}
+<script>
+//begin event stream for chat messages
+  var source = new EventSource('/kafkastream/test');
+  source.onmessage = function (event) {
+       var result = event.data
+       console.log(result)
+       document.getElementById("result").innerHTML += result + "<br>";
+        //result = result.split("data: ").join("");
+        //var json_obj = JSON.parse(result);
+        //console.log(json_obj);
+  };
+</script>
+{%endblock%}
