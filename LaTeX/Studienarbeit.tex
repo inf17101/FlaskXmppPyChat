@@ -306,6 +306,8 @@ Ort, Datum & Unterschrift
 \acro{CSS}{Cascading Style Sheets}
 \acro{Ajax}{Asynchronous JavaScript and XML}
 \acro{ORM}{Object Relational Mapper}
+\acro{RMI}{Remote Method Invocation}
+\acro{RPC}{Remote Procedure Call}
 \acro{CA}{Certification Authority}
 \acro{RSA}{Rivest-Shamir-Adleman}
 \acro{BSI}{Bundesamt für Sicherheit in der Informationstechnik}
@@ -816,6 +818,53 @@ Eine wichtige Anforderung an Tests ist, dass diese schnell und effizient ablaufe
 - Und wie kann ich es nutzen? Beispiele auch mit ORM\\
 
 \pagebreak
+
+\section{Verprobung eines Einsatzes von Kafka und Ejabberd in einem Messaging System}
+\label{sec:VerprbungIMS}
+
+Estrada und Ruiz sind der Meinung, das heutzutage kontinuierlich Echtzeitinformationen generiert werden \cite{estradaRuiz2016}. Die Daten müssen schnell und auf einfache Weise zu ihren Empfängern geliefert werden. Nach der Ansicht von Estrada und Ruiz \cite{estradaRuiz2016} sind Systeme, die Informationen produzieren (englisch Producer), und die Systeme, die Informationen konsumieren (englisch Consumer), untereinander unzugänglich. Berle \cite{berleKafkaOverview} weist auf Herausforderungen hin, die bei einem Versand von Nachrichten von einem System A an System B vorhanden sind, wenn diese direkt über \acs{RMI}\footnote{\ac{RMI} bezeichnet einen Aufruf eines entfernten Objekts und unterscheidet sich von einem \ac{RPC} nur darin, dass durch eine lokale Prozedur ein Objekt statt einer Anwendung aufgerufen wird.\cite[S.41]{andrew2008verteilte}}, einer \acs{REST} \acs{API} oder über Sockets miteinander kommunizieren, siehe \autoref{img:directCommunication}.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=.8\linewidth]{images/directCommunication}
+	\caption{Direkte Kommunikation zwischen einem System A und System B, eigene Darstellung}
+	\label{img:directCommunication}
+\end{figure}
+
+\subsubsection*{Herausforderungen der direkten Kommunikation\cite{berleKafkaOverview}:}
+
+\begin{itemize}
+\item System B ist aufgrund eines Wartungsfensters oder Netzwerkfehlers nicht erreichbar. System A hat aber nicht die Kapazität, Nachrichten so lange zu puffern, bis System B wieder verfügbar ist.
+\item System A kann System B überlasten, indem A mehr Nachrichten schickt als B verarbeiten kann (\ac{DOS} Attacke).
+\item System B erhält eine Nachricht von System A und stürzt während der Verarbeitung ab. Für System A gilt die Nachricht als verarbeitet, obwohl das nicht der Fall ist.
+\end{itemize}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth]{images/messagingSystemsCommunication}
+	\caption{Kommunikation von System A und B über ein Messaging System, eigene Darstellung}
+	\label{img:messagingSystemsCommunication}
+\end{figure}
+
+\pagebreak
+
+Um die Probleme lösen zu können, werden nach Berle Messaging Systeme zwischen Sender und Empfänger platziert, siehe \autoref{img:messagingSystemsCommunication}. Konkreter kommen sogenannte Broker, auch Message Broker genannt, zum Einsatz. Ein Broker ist nach \cite{kimmerBroker} eine Einrichtung zur Vermittlung von Nachrichten zwischen einem Sender und einem oder mehreren Empfängern. Typische Aufgaben eines Message Brokers sind \cite{kimmerBroker}:
+
+\begin{itemize}
+\item Empfang und Versand von Nachrichten
+\item Übersetzung des Nachrichtenformates des Senders in ein oder mehrere Nachrichtenformate des oder der Empfänger
+\item Sorgt für effiziente Nachrichtenvermittlung (priorisierbare Nachrichtenverarbeitung)
+\item Verbindung heterogener Systeme
+\end{itemize}
+
+Eine andere Möglichkeit ist ein Instant Messaging Server wie ejabberd. Nachrichten werden dabei über ein spezielles Protokoll - \ac{XMPP} (siehe \autoref{sec:XMPP}) - versendet. Ejabberd hat ähnliche Aufgaben wie ein Broker, nur dass alle Clients \acs{XMPP} als gemeinsame Sprache verstehen müssen, um miteinander kommunizieren zu können.
+
+Auf diese Weise ist es Entwicklern möglich, skalierbare Systeme zu entwickeln, die eine Vielzahl von Benutzern unterstützen. Die meisten Messaging Systeme lassen sich in einem Cluster aufbauen, sodass die Last über mehrere identische Komponenten verteilt werden kann. Im Gegensatz zu Methoden wie \ac{RMI} muss ein Client nicht dauerhaft erreichbar und aktiviert sein \cite{andrew2008verteilte}. Das Broker System oder der Instant Messaging Server verwalten die Nachrichten des Clients und stellen die Nachrichten dem Client erst zu, wenn dieser wieder aktiv wird.
+
+Sowohl ejabberd als auch Apache Kafka eignen sich, um Berles aufgeführten Probleme zu lösen. In der Studienarbeit werden beide Plattformen in ein eigenes \ac{IMS} integriert und für den Transport, die Verwaltung und die Speicherung von Nachrichten verwendet. Beide sollen auf Eignung überprüft werden und die Performanz der beiden Systeme verglichen werden.
+
+\pagebreak
+
 
 \section{Aufbau und Entwurf der Architektur des Chatsystems}
 \label{sec:Architektur}
@@ -1445,7 +1494,8 @@ Ein Client kann die Version des Betriebssystems, auf dem ejabberd installiert is
 
 Nun ist ejabberd für den Gebrauch in der Projektarbeit konfiguriert. Der Server kann nun von jedem beliebigen \ac{XMPP}-Client genutzt werden.
 
-\newpage
+\pagebreak 
+
 
 \section{Umsetzung der Entwicklung einer \acs{REST} \acs{API}}
 \label{subsec:Backend}
@@ -1469,8 +1519,18 @@ Ausgangspunkt dieses Abschnitts ist das Ergebnis der in \autoref{sec:Architektur
 
 \subsubsection*{Konfiguration der Flask Applikation}
 
-Laut einer Statistik der Universität Maryland \cite{securityStatisticWebSites} werden Computer mit Internetzugriff alle 39 Sekunden von Hackern angegriffen. Die Statistik bestätigt, dass aufgrund dem hohen Risiko eines Angriffs, keine Leichtsinnigkeit bei der Implementierung vorhanden sein darf. Schon durch kleine Schwachstellen ist es Angreifern möglich, sensible Zugangsdaten ab zugreifen und die Kontrolle über Systeme zu übernehmen. Aus diesem Grund sollten Zugangsdaten nicht direkt in Klartext im Programm-Code stehen. Die benötigten Zugangsdaten für ejabberd, Apache Kafka und den beiden MySQL-Datenbanken werden deshalb in einer separaten Datei im Datenaustauschformat \acs{JSON} abgespeichert. Die Flask Applikation liest beim Start alle Parameter aus und konfiguriert sich selbst. Auf diese Weise bleiben sensible Zugangsdaten geschützt, weil der Zugriff auf die separate Datei über das Betriebssystem auf wenige Benutzer beschränkt wird.
+Laut einer Statistik der Universität Maryland \cite{securityStatisticWebSites} werden Computer mit Internetzugriff alle 39 Sekunden von Hackern angegriffen. Die Statistik bestätigt, dass aufgrund dem hohen Risiko eines Angriffs, keine Leichtsinnigkeit bei der Implementierung vorhanden sein darf. Schon durch kleine Schwachstellen ist es Angreifern möglich, sensible Zugangsdaten abzugreifen und die Kontrolle über Systeme zu übernehmen. Aus diesem Grund sollten Zugangsdaten nicht direkt in Klartext im Programm-Code stehen. Die benötigten Zugangsdaten für ejabberd, Apache Kafka und den beiden MySQL-Datenbanken werden deshalb in einer separaten Datei im Datenaustauschformat \acs{JSON} abgespeichert. Die Flask Applikation soll beim Start alle Parameter auslesen und dynamisch verwenden. Auf diese Weise bleiben sensible Zugangsdaten geschützt, weil der Zugriff auf die separate Datei über das Betriebssystem auf wenige Benutzer beschränkt wird.
 
+\pagebreak
+
+\autoref{img:configJSON-Datei} zeigt die Datei mit beispielhaften Zugangsdaten. Die Datei enthält alle wichtigen Informationen, wie IP-Adressen, Portnummern und alle Zugangsdaten für Apache Kafka, ejabberd und den beiden Datenbanken. Die Zugangsdaten für die Datenbank sind bereits im \acs{URI}-Format von SQLAlchemy eingetragen, sodass diese nicht erst durch zusätzlichen Programm-Code in das richtige Format gebracht werden müssen.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth]{images/configJSON-Datei}
+	\caption{Auszug aus der Konfigurationsdatei mit beispielhaften Zugangsdaten}
+	\label{img:configJSON-Datei}
+\end{figure}
 
 \pagebreak
 
