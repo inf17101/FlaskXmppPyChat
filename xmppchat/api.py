@@ -3,9 +3,9 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_required, login_user, logout_user, current_user
 from flask_wtf.csrf import CSRFProtect
 from datetime import datetime
-from kafka import KafkaConsumer
 from pykafka import KafkaClient
-from kafka import KafkaProducer
+from kafka.admin import KafkaAdminClient, NewTopic
+from kafka import errors
 #from flask_socketio import SocketIO
 import redis, uuid
 from werkzeug.urls import url_parse
@@ -61,7 +61,7 @@ def register():
         if not req_content:
             return make_response(jsonify({'feedback': 'invalid post data.', 'category': 'danger'}), 404)
 
-        res = {'feedback': 'login successfull.', 'category': 'success'}
+        res = {'feedback': 'registration successfull.', 'category': 'success'}
         exit_code = 200
         try:
             Validator.validate_username(req_content["username"])
@@ -72,6 +72,11 @@ def register():
             return_code = user_reg_obj.register_remotely(req_content["username"], req_content["password"], config["ejabberd_domain"])
             if return_code != 0:
                 raise CustomValidationError("Error. User was not created. Please try again with another user.")
+
+            #topic_id = str(uuid.uuid4())
+            #kafka_admin_client = KafkaAdminClient(bootstrap_servers=f'{config["apache_kafka_ip"]}:{config["apache_kafka_port"]}')
+            #topic_list = [NewTopic(name=topic_id, num_partitions=1, replication_factor=1)]
+            #kafka_admin_client.create_topics(new_topics=topic_list, validate_only=False)
 
             db.session.commit()
         except KeyError:
@@ -85,8 +90,7 @@ def register():
         except Exception as e:
             db.session.rollback()
             res = {'feedback': 'internal server error', 'category': 'danger'}
-            logger.error(e)
-            res = {'feedback': "{0}".format(str(e)), 'category': 'danger'}            
+            logger.error(e)           
             exit_code = 500
 
         return make_response(jsonify(res), exit_code)
@@ -131,7 +135,7 @@ def login():
             t1 = threading.Thread(target=xmpp_client.process, kwargs={'block': True}, daemon=True)
             t1.start()
             return make_response(jsonify({'redirect_to': '/gochat', 'feedback': 'login successfull.', 'category': 'success'}), 200)
-        return make_response(jsonify({'redirect_to': '/gochat', 'feedback': 'internal error: login not successfull.', 'category': 'danger'}), 500)
+        return make_response(jsonify({'redirect_to': '/login', 'feedback': 'internal error: login not successfull.', 'category': 'danger'}), 500)
 
     return render_template('login.html', navs=navs, currentNav="Go Chat!")
 
@@ -208,8 +212,7 @@ def send_message():
         JSON_Data = request.get_json()
         if not all(key in JSON_Data for key in ("msg_body", "from_jid", "to_jid", "msg_type", "msg_subject")):
             return make_response(jsonify({"feedback": "invalid post data for sending messages.", "category": "danger", "exit_code": 401}), 401)
-        
-        #print(JSON_Data)
+
         session_dict[current_user.user_id]["xmpp_object"].push_message(JSON_Data["to_jid"], JSON_Data["msg_body"], JSON_Data["msg_subject"], JSON_Data["msg_type"])
         print("###### Dieser Benutzer hat die Nachricht gesendet: ", current_user.user_id)
         msg_timestamp = datetime.utcnow().strftime('%Y-%m-%d %H:%M')
@@ -253,12 +256,70 @@ def get_kafka_client():
 def get_messages(topicname):
     client = get_kafka_client()
     def events():
-        #consumer = KafkaConsumer('test', bootstrap_servers=['10.10.8.4:9092'], auto_offset_reset='earliest', enable_auto_commit=True)
-        #print(consumer.bootstrap_connected())
         for i in client.topics[topicname].get_simple_consumer():
             print(i.value.decode())
             yield 'data: {0}\n\n'.format(i.value.decode())
     return Response(events(), mimetype="text/event-stream")
+
+def create_sleekxmpp_client(user, req_content):
+    global session_dict
+    full_jid = f'{req_content["username"]}@{config["ejabberd_domain"]}'
+    stream_id = str(uuid.uuid4())
+    xmpp_client = EchoBot(full_jid, req_content["password"], stream_id)
+    session_dict[user.user_id] = {"xmpp_object": xmpp_client, "stream_id": stream_id, "requested_platform": "xmpp"}
+    plugins = ['xep_0030', 'xep_0004', 'xep_0060', 'xep_0199', 'xep_0313']
+    xmpp_client['feature_mechanisms'].unencrypted_plain = True
+
+    for item in plugins:
+        xmpp_client.register_plugin(item)
+    return xmpp_client
+
+def get_url_chatpage(current_user_id):
+    global session_dict
+    return (url_for('gochat') if session_dict[current_user_id]['requested_platform'] == 'xmpp' else url_for('gochat-kafka'))
+
+#@csrf.exempt
+@app.route("/login-all", methods=['GET', 'POST'])
+def login_all():
+    if current_user.is_authenticated:
+        return redirect(get_url_chatpage(current_user.user_id))
+    
+    if request.method == 'POST':
+        req_content = request.get_json()
+        try:
+            user = User.query.filter_by(username=req_content["username"]).first()
+            if not user or not user.verify_password(req_content["password"]):
+                return make_response(jsonify({'redirect_to': '/login', 'feedback': 'invalid login credentials.', 'category': 'danger'}), 401)
+            
+            if not isinstance(req_content["remember"], bool):
+                return make_response(jsonify({'redirect_to': '/login', 'feedback': 'invalid data format.', 'category': 'danger'}), 404)
+
+        except KeyError:
+            return make_response(jsonify({'redirect_to': '/login', 'feedback': 'invalid data format.', 'category': 'danger'}), 404)
+
+        if req_content.get('requested_platform') == 'xmpp':
+            xmpp_client = create_sleekxmpp_client(user, req_content)
+
+            if xmpp_client.connect((config.get("ejabberd_ip"), config.get("ejabberd_port"))):
+                t1 = threading.Thread(target=xmpp_client.process, kwargs={'block': True}, daemon=True)
+                t1.start()
+                login_user(user, remember=req_content["remember"]) # if no errors log user in
+                return make_response(jsonify({'redirect_to': '/gochat', 'feedback': 'login successfull.', 'category': 'success'}), 200)
+            return make_response(jsonify({'redirect_to': '/login', 'feedback': 'internal error: login not successfull.', 'category': 'danger'}), 500)
+        elif req_content.get('requested_platform') == 'kafka':
+            try:
+                kafka_client = get_kafka_client()
+            except Exception:
+                return make_response(jsonify({'redirect_to': '/login', 'feedback': 'internal error: login not successfull.', 'category': 'danger'}), 500)
+            global session_dict
+            session_dict[user.user_id] = {"kafka_client_object": kafka_client, "topic": user.topic_id, "requested_platform": "kafka"}
+            login_user(user, remember=req_content["remember"]) # if no errors log user in
+            return make_response(jsonify({'redirect_to': '/gochat-kafka', 'feedback': 'login successfull.', 'category': 'success'}), 200)
+        else:
+            return make_response(jsonify({'redirect_to': '/login', 'feedback': 'invalid platform. Expected platform kafka or xmpp', 'category': 'danger'}), 404)
+
+    return render_template('login.html', navs=navs, currentNav="Go Chat!")
+
 
 @app.route('/login-kafka/<int:id>')
 def login_kafka(id):
