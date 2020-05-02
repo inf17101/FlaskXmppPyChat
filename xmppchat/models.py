@@ -19,6 +19,7 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(35), unique=True, nullable=False)
     passwd = db.Column(db.String(112), nullable=False)
     jabber_id = db.Column(db.String(255), unique=True)
+    kafka_topic_id = db.Column(db.String(36))
     register_date = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
     last_login = db.Column(db.DateTime, nullable=True)
 
