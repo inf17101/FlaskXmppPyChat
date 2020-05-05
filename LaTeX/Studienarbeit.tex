@@ -308,6 +308,8 @@ Ort, Datum & Unterschrift
 \acro{ORM}{Object Relational Mapper}
 \acro{RMI}{Remote Method Invocation}
 \acro{RPC}{Remote Procedure Call}
+\acro{ASF}{Apache Software Foundation}
+\acro{MQ}{Message Queue}
 \acro{CA}{Certification Authority}
 \acro{RSA}{Rivest-Shamir-Adleman}
 \acro{BSI}{Bundesamt für Sicherheit in der Informationstechnik}
@@ -869,7 +871,7 @@ Sowohl ejabberd als auch Apache Kafka eignen sich, um Berles aufgeführten Probl
 \section{Aufbau und Entwurf der Architektur des Chatsystems}
 \label{sec:Architektur}
 
-Nach den Anforderungen (\autoref{Anforderungen}) und Zielen der Arbeit (\autoref{sec:Ziele}) soll ein \ac{IMS} auf Basis eines \ac{XMPP}-Chatsystems entworfen und programmiert werden. Anschließend soll das gleiche Chatsystem auf Basis des Frameworks Apache Kafka mit Kafka Streams implementiert und mit dem \ac{XMPP}-Chatsystem verglichen werden. Hierfür muss ein verteiltes System entworfen werden, das die Anforderungen abdeckt.
+Nach den Anforderungen (\autoref{Anforderungen}) und Zielen der Arbeit (\autoref{sec:Ziele}) soll ein \ac{IMS} auf Basis eines \ac{XMPP}-Chatsystems entworfen und programmiert werden. Anschließend soll das gleiche Chatsystem auf Basis des Frameworks Apache Kafka implementiert und mit dem \ac{XMPP}-Chatsystem verglichen werden. Hierfür muss ein verteiltes System entworfen werden, das die Anforderungen abdeckt.
 
 Der Autor Tanenbaum definiert ein verteiltes System wie folgt: \glqq Ein verteiltes System ist eine Ansammlung unabhängiger Computer, die den Benutzern wie ein einzelnes kohärentes System erscheinen.\grqq \footnote{\cite[S.19]{andrew2008verteilte}} Die Definition von Tanenbaum hat mehrere wichtige Aspekte. Der Erste besagt, dass ein verteiltes System aus Komponenten besteht, die autonom sind. Sie bieten einen Dienst an oder haben eine bestimmte Aufgabe und eine lokale Zeit. Ein zweiter Aspekt ist, dass die Benutzer glauben, sie hätten es mit einem einzigen System zu tun. Die Eigenschaft \glqq kohärenz\grqq aus der Definition besagt, dass die Komponenten in einer bestimmten Art und Weise zusammen arbeiten, um den Benutzer einen Dienst zu erbringen. Ein besonderes Merkmal ist, dass keinerlei Annahmen über die Art der Computer getroffen werden. Diese können heterogen sein. Tanenbaum \cite{andrew2008verteilte} ist der Ansicht, dass die Herausforderungen eines verteilten Systems sind, die einzelnen Teilsysteme zu synchronisieren und die Zusammenarbeit korrekt zu implementieren.
 
@@ -878,7 +880,7 @@ Hierzu stellt sich die Frage, welche Dienste für das Chatsystem benötigt und w
 \begin{itemize}
 \item Client für Benutzer, um Chat-Funktionalitäten durchführen zu können
 \item ejabberd als \ac{XMPP}-Server für das \ac{XMPP}-basierte Chatsystem
-\item Apache Kafka mit Kafka Streams
+\item Apache Kafka
 \item Datenbank für Authentifizierung und Archivierung von Nachrichten
 \end{itemize}
 
@@ -920,13 +922,13 @@ Jeder Dienst wird auf einem Server verteilt mit Ausnahme der Datenbanken. Ejabbe
 Die Grundidee ist folgende: Über ein Web-Frontend werden dem Benutzer Chat-Funktionalitäten bereitgestellt, die er nach einer Anmeldung am System verwenden kann. Über das Web-Frontend kann der Benutzer auswählen, ob er über den Apache Kafka Dienst oder über ejabberd Chat-Dienste nutzen möchte. Das Web-Frontend erzeugt hierzu entsprechende Requests, um der Flask Applikation mitzuteilen, für welche der beiden Plattformen sich der Benutzer anmeldet. So können beide Plattformen getrennt voneinander getestet werden. Ist ein Benutzer am \ac{IMS} angemeldet, werden die Nachrichten ausschließlich zu dem Dienst, für den sich der Benutzer zuvor angemeldet hat, koordiniert. Eine Benutzung von Apache Kafka und Ejabberd via \ac{XMPP} ist gleichzeitig nicht möglich. Die Architektur ist so entworfen, dass die \acs{REST} \acs{API} die volle Kontrolle über die Dienste für den Nachrichtentransport verfügt und alle Anfragen der Clients verarbeitet. Eine Kommunikation von Clients zu den Chat-Diensten direkt ist durch bestimmte Firewall-Regeln ausgeschlossen. Ein Client versendet und empfängt Nachrichten immer über die \acs{REST} \acs{API}. Aus Gründen des Qualitätsanspruchs werden Kafka und die ejabberd-Instanz trotzdem so konfiguriert, dass sie auch ohne der Anwendungslogik vollständig über das Internet benutzbar wären.
 
 Wie die Anwendungslogik detailliert arbeitet, ist in der Detailansicht innerhalb von \autoref{img:logischeTopologieIMS} gezeigt (siehe blaue Rahmen). Zwischen den Clients und der Flask Applikation befindet sich NGINX als Reverse Proxy. Nach \cite{reverseProxyDesc} ist ein Reverse Proxy eine zusätzliche Schutzmaßnahme, die vor einen oder mehreren Webservern geschaltet werden kann. Im Gegensatz zu einem Proxy wird die Adressumsetzung in der entgegengesetzten Richtung durchgeführt.
-Die Aufgabe des Reverse Proxys ist es, Anfragen von Clients stellvertretend anzunehmen und an den entsprechenden Server weiterzuleiten \cite{reverseProxyDesc}. Auf das \ac{IMS} bezogen, leitet NGINX Anfragen von Clients an die Flask \acs{REST} \acs{API} weiter. Die Flask Applikation benutzt eine MySQL Datenbank für die Benutzerauthentifizierung. Sie überprüft bei einer Anmeldung, ob der Benutzer berechtigt ist, das \ac{IMS} zu verwenden oder legt auf Anfrage einen neuen Benutzer in der Datenbank an. Zusätzlich versendet sie je nach gewählter Chat-Plattform des Benutzers, Nachrichten über \ac{XMPP} an ejabberd oder über Byte-Streams an Kafka Streams. Umgekehrt stellt sie dem Client die Nachrichten über eine Schnittstelle zu. Um Nachrichtenverläufe einem Client zu übermitteln, der das \ac{IMS} über ejabberd nutzen möchte, benötigt die \acs{REST} \acs{API} Zugang zur MySQL-Datenbank des ejabberd-Servers. Ejabberd benötigt eine eigene Datenbank, in der er Benutzer und Nachrichtenverläufe verwaltet. Er könnte auch alleine als \ac{IMS} mit Clients interagieren. Für die Integration von ejabberd in das selbst entwickelte \ac{IMS} können die beiden Datenbanken nicht zusammengeführt werden, weil für die Tabelle, in der Benutzerdaten gespeichert werden, keine Beschreibung in der ejabberd-Dokumentation vorhanden ist. Es sind keine Informationen über den verwendeten Hash-Algorithmus und wie der Salt erzeugt wird, enthalten. Der Aufwand der Synchronisation der beiden Datenbanken ist geringer, als den Code der open source Plattform ejabberd zu verstehen und die Algorithmen zu identifizieren. Die Konfiguration von ejabberd so zu verändern, dass die Passwörter in Klartext gespeichert werden, wird nicht den Zielen und dem Anspruch an diese Studienarbeit gerecht. Aus diesem Grund muss die \acs{REST} \acs{API} einen neuen Benutzer in beiden Datenbanken anlegen und die Benutzertabellen synchronisieren.
+Die Aufgabe des Reverse Proxys ist es, Anfragen von Clients stellvertretend anzunehmen und an den entsprechenden Server weiterzuleiten \cite{reverseProxyDesc}. Auf das \ac{IMS} bezogen, leitet NGINX Anfragen von Clients an die Flask \acs{REST} \acs{API} weiter. Die Flask Applikation benutzt eine MySQL Datenbank für die Benutzerauthentifizierung. Sie überprüft bei einer Anmeldung, ob der Benutzer berechtigt ist, das \ac{IMS} zu verwenden oder legt auf Anfrage einen neuen Benutzer in der Datenbank an. Zusätzlich versendet sie je nach gewählter Chat-Plattform des Benutzers, Nachrichten über \ac{XMPP} an ejabberd oder über Byte-Streams an Apache Kafka. Umgekehrt stellt sie dem Client die Nachrichten über eine Schnittstelle zu. Um Nachrichtenverläufe einem Client zu übermitteln, der das \ac{IMS} über ejabberd nutzen möchte, benötigt die \acs{REST} \acs{API} Zugang zur MySQL-Datenbank des ejabberd-Servers. Ejabberd benötigt eine eigene Datenbank, in der er Benutzer und Nachrichtenverläufe verwaltet. Er könnte auch alleine als \ac{IMS} mit Clients interagieren. Für die Integration von ejabberd in das selbst entwickelte \ac{IMS} können die beiden Datenbanken nicht zusammengeführt werden, weil für die Tabelle, in der Benutzerdaten gespeichert werden, keine Beschreibung in der ejabberd-Dokumentation vorhanden ist. Es sind keine Informationen über den verwendeten Hash-Algorithmus und wie der Salt erzeugt wird, enthalten. Der Aufwand der Synchronisation der beiden Datenbanken ist geringer, als den Code der open source Plattform ejabberd zu verstehen und die Algorithmen zu identifizieren. Die Konfiguration von ejabberd so zu verändern, dass die Passwörter in Klartext gespeichert werden, wird nicht den Zielen und dem Anspruch an diese Studienarbeit gerecht. Aus diesem Grund muss die \acs{REST} \acs{API} einen neuen Benutzer in beiden Datenbanken anlegen und die Benutzertabellen synchronisieren.
 
 Abbildung \autoref{img:ArchitekturIMS} im Anhang zeigt die Netzwerktopologie des \ac{IMS}. Der ejabberd-Server ist in \autoref{img:ArchitekturIMS} als \texttt{ejabberd01} gekennzeichnet und der Apache Kafka Dienst als \texttt{apkafka01}. Die Instanz \texttt{ims-webapp01} realisiert NGINX, die Flask Applikation und die MySQL-Datenbank für Benutzerdaten. Auffällig ist, dass alle drei Instanzen eine öffentliche IP-Adresse im Internet haben. Der Internetzugang ist über eine Firewall gesichert und dient der Erreichbarkeit der Geräte für Debugging oder administrative Zwecke. Beispielsweise um über das \ac{SSH} Protokoll Software-Installationen durchzuführen oder Konfigurationen zu verwalten.
 
 Diese Architektur ist unempfindlich gegenüber Erweiterungen. Würden in der Zukunft weitere Plattformen hinzukommen, müssen nur neue \acs{API}-Endpunkte hinzugefügt werden und die neuen Funktionen im Code umgesetzt werden. Bestehender Code und Endpunkte müssen nicht verändert werden. Zudem kann eine Komponente einfach ausgetauscht werden, falls diese beschädigt wird. Solange die Konfiguration die Gleiche bleibt, muss die Anwendungslogik nicht angepasst werden.
 
-Nachdem die Architektur nach den Aspekten eines verteilten Systems entworfen ist, wird in den nächsten Kapiteln die Umsetzung der Architektur beschrieben. In den folgenden Abschnitten werden zuerst die Installation und Konfiguration von ejabberd und von Apache Kafka Streams beschrieben. Danach wird die Umsetzung der Anwendungslogik in Python Flask erläutert und anschließend detailliert auf die Implementierung des Frontends eingegangen. Dabei werden wichtige Herausforderungen und deren Lösungsmöglichkeit diskutiert.
+Nachdem die Architektur nach den Aspekten eines verteilten Systems entworfen ist, wird in den nächsten Kapiteln die Umsetzung der Architektur beschrieben. In den folgenden Abschnitten werden zuerst die Installation und Konfiguration von ejabberd und von Apache Kafka beschrieben. Danach wird die Umsetzung der Anwendungslogik in Python Flask erläutert und anschließend detailliert auf die Implementierung des Frontends eingegangen. Dabei werden wichtige Herausforderungen und deren Lösungsmöglichkeiten diskutiert.
 
 \pagebreak
 
@@ -1494,8 +1496,375 @@ Ein Client kann die Version des Betriebssystems, auf dem ejabberd installiert is
 
 Nun ist ejabberd für den Gebrauch in der Projektarbeit konfiguriert. Der Server kann nun von jedem beliebigen \ac{XMPP}-Client genutzt werden.
 
-\pagebreak 
+\pagebreak
 
+\section{Apache Kafka für moderne Echtzeitübertragung}
+\label{sec:KafkaDescription}
+
+Warum es sinnvoll ist für die Umsetzung eines \acs{IMS}, Messaging-Systeme wie Apache Kafka einzusetzen, ist in \autoref{sec:VerprbungIMS} ausführlich erörtert. Dieses Kapitel beschreibt die Funktionsweise von Apache Kafka. 
+
+Apache Kafka ist eine verteilte Event-Streaming-Plattform \cite{kafkaConfluent}. Konkret bezeichnet Nannoni in seiner Dissertation \cite{nannoniDissKafka} Kafka als eine Message Broker\footnote{Message Broker: Einrichtung zur Vermittlung von Nachrichten zwischen einem Sender und einem oder mehreren Empfängern, siehe \autoref{sec:VerprbungIMS}.} Middleware\footnote{Software, die die Anwendungsschicht unabhängig vom Betriebssystem von den darunterliegenden Schichten entkoppelt.}. Sie wurde ursprünglich von LinkedIn entwickelt, wurde 2011 zum Apache Incubator\footnote{Projekt der \ac{ASF} um sicherzustellen, dass die geförderte Software frei von rechtlichen Konflikten und kompatibel mit den Leitprinzipien der Open-Source-Stiftung ist.\cite{asfIncubator}} und wird seit 2012 von der Apache Software Foundation entwickelt und gepflegt\cite{kafkaConfluent}. \autoref{img:kafkaMainArchitecture} zeigt die globale Architektur von Apache Kafka.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\textwidth]{images/kafkaMainArchitecture}
+	\caption{Globale Architektur von Apache Kafka mit einem Topic, einer Partition und Replikationsfaktor 4 \cite{nannoniDissKafka}}
+	\label{img:kafkaMainArchitecture}
+\end{figure}
+
+Die Architektur von Apache Kafka besteht aus Topics, Producers, Consumers, und Brokers. Alle Nachrichten befinden sich in Partitionen, die wiederum in den Brokern liegen.
+Um eine Nachricht zu lesen oder zu schicken, muss immer das jeweilige Topic einer Partition angegeben werden.
+Apache Kafka speichert die Partitionen (inklusive Nachrichten) auf den Brokern in einem eigenen, binären Dateiformat. Die Plattform kann aus einem einzigen Kafka Broker oder, wie \autoref{img:kafkaMainArchitecture} zeigt, aus mehreren Kafka Brokern bestehen. Es muss aber immer ein Primary Broker vorhanden sein, der die Nachrichten speichert und je nach Konfiguration auf weiteren Brokern repliziert, um die Ausfallsicherheit und Verfügbarkeit zu erhöhen. In der \autoref{img:kafkaMainArchitecture} sind vier Kafka Broker abgebildet, weshalb der Replikationsfaktor (englisch Replication factor) gleich 4 ist. Entsprechend der offiziellen Dokumentation bietet diese Persistence-By-Design Architektur die maximale Sicherheitsstufe gegen Software-Abstürze ohne, dass das System an Leistung verliert. Diese Skalierbarkeit ist in Kafka so tief verankert, dass ein nicht-repliziertes Kafka-System aus technischer Sicht lediglich ein Kafka-System mit dem Replikationsfaktor 1 ist. Ein Kafka Broker funktioniert nicht ohne eine externe Apache Zookeeper Instanz. Zookeeper ist für die Koordination zwischen Producer, Apache Kafka und Consumer zuständig. Zusätzlich bietet dieser das verteilte Konfigurieren und Synchronisieren, sowie ein Namensregister für die einzelnen Broker des verteilten Systems an.\cite{nannoniDissKafka}
+
+Berle ist der Auffassung, dass das Funktionsspektrum von Kafka hinter dem eines \ac{IMS} liegt, aber Kafka durch seine Vielseitigkeit und dem hohen Datendurchsatz oft anderen vergleichbaren Systemen überlegen ist \cite{berleKafkaOverview}. Vergleichbare Systeme wie RabbitMQ oder HornetQ sind für geringe Datenmengen schneller, für große Datenmengen hat Apache Kafka aber einen höheren Datendurchsatz. Der Unterschied des Datendurchsatzes wird an Hand der \autoref{tab:performanceKafka} mit den Messergebnissen von Quadri deutlich \cite{quardriKafkaPerformance}.
+
+\begin{table}[h]
+\centering
+\caption{Vergleich des Datendurchsatzes bei Versenden und Empfangen von Nachrichten von Apache Kafka mit anderen Technologien}
+\begin{tabular}{|l|r|r|}
+\hline
+\textbf{Technologie} & \textbf{Senden (Nachrichten/s)} & \textbf{Empfangen (Nachrichten/s)} \\
+\hline
+\texttt{Apache Kafka} & 33000 & 31000 \\
+\hline
+HornetQ & 17000 & 16000 \\
+\hline
+SQS-1node & 14000 & 4000\\
+\hline
+RabbitMQ-batch100 & 3000 & 3000 \\
+\hline
+\end{tabular}
+\label{tab:performanceKafka}
+\end{table}
+
+Estrada und Ruiz definieren Apache Kafka wie folgt:
+\glqq Apache Kafka is a real-time publish-subscribe solution messaging system: open source, distributed, partitioned, replicated, commit-log based with a publish-subscribe schema.\grqq\footnote{\cite[S.166]{estradaRuiz2016}}
+
+Die Definition lässt sich wie folgt interpretieren und die Arbeitsweise daraus ableiten:
+Apache Kafka ist ein verteiltes persistentes Log, das als ereignisorientiertes (englisch Publish/Subscribe) Messaging System genutzt werden kann. In diesem verteilten Log werden Nachrichten als Key-Value-Paar gespeichert. Nach Tanenbaum \cite{andrew2008verteilte} ist die grundlegende Idee von ereignisorientierten Architekturen, dass Prozesse Ereignisse veröffentlichen (publish) und nur die Prozesse diese Ereignisse empfangen, die sie abonniert (subscribe) haben. Hinzu kommt, dass Kafka die Nachrichten von Ereignissen persistent speichern kann, weshalb Kafka in die Architekturen von verteilten Systemen als Hybrid eingeordnet werden kann, siehe \autoref{img:PublishSubscribeTanenbaum}.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=.8\textwidth]{images/PublishSubscribeTanenbaum}
+	\caption{Hypride Architektur eines ereignisorientierten Systems mit persistentem Datenspeicher \cite{richterArchitekturVS}}
+	\label{img:PublishSubscribeTanenbaum}
+\end{figure}
+
+Die einzelnen Systeme werden durch diesen Ansatz zeitlich entkoppelt. Modul C muss nicht aktiv sein, wenn Modul A eine Nachricht veröffentlicht. Der persistente Datenraum speichert die Nachricht, sodass Modul C diese abholen kann, wenn es wieder aktiviert wird. Diese Funktion übernehmen klassisch spezialisierte \ac{MQ} Systeme, wie beispielsweise RabbitMQ, ActiveMQ und viele weitere. Die Hauptunterschiede liegen in der horizontalen Skalierbarkeit für große Datenmengen. Beispielsweise betreibt Microsoft Oracle ein Kafka Cluster mit 1300 Brokern, der 1 Trillion Nachrichten pro Tag verarbeitet \cite{ritchieKafkaMicrosoft}. Die Kafka Plattform ist skalierbar und kann durch viele zusätzliche Kafka Broker erweitert werden. Sie verbindet heterogene Clients miteinander, in dem sie den Clients die Kommunikation untereinander ermöglicht.
+
+Konkret ist die ereignisorientierte Architektur in Apache Kafka wie folgt umgesetzt, siehe \autoref{img:kafkaPrinciple}:
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=.8\textwidth]{images/principleKafka}
+	\caption{Funktion des Publish/Subscribe Prinzips von Apache Kafka, eigene Darstellung}
+	\label{img:kafkaPrinciple}
+\end{figure}
+
+Ein Sender (englisch Producer) produziert Nachrichten in ein Topic. Dieser Vorgang entspricht einer Publish Aktion der ereignisorientierten Architektur. Empfänger (englisch Consumer) konsumieren die Nachrichten aus diesem Topic, was der Subscribe Aktion entspricht. Die Nachricht, auch Record genannt, stellt dabei das Ereignis dar und wird erst bei Bedarf aus dem Topic gelöscht. Ein Topic in Kafka ist nach Berle \cite{berleKafkaOverview} eine logische Instanz, zu der Nachrichten gesendet und ausgelesen werden können. Je nach Konfiguration besteht ein Topic aus einer endlichen Anzahl N an Partitionen. Ein Kafka Broker ist verantwortlich für mehrere Topics und deren N Partitionen. \autoref{img:kafkaTopicExample} zeigt die Architektur eines Topics.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=.55\textwidth]{images/kafkaTopicExample}
+	\caption{Architektur eines Topics \cite{nannoniDissKafka}}
+	\label{img:kafkaTopicExample}
+\end{figure}
+
+Ein Producer entscheidet selbst, in welche Partitionen er welche Datensätze schreibt \cite{berleKafkaOverview}. In einigen Anwendungsfällen kann das relevant sein, typisch wird jedoch ein Round-Robin-Verfahren gewählt, bei dem nach einer bestimmten Anzahl an Nachrichten die Partitionen abwechselnd verwendet werden \cite{berleKafkaOverview}. \autoref{img:kafkaTopicExample} zeigt, dass innerhalb eines Topics die Nachrichten ungleichmäßig auf Partitionen verteilt sein können.
+
+Eine Nachricht ist mit einem Offset gekennzeichnet \cite{berleKafkaOverview, nannoniDissKafka}. Der Offset ist innerhalb einer Partition eine eindeutige Ganzzahl. Bei jedem Eintreffen einer Nachricht wird der Offset inkrementiert. Trifft in \autoref{img:kafkaTopicExample} eine Nachricht in die Partition 1 wird ihr der Offset 4 zugeordnet, trifft sie in Partition N erhält die Nachricht den Offset 2. Durch dieses Konzept empfangen Consumer die Nachrichten in der Reihenfolge, in der sie gesendet worden sind. Die eindeutige Kennzeichnung ermöglicht es Consumern, auch vergangene Nachrichten ab einem bestimmten Offset zu konsumieren.\cite{nannoniDissKafka}
+
+Kafka speichert die Nachrichten immer auf der Festplatte. Die Nachrichten müssen irgendwann mit einer der folgenden Richtlinien (Cleanup Policies) \cite{berleKafkaOverview} gelöscht werden, weil die Festplattenauslastung ansonsten zu groß wird:
+
+\begin{description}
+\item[Retention-Time:] Die ältesten Daten werden frühestens nach einer frei definierbaren Zeit gelöscht. In der Standardeinstellung ist diese Zeit mit 7 Tagen definiert.
+\item[Retention-Size:] Die ältesten Daten werden frühestens gelöscht, sobald der Speicherbedarf der Nachrichten eine definierte Größe erreicht hat.
+\item[Log-Compaction:] Es werden nur Nachrichten aus dem Log gelöscht, deren Schlüssel mehrfach vorkommt und niemals die neueste Nachricht mit dem Schlüssel.
+\end{description}
+
+Die Standardeinstellung ist die Retention-Time.
+
+\subsubsection*{Consumer Gruppen}
+
+Aus einem Topic kann eine Nachricht solange wiederholt gelesen werden, bis die Cleanup Policy die Nachrichten löscht. Durch Consumer Gruppen kann ein Kafka Broker sich auch als Queue verhalten \cite{nannoniDissKafka}. Die Funktionsweise von Consumer Gruppen verdeutlicht \autoref{img:kafkaConsumerGroups}.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=.8\textwidth]{images/kafkaConsumerGroups}
+	\caption{Konzept der Consumer Gruppe: Beispiel mit einem Topic und einer Partition \cite{nannoniDissKafka}}
+	\label{img:kafkaConsumerGroups}
+\end{figure}
+
+Jeder Consumer kann zu einer Consumer Gruppe gehören. Eine Consumer Gruppe kann jede Nachricht eines Kafka Topics nur einmal lesen. Angenommen zwei Consumer sind dergleichen Consumer Gruppe zugeordnet. Lesen beide aus dem gleichem Topic, lesen beide niemals die gleiche Nachricht, sondern verschiedene. Konsumieren zwei Consumer Gruppen aus dem gleichen Topic, erhalten beide Consumer Gruppen eine Kopie der Nachrichten. Innerhalb der Consumer Gruppe kann eine Nachricht jedoch nur einmal gelesen werden.\cite{berleKafkaOverview, nannoniDissKafka}
+
+\textbf{Bemerkung:} Berle \cite{berleKafkaOverview} betont, dass in der Praxis häufig einer gesamten Applikation eine Consumer Gruppe zugeordnet werden. Consumer sind Threads, die aus derselben Consumer Gruppe konsumieren, um die Nachrichten schneller konsumieren zu können.
+
+\pagebreak
+
+\section{Installation von Apache Kafka}
+\label{sec:InstallationKafka}
+
+Die nachfolgende Anleitung bezieht sich auf die Installation eines Kafka-Systems. Die Installationsanleitung beschreibt alle notwendigen Schritte, um einen Server mit der \textbf{Kafka Version 2.4.0} in Betrieb zu nehmen. Die Anleitung beschreibt nicht, wie ein Cluster-System, welches einen Verbund mehrerer Kafka-Instanzen darstellt, in Betrieb genommen werden kann. Ziel ist es, eine einfache Installation aufzuzeigen und Kafka als Service auf einem Server bereitzustellen ohne, dass für die Ausführung der Kafka-Instanz ein Benutzer angemeldet sein muss. Die Informationen und Befehle sind aus der Kafka-Dokumentation \cite{kafkaDoc} zu entnehmen.
+
+\bigskip
+
+\textbf{Voraussetzungen:}
+
+\smallskip
+
+\begin{itemize}
+\item Linux Ubuntu 18.04 LTS
+\item Server
+\begin{itemize}
+\item mindestens 4GB RAM, empfohlen 8GB (Installation mit weniger RAM kann zu Problemen beim Start von Kafka führen, weil die Java Virutal Machine (JVM) eine \glqq OutOfMemory\grqq -Exception werfen kann.
+\end{itemize}
+\item OpenJDK 8 (Kafka ist in der Programmiersprache Java programmiert und benötigt deshalb eine lauffähige JVM.)
+\end{itemize}
+
+\subsubsection*{Schritt 1: Anlegen eines Benutzers}
+
+Für die Erstellung eines Benutzers muss sich auf dem Server mit einem Benutzer eingeloggt werden. Mit folgendem Kommando wird ein Benutzer mit dem Namen Kafka angelegt. Mit dem zweiten Kommando wird der Benutzer der \glqq sudo\grqq -Gruppe hinzugefügt und ist ab diesem Zeitpunkt berechtigt höher privilegierte Befehle auszuführen. Das letzte Kommando legt ein Passwort an, dass bei der Ausführung höher privilegierter Befehle abgefragt wird.
+
+\smallskip
+
+\begin{lstlisting}[language=Bash]
+$ sudo adduser kafka # Benutzer anlegen
+$ sudo adduser kafka sudo # Benutzer zur sudo-Gruppe hinzufügen
+$ sudo passwd kafka # Anlegen eines sudo-Passwords
+\end{lstlisting}
+
+Anschließend muss sich mit dem neu erstellten Benutzer eingeloggt werden (Kommando: su kafka).
+
+\subsubsection*{Schritt 2: Installation der benötigten Komponenten}
+
+
+Als nächstes muss das komprimmierte Kafka-Binary heruntergeladen werden. Hierzu kann das \textbf{curl}-Kommandozeilentool verwendet werden, um das Binary direkt aus dem Internet herunterzuladen und im Home-Verzeichnis des kafka-Benutzers gespeichert werden.
+
+\smallskip
+
+\begin{lstlisting}[language=Bash]
+$ curl "http://mirror.checkdomain.de/apache/kafka/2.4.0/kafka_2.12-2.4.0.tgz" -o ~/kafka_2.12-2.4.0.tgz
+\end{lstlisting}
+
+Falls OpenJDK 8 noch nicht installiert ist, muss folgender Befehl ausgeführt werden.
+
+\smallskip
+
+\begin{lstlisting}[language=Bash]
+$ sudo apt-get install openjdk-8-jdk
+\end{lstlisting}
+
+Erstellen Sie ein Grundverzeichnis in dem alle Kafka-Komponenten extrahiert werden können. Legen Sie mit folgendem Befehl ein Verzeichnis mit dem Namen \glqq kafka\grqq an. Extrahieren Sie die komprimierte Datei in dasselbe Verzeichnis.
+
+\smallskip
+
+\begin{lstlisting}[language=Bash]
+$ mkdir ~/kafka && cd ~/kafka
+$ tar -xvzf ~/kafka_2.12-2.4.0.tgz --strip 1
+\end{lstlisting}
+
+Kafka ist ab jetzt bereit für eine Konfiguration.
+
+\subsubsection*{Schritt 3: Konfiguration von Kafka}
+
+Kafka lässt es in der Standardkonfiguration nicht zu neue Topics, eine Kategorie oder eine Gruppe zu löschen. Um das zu ändern, muss die Konfigurationsdatei von Kafka angepasst werden. Falls der \glqq nano\grqq -Editor auf Ihrem System nicht verfügbar ist, können Sie einen Editor Ihrer Wahl verwenden, zum Beispiel \glqq vi\grqq.
+
+\smallskip
+
+\begin{lstlisting}[language=Bash]
+$ nano ~/kafka/config/server.properties
+\end{lstlisting}
+
+Fügen Sie diese Einstellung in der Datei hinzu:
+
+\textbf{delete.topic.enable = true}
+
+Speichern Sie anschließend die Datei und beenden Sie den Editor.
+
+Kafka benötigt \textbf{Zookeeper}, um erfolgreich starten zu können. Zookeeper ist automatisch nach der Installation aus Schritt 2 vollständig vorhanden und befindet sich ebenfalls im erstellten \glqq kafka\grqq -Verzeichnis. Testen Sie mit folgenden Kommandos, ob Zookeeper und Kafka erfolgreich starten. Starten Sie zuerst Zookeeper, warten Sie 30 Sekunden, öffnen Sie eine zweite CLI auf dem System und starten Sie anschließend Kafka. Wird kein Fehler geworfen, waren alle Schritte bisher erfolgreich verlaufen und Kafka ist betriebsbereit.
+
+\smallskip
+
+\begin{lstlisting}[language=Bash]
+$ ~/kafka/bin/zookeeper-server-start.sh ~/kafka/config/zookeep.properties # Start: zookeeper
+$ ~/kafka/bin/kafka-server-start.sh ~/kafka/config/server.properties # Start: kafka
+\end{lstlisting}
+
+Zeigt der Kommandozeilen-Output nur Nachrichten der Kategorie \glqq INFO\grqq und keine Fehlermeldungen, sind beide Dienste erfolgreich gestartet. Ansonsten überprüfen Sie Ihre Schritte erneut und korrigieren Sie die Fehler.
+
+Für den Start von Kafka ist im aktuellen Zustand eine Anmeldung des Benutzers erforderlich, der Zookeeper und Kafka als Benutzerprozess startet. Um Kafka als Server-Dienst bereitzustellen folgen Sie dem nächsten Kapitel der Anleitung. Möchten Sie lediglich die Grundfunktionalitäten ausprobieren und benötigen keine globale Verfügbarkeit, kann Schritt 4 der Anleitung entfallen.
+
+\subsubsection*{Schritt 4: Bereitstellung von Kafka als Server-Dienst}
+
+Teilschritte für die Bereitstellung als Server-Dienst:
+
+\begin{itemize}
+\item Systemd-Datei für Zookeeper erstellen
+\item Systemd-Datei für Kafka erstellen
+\item Zookeeper-Dienst starten
+\item Kafka-Dienst starten
+\end{itemize}
+
+\bigskip
+
+\textbf{Systemd-Datei für Zookeeper erstellen:}
+
+\bigskip
+
+\begin{lstlisting}[language=Bash]
+$ sudo nano /etc/systemd/system/zookeeper.service
+\end{lstlisting}
+
+Folgender Inhalt muss in die Datei kopiert werden:
+
+\smallskip
+
+\begin{lstlisting}[language=Bash]
+[Unit]
+Requires=network.target remote-fs.target
+After=network.target remote-fs.target
+
+[Service]
+Type=simple
+User=kafka
+ExecStart=/home/kafka/kafka/bin/zookeeper-server-start.sh /home/kafka/kafka/config/zookeeper.properties
+ExecStop=/home/kafka/kafka/bin/zookeeper-server-stop.sh
+Restart=on-abnormal
+
+[Install]
+WantedBy=multi-user.target
+\end{lstlisting}
+
+Speichern Sie die Datei und gehen Sie zum nächsten Schritt.
+
+\textbf{Systemd-Datei für Kafka erstellen:}
+
+\bigskip
+
+\begin{lstlisting}[language=Bash]
+$ sudo nano /etc/systemd/system/kafka.service
+\end{lstlisting}
+
+Folgender Inhalt muss in die Datei kopiert werden:
+
+\smallskip
+
+\begin{lstlisting}[language=Bash]
+[Unit]
+Requires=zookeeper.service
+After=zookeeper.service
+
+[Service]
+Type=simple
+User=kafka
+ExecStart=/bin/sh -c '/home/kafka/kafka/bin/kafka-server-start.sh /home/kafka/kafka/config/server.properties > /home/kafka/kafka/kafka.log 2>&1'
+ExecStop=/home/kafka/kafka/bin/kafka-server-stop.sh
+Restart=on-abnormal
+
+[Install]
+WantedBy=multi-user.target
+\end{lstlisting}
+
+Speichern Sie die Datei und gehen Sie zum nächsten Schritt.
+
+\textbf{Zookeeper-Dienst starten:}
+
+\bigskip
+
+\begin{lstlisting}[language=Bash]
+$ sudo systemctl start zookeeper # Starten des Zookeeper-Dienstes
+\end{lstlisting}
+
+Überprüfen Sie den Status des Diensts mit folgendem Kommando. Der Status sollte \glqq active\grqq sein.
+
+\smallskip
+
+\begin{lstlisting}[language=Bash]
+$ sudo systemctl status zookeeper
+\end{lstlisting}
+
+Der Output zeigt, dass Zookeeper erfolgreich gestartet wurde:
+
+\begin{figure}[h]
+	\centering
+	\includegraphics{images/StatusZookeeper}
+	\caption{Status des Zookeeper-Dienstes nach dem Start}
+	\label{img:StatusZookeeper}
+\end{figure}
+
+Für ein automatisches Starten des Dienstes nach einem Reboot führen Sie folgendes Kommando aus:
+
+\smallskip
+
+\begin{lstlisting}[language=Bash]
+$ sudo systemctl enable zookeeper
+\end{lstlisting}
+
+Ab jetzt wird Zookeeper automatisch nach einem Neustart beim Hochfahren aller Systeme mit gestartet.
+
+\textbf{Kafka-Dienst starten:}
+
+\bigskip
+
+Führen Sie die gleichen Befehle für den Start des Kafka-Dienstes durch. Achten Sie darauf, dass Sie in allen Befehlen \glqq zookeeper\grqq durch \glqq kafka\grqq als Dienstbezeichnung ersetzen.
+
+\smallskip
+
+Überprüfen Sie mit dem \glqq status\grqq -Befehl, ob der Dienst richtig gestartet wurde. Der Output sollte so aussehen:
+
+\begin{figure}[h]
+	\centering
+	\includegraphics{images/StatusKafka}
+	\caption{Status des Kafka-Dienstes nach dem Start}
+	\label{img:StatusZookeeper}
+\end{figure}
+
+Nun sind Zookeeper und Kafka als Linux-Server-Dienst verfügbar ohne, dass ein Benutzer hierfür dauerhaft angemeldet sein muss.
+
+\subsubsection*{Schritt 5: Testen der Installation}
+
+Um sicherzustellen, dass Kafka als Dienst korrekt läuft, wird eine \glqq HelloWorld\grqq -Nachricht produziert und konsumiert. Um eine Nachricht mittels Kafka zu versenden sind zwei Bestandteile nötig:
+
+\begin{itemize}
+\item Producer, welcher ein Topic registriert und Nachrichten produziert
+\item Consumer, welcher Nachrichten aus dem Topic lesen kann
+\end{itemize}
+
+Hierfür werden die bei der Installation mitgelieferten Skripte im \glqq kafka\grqq -Verzeichnis benutzt.
+
+Zuerst muss ein Topic erstellt werden. Das Topic heißt für Testzwecke \glqq Test\grqq.  Führen Sie folgenden Befehl aus:
+
+\smallskip
+
+\begin{lstlisting}[language=Bash]
+$ ~/kafka/bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic Test
+\end{lstlisting}
+
+Der Befehl benötigt den Zookeeper-Dienst mit dessen Portnummer (Standard-Port: 2181) als Argument, weil Zookeeper für die Verwaltung der Kafka-Instanzen benötigt wird. Ist das Topic erfolgreich erstellt worden, ist der Output auf der Kommandozeile \glqq Created topic Test.\grqq
+
+Um einen Producer zu starten, der als Nachricht \glqq HelloWorld\grqq produziert und dem Kafka-Dienst übergibt, führen Sie folgenden Befehl aus:
+
+\smallskip
+
+\begin{lstlisting}[language=Bash]
+$ echo "Hello, World" | ~/kafka/bin/kafka-console-producer.sh --broker-list localhost:9092 --topic Test > /dev/null
+\end{lstlisting}
+
+Der Befehl produziert eine Nachricht für das Topic \glqq Test\grqq und übergibt die Nachricht an Kafka.
+
+Der Consumer benötigt als Argument den Zookeeper Hostname und den Port (Standardport: 2181) und das Topic aus dem Nachrichten konsumiert werden sollen.
+
+\smallskip
+
+\begin{lstlisting}[language=Bash]
+$ ~/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic Test --from-beginning
+\end{lstlisting}
+
+Nach der Ausführung des Consumer-Skripts, sollte die Nachricht \glqq HelloWorld\grqq auf dem Bildschirm erfolgen. Ist das nicht der Fall, überprüfen Sie Ihre durchgeführten Schritte. Das Skript blockiert den Benutzerprozess, weil der Consumer weiterhin auf eintreffende Nachrichten wartet. Um das Skript abzubrechen verwenden Sie STR+C als Shortcut auf der Tastatur.
+
+Kafka steht nun als Server-Dienst zur Verfügung und die Installation wurde durch einen Test erfolgreich validiert. Kafka kann für seine Einsatzbereiche ab jetzt vollständig verwendet werden.
+
+\pagebreak
 
 \section{Umsetzung der Entwicklung einer \acs{REST} \acs{API}}
 \label{subsec:Backend}
@@ -1508,7 +1877,7 @@ Ausgangspunkt dieses Abschnitts ist das Ergebnis der in \autoref{sec:Architektur
 \item Datenbankzugriffe
 \item Authentifizierung der Benutzer
 \item Schützen der Ressourcen vor nicht autorisiertem Zugriff
-\item Bereitstellen von Chat-Funktionen über \ac{XMPP} und über Kafka Streams
+\item Bereitstellen von Chat-Funktionen über \ac{XMPP} und über Apache Kafka
 \item Koordinierung des Nachrichtentransports von Clients zu benötigten Diensten des \ac{IMS}
 \item Implementierung der Chat-Funktionen, die in der Weboberfläche vom Benutzer aufgerufen werden können.
 \item Auslieferung von \ac{HTML}-, \ac{CSS}- und JavaScript-Dokumenten an den Browser des Clients
@@ -1960,275 +2329,6 @@ Daher muss zum Abschluss der Funktion das Dictionary-Objekt mithilfe der \texttt
 %addpart, sodass Anhang im Inhaltsverzeichnis ohne Buchstaben auftaucht
 \appendix
 \addpart{Anhang}
-
-\chapter{Installation eines Apache Kafka Systems}
-\label{InstallationKafka}
-
-Die nachfolgende Anleitung bezieht sich auf die Installation eines Kafka-Systems. Die Installationsanleitung beschreibt alle notwendigen Schritte, um einen Server mit der \textbf{Kafka Version 2.4.0} in Betrieb zu nehmen. Die Anleitung beschreibt nicht, wie ein Cluster-System, welches einen Verbund mehrerer Kafka-Instanzen darstellt, in Betrieb genommen werden kann. Ziel ist es, eine einfache Installation aufzuzeigen und Kafka als Service auf einem Server bereitzustellen ohne, dass für die Ausführung der Kafka-Instanz ein Benutzer angemeldet sein muss. Die Informationen und Befehle sind aus der Kafka-Dokumentation \cite{kafkaDoc} zu entnehmen.
-
-\bigskip
-
-\textbf{Voraussetzungen:}
-
-\smallskip
-
-\begin{itemize}
-\item Linux Ubuntu 18.04 LTS
-\item Server
-\begin{itemize}
-\item mindestens 4GB RAM, empfohlen 8GB (Installation mit weniger RAM kann zu Problemen beim Start von Kafka führen, weil die Java Virutal Machine (JVM) eine \glqq OutOfMemory\grqq -Exception werfen kann.
-\end{itemize}
-\item OpenJDK 8 (Kafka ist in der Programmiersprache Java programmiert und benötigt deshalb eine lauffähige JVM.)
-\end{itemize}
-
-\section{Schritt 1: Anlegen eines Benutzers}
-
-Für die Erstellung eines Benutzers muss sich auf dem Server mit einem Benutzer eingeloggt werden. Mit folgendem Kommando wird ein Benutzer mit dem Namen Kafka angelegt. Mit dem zweiten Kommando wird der Benutzer der \glqq sudo\grqq -Gruppe hinzugefügt und ist ab diesem Zeitpunkt berechtigt höher privilegierte Befehle auszuführen. Das letzte Kommando legt ein Passwort an, dass bei der Ausführung höher privilegierter Befehle abgefragt wird.
-
-\smallskip
-
-\begin{lstlisting}[language=Bash]
-$ sudo adduser kafka # Benutzer anlegen
-$ sudo adduser kafka sudo # Benutzer zur sudo-Gruppe hinzufügen
-$ sudo passwd kafka # Anlegen eines sudo-Passwords
-\end{lstlisting}
-
-Anschließend muss sich mit dem neu erstellten Benutzer eingeloggt werden (Kommando: su kafka).
-
-\section{Schritt 2: Installation der benötigten Komponenten}
-
-
-Als nächstes muss das komprimmierte Kafka-Binary heruntergeladen werden. Hierzu kann das \textbf{curl}-Kommandozeilentool verwendet werden, um das Binary direkt aus dem Internet herunterzuladen und im Home-Verzeichnis des kafka-Benutzers gespeichert werden.
-
-\smallskip
-
-\begin{lstlisting}[language=Bash]
-$ curl "http://mirror.checkdomain.de/apache/kafka/2.4.0/kafka_2.12-2.4.0.tgz" -o ~/kafka_2.12-2.4.0.tgz
-\end{lstlisting}
-
-Falls OpenJDK 8 noch nicht installiert ist, muss folgender Befehl ausgeführt werden.
-
-\smallskip
-
-\begin{lstlisting}[language=Bash]
-$ sudo apt-get install openjdk-8-jdk
-\end{lstlisting}
-
-Erstellen Sie ein Grundverzeichnis in dem alle Kafka-Komponenten extrahiert werden können. Legen Sie mit folgendem Befehl ein Verzeichnis mit dem Namen \glqq kafka\grqq an. Extrahieren Sie die komprimierte Datei in dasselbe Verzeichnis.
-
-\smallskip
-
-\begin{lstlisting}[language=Bash]
-$ mkdir ~/kafka && cd ~/kafka
-$ tar -xvzf ~/kafka_2.12-2.4.0.tgz --strip 1
-\end{lstlisting}
-
-Kafka ist ab jetzt bereit für eine Konfiguration.
-
-\section{Schritt 3: Konfiguration von Kafka}
-
-Kafka lässt es in der Standardkonfiguration nicht zu neue Topics, eine Kategorie oder eine Gruppe zu löschen. Um das zu ändern, muss die Konfigurationsdatei von Kafka angepasst werden. Falls der \glqq nano\grqq -Editor auf Ihrem System nicht verfügbar ist, können Sie einen Editor Ihrer Wahl verwenden, zum Beispiel \glqq vi\grqq.
-
-\smallskip
-
-\begin{lstlisting}[language=Bash]
-$ nano ~/kafka/config/server.properties
-\end{lstlisting}
-
-Fügen Sie diese Einstellung in der Datei hinzu:
-
-\textbf{delete.topic.enable = true}
-
-Speichern Sie anschließend die Datei und beenden Sie den Editor.
-
-Kafka benötigt \textbf{Zookeeper}, um erfolgreich starten zu können. Zookeeper ist automatisch nach der Installation aus Schritt 2 vollständig vorhanden und befindet sich ebenfalls im erstellten \glqq kafka\grqq -Verzeichnis. Testen Sie mit folgenden Kommandos, ob Zookeeper und Kafka erfolgreich starten. Starten Sie zuerst Zookeeper, warten Sie 30 Sekunden, öffnen Sie eine zweite CLI auf dem System und starten Sie anschließend Kafka. Wird kein Fehler geworfen, waren alle Schritte bisher erfolgreich verlaufen und Kafka ist betriebsbereit.
-
-\smallskip
-
-\begin{lstlisting}[language=Bash]
-$ ~/kafka/bin/zookeeper-server-start.sh ~/kafka/config/zookeep.properties # Start: zookeeper
-$ ~/kafka/bin/kafka-server-start.sh ~/kafka/config/server.properties # Start: kafka
-\end{lstlisting}
-
-Zeigt der Kommandozeilen-Output nur Nachrichten der Kategorie \glqq INFO\grqq und keine Fehlermeldungen, sind beide Dienste erfolgreich gestartet. Ansonsten überprüfen Sie Ihre Schritte erneut und korrigieren Sie die Fehler.
-
-Für den Start von Kafka ist im aktuellen Zustand eine Anmeldung des Benutzers erforderlich, der Zookeeper und Kafka als Benutzerprozess startet. Um Kafka als Server-Dienst bereitzustellen folgen Sie dem nächsten Kapitel der Anleitung. Möchten Sie lediglich die Grundfunktionalitäten ausprobieren und benötigen keine globale Verfügbarkeit, kann Schritt 4 der Anleitung entfallen.
-
-\section{Schritt 4: Bereitstellung von Kafka als Server-Dienst}
-
-Teilschritte für die Bereitstellung als Server-Dienst:
-
-\begin{itemize}
-\item Systemd-Datei für Zookeeper erstellen
-\item Systemd-Datei für Kafka erstellen
-\item Zookeeper-Dienst starten
-\item Kafka-Dienst starten
-\end{itemize}
-
-\bigskip
-
-\textbf{Systemd-Datei für Zookeeper erstellen:}
-
-\bigskip
-
-\begin{lstlisting}[language=Bash]
-$ sudo nano /etc/systemd/system/zookeeper.service
-\end{lstlisting}
-
-Folgender Inhalt muss in die Datei kopiert werden:
-
-\smallskip
-
-\begin{lstlisting}[language=Bash]
-[Unit]
-Requires=network.target remote-fs.target
-After=network.target remote-fs.target
-
-[Service]
-Type=simple
-User=kafka
-ExecStart=/home/kafka/kafka/bin/zookeeper-server-start.sh /home/kafka/kafka/config/zookeeper.properties
-ExecStop=/home/kafka/kafka/bin/zookeeper-server-stop.sh
-Restart=on-abnormal
-
-[Install]
-WantedBy=multi-user.target
-\end{lstlisting}
-
-Speichern Sie die Datei und gehen Sie zum nächsten Schritt.
-
-\pagebreak
-
-\textbf{Systemd-Datei für Kafka erstellen:}
-
-\bigskip
-
-\begin{lstlisting}[language=Bash]
-$ sudo nano /etc/systemd/system/kafka.service
-\end{lstlisting}
-
-Folgender Inhalt muss in die Datei kopiert werden:
-
-\smallskip
-
-\begin{lstlisting}[language=Bash]
-[Unit]
-Requires=zookeeper.service
-After=zookeeper.service
-
-[Service]
-Type=simple
-User=kafka
-ExecStart=/bin/sh -c '/home/kafka/kafka/bin/kafka-server-start.sh /home/kafka/kafka/config/server.properties > /home/kafka/kafka/kafka.log 2>&1'
-ExecStop=/home/kafka/kafka/bin/kafka-server-stop.sh
-Restart=on-abnormal
-
-[Install]
-WantedBy=multi-user.target
-\end{lstlisting}
-
-Speichern Sie die Datei und gehen Sie zum nächsten Schritt.
-
-\textbf{Zookeeper-Dienst starten:}
-
-\bigskip
-
-\begin{lstlisting}[language=Bash]
-$ sudo systemctl start zookeeper # Starten des Zookeeper-Dienstes
-\end{lstlisting}
-
-Überprüfen Sie den Status des Diensts mit folgendem Kommando. Der Status sollte \glqq active\grqq sein.
-
-\smallskip
-
-\begin{lstlisting}[language=Bash]
-$ sudo systemctl status zookeeper
-\end{lstlisting}
-
-Der Output zeigt, dass Zookeeper erfolgreich gestartet wurde:
-
-\begin{figure}[h]
-	\centering
-	\includegraphics{images/StatusZookeeper}
-	\caption{Status des Zookeeper-Dienstes nach dem Start}
-	\label{img:StatusZookeeper}
-\end{figure}
-
-Für ein automatisches Starten des Dienstes nach einem Reboot führen Sie folgendes Kommando aus:
-
-\smallskip
-
-\begin{lstlisting}[language=Bash]
-$ sudo systemctl enable zookeeper
-\end{lstlisting}
-
-Ab jetzt wird Zookeeper automatisch nach einem Neustart beim Hochfahren aller Systeme mit gestartet.
-
-\pagebreak
-
-\textbf{Kafka-Dienst starten:}
-
-\bigskip
-
-Führen Sie die gleichen Befehle für den Start des Kafka-Dienstes durch. Achten Sie darauf, dass Sie in allen Befehlen \glqq zookeeper\grqq durch \glqq kafka\grqq als Dienstbezeichnung ersetzen.
-
-\smallskip
-
-Überprüfen Sie mit dem \glqq status\grqq -Befehl, ob der Dienst richtig gestartet wurde. Der Output sollte so aussehen:
-
-\begin{figure}[h]
-	\centering
-	\includegraphics{images/StatusKafka}
-	\caption{Status des Kafka-Dienstes nach dem Start}
-	\label{img:StatusZookeeper}
-\end{figure}
-
-Nun sind Zookeeper und Kafka als Linux-Server-Dienst verfügbar ohne, dass ein Benutzer hierfür dauerhaft angemeldet sein muss.
-
-\section{Schritt 5: Testen der Installation}
-
-Um sicherzustellen, dass Kafka als Dienst korrekt läuft, wird eine \glqq HelloWorld\grqq -Nachricht produziert und konsumiert. Um eine Nachricht mittels Kafka zu versenden sind zwei Bestandteile nötig:
-
-\begin{itemize}
-\item Producer, welcher ein Topic registriert und Nachrichten produziert
-\item Consumer, welcher Nachrichten aus dem Topic lesen kann
-\end{itemize}
-
-Hierfür werden die bei der Installation mitgelieferten Skripte im \glqq kafka\grqq -Verzeichnis benutzt.
-
-Zuerst muss ein Topic erstellt werden. Das Topic heißt für Testzwecke \glqq Test\grqq.  Führen Sie folgenden Befehl aus:
-
-\smallskip
-
-\begin{lstlisting}[language=Bash]
-$ ~/kafka/bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic Test
-\end{lstlisting}
-
-Der Befehl benötigt den Zookeeper-Dienst mit dessen Portnummer (Standard-Port: 2181) als Argument, weil Zookeeper für die Verwaltung der Kafka-Instanzen benötigt wird. Ist das Topic erfolgreich erstellt worden, ist der Output auf der Kommandozeile \glqq Created topic Test.\grqq
-
-\pagebreak
-
-Um einen Producer zu starten, der als Nachricht \glqq HelloWorld\grqq produziert und dem Kafka-Dienst übergibt, führen Sie folgenden Befehl aus:
-
-\smallskip
-
-\begin{lstlisting}[language=Bash]
-$ echo "Hello, World" | ~/kafka/bin/kafka-console-producer.sh --broker-list localhost:9092 --topic Test > /dev/null
-\end{lstlisting}
-
-Der Befehl produziert eine Nachricht für das Topic \glqq Test\grqq und übergibt die Nachricht an Kafka.
-
-Der Consumer benötigt als Argument den Zookeeper Hostname und den Port (Standardport: 2181) und das Topic aus dem Nachrichten konsumiert werden sollen.
-
-\smallskip
-
-\begin{lstlisting}[language=Bash]
-$ ~/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic Test --from-beginning
-\end{lstlisting}
-
-Nach der Ausführung des Consumer-Skripts, sollte die Nachricht \glqq HelloWorld\grqq auf dem Bildschirm erfolgen. Ist das nicht der Fall, überprüfen Sie Ihre durchgeführten Schritte. Das Skript blockiert den Benutzerprozess, weil der Consumer weiterhin auf eintreffende Nachrichten wartet. Um das Skript abzubrechen verwenden Sie STR+C als Shortcut auf der Tastatur.
-
-Kafka steht nun als Server-Dienst zur Verfügung und die Installation wurde durch einen Test erfolgreich validiert. Kafka kann für seine Einsatzbereiche ab jetzt vollständig verwendet werden.
 
 \chapter{Architektur des zu entwerfenden \ac{IMS}}
 
