@@ -1579,7 +1579,7 @@ Kafka speichert die Nachrichten immer auf der Festplatte. Die Nachrichten müsse
 \begin{description}
 \item[Retention-Time:] Die ältesten Daten werden frühestens nach einer frei definierbaren Zeit gelöscht. In der Standardeinstellung ist diese Zeit mit 7 Tagen definiert.
 \item[Retention-Size:] Die ältesten Daten werden frühestens gelöscht, sobald der Speicherbedarf der Nachrichten eine definierte Größe erreicht hat.
-\item[Log-Compaction:] Es werden nur Nachrichten aus dem Log gelöscht, deren Schlüssel mehrfach vorkommt und niemals die neueste Nachricht mit dem Schlüssel.
+\item[Log-Compaction:] Es werden nur Nachrichten aus dem Log gelöscht, deren Schlüssel mehrfach vorkommt und niemals die neueste Nachricht mit dem Schlüssel. Für mehr Informationen, siehe \cite{kafkaLogCompaction}.
 \end{description}
 
 Die Standardeinstellung ist die Retention-Time.
