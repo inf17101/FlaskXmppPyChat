@@ -23,7 +23,7 @@ class User(UserMixin, db.Model):
     register_date = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
     last_login = db.Column(db.DateTime, nullable=True)
 
-    def __init__(self, user, email, passwd, jabber_domain="@localhost"):
+    def __init__(self, user, email, passwd, topic_id, jabber_domain="@localhost"):
         """
             constructor for creating an user instance
             Return: None
@@ -31,10 +31,11 @@ class User(UserMixin, db.Model):
             all other attributes like jabber_id or register_date is created automatically,
             if the user object is created
         """
-        self.username = user
+        self.username = user.lower()
         self.email = email
         self.passwd = self.set_password(passwd)
         self.jabber_id = "{0}{1}".format(user, jabber_domain)
+        self.kafka_topic_id = topic_id
     
 
     def set_password(self, password, method="sha384"):
