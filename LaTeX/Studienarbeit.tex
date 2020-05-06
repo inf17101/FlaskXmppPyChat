@@ -61,8 +61,8 @@ literate=%
     {ö}{{\"o}}1%
     {ü}{{\"u}}1%
     {ß}{{\ss}}1,%
-frame=single,
-frameround=ffff
+frame=None,
+%frameround=ffff
 }
 
 %define Javascript language
@@ -1604,7 +1604,7 @@ Jeder Consumer kann zu einer Consumer Gruppe gehören. Eine Consumer Gruppe kann
 \section{Installation von Apache Kafka}
 \label{sec:InstallationKafka}
 
-Die nachfolgende Anleitung bezieht sich auf die Installation eines Kafka-Systems. Die Installationsanleitung beschreibt alle notwendigen Schritte, um einen Server mit der \textbf{Kafka Version 2.4.0} in Betrieb zu nehmen. Die Anleitung beschreibt nicht, wie ein Cluster-System, welches einen Verbund mehrerer Kafka-Instanzen darstellt, in Betrieb genommen werden kann. Ziel ist es, eine einfache Installation aufzuzeigen und Kafka als Service auf einem Server bereitzustellen ohne, dass für die Ausführung der Kafka-Instanz ein Benutzer angemeldet sein muss. Die Informationen und Befehle sind aus der Kafka-Dokumentation \cite{kafkaDoc} zu entnehmen.
+Die nachfolgende Anleitung bezieht sich auf die Installation eines Kafka-Systems. Die Installationsanleitung beschreibt alle notwendigen Schritte, um einen Server mit der \textbf{Kafka Version 2.4.0} in Betrieb zu nehmen. Die Anleitung beschreibt nicht, wie ein Cluster-System, welches einen Verbund mehrerer Kafka Broker darstellt, in Betrieb genommen werden kann. Ziel ist es, eine einfache Installation aufzuzeigen und Kafka als Service auf einem Server bereitzustellen ohne, dass für die Ausführung der Kafka-Instanz ein Benutzer angemeldet sein muss. Die Informationen und Befehle sind aus der Kafka-Dokumentation \cite{kafkaDoc} zu entnehmen.
 
 \bigskip
 
@@ -1886,7 +1886,7 @@ Ausgangspunkt dieses Abschnitts ist das Ergebnis der in \autoref{sec:Architektur
 
 %TODO Flask einfuehren und wie Datenbankzugriffe mit SQLAlchemy funktionieren erklaeren
 
-\subsubsection*{Konfiguration der Flask Applikation}
+\subsubsection*{Verbergen von Konfigurationsparametern der Flask Applikation}
 
 Laut einer Statistik der Universität Maryland \cite{securityStatisticWebSites} werden Computer mit Internetzugriff alle 39 Sekunden von Hackern angegriffen. Die Statistik bestätigt, dass aufgrund dem hohen Risiko eines Angriffs, keine Leichtsinnigkeit bei der Implementierung vorhanden sein darf. Schon durch kleine Schwachstellen ist es Angreifern möglich, sensible Zugangsdaten abzugreifen und die Kontrolle über Systeme zu übernehmen. Aus diesem Grund sollten Zugangsdaten nicht direkt in Klartext im Programm-Code stehen. Die benötigten Zugangsdaten für ejabberd, Apache Kafka und den beiden MySQL-Datenbanken werden deshalb in einer separaten Datei im Datenaustauschformat \acs{JSON} abgespeichert. Die Flask Applikation soll beim Start alle Parameter auslesen und dynamisch verwenden. Auf diese Weise bleiben sensible Zugangsdaten geschützt, weil der Zugriff auf die separate Datei über das Betriebssystem auf wenige Benutzer beschränkt wird.
 
@@ -1900,6 +1900,29 @@ Laut einer Statistik der Universität Maryland \cite{securityStatisticWebSites} 
 	\caption{Auszug aus der Konfigurationsdatei mit beispielhaften Zugangsdaten}
 	\label{img:configJSON-Datei}
 \end{figure}
+
+Die Zugangsdaten sind in der Datei im Datenformat \ac{JSON} gespeichert, welches auf dem Name-Value-Prinzip basiert. Ein name (deutsch Name) bildet eindeutig auf einen value (deutsch Wert) ab. Maschinen verarbeiten das Datenformat schnell und einfach und für den Menschen ist es einfach lesbar. \ac{JSON} ist unabhängig von einer Programmiersprache.\cite{jsonIntroduction}
+
+\autoref{lst:readConfigFile} zeigt einen Ausschnitt aus dem Code der Flask Applikation und wie die Konfigurationsparameter eingelesen werden können.
+
+\bigskip
+
+\begin{lstlisting}[language=python, caption={Auslesen der Konfigurationsparameter aus einer Datei}, label={lst:readConfigFile}]
+with open("/home/xmppweb/config.json") as config_file:
+    config = json.load(config_file)
+
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = config.get('SQLALCHEMY_DATABASE_URI')
+app.config['SQLALCHEMY_BINDS'] = {
+    "ejabberd_database": config.get('SQL_EJABBERD_DATABASE_URI')
+}
+\end{lstlisting}
+
+Mit dem Python Modul \texttt{json} und dessen Methode \texttt{load} können die Daten aus der Datei \texttt{config.json} importiert werden \cite{pythonJSONapi}. Die \texttt{load} Methode akzeptiert ein File-Objekt (hier \texttt{config\_file} genannt), der für das Einlesen einer Datei benötigt wird. Detaillierte Informationen über File-Objekte in Python 3 finden sich in der Dokumentation \cite{usageFileDeskr}. Gemäß der Konvertierungstabelle aus der Dokumentation \cite{pythonJSONapi} wird der Inhalt der Textdatei in das Datenformat Dictionary deserialisiert. Ein Dictionary in Python ist ein assoziatives Datenfeld und basiert ähnlich zu \ac{JSON} auf ein Key-Value-Prinzip. Über einen eindeutigen Key (deutsch Schlüssel) kann auf einem Value (deutsch Wert) zugegriffen werden. Das Dictionary aus \autoref{lst:readConfigFile} enthält die Konfigurationsparameter. Über die \texttt{get} Methode kann durch Angabe des Keys auf den Value zugegriffen werden. Für mehr Informationen über die Datenstruktur Dictionary, siehe \cite{pythonDictionaries}. So können die \acs{URI}s der beiden Datenbanken in die Konfiguration der Flask Applikation eingetragen werden.  Die Verwendung und der Zugriff auf die Konfigurationsparameter des Dictionaries wird in weiteren Listings benötigt. So kann zum Beispiel die IP-Adresse von Apache Kafka oder der ejabberd-Instanz dynamisch während der Laufzeit eingebunden werden, ohne dass diese direkt im Programm-Code sichtbar ist.
+
+\subsubsection*{SQLAlchemy Schema für die Benutzerauthentifizierung}
+
+Für die Benutzerauthentifizierung und Registrierung von Benutzern am \acs{IMS} wird nach \autoref{img:logischeTopologieIMS} eine MySQL-Datenbank verwendet. Die MySQL-Datenbank läuft direkt als Dienst auf dem Server der Flask Applikation, um die Netzwerklatenz für Datenbankzugriffe möglichst gering zu halten. In der Tabelle \texttt{user\_auth} der Datenbank befinden sich alle Daten über die Benutzer. Weil alle Funktionalitäten des \acs{IMS} über die \acs{REST} \acs{API} koordiniert werden, muss ein SQLAlchemy Schema für den Zugriff auf die Tabelle erstellt werden. \autoref{lst:classUser} im Anhang definiert ein SQLAlchemy Schema für die Tabelle \texttt{user\_auth} und in \autoref{tab:descriptionUserClass} sind alle Spalten der Tabelle beschrieben. SQLAlchemy sorgt dafür, dass ein Entwickler im Programm-Code mit einem Objekt interagieren kann anstatt Tabellen mit SQL-Statements zu verändern. Die Attribute des SQLAlchemy Schemas entsprechen dabei den Spalten einer Tabelle. Durch das Schema ist SQLAlchemy die Struktur und die Daten, die in der Tabelle gesammelt werden sollen, bekannt. Alle Datenbankzugriffe und Netzwerkzugriffe abstrahiert SQLAlchmey für den Entwickler. Die Interaktion mit der Datenbank wird einfacher und die Flexibilität erhöht. Die Klasse erbt von der Klasse UserMixin des \texttt{flask\_login} Moduls, welches ein Python Modul darstellt, dass Login und Session Management vereinfacht. 
 
 \pagebreak
 
@@ -2340,5 +2363,48 @@ Daher muss zum Abschluss der Funktion das Dictionary-Objekt mithilfe der \texttt
 	\caption{Architektur des zu entwickelnden \ac{IMS}}
 	\label{img:ArchitekturIMS}
 \end{figure}
+
+\chapter{Code Listings der Flask \acs{REST} \acs{API}}
+
+\section{SQLAlchemy Schemen}
+
+\begin{lstlisting}[language=python, caption={SQLAlchemy Schema für die Tabelle der Benutzerdaten}, label={lst:classUser}]
+from xmppchat.api import db
+from flask_login import UserMixin
+
+class User(UserMixin, db.Model):
+    __tablename__ = "user_auth"
+    user_id = db.Column(db.Integer,primary_key=True,autoincrement=True)
+    username = db.Column(db.String(25),unique=True,nullable=False)
+    email = db.Column(db.String(35),unique=True,nullable=False)
+    passwd = db.Column(db.String(112),nullable=False)
+    jabber_id = db.Column(db.String(255),unique=True)
+    kafka_topic_id = db.Column(db.String(36),unique=True)
+
+\end{lstlisting}
+
+
+\begin{table}[h]
+\centering
+\caption{Übersicht über die Spalten der Tabelle user\_auth für die Benutzerdaten}
+\begin{tabular}{|l|p{.7\textwidth}|}
+\hline
+\textbf{Attribut} & \textbf{Beschreibung} \\
+\hline
+user\_id & Primärschlüssel (englisch Primary Key) als ganzzahliger Wert, der automatisch beim Hinzufügen eines Benutzers inkrementiert wird. Dieser dient zur eindeutigen Identifizierung einer Benutzer Entität.\\
+\hline
+username & Benutzername des Benutzers für die Anmeldung am \acs{IMS}\\
+\hline
+email & E-Mail-Adresse des Benutzers für den Service, der es Benutzern ermöglicht neue Zugangsdaten anzufordern (Passwort-Reset).\\
+\hline
+passwd & Passwort des Benutzers für die Anmeldung am \acs{IMS}\\
+\hline
+jabber\_id & eindeutige JabberID für die Benutzung der ejabberd-Plattform. Ergibt sich aus der Konkatenation von Benutzername und ejabberd-Domain (\texttt{ejabberd-server}).\\
+\hline
+kafka\_topic\_id & eindeutiger Zeichensatz, der zur Registrierung eines Topics auf der Kafka Plattform dient. Jeder Benutzer bekommt ein eigenes Topic zugeordnet, damit keine anderen Benutzer seine Nachrichten empfangen können. Der Zeichensatz wird zufällig im Programm-Code erzeugt.\\
+\hline
+\end{tabular}
+\label{tab:descriptionUserClass}
+\end{table}
 
 \end{document}
