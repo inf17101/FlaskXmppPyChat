@@ -4,7 +4,7 @@ $('#register-form-button').click(function(event){
     var url = form.prop('action');
     var type = form.prop('method');
     var form_data = {
-        username: document.getElementById("username").value,
+        username: document.getElementById("username").value.toLowerCase(),
         eMail: document.getElementById("eMail").value,
         password: document.getElementById("password").value,
         confirmPassword: document.getElementById("confirmPassword").value
@@ -20,6 +20,8 @@ $('#register-form-button').click(function(event){
         document.getElementById("password").value = ""
         document.getElementById("confirmPassword").value = ""
 
+        $("#loaderContentbox").attr("style", "display:flex;");
+        $("#formularContent").attr("style", "display:none;");
         modular_ajax(url, type, form_data)
     }
 
@@ -142,10 +144,14 @@ function modular_ajax(url, type, formData) {
             }
         },
         error: function(data) {//console.log("error. see details below.");
+            $("#loaderContentbox").attr("style", "display:none!important;");
+            $("#formularContent").attr("style", "display:;");
             data = data.responseJSON
             printMessageWithCategory("Upps!", data.feedback, data.category);
         },
     }).done(function() {
+        $("#loaderContentbox").attr("style", "display:none!important;");
+        $("#formularContent").attr("style", "display:;");
         $(".content-section").html('<div class="modal" tabindex="-1" role="dialog" style="margin-top: 10%"> \
     <div class="modal-dialog" role="document"> \
       <div class="modal-content"> \
