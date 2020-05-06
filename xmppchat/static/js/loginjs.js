@@ -3,14 +3,22 @@ $('#login-form-button').click(function(event){
     var form = $('#login-form');
     var url = form.prop('action');
     var type = form.prop('method');
+    if (document.getElementById("formXmpp").checked) {
+        radio = "xmpp"
+    } else {
+        radio = "kafka"
+    }
     var form_data = {
         username: document.getElementById("username").value,
         password: document.getElementById("password").value,
-        remember: document.getElementById("formRememberCheck").checked
+        remember: document.getElementById("formRememberCheck").checked,
+        requested_platform: radio
     }
 
     if (checkformIsFilled(form_data))
     {
+        $("#loaderContentbox").attr("style", "display:flex;");
+        $("#formularContent").attr("style", "display:none;");
         modular_ajax(url, type, form_data);
     }
 });
@@ -59,13 +67,15 @@ function modular_ajax(url, type, formData) {
         complete: function () {
         },
         success: function ( data ){
-            
+           
             if ( !$.trim( data.feedback )) { // response from Flask is empty
                 printMessageWithCategory("Error appeared!", "Empty response of server.", "danger");
             }
             location.href = "/gochat"
         },
         error: function(data) {//console.log("error. see details below.");
+            $("#loaderContentbox").attr("style", "display:none!important;");
+            $("#formularContent").attr("style", "display:;");
             data = data.responseJSON
             printMessageWithCategory("Upps!", data.feedback, data.category);
         },
