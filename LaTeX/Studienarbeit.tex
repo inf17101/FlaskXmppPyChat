@@ -483,10 +483,9 @@ Eine relationale Datenbank ist definiert als eine Datenbank mit einer Ansammlung
 
 \section{Grafische Benutzeroberfläche}
 \label{sec:Benutzeroberfläche}
-Eine Grafische Benutzeroberfläche ist im Detail eine Schnittstelle zum Nutzer eines Computers. Die im Hintergrund agierende Software soll mittels Symbole und anderen Elementen bedienbar gemacht werden. Im Englischen wird die Benutzeroberfläche als \ac{GUI} bezeichnet, welches im weitere Verlauf ebenfalls als Bezeichnung verwendet wird. Allgemein besitzt eine \ac{GUI} Bedien- und Steuerelement die mit der im Hintergrund laufenden Software interagiert. Der Einsatz einer \ac{GUI} liegt an der Usability, welches die Benutzerfreundlichkeit beschreibt. Eine \ac{GUI} soll demnach dem User die Möglichkeit geben, die Software auch ohne großen Aufwand bedienen zu können. Eine Eigenschaft die heutzutage nahezu jedes Programm beinhalten muss. %TODO Quelle aendern
-\url{https://de.wikipedia.org/wiki/Grafische_Benutzeroberfl%C3%A4che}
-	
-Im Rahmen der GUI-Programmierung müssen mehrere Aspekte berücksichtigt werden um die Usability zu erfüllen. Dafür werden die Aspekte in 8 goldene Regeln zusammengefasst, die bei der Entwicklung einer GUI berücksichtigt werden sollten.
+Eine Grafische Benutzeroberfläche ist im Detail eine Schnittstelle zwischen einem Computer und einem Nutzer. Die im Hintergrund agierende Software soll mittels Symbole und anderen Elementen bedienbar gemacht werden. Im Englischen wird die Benutzeroberfläche als \ac{GUI} bezeichnet, welches im weitere Verlauf ebenfalls als Bezeichnung verwendet wird. Allgemein besitzt eine \ac{GUI} Bedien- und Steuerelement die mit der im Hintergrund laufenden Software interagiert. Der Einsatz einer \ac{GUI} liegt an der Usability, welches die Benutzerfreundlichkeit beschreibt. Eine \ac{GUI} soll demnach dem User die Möglichkeit geben, die Software auch ohne großen Aufwand bedienen zu können. Eine Eigenschaft die heutzutage nahezu jedes Programm beinhalten muss. \cite{thesmann2016interface}
+
+Im Rahmen der GUI-Programmierung müssen mehrere Aspekte berücksichtigt werden um die Usability zu erfüllen. Dafür werden die Aspekte in 8 goldene Regeln zusammengefasst.
 \begin{enumerate}
 	\item Strebe nach Konsistenz
 	\item Sorge für universelle Bedienbarkeit
@@ -497,156 +496,34 @@ Im Rahmen der GUI-Programmierung müssen mehrere Aspekte berücksichtigt werden 
 	\item Vermittle ein Gefühl der Kontrolle
 	\item Entlaste das Kurzzeitgedächtnis
 \end{enumerate}
-Im Folgenden wird kurz auf die 8 Regeln eingegangen, damit eine Verbindung zur Umsetzung der \ac{GUI} in \autoref{subsec:EntwicklungGUI} entsteht.
+Im Folgenden wird kurz auf die 8 Regeln eingegangen.
 
 Der erste Punkt, \textbf{Strebe nach Konsistenz}, befasst sich bspw. mit dem Erscheinungsbild einer Seite. Die Seite sollte dem Aspekt zur Folge die Elemente, wie einen Button, immer an der gleichen Stelle positionieren.
 
-Der nächste Punkt, \textbf{Sorge für universelle Bedienbarkeit}, beinhaltet Anforderungen an die Vielfalt an Nutzer. Somit sollte jeder Nutzer die Bedienung, Kürzel usw. ohne Einschränkungen verstehen können.
+Der nächste Punkt, \textbf{Sorge für universelle Bedienbarkeit}, beinhaltet Anforderungen an Bedienelementen. Somit sollte jeder Nutzer die Bedienung, Kürzel usw. ohne Einschränkungen verstehen können.
 
-Ein Nutzer verlangt nach ausreichendem Feedback, die vor allem informativ und in vielen Fällen auch hilfreich sind. Ein Fakt der im dritten Punkt, \textbf{Biete informative Rückmeldung}, behandelt wird
+Ein Nutzer verlangt nach ausreichendem Feedback, die vor allem informativ und in vielen Fällen auch hilfreich sind. Ein Fakt der im dritten Punkt, \textbf{Biete informative Rückmeldung}, behandelt wird.
 
-Der vierte Punkt, \textbf{Entwerfe abgeschlossene Dialoge}, umfasst die Führung eines Nutzers, bspw. durch eine Verkaufsprozess. Zu jedem Zeitpunkt soll der Nutzer wissen, in welchem Prozess er sich befindet.
+Der vierte Gesichtspunkt, \textbf{Entwerfe abgeschlossene Dialoge}, umfasst die Führung eines Nutzers, bspw. durch eine Verkaufsprozess. Zu jedem Zeitpunkt soll der Nutzer wissen, in welchem Prozess er sich befindet.
 
-Um die Bedürfnisse der Nutzer gerecht zu werden muss wie in Punkt fünf, \textbf{Biete einfache Fehlerbehandlung}, definiert, die Fehler mit nützlichen Informationen für den Nutzer ausgestattet werden. Außerdem muss ein Ausweg in den normalen Programmablauf gewährleistet sein.
+Um die Bedürfnisse der Nutzer gerecht zu werden, muss wie in Punkt fünf, \textbf{Biete einfache Fehlerbehandlung}, definiert, die Fehler mit nützlichen Informationen für den Nutzer ausgestattet werden. Außerdem muss ein Ausweg in den normalen Programmablauf gewährleistet sein.
 
 Ein Nutzer soll mit Punkt sechs, \textbf{Lass die Einfache Umkehrung von Aktionen zu}, die Möglichkeit haben kleine Ereignisse rückgängig zu machen.
 
-Der siebte Punkt, \textbf{Vermittle ein Gefühl der Kontrolle}, beinhaltet die Aktion und Reaktion. Demnach soll die Software auf eine Aktion des Nutzers reagieren und nicht andersrum. 
+Der siebte Gesichtspunkt, \textbf{Vermittle ein Gefühl der Kontrolle}, beinhaltet die Aktion und Reaktion. Demnach soll die Software auf eine Aktion des Nutzers reagieren und nicht andersrum. 
 
-Der letzte Punkt, \textbf{Entlaste das Kurzzeitgedächtnis}, soll gewährleisten, dass die GUI schlicht und einfach gehalten werden soll. Ein Nutzer sollte sich keine große Anzahl an Informationen merken müssen um einen Aktion auszuführen.
+Der letzte Punkt, \textbf{Entlaste das Kurzzeitgedächtnis}, soll gewährleisten, dass die \ac{GUI} schlicht und einfach gehalten wird. Ein Nutzer sollte sich keine große Anzahl an Informationen merken müssen um einen Aktion auszuführen.
 \cite{UI8Regeln2019}
 
-Aufgrund der 8 goldenen Regeln, kann im Umsetzungsprozess auf diese zurückgegriffen werden um eine benutzerfreundliche Oberfläche zu erstellen. Im folgenden Abschnitt wird auf die \ac{GUI}-Programmierung mit Python eingegangen.
+Mit Betrachtung dieser 8 goldenen Regeln kann die grafische Benutzeroberfläche bei der Ausführung erfolgreich umgesetzt werden.
 
-
-\subsection{GUI-Programmierung mit Python}
-\label{subsec:GuiPython}
-Mit Python als Programmiersprache kommen mehrere Module, welche für die Grafische Benutzeroberfläche benutzt werden können, einher. Dementsprechend wird in diesem Abschnitt ein Einblick in die Möglichkeiten, passend zur Aufgaben- und Problemstellung, gegeben werden. Abhängig von den Erkenntnissen folgt eine Entscheidungsmatrix um das passende Modul für das Projekt auszuwählen.
-
-Die \ac{GUI}-Programmierung bei Python unterscheidet sich im Konzept nicht allzu sehr von anderen Programmiersprachen. Neben Schaltflächen stehen auch Fenster oder Menüs als Komponenten zur Verfügung. Angeordnet können diese in sogenannten Container. Für eine geeignete Anwenderschnittstelle müssen die Komponenten in die Container integriert werden. Hinzukommt ein äußerer Container, auch als Frame bezeichnet, ein Layout-Manager und eine Implementierung damit Aktionen durch Komponenten ausgelöst werden können. Wie im \autoref{sec:Benutzeroberfläche} erläutert, verfolgt eine \ac{GUI} mehreren Regeln. Demnach gibt es für die Programmierung einer grafischen Benutzeroberfläche vielerlei Möglichkeiten. In Python werden \ac{GUI} Frameworks angeboten, die eine Programmierung erleichtern sollen. Diese Frameworks können sich in der Art und der Verwendung unterscheiden. Aufgrund davon muss erst die Art des Frameworks ermittelt werden. Dafür wird eine Entscheidungsmatrix erstellt, basierend auf Faktoren, die passend zum Projekt Auswirkungen haben.\cite{Steyer2018} \\
-Die nachfolgende \autoref{tab:EntscheidungsmatrixFrameworkart} spiegelt die Ergebnisse eines Vergleichs zwischen den Tool-Frameworks und den Web-Frameworks von Python wieder. Die Kriterien orientieren sich am Projekt und werden nachfolgend erläutert. Die \textbf{Nutzerfreundlichkeit} umfasst wie verständlich ein GUI mithilfe des Tools aufgebaut werden kann. Außerdem beinhaltet das Kriterium auch die Möglichkeiten des Tools auf die Nutzerfreundlichkeit einzugehen. Die \textbf{Schwierigkeit} orientiert sich an der Implementierung. Dabei geht darum wie leicht, schnell und komfortabel die Frameart integriert werden kann. Unabhängig von der Schwierigkeit geht es bei der \textbf{Umsetzbarkeit} um die Mittel, welche für eine Umsetzung benötigt werden, sowie auch um den Aufwand bei der Umsetzung. Die \textbf{Kompatibilität} umfasst die Unabhängigkeit von Betriebssystemen, Browsern usw. Standard für eine grafische Oberfläche bildet auch das \textbf{Design}. Demnach geht es um die Möglichkeiten eines guten Erscheinungsbilds der Oberfläche mit dem entsprechenden Framework. Das letzte Kriterium, \textbf{Verwendungszweck}, bildet die Verbindung zum Projekt. Dabei wird analysiert wie die Frameworkart zum Zweck des Projektes passt. Die Gewichtung der Kriterien innerhalb der \autoref{tab:EntscheidungsmatrixFrameworkart} sind der TABELLE des ANHANGS zu entnehmen. %TODO Tabelle in den Anhang packen
-\renewcommand{\arraystretch}{2}
-\begin{table}[h]
-\centering
-	\begin{tabular}{l|c|c|c}
-		& & \multicolumn{2}{c}{Arten einer Python-GUI} \\
-		Kriterien & Gewichtung & Tool-Framework & Web-Framework \\
-		\hline
-		Nutzerfreundlichkeit & 33\% & 2 & 2 \\
-		\hline
-		Schwierigkeit & 7\% & 2 & 1,7  \\
-		\hline
-		Umsetzbarkeit & 13\% & 2 & 2,2\\
-		\hline
-		Kompatibilität & 13\% & 2,2 & 1,7 \\
-		\hline
-		Design & 7\% & 2 &  2\\
-		\hline 
-		Verwendungszweck & 27\% & 2,5 & 1,5 \\
-		\hline
-		\textbf{Gesamtwertungszahl} & \textbf{100\%} & \textbf{2,161} & \textbf{1,831} \\
-	\end{tabular}
-\caption{Entscheidungsmatrix der Frameworkart} %TODO Tabellen caption über die Tabelle positionieren
-\label{tab:EntscheidungsmatrixFrameworkart}
-\end{table} \\
-Die \autoref{tab:EntscheidungsmatrixFrameworkart} bildet eine Hilfestellung zur Entscheidung einer passenden Frameworkart für das Projekt. Die Bewertung der Tools entsprechend der Kriterien folgt dem Benotungsschema der akademischen Bildung. Demnach ist eine 1 sehr gut und eine 6 ungenügend. Im Kriterium Nutzerfreundlichkeit schließen beide Frameworks mit der gleichen Note ab, da die Nutzerfreundlichkeit abhängig vom Designstil ist und bei beiden Frameworks umgesetzt werden kann. Die Schwierigkeit, wie das Kriterium in der Einführung definiert wurde, bekommt beim Web-Framework eine bessere Bewertung. Grund hierfür ist, dass für das Web-Framework überwiegend keine aufwändigen Module in Python benötigt werden. Die Gestaltung erfolgt nämlich über HTML und CSS, welche dann mit einem schlichten Modul verknüpft bzw. aufgerufen werden können. Aufgrund von Vorkenntnissen sowohl in HTML als auch in CSS wird die Schwierigkeit für das Web-Framework besser bewertet. Bei der Umsetzbarkeit steht das Tool-Framework aufgrund der Verwendung eines gesamten Moduls besser da. Ein Web-Framework bringt HTML, CSS und das Modul mit was ein größeren Umfang bedeutet. Vor allem muss der Programmierer mit allen Elementen umgehen können, weshalb eine Umsetzung schwieriger sein könnte. In der Kompatibilität wird das Web-Framework aufgrund der Unabhängigkeit bezüglich des Betriebssystem besser bewertet. Außerdem kann eine ausgelieferte HTML-Seite von nahezu allen Browsern gelesen werden, und eine Möglichkeit die Lösung auf mobilen Endgeräten zu benutzen ist ebenfalls enthalten. Im Design unterscheiden sich die Frameworkarten nicht. Beide bieten vielerlei Möglichkeiten im Bezug auf die Gestaltung. Aufgrund des Projektes einen Chat über \ac{XMPP} und ejabberd zu realisieren wird schon hauptsächlich das Internet genutzt. Dadurch bietet es sich den Server eine HTML-Seite ausliefern zulassen. Aus diesem Grund wird das Web-Framework im Rahmen dieses Kriteriums besser bewertet. Anhand der Gesamtwertungszahl entsprechend der Benotung und der Gewichtung sind beide Frameworks zu empfehlen, dennoch schließt das Web-Framework besser ab, weshalb im weiteren Verlauf ein Web-Framework zum Einsatz kommen soll. \cite{FrameworkOverview} \cite{WebFramework}\\
-Mit diesem Ergebnis müssen die verschiedenen Möglichkeiten eine Web-Framework in Bezug auf Python analysiert und bewertet werden. Auch in diesem Fall liefert eine Entscheidungsmatrix ein aufschlussreiches Ergebnis. Die Definition der selben Bewertungskriterien sind der Einführung der \autoref{tab:EntscheidungsmatrixFrameworkart} zu entnehmen. Kriterien wie Umfang und Komplexität werden in die Betrachtung miteinbezogen. Der \textbf{Umfang} spiegelt die Möglichkeiten und Größe im Aufbau des Tools wieder. Die \textbf{Komplexität} befasst sich im Grunde mit dem Aufwand einer Implementierung sowie auch die Hilfestellungen durch geeignete Dokumentationen. Das Bewertungsschema orientiert sich ebenfalls an der \autoref{tab:EntscheidungsmatrixFrameworkart}.\\
-\begin{table}[h]
-	\centering
-	\begin{tabular}{l|c|c|c|c|c}
-		Kriterien & Gewichtung & Django & Flask & CherryPy & Bottle\\
-		\hline
-		Umfang & 17\% & 1,5 & 2 & 2 & 2,5 \\
-		\hline
-		Schwierigkeit & 17\% & 2,5 & 1,7 & 2,2 & 2 \\
-		\hline
-		Komplexität & 33\% & 2,2 & 1,7 & 2 & 1,7 \\
-		\hline
-		Verwendungszweck & 33\% & 2 & 2 & 2 & 2,2 \\
-		\hline
-		\textbf{Gesamtwertungszahl} & \textbf{100\%} & \textbf{2,067} & \textbf{1,850} & \textbf{2,033}  & \textbf{2,050} \\
-	\end{tabular}
-	\caption{Entscheidungsmatrix eines Web-Frameworks}
-	\label{tab:EntscheidungsmatrixWebFramework}
-\end{table}Die Gesamtwertungszahl, welches der \autoref{tab:EntscheidungsmatrixWebFramework} entnommen werden kann, liefert ein knappes Ergebnis. Demnach bietet sich Flask am besten als Framwork einer grafischen Oberfläche an. Im Umfang setzt sich das Tool Django gegen die Konkurrenten durch, da es aufgrund seiner Größe vielerlei Möglichkeiten mitbringt. Während die anderen Tools überwiegend als Mikroframework bezeichnet werden zeichnet sich Django als Full-Stack/high-level Framework aus. Ebenfalls ein Grund weshalb die Schwierigkeit bei Django mit einer 2,5 bewertet wurde. Ein Mikroframework bildet in der Hinsicht die leichtere und schnellere Variante. Die Komplexität wurde vor allem bei Flask und Bottle gut bewertet. Grund hierfür ist unter anderem eine geringere Komplexität durch Möglichkeiten einer schlichten Implementierung. Außerdem bietet bspw. Flask eine sehr gute Dokumentation, welche die Komplexität verringern. Der Verwendungszweck ist nahezu gleichbleibend, da alle Frameworks genutzt werden können um das Projekt umzusetzen. Ausschließlich bei Bottle ist überwiegend die Rede von einem Framework das vor allem zur Einführung in das Themengebiet der Programmierung grafischer Oberflächen mit eine Web-Framework benutzt wird. Anhand des Ergebnisses und der sehr guten Dokumentation wird Flask als Web-Framework zum Einsatz kommen.\cite{BottleDoc} \cite{CherryPyDoc} \cite{DjangoDoc} \cite{FlaskDoc}
-
-\subsection{Flask}
-\label{subsec:Flask}
-Wie unter \autoref{subsec:GuiPython} beschrieben, wird im Rahmen der Studienarbeit Flask verwendet. Es ist ein Python Web-Framework welches eine Schnittstelle zum Webserver bildet. Bekannt ist Flask durch die Eigenschaft schnell und leicht eine minimale Anwendung zu implementieren und diese bei Bedarf in der Größe zu skalieren. Für die Verwendung von Flask sind zwei Bibliotheken wichtig. Bei diesen handelt es sich zum einen über die \ac{WSGI}-Bibliothek Werkzeug und der Template-Bibliothek Jinja2. Module die standardmäßig von Flask verwendet werden. Flask bildet im Grunde das Bindeglied zwischen den Modulen und erlaubt es bspw. mithilfe des \textbf{Routings} an bestimmten Endpunkten eine \ac{HTML}-Datei zu rendern. Ein Möglichkeit dafür zeigt das folgende \autoref{lst:FlaskMinApp}.
-\begin{lstlisting}[language=Python,caption=Example Listing of Flask Python,label={lst:FlaskMinApp}]
-from flask import Flask
-app = Flask(__name__)
-
-@app.route('/')
-def homepage():
-	 return render_template('homepage.html')
-\end{lstlisting}
-Das \autoref{lst:FlaskMinApp} spiegelt das Routen sowie das Rendern einer \ac{HTML}-Datei von Python wieder. Aufgrund des Paketverwaltungsprogramm pip kann Flask komfortable installiert werden. Dementsprechend wird Flask in der ersten Zeile importiert, dann einer Anwendung zugeordnet und eine Route definiert. Nun besitzt Flask vielerlei Möglichkeiten, so kann bspw. je nach Anfrage (POST, GET, usw.) differenziert werden. In dem Zusammenhang kommt eine weiterer möglicher Vorteil von Flask zum Einsatz. Dieser beinhaltet die Möglichkeit einen Webserver, den Flask zur Verfügung stellt, im Entwicklungsmodus zu starten und aktuelle Code-Zeilen zu testen.
-Flask ist also nicht zuständig für die Gestaltung der grafischen Oberfläche sondern benutzt sogenannte \textbf{Templates} in Form von HTML-Datei, die eine Webseite aufbauen. Für eine dynamische Webanwendung und den gestalterischen Aspekten sind statische Dateien, wie z.B. \ac{CSS}, notwendig. Aus diesem Grund benötigt Flask eine vorgegebene Ordnerstruktur, welche der nachfolgenden \autoref{img:TreeFlaskOrdnerstrukt} entnommen werden kann.
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=\textwidth]{images/TreeFlaskOrdnerstrukt}
-	\caption{Ordnerstruktur unter Flask, eigene Darstellung}
-	\label{img:TreeFlaskOrdnerstrukt}
-\end{figure}
-Für die grafische Benutzeroberfläche würden diese Elemente ausreichen um eine simple Webseite aufzubauen, mit den \ac{HTML}- und \ac{CSS}-Dateien zu verknüpfen, über das Routen die Seite zu rendern und letztendlich, über den von Flask gestellten Webserver, zu testen. Dennoch bietet Flask mehr Möglichkeiten auch im Zusammenhang des Projektes. Zum Beispiel kann in Flask mit redirects, sessions, cookies, Datenbanken und vieles mehr gearbeitet werden. Dabei verfolgt Flask das Ziel dem Anwender nichts vorzuschreiben, dadurch ist er unabhängiger und kann auf vielerlei Erweiterungen zugreifen. Bei der Anbindung einer \textbf{Datenbank} gibt es so die Möglichkeit bspw. eine MySQL, PostgreSQL, SQLite oder andere Datenbanken zu verwenden. In diesem Zusammenhang bietet Flask das Modul Flask-SQLAlchemy, welches der Flask-Anwendung das SQLAlchemy Paket hinzufügt. Ziel ist es die Verwendung von SQLAlchemy mit Flask zu vereinfachen. Das Paket gilt als \ac{ORM}, und bietet die Möglichkeit high-level Operationen in Datenbank-Kommandos zu übersetzen. Im Rahmen der Studienarbeit wird ebenfalls die Erweiterung Flask-SQLAlchemy angewendet. Demnach kann eine Implementierung, einer minimalen Anwendung mit Datenbank, wie im folgenden \autoref{lst:SQLAlchemyMinApp} dargestellt, aussehen.
-\begin{lstlisting}[language=Python,caption=Example Listing of Flask-SQLAlchemy,label={lst:SQLAlchemyMinApp}]
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-
-app = Flask(__name__)
-app.config['SECRET_KEY'] = os.urandom(24) #secret key of app
-app.config['SQLALCHEMY_DATABASE_URI'] = config.get('SQLALCHEMY_DATABASE_URI')
-
-db = SQLAlchemy(app)
-
-class User(db.Model):
-	user_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-	username = db.Column(db.String(25), unique=True, nullable=False)
-	email = db.Column(db.String(35), unique=True, nullable=False)
-	passwd = db.Column(db.String(112), nullable=False)
-	
-	def __init__(self, user, email, passwd):
-		self.username = user
-		self.email = email
-		self.passwd = self.set_password(passwd)
-	
-	def get_id(self):
-		return (self.user_id)
-
-@app.route('/login')
-def login():
-	user = User(req_content["username"], req_content["eMail"], req_content["password"])
-	db.session.add(user)
-	db.session.commit()
-	return render_template('homepage.html')
-\end{lstlisting}
-Neben dieser Erweiterung bietet Flask auch ein Modul im Rahmen eines Login, welcher ebenso für das Projekt relevant ist, an. Dafür kann der Login Manager aus Flask-Login verwendet werden. Dieser beinhaltet nützliche Funktionen auf die innerhalb der Anwendung zugegriffen werden kann. Für den Login-Manager werden sessions benötigt, welche ebenfalls importiert werden müssen. Das liegt an der Authentifizierung, weshalb ein sicherer Schlüssel, wie er im \autoref{lst:LoginManagerMinApp} dargestellt ist, erzeugt werden muss.
-\begin{lstlisting}[language=Python,caption=Example Listing of Flask-Login,label={lst:LoginManagerMinApp}]
-from flask import Flask
-from flask_login import LoginManager, login_required, login_user, logout_user, current_user
-
-app = Flask(__name__)
-
-login_mgmt = LoginManager(app)
-login_mgmt.login_view = 'login' # name of callback method if unauthorized user accessed a login protected site
-
-@app.route("/login", methods=['GET', 'POST'])
-def login():
-	if current_user.is_authenticated:
-		return redirect(url_for('gochat'))
-	login_user(user)
-	return render_template('login.html')
-\end{lstlisting}
-Diese beispielhafte Listings wichtiger Module zeigen die Möglichkeiten des Web-Frameworks. Mitunter der Grund für die Verwendung von Flask. Außerdem sind nur wenige Module dargestellt. Weitere Erweiterungen, die im Rahmen des Projektes eingesetzt werden folgen bei der Umsetzung. Diese dargestellt bilden lediglich die theoretische Grundlagen um das Funktionsprinzip von Flask zu erläutern.
-\pagebreak
 
 \section{HTML, CSS und JavaScript als Werkzeuge der Webentwicklung}
 \label{sec:HTMLCSSJS}
-Wie unter \autoref{subsec:Flask} erläutert, benötigt Flask für die grafische Oberfläche weitere Elemente, die das Erscheinungsbild aufbauen, gestalten und mit Dynamik verknüpfen. Dafür werden die Werkezeuge des Webdesign benötigt. Diese umfassen \ac{HTML}, \ac{CSS} und JavaScript.
+Für ein grafische Benutzeroberfläche im Web werden Elemente benötigt, die das Erscheinungsbild aufbauen, gestalten und mit Dynamik verknüpfen. Dafür werden die Werkezeuge des Webdesign benötigt. Diese umfassen \ac{HTML}, \ac{CSS} und \ac{JS}.
 
 \textbf{\ac{HTML}}\\
-Das Internet mit seinen Funktionen Text-, Bild, Sound und weiteres abzubilden oder zu übertragen basiert auf einem gemeinsamen Standard. Dieser ist unter dem Namen Hypertext Markup Language \ac{HTML} bekannt, welcher zu deutsch unter einer Auszeichnungssprache zu verstehen ist. Konkret bezieht sich HTML auf Hypertexte die per Definition die Verlinkung zwischen Texte mithilfe von Hyperlinks bezeichnen. \ac{HTML} als Markup Language entstand schon 1989 und diente zur Beschreibung und Verlinkung von Text. Mit \ac{HTML}5, welches ergänzend zur ersten Variante auch Audio- oder Videodateien an die Webseite binden kann, befindet sich die aktuellste Version im Umlauf. Während eine Weboberfläche unabhängig vom Betriebssystem ist, spielt die Verwendung von Browsern, die ihre eigenen HTML-Parser besitzen, eine bedeutsame Rolle. Aus diesem Grund können vom Webserver ausgelieferte \ac{HTML}-Dateien bei einer geringen Anzahl an Browsern Probleme bereiten. Innerhalb eines \ac{HTML}-Dokuments ist vor allem das Grundgerüst und der Aufbau relevant. Demnach werden die Elemente einer Webseite mit Sprachelementen, sogenannten Tags, beschrieben. Der Aufbau eines Grundgerüst ist in der \autoref{img:GrundgeruestHTML} dargestellt.
+Das Internet mit seinen Funktionen Text-, Bild, Sound und weiteres abzubilden oder zu übertragen basiert auf einem gemeinsamen Standard. Dieser ist unter dem Namen Hypertext Markup Language \ac{HTML} bekannt, welcher zu deutsch unter einer Auszeichnungssprache zu verstehen ist. Konkret bezieht sich \ac{HTML} auf Hypertexte die per Definition die Verlinkung zwischen Texte mithilfe von Hyperlinks bezeichnen. \ac{HTML} als Markup Language entstand schon 1989 und diente zur Beschreibung und Verlinkung von Text. Mit \ac{HTML}5, welches ergänzend zur ersten Variante auch Audio- oder Videodateien an die Webseite binden kann, befindet sich die aktuellste Version im Umlauf. Während eine Weboberfläche unabhängig vom Betriebssystem ist, spielt die Verwendung von Browsern, die ihre eigenen HTML-Parser besitzen, eine bedeutsame Rolle. Aus diesem Grund können vom Webserver ausgelieferte \ac{HTML}-Dateien bei einer geringen Anzahl an Browsern Probleme bereiten. Innerhalb eines \ac{HTML}-Dokuments ist vor allem das Grundgerüst und der Aufbau relevant. Demnach werden die Elemente einer Webseite mit Sprachelementen, sogenannten Tags, beschrieben. Der Aufbau eines Grundgerüst ist in der \autoref{img:GrundgeruestHTML} dargestellt.
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=1.3]{images/HTML_Grundgeruest}
@@ -660,24 +537,24 @@ Das Internet mit seinen Funktionen Text-, Bild, Sound und weiteres abzubilden od
 	\caption{Attribut eine \ac{HTML}-Tags, \cite{buhler2017html5}}
 	\label{img:HTMLattribute}
 \end{figure}
-\\Eine \ac{HTML}-Datei entsteht also vor allem durch Tags. Während nun das Dateiformat als reine Textdatei vorliegt, entstehen Fragen über die gestalterischen Aspekte wie z.B. Farben, Grafiken, Videos oder ähnliches. Hauptsächlich werden diese Aspekte innerhalb einer \ac{CSS}-Datei behandelt, dennoch gibt es dafür auch Punkte, die in einer \ac{HTML}-Datei zu beachten sind. Um beispielsweise Grafiken oder Videos, die sich innerhalb eines anderen Unterordners befinden, zu integrieren, muss auf diese referenziert werden. Hierfür bietet \ac{HTML} die absolute und relative Referenz. Eine absolute Referenz, wie z.B. \textit{C:/Dokumente/Mustermann/ Eigene Dateien/Webseiten/button.gif}, wird aufgrund der Abhängigkeit zum User des Computers nicht verwendet. Für die relative Referenz ist wiederum eine einheitliche Ordnerstruktur wichtig, da der Pfad von dem Speicherort der \ac{HTML}-Datei angegeben wird. Diese Struktur kann, wie in der folgenden Abbildung dargestellt, aussehen.
+\\Eine \ac{HTML}-Datei entsteht also vor allem durch Tags. Während nun das Dateiformat als reine Textdatei vorliegt, entstehen Fragen über die gestalterischen Aspekte wie z.B. Farben, Grafiken, Videos oder ähnliches. Hauptsächlich werden diese Aspekte innerhalb einer \ac{CSS}-Datei behandelt, dennoch gibt es dafür auch Punkte, die in einer \ac{HTML}-Datei zu beachten sind. Um beispielsweise Grafiken oder Videos, die sich innerhalb eines anderen Unterordners befinden, zu integrieren, muss auf diese referenziert werden. Hierfür bietet \ac{HTML} die absolute und relative Referenz. Eine absolute Referenz, wie z.B. \textit{C:/Dokumente/Mustermann/Eigene Dateien/Webseiten/button.gif}, wird aufgrund der Abhängigkeit zum User des Computers nicht verwendet. Für die relative Referenz ist wiederum eine einheitliche Ordnerstruktur wichtig, da der Pfad von dem Speicherort der \ac{HTML}-Datei angegeben wird. Diese Struktur kann, wie in der folgenden Abbildung dargestellt, aussehen.
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.8]{images/TreeHTMLStruktur}
 	\caption{Ordnerstruktur bei der Webentwicklung, eigene Darstellung} 
 	\label{img:TreeHTMLStruktur}
 \end{figure}
-\\Demnach würde die \ac{HTML}-Datei in dem Ordner \textit{templates} liegen und die Bilder im Ordner \textit{static/img}, welcher über die relative Referenz unabhängig vom Betriebssystem und ähnliches erreicht werden kann. Je nach Dateityp orientieren sich auch die Tags innerhalb des \ac{HTML}-Dokumentes danach. Für eine Grafik gibt es daher den <img>-Tag, der die Referenz zum Bild enthält. Mit der Webentwicklung wird das Ziel verfolgt Inhalt und Gestaltung strikt voneinander zu trennen. Daher werden \ac{CSS}-Dateien, die sich mit dem Design befassen, benötigt.
+\\Demnach würde die \ac{HTML}-Datei in dem Ordner \textit{templates} liegen und die Bilder im Ordner \textit{static/img}, welcher über die relative Referenz unabhängig vom Betriebssystem und ähnliches erreicht werden kann. Je nach Dateityp orientieren sich auch die Tags innerhalb des \ac{HTML}-Dokumentes danach. Für eine Grafik gibt es daher den \texttt{img}-Tag, der die Referenz zum Bild enthält. Mit der Webentwicklung wird das Ziel verfolgt Inhalt und Gestaltung strikt voneinander zu trennen. Daher werden \ac{CSS}-Dateien, die sich mit dem Design befassen, benötigt.
 
 \textbf{CSS:}\\
-Die Dateien, die als \ac{CSS} deklariert werden, übernehmen die gestalterischen Aspekte, die ein \ac{HTML}-Dokument nicht erfüllen kann. Neben Designvarianten bietet \ac{CSS} auch die Möglichkeit die Webseite an das jeweilige Endgerät, unterschiedlicher Auflösung, anzupassen. Wie schon für die \ac{HTML}-Dateien gilt auch für \ac{CSS}, dass Attribute nur von bestimmten Browsern akzeptiert werden. Daher gehört zur Webentwicklung ein ausgiebiges Testen dazu. Eine \ac{CSS}-Datei sollte Regeln folgen um Probleme, die im Zusammenhang mit dem HTML-Dokument auftreten können, zu verhindern. Die Grundregel bezieht sich auf den Ort der \ac{CSS}-Definition. Diese kann zum Einen in einer externen Datei, intern in einem eigenen Tag, oder integriert in den \ac{HTML}-Tag erfolgen. Dies ist unter anderem relevant wenn mehrere \ac{CSS}-Dateien zum Einsatz kommen, da die verschieden Orte durch verschiedene Prioritäten geprägt sind. Generell wird die \ac{CSS}-Definitionen in eine eigene Datei ausgelagert um das Design und die \ac{HTML}-Datei zu trennen. Die \autoref{img:CSSrules} stellt dar wie eine \ac{CSS}-Definition aufgebaut ist.
+Die Dateien, die als \ac{CSS} deklariert werden, übernehmen die gestalterischen Aspekte, die ein \ac{HTML}-Dokument nicht erfüllen kann. Neben Designvarianten bietet \ac{CSS} auch die Möglichkeit die Webseite an das jeweilige Endgerät, unterschiedlicher Auflösung, anzupassen. Wie schon für die \ac{HTML}-Dateien gilt auch für \ac{CSS}, dass Attribute nur von bestimmten Browsern akzeptiert werden. Daher gehört zur Webentwicklung ein ausgiebiges Testen dazu. Eine \ac{CSS}-Datei sollte Regeln folgen um Probleme, die im Zusammenhang mit dem HTML-Dokument auftreten können, zu verhindern. Die Grundregel bezieht sich auf den Ort der \ac{CSS}-Definition. Diese kann zum Einen in einer externen Datei, intern in einem eigenen Tag, oder integriert in den \ac{HTML}-Tag erfolgen. Dies ist unter anderem relevant wenn mehrere \ac{CSS}-Dateien zum Einsatz kommen, da die verschieden Orte durch verschiedene Prioritäten geprägt sind. Generell wird die \ac{CSS}-Definitionen in eine eigene Datei ausgelagert um das Design und die \ac{HTML}-Datei zu trennen. Die \autoref{img:CSSrules} stellt dar, wie eine \ac{CSS}-Definition aufgebaut ist.
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=2.5]{images/CSS_Definition}
 	\caption{Aufbau einer \ac{CSS}-Regel, \cite{buhler2017html5}}
 	\label{img:CSSrules}
 \end{figure}	
-\\Der Aufbau besteht grundlegend aus einem Selektor, dem seine Eigenschaften bearbeitet werden sollen. Damit die Auswirkungen erkennbar werden muss die \ac{CSS}-Datei mit dem HTML-Dokument verknüpft werden. Dies erfolgt innerhalb des Head-Tags in der \ac{HTML}-Datei mithilfe des link-Tags \textit{<link rel=\dq sytlesheet\dq \;type=\dq text/css\dq \;href=\dq design.css\dq>}. Der Selektor befindet sich immer vor einer geschweiften Klammer und kann unterschiedlich verwendet werden. Aufgrund der Verbindung zur HTML-Datei hängt der Selektor vom \ac{HTML}-Tag ab. Wird bspw. ein Button in dem \ac{HTML}-Tag als Klasse definiert so erfolgt der Zugriff über den Punkt. Wird jedoch der Button mit einer ID ausgestattet, so muss mit dem Hashtag darauf zugegriffen werden. Die nachfolgende Abbildung zeigt diese Varianten.
+\\Der Aufbau besteht grundlegend aus einem Selektor, dem seine Eigenschaften bearbeitet werden sollen. Damit die Auswirkungen erkennbar werden, muss die \ac{CSS}-Datei mit dem HTML-Dokument verknüpft werden. Dies erfolgt innerhalb des Head-Tags in der \ac{HTML}-Datei mithilfe des \texttt{link}-Tags \texttt{<link rel=\dq sytlesheet\dq \;type=\dq text/css\dq \;href=\dq design.css\dq>}. Der Selektor befindet sich immer vor einer geschweiften Klammer und kann unterschiedlich verwendet werden. Aufgrund der Verbindung zur HTML-Datei hängt der Selektor vom \ac{HTML}-Tag ab. Wird bspw. ein Button in dem \ac{HTML}-Tag als Klasse definiert so erfolgt der Zugriff über den Punkt. Wird jedoch der Button mit einer ID ausgestattet, so muss mit dem Hashtag darauf zugegriffen werden. Die nachfolgende Abbildung zeigt diese Varianten.
 \begin{figure}[h]
 	\begin{minipage}[c]{.4\textwidth}
 		\includegraphics[width=\textwidth]{images/CSSID}
@@ -691,24 +568,24 @@ Die Dateien, die als \ac{CSS} deklariert werden, übernehmen die gestalterischen
 		\label{img:CSSClass}
 	\end{minipage}
 \end{figure}
-Für die Eigenschaften bietet sich mit der dritten Version von \ac{CSS} (\ac{CSS}3) eine Vielzahl an Möglichkeiten. Grundlegend kann jedes Element mithilfe der \ac{CSS}-Datei bearbeitet werden. Die Eigenschaften sind bspw. Gegliedert unter Typografie, Farbe, Abstände, Tabellen und vieles mehr. In diesem Zusammenhang ist auch die Verwendungen von Maßeinheiten bedeutsam. Mit \ac{CSS}3 werden viele verschiedene Ma"seinheiten unterstützt worüber die Abbildung einen genaueren Überblick gibt.
+Für die Eigenschaften bietet sich mit der dritten Version von \ac{CSS} (\ac{CSS}3) eine Vielzahl an Möglichkeiten. Grundlegend kann jedes Element mithilfe der \ac{CSS}-Datei bearbeitet werden. Die Eigenschaften sind bspw. unter Typografie, Farbe, Abstände, Tabellen und vieles mehr gegliedert. In diesem Zusammenhang ist auch die Verwendungen von Ma"seinheiten bedeutsam. Mit \ac{CSS}3 werden viele verschiedene Ma"seinheiten unterstützt worüber die \autoref{img:CSSmasseinheiten} einen genaueren Überblick gibt.
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=1.8]{images/CSSmasseinheiten}
 	\caption{Ma"seinheiten innerhalb der Webentwicklung, \cite{buhler2017html5}} 
 	\label{img:CSSmasseinheiten}
 \end{figure}
-\ac{CSS} verwendet die Selektoren und wendet auf diesen die definierten Eigenschaften an. Nebenbei bietet \ac{CSS} die Möglichkeit an ein Layout zu erstellen. Dafür ist das sogenannte Boxmodell ausschlaggebend. Dieser ist definiert, die Elemente als eine Box mit Eigenschaften zu betrachten. Demnach gibt es in dem Zusammenhang vielerlei Möglichkeiten eine Box an die richtige Position, sowie mit der richtigen Größe abzubilden. Die Boxen können mit absoluten Werten definiert werden. Mit relativen Werten, welche Prozentwerte enthalten, können die Boxen sich in Abhängigkeit des Browserfensters ändern. Mit \ac{CSS}3 gibt es auch die Möglichkeiten flexible Boxen zu verwenden. Dadurch werden die Boxen unabhängig von der Position und Anordnung spalten- oder zeilenweise an den zur Verfügung gestellten Platz angeordnet. Bei der Betrachtung des Layouts spielt ebenfalls das Endgerät eine Rolle. In dem Zusammenhang können \textbf{Media Queries} zum Einsatz kommen. Diese bieten die Option, Eigenschaften eines Selektors entsprechend der angegebenen Pixel zu ändern.
+\ac{CSS} verwendet die Selektoren und wendet auf diesen die definierten Eigenschaften an. Nebenbei bietet \ac{CSS} die Möglichkeit an, ein Layout zu erstellen. Dafür ist das sogenannte Boxmodell ausschlaggebend. Dieser ist definiert, die Elemente als eine Box mit Eigenschaften zu betrachten. Demnach gibt es in dem Zusammenhang vielerlei Möglichkeiten eine Box an die richtige Position, sowie mit der richtigen Größe abzubilden. Die Boxen können mit absoluten Werten definiert werden. Mit relativen Werten, welche Prozentwerte enthalten, können die Boxen sich in Abhängigkeit des Browserfensters ändern. Mit \ac{CSS}3 gibt es auch die Möglichkeiten flexible Boxen zu verwenden. Dadurch werden die Boxen unabhängig von der Position und Anordnung spalten- oder zeilenweise an den zur Verfügung gestellten Platz angeordnet. Bei der Betrachtung des Layouts spielt ebenfalls das Endgerät eine Rolle. In dem Zusammenhang können \textbf{Media Queries} zum Einsatz kommen. Diese bieten die Option, Eigenschaften eines Selektors entsprechend der angegebenen Pixel zu ändern.
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=2.8]{images/MediaQbsp}
 	\caption{Beispiel eines Media Queries, \cite{buhler2017html5}}
 	\label{img:/MediaQbsp}
 \end{figure}
-\\Die Abbildung stellt dar wie die Media Queries eingesetzt werden können. Die Definition erfolgt entweder in der \ac{CSS}-Datei oder in dem Style-Tag einer \ac{HTML}-Datei. Mit diesen Grundlagen lassen sich Seiten gestalterisch anpassen und auf mehreren mobilen Endgeräten ausgeben. Wird Content benutzt der sich ggf. zur Laufzeit ändert, wird überwiegend auf das dritte Element der Webentwicklung zurückgegriffen. Dabei geht es um JavaScript.\cite{buhler2017html5}
+\\Die \autoref{img:/MediaQbsp} stellt dar wie die Media Queries eingesetzt werden können. Die Definition erfolgt entweder in der \ac{CSS}-Datei oder in dem Style-Tag einer \ac{HTML}-Datei. Mit diesen Grundlagen lassen sich Seiten gestalterisch anpassen und auf mehreren mobilen Endgeräten ausgeben. Wird Content benutzt der sich ggf. zur Laufzeit ändert, wird überwiegend auf das dritte Element der Webentwicklung zurückgegriffen. Dabei geht es um JavaScript.\cite{buhler2017html5}
 
 \textbf{JavaScript}\\
-JavaScript verfolgt das Ziel interaktive oder dynamische Elemente auf der Webseite zu integrieren. Es ist eine Skriptsprache, die überwiegend auf Seiten des Clients eingesetzt wird. Der Code kann direkt über den Browser ausgeführt werden, da ein heutiger Browser einen Interpreter für die Skriptsprache besitzt. Dadurch ist JavaScript von den heutigen Browsern abhängig, weshalb ausgiebige Tests auf verschiedene Browsern erfolgen muss. Mit JavaScript ergeben sich Möglichkeiten Probleme bzw. Schwierigkeiten dynamisch zu lösen. Ein beliebter Fall als Beispiel ist die Formularüberprüfung. Hierbei kann JavaScript die Korrektheit noch auf Seiten des Clients überprüfen und erst nach Abschluss dem Server übertragen. Dadurch können unnötige Datenübertragungen verhindert werden. Eine Schwierigkeit die JavaScript birgt ist die Ausschaltfunktion in den meisten Browsern. Besitzt eine Webseite eine große Anzahl an JavaScript Code so kann durch Deaktivierung im Browser mancher Content nicht mehr funktionieren. Wie mit der Integration von CSS gibt es auch bei JavaScript die Möglichkeit es innerhalb der HTML-Datei oder in einer externen Datei zu verwenden. Im Falle der internen Lösung gibt es den <script>-Tag, der eine JavaScript-Code enthalten kann. Das nachfolgende \autoref{lst:JavaScriptExample} stellt dar, wie so ein JavaScript in den HTML-Body integriert werden kann.
+JavaScript verfolgt das Ziel interaktive oder dynamische Elemente auf der Webseite zu integrieren. Es ist eine Skriptsprache, die überwiegend auf Seiten des Clients eingesetzt wird. Der Code kann direkt über den Browser ausgeführt werden, da ein heutiger Browser einen Interpreter für die Skriptsprache besitzt. Dadurch ist JavaScript von den heutigen Browsern abhängig, weshalb ausgiebige Tests auf verschiedene Browsern erfolgen muss. Mit JavaScript ergeben sich Möglichkeiten Probleme bzw. Schwierigkeiten dynamisch zu lösen. Ein beliebter Fall als Beispiel ist die Formularüberprüfung. Hierbei kann JavaScript die Korrektheit noch auf Seiten des Clients überprüfen und erst nach Abschluss dem Server übertragen. Dadurch können unnötige Datenübertragungen verhindert werden. Eine Schwierigkeit die JavaScript birgt ist die Ausschaltfunktion in den meisten Browsern. Besitzt eine Webseite eine große Anzahl an JavaScript Code so kann durch Deaktivierung im Browser mancher Content nicht mehr funktionieren. Wie mit der Integration von \ac{CSS} gibt es auch bei JavaScript die Möglichkeit es innerhalb der \ac{HTML}-Datei oder in einer externen Datei zu verwenden. Im Falle der internen Lösung gibt es den <script>-Tag, der eine JavaScript-Code enthalten kann. Das nachfolgende \autoref{lst:JavaScriptExample} stellt dar, wie so ein JavaScript in den HTML-Body integriert werden kann.
 \begin{lstlisting}[language=HTML,caption=Example Listing of JavaScript-Code,label={lst:JavaScriptExample}]
 <div class="Login_succeeded">
 <script>
@@ -716,20 +593,20 @@ document.write("Your Login was succesful");
 </script>
 </div>
 \end{lstlisting}
-Das Beispiel bildet ein simpler Fall von JavaScript ab. Der Code erzeugt lediglich ein Text in der HTML-Klasse. Eine der beliebtesten Verwendungen von JavaScript sind Fenster, die zur Benachrichtigung oder Warnung benutzt werden. In Verbindung mit Event-Handler, die auf bestimmte Ereignisse reagieren, kann so, je nach Anwendung Fenster oder andere Elemente erzeugt werden. Ein Beispiel für solch ein Event-Handler wäre das "onclick". Dadurch lässt sich JavaScript-Code erst ausführen wenn bspw. auf ein Button geklickt wird. Neben Fenstern gibt es zahlreiche weitere Verwendungsmöglichkeiten, wie zum Beispiel Formulare, Textfelder, Checkboxen usw. Eine besondere Variante von JavaScript ist \textbf{\ac{Ajax}}, welches ein weiteres wichtiges Feature mit in die Webentwicklung einbringt. \ac{Ajax} kommt vor allem zum Einsatz, wenn es um Elemente geht die nicht durch eine Aktualisierung des Browser ausgelöst werden sollen. \ac{Ajax} ermöglicht in solch einem Fall die dynamische Anfrage. Die Nachfolgende \autoref{img:/AjaxUseCase} erklärt das Funktionsprinzip von \ac{Ajax} sehr genau.
+Das Beispiel bildet ein simpler Fall von JavaScript ab. Der Code erzeugt lediglich ein Text in der HTML-Klasse. Eine der beliebtesten Verwendungen von JavaScript sind Fenster, die zur Benachrichtigung oder Warnung benutzt werden. In Verbindung mit Event-Handler, die auf bestimmte Ereignisse reagieren, kann so, je nach Anwendung, Fenster oder andere Elemente erzeugt werden. Ein Beispiel für solch ein Event-Handler wäre das "onclick". Dadurch lässt sich JavaScript-Code erst ausführen wenn bspw. auf ein Button geklickt wird. Neben Fenstern gibt es zahlreiche weitere Verwendungsmöglichkeiten, wie zum Beispiel Formulare, Textfelder, Checkboxen usw. Eine besondere Variante von JavaScript ist \textbf{\ac{Ajax}}, welches ein weiteres wichtiges Feature mit in die Webentwicklung einbringt. \ac{Ajax} kommt vor allem zum Einsatz, wenn es um Elemente geht die nicht durch eine Aktualisierung des Browser ausgelöst werden sollen. \ac{Ajax} ermöglicht in solch einem Fall die dynamische Anfrage. Die Nachfolgende \autoref{img:/AjaxUseCase} erklärt das Funktionsprinzip von \ac{Ajax} sehr genau.
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=1.0]{images/AjaxUseCase}
 	\caption{Anwendungsfall von Ajax, \cite{buhler2018webtechnologien}} 
 	\label{img:/AjaxUseCase}
 \end{figure}
-Während ein User ein Textfeld beschreibt wird im Hintergrund, mithilfe des JavaScript-Objektes XMLHttpRequest, eine Anfrage an den Webserver gesendet. Dieser kann mit ersten Teilergebnissen antworten und so dem User bspw eine Autovervollständigung anbieten. Ajax ist in dem Fall keine neue Technologie sondert verwendet JavaScript anders um mit dem Webserver im Hintergrund zu kommunizieren. In diesem Fall ist die Autovervollständigung lediglich ein einfaches Beispiel um die Funktion von \ac{Ajax} zu verstehen. Darüber hinaus gibt es weitaus mehr Anwendungsfälle von \ac{Ajax}. Bei aufwändigen Webseiten kommt ein weiteres Element zur Webentwicklung hinzu, das die Entwicklung erleichtern soll. Dabei handelt es sich um Frameworks. Wie es für \ac{CSS} Bootstrap als Framework gibt, so werden viele auch im Zusammenhang mit JavaScript angeboten. Eines der beliebtesten Frameworks ist \textbf{jQuery}. Mit jQuery wird das Programmieren von JavaScript unterstützt. Außerdem orientiert es sich an der Darstellung von \ac{CSS} wie bspw. der Zugriff auf ein Element über \$(\dq \#bereich1\dq) oder \$(\dq .farbe1\dq). Wie JavaScript kann auch jQuery auf die Elemente der \ac{HTML}-Seite zugreifen. Der Standardaufbau, welcher in dem folgenden \autoref{lst:jQueryExample} dargestellt ist, zeigt eine Merkmal auf das zu achten ist.
+Während ein User ein Textfeld beschreibt wird im Hintergrund, mithilfe des JavaScript-Objektes XMLHttpRequest, eine Anfrage an den Webserver gesendet. Dieser kann mit ersten Teilergebnissen antworten und so dem User bspw. eine Autovervollständigung anbieten. \ac{Ajax} ist in dem Fall keine neue Technologie sondert verwendet JavaScript anders, um mit dem Webserver im Hintergrund zu kommunizieren. In diesem Fall ist die Autovervollständigung lediglich ein einfaches Beispiel um die Funktion von \ac{Ajax} zu verstehen. Darüber hinaus gibt es weitaus mehr Anwendungsfälle von \ac{Ajax}. Bei aufwändigen Webseiten kommt ein weiteres Element zur Webentwicklung hinzu, das die Entwicklung erleichtern soll. Dabei handelt es sich um Frameworks. Wie es für \ac{CSS} Bootstrap als Framework gibt, so werden viele auch im Zusammenhang mit JavaScript angeboten. Eines der beliebtesten Frameworks ist \textbf{jQuery}. Mit jQuery wird das Programmieren von JavaScript unterstützt. Außerdem orientiert es sich an der Darstellung von \ac{CSS} wie bspw. der Zugriff auf ein Element über \$(\dq \#bereich1\dq) oder \$(\dq .farbe1\dq). Wie JavaScript kann auch jQuery auf die Elemente der \ac{HTML}-Seite zugreifen. Der Standardaufbau, welcher in dem folgenden \autoref{lst:jQueryExample} dargestellt ist, zeigt eine Merkmal auf das zu achten ist.
 \begin{lstlisting}[language=HTML,caption=Example Listing of jQuery,label={lst:jQueryExample}]
 <script> $(document).ready(function(){
 /* Hier der jQuery-Code */ });
 </script>
 \end{lstlisting}
-Mit \textit{\$(document).ready} werden grundsätzlich erste Probleme, die auftreten können verhindert. Demnach könnte ohne diese Funktion auf Elemente zugegriffen werden, welche noch nicht vollständig geladen sind. Das ready verhindert diese Problematik und wartet mit der Ausführung bis die Webseite komplett geladen ist. JQuery besitzt zahlreiche Plugins die bei der Webentwicklung verwendet werden können. JavaScript bildetet ein fundamentaler Baustein, der mithilfe zahlreicher Möglichkeiten und Frameworks für jede Anwendung Optionen bereitstellt, um dynamische Änderungen oder Interaktionen zu integrieren.\cite{buhler2018webtechnologien}
+Mit \texttt{\$(document).ready} werden grundsätzlich erste Probleme, die auftreten können verhindert. Demnach könnte ohne diese Funktion auf Elemente zugegriffen werden, welche noch nicht vollständig geladen sind. Das ready verhindert diese Problematik und wartet mit der Ausführung bis die Webseite komplett geladen ist. JQuery besitzt zahlreiche Plugins die bei der Webentwicklung verwendet werden können. JavaScript bildetet ein fundamentaler Baustein, der mithilfe zahlreicher Möglichkeiten und Frameworks für jede Anwendung Optionen bereitstellt, um dynamische Änderungen oder Interaktionen in die Webanwendung zu integrieren.\cite{buhler2018webtechnologien}
 
 
 \pagebreak
@@ -819,6 +696,127 @@ Eine wichtige Anforderung an Tests ist, dass diese schnell und effizient ablaufe
 - Flask Einführung\\
 - Und wie kann ich es nutzen? Beispiele auch mit ORM\\
 
+\pagebreak
+\subsection{GUI-Programmierung mit Python}
+\label{subsec:GuiPython}
+Bei der Umsetzung einer grafischen Benutzeroberfläche müssen Regeln bezüglich der Usability (\autoref{sec:Benutzeroberfläche}) und die Eigenschaften der Programmiersprache beachtet werden. Mit Python als Programmiersprache kommen mehrere Module, welche für die Grafische Benutzeroberfläche benutzt werden können, einher. Für diese Module ist vorab die Plattform zu wählen. Dabei geht es um die Diskussion auf welche Plattform sich eine Chatapplikation mit Bezug zu den Nutzern besser realisieren lässt.
+
+Die \ac{GUI}-Programmierung bei Python unterscheidet sich im Konzept nicht allzu sehr von anderen Programmiersprachen. Neben Schaltflächen stehen auch Fenster oder Menüs als Komponenten zur Verfügung. Angeordnet können diese in sogenannten Container. Für eine geeignete Anwenderschnittstelle müssen die Komponenten in die Container integriert werden. Hinzukommt ein äußerer Container, auch als Frame bezeichnet, ein Layout-Manager und eine Implementierung damit Aktionen durch Komponenten ausgelöst werden können. Wie im \autoref{sec:Benutzeroberfläche} erläutert, verfolgt eine \ac{GUI} mehreren Regeln. Demnach gibt es für die Programmierung einer grafischen Benutzeroberfläche vielerlei Möglichkeiten. In Python werden \ac{GUI} Frameworks angeboten, die eine Programmierung erleichtern sollen. Diese Frameworks können sich in der Art und der Verwendung unterscheiden. Außerdem sind Frameworks plattformabhängig. Damit ist eine Verwendung als Desktop- oder Webapplikation gemeint. Daher ist in der ersten Phase eine Plattform, anhand der Anforderungen an die Chatapplikation, zu evaluieren.\cite{Steyer2018} \\
+Die nachfolgende \autoref{tab:EntscheidungsmatrixFrameworkart} spiegelt die Ergebnisse eines Vergleichs zwischen den Tool-Frameworks und den Web-Frameworks von Python wider. Die Kriterien orientieren sich am Projekt und werden nachfolgend erläutert. Die \textbf{Nutzerfreundlichkeit} beinhaltet die Frage nach der Verständlichkeit. Dabei geht es darum, wie verständlich ein GUI mithilfe des Tools aufgebaut werden kann. Außerdem beinhaltet das Kriterium auch die Möglichkeiten des Tools auf die Nutzerfreundlichkeit einzugehen. Die \textbf{Schwierigkeit} orientiert sich an der Implementierung. Dafür wird betrachtet wie leicht, schnell und komfortabel die Frameart in das Gesamtsystem integriert werden kann. Unabhängig von der Schwierigkeit geht es bei der \textbf{Umsetzbarkeit} um die Mittel, welche für eine Umsetzung benötigt werden, sowie auch um den Aufwand bei der Umsetzung. Die \textbf{Kompatibilität} umfasst die Unabhängigkeit von Betriebssystemen, Browsern usw. Standard für eine grafische Oberfläche bildet auch das \textbf{Design}. Demnach geht es um die Möglichkeiten ein gutes Erscheinungsbild der Oberfläche mit dem entsprechenden Framework umzusetzen. Das letzte Kriterium, \textbf{Verwendungszweck}, bildet die Verbindung zum Projekt. Dabei wird analysiert, wie die Frameworkart zum Zweck des Projektes passt. Die Gewichtung der Kriterien innerhalb der \autoref{tab:EntscheidungsmatrixFrameworkart} sind der \autoref{tab:GewichtungFrameworkart} des Anhangs zu entnehmen.
+\renewcommand{\arraystretch}{2}
+\begin{table}[h]
+	\centering
+	\caption{Entscheidungsmatrix der Frameworkart}
+	\begin{tabular}{l|c|c|c}
+		& & \multicolumn{2}{c}{Arten einer Python-GUI} \\
+		Kriterien & Gewichtung & Tool-Framework & Web-Framework \\
+		\hline
+		Nutzerfreundlichkeit & 33\% & 2 & 2 \\
+		\hline
+		Schwierigkeit & 7\% & 2 & 1,7  \\
+		\hline
+		Umsetzbarkeit & 13\% & 2 & 2,2\\
+		\hline
+		Kompatibilität & 13\% & 2,2 & 1,7 \\
+		\hline
+		Design & 7\% & 2 &  2\\
+		\hline 
+		Verwendungszweck & 27\% & 2,5 & 1,5 \\
+		\hline
+		\textbf{Gesamtwertungszahl} & \textbf{100\%} & \textbf{2,161} & \textbf{1,831} \\
+	\end{tabular}
+	\label{tab:EntscheidungsmatrixFrameworkart}
+\end{table} \\
+Die \autoref{tab:EntscheidungsmatrixFrameworkart} bildet eine Hilfestellung zur Entscheidung einer passenden Frameworkart für das Projekt. Die Bewertung der Tools entsprechend der Kriterien folgt dem Benotungsschema der akademischen Bildung. Demnach ist eine 1 sehr gut und eine 6 ungenügend. Im Kriterium Nutzerfreundlichkeit schließen beide Frameworks mit der gleichen Note ab, da die Nutzerfreundlichkeit abhängig vom Designstil ist und bei beiden Frameworks umgesetzt werden kann. Die Schwierigkeit, wie das Kriterium in der Einführung definiert wurde, bekommt beim Web-Framework eine bessere Bewertung. Grund hierfür ist, dass für das Web-Framework überwiegend keine aufwändigen Module in Python benötigt werden. Die Gestaltung erfolgt nämlich über \ac{HTML} und \ac{CSS}, welche dann mit einem schlichten Modul verknüpft bzw. aufgerufen werden können. Aufgrund von Vorkenntnissen sowohl in \ac{HTML} als auch in \ac{CSS} wird die Schwierigkeit für das Web-Framework besser bewertet. Bei der Umsetzbarkeit steht das Tool-Framework aufgrund der Verwendung eines gesamten Moduls besser da. Ein Web-Framework bringt \ac{HTML}, \ac{CSS}, \ac{JS} und das Modul mit was ein größeren Umfang bedeutet. Vor allem muss der Programmierer mit allen Elementen umgehen können, weshalb eine Umsetzung schwieriger sein könnte. In der Kompatibilität wird das Web-Framework aufgrund der Unabhängigkeit bezüglich des Betriebssystems besser bewertet. Außerdem kann eine ausgelieferte \ac{HTML}-Seite von nahezu allen Browsern gelesen werden. Eine Möglichkeit die Lösung auf mobilen Endgeräten zu benutzen ist ebenfalls enthalten. Im Design unterscheiden sich die Frameworkarten nicht. Beide bieten vielerlei Möglichkeiten auf gestalterische Details einzugehen. Aufgrund des Projektes, einen Chat über \ac{XMPP} und ejabberd zu realisieren wird schon hauptsächlich das Internet genutzt. Dadurch bietet es sich an, den Server eine \ac{HTML}-Seite ausliefern zulassen. Aus diesem Grund wird das Web-Framework im Rahmen dieses Kriteriums besser bewertet. Anhand der Gesamtwertungszahl entsprechend der Benotung und der Gewichtung sind beide Frameworks zu empfehlen, dennoch schließt das Web-Framework besser ab, weshalb im weiteren Verlauf ein Web-Framework zum Einsatz kommen soll. \cite{FrameworkOverview} \cite{WebFramework}\\ 
+Mit diesem Ergebnis müssen die verschiedenen Möglichkeiten eine Web-Framework in Bezug auf Python analysiert und bewertet werden. Auch in diesem Fall liefert eine Entscheidungsmatrix ein aufschlussreiches Ergebnis. Die Definition der selben Bewertungskriterien sind der Einführung der \autoref{tab:EntscheidungsmatrixFrameworkart} zu entnehmen. Weitere Kriterien wie Umfang und Komplexität werden in die Betrachtung miteinbezogen. Der \textbf{Umfang} spiegelt die Möglichkeiten und Größe im Aufbau des Tools wider. Die \textbf{Komplexität} befasst sich mit dem Aufwand einer Implementierung sowie auch die Hilfestellungen durch geeignete Dokumentationen. Das Bewertungsschema orientiert sich ebenfalls an der \autoref{tab:EntscheidungsmatrixFrameworkart}. Außerdem sind die Werte der Gewichtung bezogen auf das jeweilige Kriterium in der \autoref{tab:GewichtungWebFramework} im Anhang dargestellt.
+\begin{table}[h]
+	\centering
+	\caption{Entscheidungsmatrix eines Web-Frameworks}
+	\begin{tabular}{l|c|c|c|c|c}
+		Kriterien & Gewichtung & Django & Flask & CherryPy & Bottle\\
+		\hline
+		Umfang & 17\% & 1,5 & 2 & 2 & 2,5 \\
+		\hline
+		Schwierigkeit & 17\% & 2,5 & 1,7 & 2,2 & 2 \\
+		\hline
+		Komplexität & 33\% & 2,2 & 1,7 & 2 & 1,7 \\
+		\hline
+		Verwendungszweck & 33\% & 2 & 2 & 2 & 2,2 \\
+		\hline
+		\textbf{Gesamtwertungszahl} & \textbf{100\%} & \textbf{2,067} & \textbf{1,850} & \textbf{2,033}  & \textbf{2,050} \\
+	\end{tabular}
+	\label{tab:EntscheidungsmatrixWebFramework}
+\end{table}
+Die Gesamtwertungszahl, welches der \autoref{tab:EntscheidungsmatrixWebFramework} entnommen werden kann, liefert ein knappes Ergebnis. Demnach bietet sich Flask am besten als Framework einer grafischen Oberfläche an. Im Umfang setzt sich das Tool Django gegen die Konkurrenten durch, da es aufgrund seiner Größe vielerlei Möglichkeiten mitbringt. Während die anderen Tools überwiegend als Mikroframework bezeichnet werden, zeichnet sich Django als Full-Stack/high-level Framework aus. Ebenfalls ein Grund weshalb die Schwierigkeit bei Django mit einer 2,5 bewertet wurde. Ein Mikroframework bildet in der Hinsicht die leichtere und schnellere Variante. Die Komplexität wurde vor allem bei Flask und Bottle gut bewertet. Grund hierfür ist unter anderem eine geringere Komplexität durch Möglichkeiten einer schlichten Implementierung. Außerdem bietet bspw. Flask eine sehr gute Dokumentation, welche die Komplexität verringern kann. Der Verwendungszweck ist nahezu gleichbleibend, da alle Frameworks genutzt werden können um das Projekt umzusetzen. Ausschließlich bei Bottle ist überwiegend die Rede von einem Framework das vor allem zur Einführung in das Themengebiet der Programmierung grafischer Oberflächen mit eine Web-Framework benutzt wird. Anhand des Ergebnisses und der sehr guten Dokumentation wird Flask als Web-Framework zum Einsatz kommen. Außerdem wird die Entscheidung durch die Statistiken aus dem Jahr 2018 (Abbildung) und dem Jahr 2020 (\cite{webframeworksStatistic}), in der Flask auch zu den beliebtesten Web-Frameworks zählt, unterstützt.
+\cite{BottleDoc} \cite{CherryPyDoc} \cite{DjangoDoc} \cite{FlaskDoc}
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=1.2]{images/FlaskSurvey2018}
+	\caption{Ergebnis der Python Developers Survey 2018 \cite{pythonDeveloperSurvey2018}}
+	\label{img:StatistikWebFrameworks}
+\end{figure}
+
+\subsection{Flask}
+\label{subsec:Flask}
+Wie unter \autoref{subsec:GuiPython} beschrieben, wird im Rahmen der Studienarbeit Flask verwendet. Es wird von mehreren Quellen und der offiziellen Dokumentation als Microframework betitelt. Grund hierfür ist der Aufbau von Flask. Bei der Definition des Begriffs \glqq micro\grqq{} ist nicht das Resultat zu betrachten. Mit Flask als Framework muss nicht die gesamte Web-Anwendung in einer Datei dargestellt werden. Hierbei handelt es sich eher um einen simplen Kern, welcher der Ausgangspunkt und das Ziel von Flask darstellt. Ausgehend von dem simplen Kern besitzt Flask die Möglichkeit in der Größe zu skalieren. Daher kann, bezogen auf die Grundstruktur von Flask, dem Begriff Framework das \glqq micro\grqq{} vorangestellt werden.\cite{FlaskDoc}\\
+Auch Autoren, wie K. Relan mit seinem Werk über Flask und RESTAPIs, schmälern nicht die Funktionalität von Flask, sondern loben die simple Struktur mit der Erweiterbarkeit. Dadurch haben sie die Möglichkeit der Anwendung ihre eigene Konfiguration zuzuteilen und mit Erweiterungen leicht zu skalieren. \cite{FlaskRESTAPIsRelan}\\
+Flask verknüpft die Entwicklung einer Web-Anwendung mit Python, weshalb das Framework eine Schnittstelle zum Webserver bildet. Bekannt ist Flask durch die Eigenschaft schnell und leicht eine minimale Anwendung zu implementieren und diese bei Bedarf in der Größe zu skalieren. Für die Verwendung von Flask sind zwei Bibliotheken wichtig. Bei diesen handelt es sich zum Einen um die \ac{WSGI}-Bibliothek Werkzeug und der Template-Bibliothek Jinja2. Module die standardmäßig von Flask verwendet werden. Flask bildet das Bindeglied zwischen den Modulen und erlaubt es bspw. mithilfe von \textbf{Routen} an bestimmten Endpunkten Funktionen, Aktionen oder ähnliches auszuführen. Ein Beispiel hierfür, wäre das ausliefern einer \ac{HTML}-Datei, welches im \autoref{lst:FlaskMinApp} dargestellt wird.
+\begin{lstlisting}[language=Python,caption=Example Listing of Flask Python,label={lst:FlaskMinApp}]
+from flask import Flask
+app = Flask(__name__)
+
+@app.route('/home')
+def homepage():
+	return render_template('homepage.html')
+\end{lstlisting}
+Das \autoref{lst:FlaskMinApp} spiegelt das Routen sowie das Rendern einer \ac{HTML}-Datei von Python wider. Aufgrund des Paketverwaltungsprogramm pip kann Flask komfortabel installiert werden. Dementsprechend wird Flask in der ersten Zeile importiert, dann einer Anwendung zugeordnet und eine Route definiert. Dieser Route wird die Zeichenkette \glqq /homegrqq{} zugeteilt. Dadurch entstehen Vorteile auf Seiten der Betreiber als auch auf Seiten des Nutzers. Eine Route kann mithilfe des Browsers aufgerufen werden. In dem Fall der Anwendung aus dem \autoref{lst:FlaskMinApp}, läuft die Flask-Applikation auf der Adresse des localhost. Mit Aufruf des localhost (127.0.0.1) wird in der Flask-Applikation eine Route gesucht, welche auf die Anfrage eingeht. Dafür ergeben sich 3 Möglichkeiten, welche an dieser Stelle kurz erwähnt werden. Zum Einen kann der Browser zurückgeben, dass eine Webseite nicht erreichbar ist (\autoref{img:FlaskWebseiteNichtErreichabr}). 
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=1.5]{images/WebseiteNichtErreichbar}
+	\caption{Keine Erreichbarkeit der Webseite, eigene Darstellung}
+	\label{img:FlaskWebseiteNichtErreichabr}
+\end{figure}
+In dem Fall kann es sein die Flask-Applikation wurde noch nicht gestartet oder läuft auf einer anderen Adresse. Auch ein Netzwerkproblem könnte die Ursache hierfür sein. Bei der zweiten Möglichkeit befindet sich in der Flask-APP keine Route für die angegebene Adresse.
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=1.0]{images/NotFound}
+	\caption{Keine Erreichbarkeit der Webseite, eigene Darstellung}
+	\label{img:FlaskWebseiteNotFound}
+\end{figure}
+In dem Fall kommt eine 404 mit der Bemerkung, dass die URL nicht gefunden wurde, zurück (\autoref{img:FlaskWebseiteNichtErreichabr}). Bei der letzten Möglichkeit handelt es sich um eine korrekte URL. Im Fall des Beispieles wäre die Adresse: \texttt{http://127.0.0.1:8000/home} eine im \autoref{lst:FlaskMinApp} dargestellte Route. Durch den Aufruf der URL wird die definierte Funktion ausgeführt. Bei dem Beispiel wird eine HTML-Datei ausgeliefert.
+Nun besitzt Flask vielerlei Möglichkeiten um Anfrage (POST, GET, usw.) zu differenzieren. Diese zählen nicht zur Grundfunktionalität von Flask und sind daher nicht Bestandteil dieses Abschnittes. Der nächste Vorteil von Flask beinhaltet die Möglichkeit einen Webserver im Entwicklungsmodus zu starten und aktuelle Code-Zeilen zu testen.
+Flask ist also nicht zuständig für die Gestaltung der grafischen Oberfläche sondern benutzt sogenannte \textbf{Templates} in Form von HTML-Datei, die eine Webseite aufbauen. Für eine dynamische Webanwendung und den gestalterischen Aspekten sind statische Dateien, wie z.B. \ac{CSS}, notwendig. Aus diesem Grund benötigt Flask eine vorgegebene Ordnerstruktur, welche der nachfolgenden \autoref{img:TreeFlaskOrdnerstrukt} entnommen werden kann. Diese Struktur hilft um das Fehlerpotential, ausgelöst durch Zugriffe auf falsche Dateien, zu vermindern.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\textwidth]{images/TreeFlaskOrdnerstrukt}
+	\caption{Ordnerstruktur unter Flask, eigene Darstellung}
+	\label{img:TreeFlaskOrdnerstrukt}
+\end{figure}
+Für die grafische Benutzeroberfläche würden diese Elemente ausreichen um eine simple Webseite aufzubauen, mit den \ac{HTML}- und \ac{CSS}-Dateien zu verknüpfen, über eine Route die Seite zu rendern und letztendlich, über den von Flask gestellten Webserver, zu testen. Dennoch bietet Flask mehr Möglichkeiten auch im Zusammenhang des Projektes. Zum Beispiel kann in Flask mit redirects, sessions, cookies, Datenbanken und vieles mehr gearbeitet werden. Bei der Anbindung bzw. Kommunikation mit einer \textbf{Datenbank} schreibt Flask als Modul nicht die Art der Datenbank vor. Dadurch gibt es die Möglichkeit bspw. eine MySQL, PostgreSQL, SQLite oder andere Datenbanken zu verwenden. In diesem Zusammenhang bietet Flask das Modul Flask-SQLAlchemy. Das Paket gilt als \ac{ORM}, und bietet die Möglichkeit high-level Operationen in Datenbank-Kommandos zu übersetzen. Ein Beispiel für die Verwendung des Moduls ist im folgenden \autoref{lst:SQLAlchemyMinApp} dargestellt.
+\begin{lstlisting}[language=Python,caption=Example Listing of Flask-SQLAlchemy,label={lst:SQLAlchemyMinApp}]
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
+db = SQLAlchemy(app)
+
+
+class User(db.Model):
+	id = db.Column(db.Integer, primary_key=True)
+	username = db.Column(db.String(80), unique=True, nullable=False)
+	email = db.Column(db.String(120), unique=True, nullable=False)
+
+def __repr__(self):
+	return '<User %r>' % self.username
+\end{lstlisting}
+Das Listing zeigt eine minimale Anwendung, welche die Erweiterung für die Datenbank nutzt. Dadurch bietet sich für den Programmierer, nach importieren alle nötigen Klassen, Benutzer ohne großen Aufwand herzustellen und der Datenbank hinzuzufügen (\autoref{lst:SQLAlchemyAddUser}).
+\begin{lstlisting}[language=Python,caption=Hinzufügen eines Objektes in die Datenbanktabelle,label={lst:SQLAlchemyAddUser}]
+>>> from yourapplication import User
+>>> admin = User(username='admin', email='admin@example.com')
+>>> guest = User(username='guest', email='guest@example.com')
+\end{lstlisting}
+Diese Listings zeigen nur einen Ausschnitt welche Möglichkeiten das Web-Framework bietet. Dies ist mitunter der Grund für die Verwendung von Flask.\cite{FlaskDoc}
 \pagebreak
 
 \section{Verprobung eines Einsatzes von Kafka und Ejabberd in einem Messaging System}
