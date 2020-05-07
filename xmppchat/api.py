@@ -45,7 +45,7 @@ from xmppchat.models import User, Archiv # must be imported here otherwise User 
 from xmppchat.Validator import Validator
 from xmppchat.CustomValidatonError import CustomValidationError
 from xmppchat.xmppclient import EchoBot
-from xmppchat.UserRegistration import UserRegistration
+from xmppchat.UserManagement import UserManagement
 #from xmppchat.custom_kafka_consumer import Custom_Kafka_Consumer
 
 session_dict = {}
@@ -67,7 +67,7 @@ def register():
             Validator.validate_username(req_content["username"])
             Validator.validate_email(req_content["eMail"])
             user = User(req_content["username"], req_content["eMail"], req_content["password"], topic_id)
-            user_reg_obj = UserRegistration(config['ejabberd_ip'], config['ejabberd_ssh_user'], priv_key=config['ejabberd_ssh_private_key'], sudo_passwd=config['ejabberd_ssh_sudo_password'])
+            user_reg_obj = UserManagement(config['ejabberd_ip'], config['ejabberd_ssh_user'], priv_key=config['ejabberd_ssh_private_key'], sudo_passwd=config['ejabberd_ssh_sudo_password'])
             return_code = user_reg_obj.create_user_remotely(req_content["username"], req_content["password"], config["ejabberd_domain"])
             if return_code != 0:
                 raise CustomValidationError("Error. User was not created. Please try again.")
