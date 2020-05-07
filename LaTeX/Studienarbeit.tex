@@ -1922,7 +1922,89 @@ Mit dem Python Modul \texttt{json} und dessen Methode \texttt{load} können die 
 
 \subsubsection*{SQLAlchemy Schema für die Benutzerauthentifizierung}
 
-Für die Benutzerauthentifizierung und Registrierung von Benutzern am \acs{IMS} wird nach \autoref{img:logischeTopologieIMS} eine MySQL-Datenbank verwendet. Die MySQL-Datenbank läuft direkt als Dienst auf dem Server der Flask Applikation, um die Netzwerklatenz für Datenbankzugriffe möglichst gering zu halten. In der Tabelle \texttt{user\_auth} der Datenbank befinden sich alle Daten über die Benutzer. Weil alle Funktionalitäten des \acs{IMS} über die \acs{REST} \acs{API} koordiniert werden, muss ein SQLAlchemy Schema für den Zugriff auf die Tabelle erstellt werden. \autoref{lst:classUser} im Anhang definiert ein SQLAlchemy Schema für die Tabelle \texttt{user\_auth} und in \autoref{tab:descriptionUserClass} sind alle Spalten der Tabelle beschrieben. SQLAlchemy sorgt dafür, dass ein Entwickler im Programm-Code mit einem Objekt interagieren kann anstatt Tabellen mit SQL-Statements zu verändern. Die Attribute des SQLAlchemy Schemas entsprechen dabei den Spalten einer Tabelle. Durch das Schema ist SQLAlchemy die Struktur und die Daten, die in der Tabelle gesammelt werden sollen, bekannt. Alle Datenbankzugriffe und Netzwerkzugriffe abstrahiert SQLAlchmey für den Entwickler. Die Interaktion mit der Datenbank wird einfacher und die Flexibilität erhöht. Die Klasse erbt von der Klasse UserMixin des \texttt{flask\_login} Moduls, welches ein Python Modul darstellt, dass Login und Session Management vereinfacht. 
+Für die Benutzerauthentifizierung und Registrierung von Benutzern am \acs{IMS} wird nach \autoref{img:logischeTopologieIMS} eine MySQL-Datenbank verwendet. Die MySQL-Datenbank läuft direkt als Dienst auf dem Server der Flask Applikation, um die Netzwerklatenz für Datenbankzugriffe möglichst gering zu halten. In der Tabelle \texttt{user\_auth} der Datenbank befinden sich alle Daten über die Benutzer. Weil alle Funktionalitäten des \acs{IMS} über die \acs{REST} \acs{API} koordiniert werden, muss ein SQLAlchemy Schema für den Zugriff auf die Tabelle erstellt werden. \autoref{lst:classUser} im Anhang definiert ein SQLAlchemy Schema für die Tabelle \texttt{user\_auth} und in \autoref{tab:descriptionUserClass} sind alle Spalten der Tabelle beschrieben. SQLAlchemy sorgt dafür, dass ein Entwickler im Programm-Code mit einem Objekt interagieren kann anstatt Tabellen mit SQL-Statements zu verändern. Die Attribute des SQLAlchemy Schemas entsprechen dabei den Spalten einer Tabelle. Durch das Schema ist SQLAlchemy die Struktur und die Daten, die in der Tabelle gesammelt werden sollen, bekannt. Alle Datenbankzugriffe und Netzwerkzugriffe abstrahiert SQLAlchmey für den Entwickler. Die Interaktion mit der Datenbank wird einfacher und die Flexibilität erhöht.
+
+Die Klasse wird durch weitere Methoden erweitert, die in der Flask Appliaktion häufig verwendete Operationen implementieren. Das verhindert, das mehrfach der gleiche Code geschrieben und gewartet werden muss. Die Methoden werden im Folgenden kurz vorgestellt, weil sie in den \acs{API}-Routen der Flask Applikation häufig verwendet werden. Die Klasse erbt von der Klasse UserMixin des \texttt{flask\_login} Moduls, welches ein Python Modul darstellt, dass Login und Session Management vereinfacht. Die Methoden von \texttt{flask\_login} kann ein Entwickler in den Methoden der \acs{API}-Routen verwenden, um Benutzer ein- oder auszuloggen. Dieses Zusatzpaket vereinfacht die Entwicklung. Ein Entwickler muss keine Logik für den Login und dem Session-Management selbst entwickeln. Das Modul abstrahiert diese Art von Operationen und verbirgt diese hinter einfach zu benutzenden Schnittstellen. Genaue Informationen über die Verwendung findet sich in der offiziellen Dokumentation \cite{flaskLogin} des Moduls. Damit das Modul einen Benutzer eindeutig identifizieren kann und ihn korrekt ein- und ausloggen kann, muss nach \cite{flaskLogin} eine Methode \texttt{get\_id} innerhalb des Schemas definiert werden.
+
+\autoref{lst:UserMethodFlaskLogin} zeigt die Implementierung.
+
+\bigskip
+
+\begin{lstlisting}[language=python, caption={Methode zur Identifizerung des Benutzers für das flask\_login Modul}, label={lst:UserMethodFlaskLogin}]
+def get_id(self):
+    return (self.user_id)
+\end{lstlisting}
+
+Das Attribut \texttt{user\_id} des User-Objekts entspricht der Spalte \texttt{user\_id} der Tabelle \texttt{user\_auth}. \texttt{user\_id} ist der Primärschlüssel der Datenbank und identifiziert eine Benutzer Entität eindeutig.
+
+Damit ein Objekt der Klasse erzeugt werden kann, welches eine Identität der Tabelle \texttt{user\_auth} darstellt, muss ein Konstruktor definiert werden (siehe \autoref{lst:UserMethodConstructor}).
+
+\bigskip
+
+\begin{lstlisting}[language=python, caption={Konstruktor der Klasse User}, label={lst:UserMethodConstructor}]
+    def __init__(self, user, email, passwd, topic_id, jabber_domain="@ejabberd-server"):
+        self.username = user
+        self.email = email
+        self.passwd = self.__set_password(passwd)
+        self.jabber_id = "{0}{1}".format(user, jabber_domain)
+        self.kafka_topic_id = topic_id
+\end{lstlisting}
+
+Dem Konstruktor müssen alle Informationen über einen Benutzer übergeben werden. Die Beschreibung der einzelnen Daten einer Benutzer Entität befindet sich im Anhang in \autoref{tab:descriptionUserClass}. Der Konstruktor weißt beim Aufruf alle übergebenen Parameter den Attributen zu und erstellt das Objekt. Um zu verhindern, dass ein Passwort in Klartext oder eine falsche \texttt{jabber\_id} im User-Objekt gespeichert sein kann, formatiert der Konstruktor während der Initialisierung die Werte selbst. Mit Hilfe der \texttt{format}-Funktion kann ein Zeichensatz in eine benutzerdefinierte Form gebracht werden. Anwendungsbeispiele und Details befinden sich in \cite{pythonFormat}. Auf diese Weise wird die Jabber ID automatisch erzeugt. Sie ergibt sich durch Konkatenation aus Benutzername und der Jabber Domain. Die Konkatenation ergibt sich durch Anwenden der \texttt{format}-Funktion. Der formatierte Zeichensatz wird dann dem Attribut \texttt{jabber\_id} zugewiesen. Zum Beispiel ergibt sich aus dem Benutzernamen \texttt{testuser} und der Jabber ID \texttt{@ejabberd-server} die Jabber ID \texttt{testuser@ejabberd-server}. Das Passwort wird durch Aufruf der privaten Methode \texttt{set\_password} über eine Hashfunktion \footnote{Eine Hashfunktion H, enthält eine Eingabe des Alphabets beliebiger Länge (etwa ein Password) und erzeugt daraus einen Hashwert h fester Länge n = |h|, etwa ‘24988892bfc53b18b6d0fcc6ccbb9b59’.\cite{wendzel2018}} in einen Hashwert umgewandelt. \autoref{lst:UserMethodPasswordHash} zeigt die Implementierung dieser Methode.
+
+\pagebreak
+
+\begin{lstlisting}[language=python, caption={Methode zur Berechnung des Password Hashes}, label={lst:UserMethodPasswordHash}]
+def set_password(self, password, method="sha384"):
+    if not type(password) == str:
+        raise TypeError("expected a string as argument in set_password function.")
+    return generate_password_hash(password, method=method)
+\end{lstlisting}
+
+\texttt{set\_password} verwendet die Methode \texttt{generate\_password\_hash} aus dem Python Modul werkzeug \cite{werkzeugDoc}. Das Modul erleichtert, die Erstellung eines Hashwerts, sodass der Entwickler selbst keine Hashfunktionen implementieren muss. Die Methode wirft eine Exception, falls das übergebene Password nicht vom Typ String (str) ist. Ansonsten wird das Passwort zusammen mit dem übergebenen Typ der Hashfunktion an \texttt{generate\_password\_hash} übergeben, die den Hashwert berechnet.
+
+Das Python Modul werkzeug enthält zusätzlich eine Methode \texttt{check\_password\_hash}, die überprüft, ob ein in Klartext übergebener Zeichensatz mit einem gegebenen Hashwert übereinstimmt \cite{werkzeugDoc}. Die Klasse \texttt{User} verwendet diese Funktion gemäß \autoref{lst:UserClassVerifyMethod}.
+
+\bigskip
+
+\begin{lstlisting}[language=python, caption={Methode zur Überprüfung auf Übereinstimmung eines Zeichensatzes mit einem übergebenen Hashwert}, label={lst:UserClassVerifyMethod}]
+def verify_password(self, password):
+    return check_password_hash(self.passwd, password)
+\end{lstlisting}
+
+Die Methode \texttt{check\_password\_hash} berechnet dabei zuerst den Hashwert des in Klartext übergebenen Passworts. Anschließend überprüft es, ob der berechnete Hashwert mit dem übergebenen Hashwert übereinstimmt. Auf diese Weise kann ein User-Objekt, dass von der Datenbank über SQLAlchemy zurückgegeben wird, eine Methode anbieten, die sofort überprüfen kann, ob ein Passwort mit dem Passwort des Benutzers aus der Datenbank übereinstimmt. Der Rückgabeparameter ist vom Typ Boolean und ist True, falls die Hashwerte und damit die Passwörter übereinstimmen, ansonsten False.
+
+\subsubsection*{Umsetzung der Login-Funktion eines Benutzers}
+
+Die Klasse \texttt{User} wurde so modifiziert, dass sie Login Funktionalitäten unterstützt. Bevor die Methoden des \texttt{flask\_login} Moduls verwendet werden können, muss ein Flask-, SQLAlchemy- und LoginManager-Objekt in der Flask Applikation instanziiert werden. (siehe \autoref{lst:flaskPrepareLogin}).
+
+\begin{lstlisting}[language=python, caption={Vorbereitungen der Login Funktionalität in der Flask Applikation}, label={lst:flaskPrepareLogin}]
+app = Flask(__name__)
+db = SQLAlchemy(app)
+login_mgmt = LoginManager(app)
+login_mgmt.login_view = 'login'
+\end{lstlisting}
+
+Über das LoginManager-Objekt \texttt{login\_mgmt} können in der Flask Applikation Benutzer ein- und ausgeloggt werden. Das Objekt abstrahiert alle dafür benötigten Operationen und verwaltet die Sessions der Benutzer selbstständig. Das Modul vereinfacht die Implementierung eines Logins. Damit nicht angemeldete Benutzer, beim Zugriff auf eine geschützte Ressource zurück zur Login-Seite geleitet werden, wird \texttt{login\_view} entsprechend gesetzt. Zeile 4 in \autoref{lst:flaskPrepareLogin} definiert, dass die Methode \texttt{login} der Flask Applikation aufgerufen wird, wenn ein Benutzer, der nicht eingeloggt ist, auf eine geschützte Seite zugreift. Wie diese Methode funktioniert und implementiert ist, wird im weiteren Verlauf noch beschrieben.\cite{flaskLogin}
+
+Der LoginManager bietet die folgenden beiden Methoden für das Ein- und Ausloggen von Benutzen:
+
+\begin{description}
+\item[login\_user:] Loggt einen Benutzer ein. Benötigt als Übergabeargument ein User-Objekt.
+\item[logout\_user:] Loggt einen Benutzer aus, indem .
+\end{description}
+
+Bevor diese beiden Methoden im Code der Flask Applikation benutzt werden können, muss eine Callback Methode implementiert werden, die beim Ein- und Ausloggen von Benutzern aufgerufen wird. In \autoref{lst:UserClassCallback} ist die Implementierung der Callback Methode dargestellt.
+
+\begin{lstlisting}[language=python, caption={Callback Methode für das Modul flask\_login}, label={lst:UserClassCallback}]
+@login_mgmt.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+\end{lstlisting}
+
+Die Methode lädt ein User-Objekt über die SQLALchemy Operation \texttt{query.get} aus der Datenbank und gibt es zurück. Die Wichtigkeit von Methode \texttt{get\_id} aus \autoref{lst:UserMethodFlaskLogin} zeigt sich in diesem Listing. Ohne diese Funktion, die die ID des User-Objekts zurückgibt, fehlt der Callback Methode der Parameter, der einen Benutzer eindeutig in der Datenbank identifiziert.\cite{flaskLogin}
+
+Die vorgestellten Methoden des LoginManagers und der Klasse \texttt{User} können in der Flask Applikation genutzt werden, um Benutzer zu registrieren oder ein- und auszuloggen. So wird vermieden, dass an verschiedenen Stellen im Code mehrfach der gleiche Code programmiert wird.
 
 \pagebreak
 
