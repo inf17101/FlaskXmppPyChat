@@ -330,6 +330,7 @@ Ort, Datum & Unterschrift
 \acro{REST}{Representational State Transfer}
 \acro{API}{Application Programming Interface}
 \acro{SSH}{Secure Shell}
+\acro{UML}{Unified Modeling Language}
 \acro{HTML}{Hypertext Markup Language}
 \acro{PDF}{Portable Document Format}
 \acro{JSON}{JavaScript Object Notation}
@@ -2004,6 +2005,36 @@ Die Methode lädt ein User-Objekt über die SQLALchemy Operation \texttt{query.g
 
 Die vorgestellten Methoden des LoginManagers und der Klasse \texttt{User} können in der Flask Applikation genutzt werden, um Benutzer zu registrieren oder ein- und auszuloggen. So wird vermieden, dass an verschiedenen Stellen im Code mehrfach der gleiche Code programmiert wird.
 
+\subsubsection*{Umsetzung der Registrierung von Benutzern}
+
+Für die Umsetzung wird folgende \acs{API}-Route definiert, unter der die Benutzerregistrierung möglich ist:
+
+\texttt{http://193.196.53.24/register}
+
+\autoref{img:umlActivityRegistration} im Anhang zeigt die Anwendungslogik für die Benutzerregistrierung, welche in einem \acs{UML} Aktivitätsdiagramm dargestellt ist. Ruft ein Client die oben definierte \acs{URI} auf, so wird eine Methode \texttt{register} in der Flask Applikation aufgerufen, in der diese Abläufe implementiert sind. Zuerst überprüft die Methode, ob der Benutzer bereits authentifiziert ist. Falls das der Fall ist, leitet die \acs{REST} \acs{API} den Client auf eine der Chatseiten um, für die sich der Benutzer des Clients bereits angemeldet hat. Die Chatseite kann entweder die der Kafka Plattform oder die der ejabberd Plattform sein. Greift der Client auf die \acs{URI} mit der \acs{HTTP} Basisoperation GET zu, findet keine Registrierung statt. Dem Client wird die \acs{HTML}-Seite ausgeliefert über die der Benutzer sich registrieren kann. Greift der Client mit einer \acs{HTTP} POST Anfrage auf die \acs{URI} zu, startet der Registrierungsprozess. Im ersten Schritt überprüft die Anwendungslogik, ob die vom Client gesendeten Daten, wie Benutzername, Password und weitere, im Datenaustauschformat \acs{JSON} vorliegen. Ferner wird überprüft, ob der Benutzer schon vorhanden ist. Falls nein, wird der Benutzer auf den beiden Chatplattformen ejabberd und Apache Kafka, sowie in der Tabelle \texttt{user\_auth} angelegt. Schlägt einer der drei Registrierungsprozesse fehl, werden nachfolgende Registrierungsschritte nicht ausgeführt. Außerdem hält bei einem Fehler die Anwendung die Datenbanken durch entsprechende Rollbacks und Fehlerbehandlung konsistent. Die Anwendungslogik verhält sich nicht korrekt, wenn der Server der Flask-Applikation während einem Registrierungsschritt aufgrund höherer Gewalt ausfällt. Eine Fehlerbehandlung in diesem Fall ist jedoch nicht Ziel dieser Studienarbeit. Ist der Benutzer auf beiden Plattformen und in der Tabelle der Benutzerdatenbank angelegt, ist der Registrierungsprozess erfolgreich.
+
+Der Code für die Fehlerbehandlungen ist durch Conditional Code oder Exception Handling realisiert und eine Beschreibung des Codes bringt wenig Mehrwert. Es stellt sich aber die Frage, wie die drei Registrierungsschritte implementiert werden können.
+
+Um einen Benutzer auf der \acs{XMPP}-basierten Plattform ejabberd anzulegen, könnte die \acs{REST} \acs{API} direkt in die MySQL-Datenbank auf der ejabberd-Instanz hineinschreiben. SQLAlchemy ist nach \autoref{lst:readConfigFile} bereits für den Zugriff auf die MySQL-Datenbank konfiguriert. Dagegen ist kritisch einzuwenden, dass in der offiziellen Dokumentation \cite{ejabberdDoc} keinerlei Informationen über den Aufbau des MySQL-Datenbankschemas vorhanden sind und Informationen über verwendete Hashfunktionen von Passwörtern unbekannt sind. Auch ist der Algorithmus für die Erzeugung der Salt\footnote{Salt: zufällig gewählte Zeichenfolge, die an einen gegebenen Klartext vor dessen weiterer Verarbeitung in einer Hashfunktion angehängt wird, um die Entropie der Eingabe zu erhöhen.\cite{wendzel2018}} Zeichenfolge unbekannt und nicht beschrieben.
+
+\pagebreak
+
+Der Code für die Registrierungsschritte zeigt \autoref{lst:flaskRegisterCode}.
+
+\begin{lstlisting}[language=python, caption={Code der \acs{API}-Route für die Benutzerregistrierung}, label={lst:flaskRegisterCode}]
+user = User(req_content["username"], req_content["eMail"], req_content["password"], topic_id)
+user_reg_obj = UserManagement(config['ejabberd_ip'], config['ejabberd_ssh_user'],priv_key=config['ejabberd_ssh_private_key'], sudo_passwd=config['ejabberd_ssh_sudo_password'])
+return_code=user_reg_obj.create_user_remotely(req_content["username"], req_content["password"], config["ejabberd_domain"])
+if return_code != 0:
+    # error handling
+
+kafka_admin_client = KafkaAdminClient(bootstrap_servers=f'{config["apache_kafka_ip"]}:{config["apache_kafka_port"]}')
+topic_list = [NewTopic(name=topic_id, num_partitions=1, replication_factor=1)]
+kafka_admin_client.create_topics(new_topics=topic_list,validate_only=False)
+db.session.add(user)
+db.session.commit()
+\end{lstlisting}
+
 \pagebreak
 
 \section{Entwicklung des Chat-Clients}
@@ -2486,5 +2517,17 @@ kafka\_topic\_id & eindeutiger Zeichensatz, der zur Registrierung eines Topics a
 \end{tabular}
 \label{tab:descriptionUserClass}
 \end{table}
+
+\pagebreak
+
+\section{Ablauf der Benutzerregistrierung}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[height=17.5cm]{images/umlRegistration}
+	\caption{\acs{UML} Aktivitätsdiagramm: Ablauf der Benutzerregistrierung, eigene Darstellung}
+	\label{img:umlActivityRegistration}
+\end{figure}
+
 
 \end{document}
