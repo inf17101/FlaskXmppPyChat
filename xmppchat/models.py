@@ -7,7 +7,8 @@ import re
 
 regex = re.compile(r"from='([A-Za-z0-9]+)@[A-Za-z0-9-]+")
 
-contacts = db.Table('contacts',
+#table for N to N relationship on User Table
+contacts = db.Table('contacts', db.Model.metadata,
     db.Column('user_id', db.Integer, db.ForeignKey('user_auth.user_id'), primary_key=True),
     db.Column('peer_id', db.Integer, db.ForeignKey('user_auth.user_id'), primary_key=True)
 )
@@ -27,7 +28,7 @@ class User(UserMixin, db.Model):
     kafka_topic_id = db.Column(db.String(36))
     register_date = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
     last_login = db.Column(db.DateTime, nullable=True)
-    contacts = db.relationship('user_auth', secondary=contacts, lazy='subquery', backref=db.backref('user_auth', lazy=True))
+    contacts = db.relationship('User', secondary=contacts, primaryjoin=user_id==contacts.c.user_id, secondaryjoin=user_id==contacts.c.peer_id)
 
     def __init__(self, user, email, passwd, topic_id, jabber_domain="@localhost"):
         """

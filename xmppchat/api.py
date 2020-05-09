@@ -218,6 +218,7 @@ def send_message():
 
         elif session_dict[current_user.user_id]['requested_platform'] == 'kafka':
             kafka_client_obj = session_dict[current_user.user_id]['kafka_client_object']
+            contact = User.query.filter(User.contacts.any(user_id=JSON_Data['from_jid'], peer_id=JSON_Data['to_jid'])).first()
             #topic = kafka_client_obj.topics[]
             #kafka_producer = topic.get_producer()
         
