@@ -211,10 +211,16 @@ def send_message():
         if not all(key in JSON_Data for key in ("msg_body", "from_jid", "to_jid", "msg_type", "msg_subject")):
             return make_response(jsonify({"feedback": "invalid post data for sending messages.", "category": "danger", "exit_code": 401}), 401)
 
-        session_dict[current_user.user_id]["xmpp_object"].push_message(JSON_Data["to_jid"], JSON_Data["msg_body"], JSON_Data["msg_subject"], JSON_Data["msg_type"])
-        print("###### Dieser Benutzer hat die Nachricht gesendet: ", current_user.user_id)
-        msg_timestamp = datetime.utcnow().strftime('%Y-%m-%d %H:%M')
-        return make_response(jsonify({"exit_code": 200, "feedback": "success", "timestamp": msg_timestamp}), 200)
+        if session_dict[current_user.user_id]['requested_platform'] == 'xmpp':
+            session_dict[current_user.user_id]["xmpp_object"].push_message(JSON_Data["to_jid"], JSON_Data["msg_body"], JSON_Data["msg_subject"], JSON_Data["msg_type"])
+            msg_timestamp = datetime.today().strftime('%Y-%m-%d %H:%M')
+            return make_response(jsonify({"exit_code": 200, "feedback": "success", "timestamp": msg_timestamp}), 200)
+
+        elif session_dict[current_user.user_id]['requested_platform'] == 'kafka':
+            kafka_client_obj = session_dict[current_user.user_id]['kafka_client_object']
+            #topic = kafka_client_obj.topics[]
+            #kafka_producer = topic.get_producer()
+        
     except Exception as e:
         logger.error(str(e))
         return make_response(jsonify({"feedback": "internal server error. Please try again.", "category": "danger", "exit_code": 500, "debug": e.args}), 500)
