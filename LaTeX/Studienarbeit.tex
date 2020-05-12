@@ -1865,6 +1865,130 @@ Kafka steht nun als Server-Dienst zur Verfügung und die Installation wurde durc
 
 \pagebreak
 
+\section{Python Modul sleekxmpp als \acs{XMPP}-Client}
+
+Damit die Flask Applikation mit ejabberd kommunizieren kann, wird ein Python Modul benötigt, dass als \acs{XMPP}-Client mit ejabberd interagieren kann. Eine Anforderung ist, dass das Modul leicht zu verwenden ist und möglichst viele auf \acs{XMPP}-basierenden Chatfunktionalitäten enthält. Die Programmiersprache Python bietet viele \acs{XMPP}-Clients von denen einige im Folgenden aufgelistet sind:
+
+\begin{itemize}
+\item aioxmpp
+\item xmpppy
+\item pyxmpp
+\item jabberpy
+\item sleekxmpp
+\end{itemize}
+
+Sie unterscheiden sich alle in der Ausführlichkeit der Dokumentation, im Funktionsumfang und in der Handhabbarkeit für Entwickler. Auch werden einige Module, wie zum Beispiel jabberpy, nicht mehr weiterentwickelt und gewartet. Sleekxmpp \cite{pythonSleekxmpp} verspricht im Gegensatz zu anderen \acs{XMPP}-Clients in Python einen großen Funktionsumfang, eine ausführliche Dokumentation und Flexibilität. Außerdem wird es häufig von Communities, wie \texttt{stackoverflow.com}, und in der Literatur \cite{definiteGuideXMPP} empfohlen. Aus diesen Gründen wird \texttt{sleekxmpp} für Entwicklung des eigenen \acs{IMS} verwendet. Die \acs{REST} \acs{API} soll \texttt{sleekxmpp} benutzen, mit der ejabberd-Plattform interagieren und kommunizieren zu können.
+
+Das Modul \texttt{sleekxmpp} kann über den Python Paketmanager pip wie folgt installiert werden:
+
+\texttt{pip install sleekxmpp}
+
+\autoref{lst:sleekxmppClassExample} zeigt eine Klasse \texttt{EchoBot}, die das Modul sleekxmpp verwendet. Die Beispiele und Implementierungen halten sich an die Empfehlungen der Dokumentation von \texttt{sleekxmpp} \cite{pythonSleekxmpp}.
+
+\begin{lstlisting}[language=python, caption={Vorbereitungen für die Verwendung des Moduls sleekxmpp}, label={lst:sleekxmppClassExample}]
+from sleekxmpp import ClientXMPP
+class EchoBot(ClientXMPP):
+
+    def __init__(self, jid, passwd):
+        super(EchoBot, self).__init__(jid, passwd)
+        self.add_event_handler('session_start', self.start)
+        self.add_event_handler('message', self.message)
+\end{lstlisting}
+
+Die Klasse \texttt{EchoBot} erbt von der Klasse \texttt{ClientXMPP} des \texttt{sleekxmpp} Moduls. Der Konstruktor erwartet als Argumente eine Jabber-ID und ein Passwort. Diese werden an den Konstruktor von \texttt{ClientXMPP} weitergereicht. Sie werden für den Verbindungsaufbau zum \acs{XMPP}-Server benötigt. Mit der Methode \texttt{add\_event\_handler} wird ein Event definiert und eine Referenz auf eine Methode angegeben. Die Methode wird ausgeführt, wenn das Event eintrifft. Empfängt der \acs{XMPP}-Client eine Nachricht über \acs{XMPP}, wird die Methode \texttt{self.message} aufgerufen. Innerhalb dieser sogenannten Callback Methoden, kann ein Entwickler benutzerdefinierte Abläufe im Code implementieren. Das bestätigt die Flexibilität von \texttt{sleekxmpp}.
+
+Ein Beispiel für die Callback-Methode \texttt{start} zeigt \autoref{lst:sleekxmppCallbackStart}.
+
+\begin{lstlisting}[language=python, caption={Beispiel: Callback-Methode des Moduls sleekxmpp}, label={lst:sleekxmppCallbackStart}]
+def start(self, event):
+    self.send_presence()
+    self.get_roster()
+\end{lstlisting}
+
+Die Callback-Methode wird aufgerufen, nachdem eine Verbindung mit einem \acs{XMPP}-Server hergestellt wurde. Sie benutzt vererbte Methoden von der Klasse \texttt{ClientXMPP}. Zuerst wird der Online-Status an den Server übermittelt und mit Hilfe der zweiten Methode die Kontaktliste des angemeldeten Benutzers vom Server heruntergeladen. Die gesammte Kommunikation zwischen \acs{XMPP}-Client und \acs{XMPP}-Server basiert auf den Richtlinien des \acs{XMPP}-Protokolls. Sleekxmpp abstrahiert aufwendige Formatkonvertierungen und die Umsetzung der Richtlinien. Es bietet dem Entwickler Schnittstellen und Methoden, um den \acs{XMPP}-Client einfach in Applikationen integrieren zu können.
+
+Die benutzerdefinierte Klasse \texttt{EchoBot} kann wie folgt genutzt werden, siehe \autoref{lst:sleekxmppExampleUseEchoBot}.
+
+\begin{lstlisting}[language=python, caption={Beispiel: Aufbau einer Verbindung zu einem \acs{XMPP}-Server mit sleekxmpp}, label={lst:sleekxmppExampleUseEchoBot}]
+xmpp_client = EchoBot('testuser@ejabberd-server', 'passwort')
+plugins = ['xep_0030', 'xep_0004', 'xep_0060', 'xep_0199']
+
+for item in plugins:
+    xmpp_client.register_plugin(item)
+
+if xmpp_client.connect('10.10.8.10', 5222):
+    t1 = threading.Thread(target=xmpp_client.process, kwargs={'block': True}, deamon=True)
+    # send messages or do something else
+    
+    xmpp_client.disconnect(wait=True)
+\end{lstlisting}
+
+Zuerst wird eine Instanz der Klasse \textbf{EchoBot} erzeugt. Anschließend wird eine Liste mit benötigten \acs{XMPP}-Stanzas initialisiert. Zum Beispiel ermöglicht die \acs{XMPP}-Stanza XEP-0030 eine Service Discovery. Ein Client kann also verfügbare Dienste auf dem \acs{XMPP}-Server abfragen. XEP-0004 ruft Informationen über Datenformate und Datenaustausch vom Server ab. Genaue Details über XEP-Stanzas finden sich im offiziellen \acs{XMPP}-Definite Guide \cite{definiteGuideXMPP}. Die Stanzas werden anschließend in einer Schleife am \acs{XMPP}-Client registriert. Mit der Methode \texttt{connect} verbindet sich sleekxmpp unter Angabe von IP-Adresse und Port mit dem Server.  In der Dokumentation finden sich ausschließlich Beispiele, in denen die Methode \texttt{xmpp\_client.process(block=True)} aufgerufen wird. Das sleekxmpp-Objekt wartet dadurch auf eingehende Nachrichten. Die Konsequenz daraus ist, dass der sequentielle Programmablauf unterbrochen wurde, weil der Haupt-Thread blockiert. Mit dem  Code-Konstrukt aus der Dokumentation ist es nicht möglich in einem Programm auf eingehende Nachrichten zu warten und nebenbei eine Nachricht zu versenden. Ein Problem, das später fatal wäre, für die Umsetzung des \acs{IMS}. Die Lösung ist, wie in \autoref{lst:sleekxmppExampleUseEchoBot} dargestellt, die Methode \texttt{process(block=True)} in einem eigenen Thread ausführen zu lassen. Dadurch kann eine Nachricht versendet werden, während auf eintreffende Nachrichten gewartet werden kann. Trifft eine Nachricht ein, wird kurz zur Callback-Methode gesprungen und diese ausgeführt.\cite{pythonSleekxmpp}
+
+\section{Python Module für Apache Kafka Client}
+
+Wie die \acs{REST} \acs{API} mit ejabberd kommunizieren kann, ist bereits erläutert. Es stellt sich allerdings die Frage, wie die \acs{REST} \acs{API} mit der Apache Kafka-Instanz kommunizieren kann. Für Python sind Module verfügbar, die direkt mit Apache Kafka kommunizieren können.
+
+\subsubsection*{Typische Module:}
+
+\begin{itemize}
+\item kafka-python
+\item pykafka
+\end{itemize}
+
+In der Community von github wird pykafka für seine bessere Performanz gegenüber kafka-python gelobt. Auch ist es mehr mit für Python typische Implementierungsstrukturen entworfen worden, zum Beispiel asynchrones Fehlerhandling oder Benutzung von Kontext-Managern.\cite{pykafkaGithubMeaning}
+
+\autoref{lst:pykafkaProducerExample} zeigt, wie der Producer des Moduls pykafka verwendet werden kann. Der Beispielcode schreibt die Nachricht \glqq hello world\grqq in das Kafka Topic \glqq test\grqq.
+
+\begin{lstlisting}[language=python, caption={Beispiel: Verwendung des Producers des Moduls pykafka}, label={lst:pykafkaProducerExample}]
+from pykafka import KafkaClient
+
+kafka_client = KafkaClient(hosts='10.10.8.4:9092')
+topic = kafka_client.topics['test']
+
+with topic.get_producer() as kafka_producer:
+    kafka_producer.produce(b'hello world')
+\end{lstlisting}
+
+Zuerst wird die Klasse \texttt{KafkaClient} importiert. Anschließend wird durch Aufruf des Konstruktors die Verbindung zur Kafka-Instanz hergestellt. Dem Konstruktor bekommt als Übergabeargument die IP-Adresse mit Port unter welcher die Apache Kafka-Instanz über das Netzwerk erreichbar ist. Danach wird das Topic definiert in das Nachrichten produziert werden sollen. Über das Topic und einem Kontext-Manager wird die Methode \texttt{produce} aufgerufen, die die Nachricht versendet. Sie erwartet ein Byte-Objekt. Ein e Nachricht vom Typ String in Python darf nicht übergeben werden.  Der Kontext-Manager sorgt für den automatischen Verbindungsauf- und abbau. Die Methode \texttt{get\_producer} sorgt, dafür, dass der Producer asynchron arbeitet. Die Methode \texttt{produce} wird sofort verlassen, nachdem die Nachricht versendet wurde, unabhängig davon, ob diese von der Kafka Instanz in das Topic geschrieben wurde oder nicht. Diese Art von Producer eignet sich für das Versenden von großen Nachrichten. Das Modul kann allerdings auch über die Methode \texttt{get\_sync\_producer} einen Producer initialisieren, der solange blockiert, bis die Kafka-Instanz den Empfang der Nachricht quittiert hat.
+
+Aus Gründen der Performanz wird \texttt{get\_producer} in der Studienarbeit genutzt.
+
+Ein Consumer kann mit pykafka wie folgt implementiert werden (siehe \autoref{lst:pykafkaConsumerExample}).
+
+\begin{lstlisting}[language=python, caption={Beispiel: Verwendung des Consumers des Moduls pykafka}, label={lst:pykafkaConsumerExample}]
+from pykafka import KafkaClient
+
+kafka_client = KafkaClient(hosts='10.10.8.4:9092')
+topic = kafka_client.topics['test']
+for i in topic.get_simple_consumer():
+    print(i.value.decode())
+\end{lstlisting}
+
+Genau wie in \autoref{lst:pykafkaProducerExample}, wird zuerst eine Verbindung zur Kafka-Instanz hergestellt. Anschließend wird das Topic definiert, von dem der Consumer Nachrichten konsumieren soll. Über die Methode \texttt{get\_simple\_consumer} wird eine Consumer-Instanz erzeugt, über das mit einer Schleife iteriert werden kann. Der Consumer gibt alle Nachrichten auf der Konsole auf, die im Topic enthalten sind. Sind alle Nachrichten ausgegeben worden oder keine Nachrichten im Topic vorhanden, blockiert er sofort. Er wartet dann auf eintreffende Nachrichten und gibt die neu eingetroffenen Nachrichten aus. Dieser einfache Consumer hat folgenden Nachteil: Konsumieren mehrere Consumer aus dem gleichen Topic, konsumieren alle Consumer die gleichen Nachrichten. Mehrere Consumer können nicht dazu benutzt werden, die Geschwindigkeit der Verarbeitung von Nachrichten zu steigern. Ist das Anwendungsszenario aber nötig, empfiehlt die Dokumentation den Consumer, den die Methode \texttt{get\_balanced\_consumer} erzeugt.
+
+Das Modul pykafka hat für die Implementierung des \acs{IMS} den Nachteil, dass es keine Topics auf Kafka-Instanzen angelegen kann. Jeder Benutzer des \acs{IMS} muss bei der Registrierung ein eigenes Topic erhalten. Würde alle Benutzer sich ein gemeinsames Topic teilen, würden alle Benutzer alle Nachrichten erhalten. Das sollte vermieden werden. Ein Producer eines konkreten Benutzers darf nur in ein bestimmtes Topic schreiben, wenn der Empfänger der Nachricht in seiner Kontaktliste enthalten ist. So können Nachrichten Punkt-zu-Punkt übertragen werden.
+
+Aus diesem Grund ist die alleinige Benutzung von pykafka nicht möglich. Das Modul kafka-python enthält jedoch eine Klasse \texttt{KafkaAdminClient} über die sich Topics auf Kafka-Servern anlegen lassen. \autoref{lst:kafkapythonAdmin} zeigt, wie ein Topic mit dem \texttt{KafkaAdminClient} angelegt werden kann.
+
+\begin{lstlisting}[language=python, caption={Beispiel: Anlegen eines Topics mit dem KafkaAdminClient des Moduls kafka-python}, label={lst:kafkapythonAdmin}]
+from kafka.admin import KafkaAdminClient, NewTopic
+
+admin_client = KafkaAdminClient(bootstrap_servers='10.10.8.4:9092')
+topics = [ NewTopic(name="example_topic", num_partitions=1, replication_factor=1) ]
+try:
+    admin_client.create_topics(new_topics=topics,validate_only=False)
+except errors.TopicAlreadyExistsError as e:
+    # handle error
+
+\end{lstlisting}
+
+Nachdem sich durch Aufruf des Konstruktors der Kafka Admin-Client mit dem Kafka-Server verbunden hat, wird mit Hilfe der Klasse \texttt{NewTopic} ein neues Topic erstellt. Das Topic erhält einen Namen, und die Anzahl an Partitionen die für das Topic reserviert werden sollen. Zusätzlich kann über den Replication Factor die Replizierung des Topics auf anderen Kafka-Brokern veranlasst werden. Eine \glqq 1\grqq bedeutet, dass das Topic nur auf einem Kafka-Broker angelegt wird. Das neue Topic wird in eine Liste eingefügt. Die Liste kann auch mehrere Topics enthalten. Über die Methode \texttt{create\_topic} werden die Topics aus der Liste angelegt. Existiert ein Topic auf dem Kafka-Broker bereits, wird eine Exception geworfen und der Vorgang abgebrochen.
+
+Für die Studienarbeit werden beide Python Module eingesetzt und sich für die Implementierung an die Dokumentationen \cite{pykafkaDocumentation, pythonKafka} gehalten.
+
+\pagebreak
+
 \section{Umsetzung der Entwicklung einer \acs{REST} \acs{API}}
 \label{subsec:Backend}
 
@@ -2011,29 +2135,115 @@ Für die Umsetzung wird folgende \acs{API}-Route definiert, unter der die Benutz
 
 \texttt{http://193.196.53.24/register}
 
-\autoref{img:umlActivityRegistration} im Anhang zeigt die Anwendungslogik für die Benutzerregistrierung, welche in einem \acs{UML} Aktivitätsdiagramm dargestellt ist. Ruft ein Client die oben definierte \acs{URI} auf, so wird eine Methode \texttt{register} in der Flask Applikation aufgerufen, in der diese Abläufe implementiert sind. Zuerst überprüft die Methode, ob der Benutzer bereits authentifiziert ist. Falls das der Fall ist, leitet die \acs{REST} \acs{API} den Client auf eine der Chatseiten um, für die sich der Benutzer des Clients bereits angemeldet hat. Die Chatseite kann entweder die der Kafka Plattform oder die der ejabberd Plattform sein. Greift der Client auf die \acs{URI} mit der \acs{HTTP} Basisoperation GET zu, findet keine Registrierung statt. Dem Client wird die \acs{HTML}-Seite ausgeliefert über die der Benutzer sich registrieren kann. Greift der Client mit einer \acs{HTTP} POST Anfrage auf die \acs{URI} zu, startet der Registrierungsprozess. Im ersten Schritt überprüft die Anwendungslogik, ob die vom Client gesendeten Daten, wie Benutzername, Password und weitere, im Datenaustauschformat \acs{JSON} vorliegen. Ferner wird überprüft, ob der Benutzer schon vorhanden ist. Falls nein, wird der Benutzer auf den beiden Chatplattformen ejabberd und Apache Kafka, sowie in der Tabelle \texttt{user\_auth} angelegt. Schlägt einer der drei Registrierungsprozesse fehl, werden nachfolgende Registrierungsschritte nicht ausgeführt. Außerdem hält bei einem Fehler die Anwendung die Datenbanken durch entsprechende Rollbacks und Fehlerbehandlung konsistent. Die Anwendungslogik verhält sich nicht korrekt, wenn der Server der Flask-Applikation während einem Registrierungsschritt aufgrund höherer Gewalt ausfällt. Eine Fehlerbehandlung in diesem Fall ist jedoch nicht Ziel dieser Studienarbeit. Ist der Benutzer auf beiden Plattformen und in der Tabelle der Benutzerdatenbank angelegt, ist der Registrierungsprozess erfolgreich.
+\autoref{img:umlActivityRegistration} im Anhang zeigt die Anwendungslogik für die Benutzerregistrierung, welche in einem \acs{UML} Aktivitätsdiagramm dargestellt ist. Ruft ein Client die oben definierte \acs{URI} auf, so wird eine Methode \texttt{register} in der Flask Applikation aufgerufen, in der diese Abläufe implementiert sind. Zuerst überprüft die Methode, ob der Benutzer bereits authentifiziert ist. Falls das der Fall ist, leitet die \acs{REST} \acs{API} den Client auf eine der Chatseiten um, für die sich der Benutzer des Clients bereits angemeldet hat. Die Chatseite kann entweder die der Kafka Plattform oder die der ejabberd Plattform sein. Greift der Client auf die \acs{URI} mit der \acs{HTTP} Basisoperation GET zu, findet keine Registrierung statt. Dem Client wird die \acs{HTML}-Seite ausgeliefert über die der Benutzer sich registrieren kann. Greift der Client mit einer \acs{HTTP} POST Anfrage auf die \acs{URI} zu, startet der Registrierungsprozess. Im ersten Schritt überprüft die Anwendungslogik, ob die vom Client gesendeten Daten, wie Benutzername, Passwort und weitere, im Datenaustauschformat \acs{JSON} vorliegen. Ferner wird überprüft, ob der Benutzer schon vorhanden ist. Falls nein, wird der Benutzer auf den beiden Chatplattformen ejabberd und Apache Kafka, sowie in der Tabelle \texttt{user\_auth} angelegt. Schlägt einer der drei Registrierungsprozesse fehl, werden nachfolgende Registrierungsschritte nicht ausgeführt. Außerdem hält die Anwendung bei einem Fehler die Datenbanken durch entsprechende Rollbacks und Fehlerbehandlung konsistent. Die Anwendungslogik verhält sich nicht korrekt, wenn der Server der Flask-Applikation während einem Registrierungsschritt aufgrund höherer Gewalt ausfällt. Eine Fehlerbehandlung in diesem Fall ist jedoch nicht Ziel dieser Studienarbeit. Ist der Benutzer auf beiden Plattformen und in der Tabelle der Benutzerdatenbank angelegt, ist der Registrierungsprozess erfolgreich.
 
 Der Code für die Fehlerbehandlungen ist durch Conditional Code oder Exception Handling realisiert und eine Beschreibung des Codes bringt wenig Mehrwert. Es stellt sich aber die Frage, wie die drei Registrierungsschritte implementiert werden können.
 
-Um einen Benutzer auf der \acs{XMPP}-basierten Plattform ejabberd anzulegen, könnte die \acs{REST} \acs{API} direkt in die MySQL-Datenbank auf der ejabberd-Instanz hineinschreiben. SQLAlchemy ist nach \autoref{lst:readConfigFile} bereits für den Zugriff auf die MySQL-Datenbank konfiguriert. Dagegen ist kritisch einzuwenden, dass in der offiziellen Dokumentation \cite{ejabberdDoc} keinerlei Informationen über den Aufbau des MySQL-Datenbankschemas vorhanden sind und Informationen über verwendete Hashfunktionen von Passwörtern unbekannt sind. Auch ist der Algorithmus für die Erzeugung der Salt\footnote{Salt: zufällig gewählte Zeichenfolge, die an einen gegebenen Klartext vor dessen weiterer Verarbeitung in einer Hashfunktion angehängt wird, um die Entropie der Eingabe zu erhöhen.\cite{wendzel2018}} Zeichenfolge unbekannt und nicht beschrieben.
+Um einen Benutzer auf der \acs{XMPP}-basierten Plattform ejabberd anzulegen, könnte die \acs{REST} \acs{API} direkt in die MySQL-Datenbank der ejabberd-Instanz hineinschreiben. SQLAlchemy ist nach \autoref{lst:readConfigFile} bereits für den Zugriff auf die MySQL-Datenbank konfiguriert. Dagegen ist kritisch einzuwenden, dass in der offiziellen Dokumentation \cite{ejabberdDoc} keinerlei Informationen über den Aufbau des MySQL-Datenbankschemas vorhanden sind und Informationen über verwendete Hashfunktionen von Passwörtern unbekannt sind. Auch ist der Algorithmus für die Erzeugung der Salt\footnote{Salt: zufällig gewählte Zeichenfolge, die an einen gegebenen Klartext vor dessen weiterer Verarbeitung in einer Hashfunktion angehängt wird, um die Entropie der Eingabe zu erhöhen.\cite{wendzel2018}} Zeichenfolge unbekannt und nicht beschrieben. Die Flask Applikation kann aus diesen Gründen nicht direkt einen neuen Benutzer in die Datenbank von ejabberd anlegen. Nach dem Netzplan in \autoref{img:ArchitekturIMS} ist der Server der Flask Applikation direkt über das private Netzwerk \texttt{internalDMZ} mit der ejabberd-Instanz verbunden. Zudem lässt sich auf der ejabberd-Instanz nach \autoref{lst:AddAdminUserEjabberd} ein neuer Benutzer über das Kommandozeilenprogramm \texttt{ejabberdctl} in der Datenbank anlegen. Die Flask Applikation könnte sich über \ac{SSH} auf die ejabberd-Instanz verbinden und \texttt{ejabberdctl} direkt benutzen. Hierzu wird ein Benutzer auf dem Linux-System der ejabberd-Instanz angelegt, der die benötigten Rechte besitzt, um das Kommandozeilenprogramm \texttt{ejabberdctl} zu benutzen. Auf dem Linux-Server der Flask Applikation wird der gleiche Benutzer angelegt und zwischen dem ejabberd-Server und dem Server der Flask Applikation eine Public-Key-Authentifizierung über \ac{SSH} konfiguriert. So kann sich die Flask Applikation beim Aufbau der \ac{SSH}-Verbindung sicher authentifizieren, ohne ein Passwort eingeben zu müssen.
+
+Dieser Ansatz lässt sich leicht mit dem Python Modul \texttt{subprocess} umsetzen \cite{pythonSubprocess}. Mit \texttt{subprocess} lassen sich Prozesse auf dem Betriebssystem starten und nach deren Ausführung die Return-Codes des Prozesses abfragen. Zusätzlich lassen sich Eingabe-, Ausgabe- und Fehlernachrichtenströme des Prozesses auslesen. Die Grundidee ist, eine Klasse \texttt{UserManagement} zu programmieren, die das Modul \texttt{subprocess} verwendet, um einen Benutzer in der Datenbank von ejabberd anlegen oder löschen zu können. Mit \texttt{subprocess} lässt sich der \ac{SSH}-Befehl von Linux in einem eigenen Prozess starten und das Unterprogramm \texttt{ejabberdctl} über \ac{SSH} ausführen, siehe \autoref{img:subprocesSSH}.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=.8\linewidth]{images/subprocessSSH}
+	\caption{Grundidee der Benutzerregistrierung auf ejabberd mittels subprocess, eigene Darstellung}
+	\label{img:subprocesSSH}
+\end{figure}
 
 \pagebreak
 
-Der Code für die Registrierungsschritte zeigt \autoref{lst:flaskRegisterCode}.
+Um einen Benutzer \texttt{testuser} mit dem Passwort \texttt{hallo123} anzulegen, muss \texttt{subprocess} folgenden Befehl ausführen:
+
+\texttt{echo “sudo\_password“ | ssh –tt –i $~$/.ssh/private\_key 10.10.8.10 “sudo ejabberdctl register testuser ejabberd-server hallo123“
+}
+
+\textbf{Bemerkung:} \texttt{ejabberdctl} kann nur mit erweiterten Rechten auf dem Linux-System ausgeführt werden, weshalb das sudo-Passwort mit angegeben werden muss.
+
+\autoref{lst:UserManagementSubprocess} zeigt, wie dieser Befehl in der Methode \texttt{create\_user\_remotely} der Klasse \texttt{UserManagement} mit \texttt{subprocess} implementiert werden kann.
+
+\begin{lstlisting}[language=python, caption={Methode create\_user\_remotely der Klasse UserManagement}, label={lst:UserManagementSubprocess}]
+def create_user_remotely(self, username, passwd, server_domain):
+    COMMAND = f"echo \"{self.sudo_passwd}\" | ssh -tt -i {self.private_key} {self.host} \"sudo ejabberdctl register {username} {server_domain} {passwd}\""
+
+    result = subprocess.Popen(COMMAND, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+    stdout, stderr = result.communicate()
+    return result.returncode
+\end{lstlisting}
+
+Die Variablen \texttt{sudo\_passwd}, \texttt{private\_key} und \texttt{host} sind Attribute der Klasse, welche dem Konstruktor mit übergeben werden müssen. Das Kommando (COMMAND) mit seinen variablen Parametern wird mit einem Python f-String formatiert und dynamisch generiert. Anschließend öffnet die Methode \texttt{Popen} von \texttt{subprocess} einen neuen Prozess und führt den Befehl aus. Mittels \texttt{communicate} interagiert \texttt{subprocess} mit dem erzeugten Prozess und extrahiert Informationen und Return Code aus den Nachrichtenströmen des Prozesses. Die Methode gibt dem Aufrufer den Return Code des Prozesses zurück. Falls der \texttt{ejabberdctl}-Befehl auf dem Remote-Server oder der Prozess selbst nicht erfolgreich ausgeführt werden konnte, ist der Return Code ungleich null. Der Aufrufer bekommt über den Return Code also Feedback über die Registrierung des Benutzers.
+
+In der Klasse \texttt{UserManagement} ist ebenfalls eine Methode implementiert, die der Aufrufer benutzen kann, um einen Benutzer auf der ejabberd-Plattform zu löschen. Die Methode hilft Inkonsistenzen zu vermeiden. Der Aufbau ist sehr ähnlich zu der Methode in \autoref{lst:UserManagementSubprocess}, nur, dass das Kommando ein \texttt{unregister} anstatt \texttt{register} und auf die Angabe des Passworts verzichtet werden muss.
+
+Ein Objekt der Klasse \texttt{UserManagaement} kann in der Methode \texttt{register} der \ac{API}-Route benutzt werden, um in der Datenbank von ejabberd einen neuen Benutzer zu registrieren.
+
+\pagebreak
+
+Den Code für die Methode \texttt{register} der Flask Applikation zeigt \autoref{lst:flaskRegisterCode}.
 
 \begin{lstlisting}[language=python, caption={Code der \acs{API}-Route für die Benutzerregistrierung}, label={lst:flaskRegisterCode}]
-user = User(req_content["username"], req_content["eMail"], req_content["password"], topic_id)
-user_reg_obj = UserManagement(config['ejabberd_ip'], config['ejabberd_ssh_user'],priv_key=config['ejabberd_ssh_private_key'], sudo_passwd=config['ejabberd_ssh_sudo_password'])
-return_code=user_reg_obj.create_user_remotely(req_content["username"], req_content["password"], config["ejabberd_domain"])
-if return_code != 0:
-    # error handling
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    ### error handling, consistency checks ###
 
-kafka_admin_client = KafkaAdminClient(bootstrap_servers=f'{config["apache_kafka_ip"]}:{config["apache_kafka_port"]}')
-topic_list = [NewTopic(name=topic_id, num_partitions=1, replication_factor=1)]
-kafka_admin_client.create_topics(new_topics=topic_list,validate_only=False)
-db.session.add(user)
-db.session.commit()
+    user_reg_obj = UserManagement(config['ejabberd_ip'], config['ejabberd_ssh_user'],priv_key=config['ejabberd_ssh_private_key'], sudo_passwd=config['ejabberd_ssh_sudo_password'])
+    return_code=user_reg_obj.create_user_remotely(req_content["username"], req_content["password"], config["ejabberd_domain"])
+    if return_code != 0:
+        # error handling
+
+    topic_id = str(uuid.uuid4())
+    kafka_admin_client = KafkaAdminClient(bootstrap_servers=f'{config["apache_kafka_ip"]}:{config["apache_kafka_port"]}')
+    topic_list = [NewTopic(name=topic_id, num_partitions=1, replication_factor=1)]
+    kafka_admin_client.create_topics(new_topics=topic_list,validate_only=False)
+    user = User(req_content["username"], req_content["eMail"], req_content["password"], topic_id)
+    db.session.add(user)
+    db.session.commit()
+    
+    ### error handling ###
 \end{lstlisting}
+
+Der \acs{JSON}-Payload ist bereits deserialisiert und befindet sich im Dictionary \texttt{req\_content}. In diesem Dictionary sind Informationen wie Benutzername, Passwort, E-Mail-Adresse und weitere enthalten, die zum Anlegen des Benutzers benötigt werden. Im Dictionary \texttt{config} sind alle Zugangsdaten der Konfigurationsdatei. Der Code beinhaltet alle drei notwendigen Registrierungsschritte. Zuerst wird ein Objekt der Klasse \texttt{UserManagement} erzeugt und mit Hilfe dieser Klasse der Benutzer auf der ejabberd-Plattform angelegt. Mit Hilfe des Return Codes dieser Operation, kann im Falle eines Fehlers weitere Registrierungsschritte verhindert werden. Die Methode dann wird vorzeitig verlassen und eine Antwort an den Client gesendet. Anschließend wird eine 36-stellige Topic ID mit dem Python Modul \texttt{uuid} zufällig erzeugt. Die Topic ID wird für das Anlegen eines Benutzers auf der Kafka-Plattform benötigt. Kafka kann keine Benutzer verwalten, jedoch Topics, welche Nachrichten speichern. Ein Topic wird einem Benutzer zugeordnet. So besitzt jeder Benutzer seinen eigenen Chatkanal und andere Benutzer empfangen keine Nachrichten von diesem Benutzer. Das Python Modul \texttt{kafka-python} \cite{pythonKafka} beinhaltet eine Klasse \texttt{KafkaAdminClient} mit dem ein neues Topic auf einer Kafka-Instanz angelegt werden kann. Nach \autoref{img:ArchitekturIMS} kann die Flask Applikation eine Verbindung über das Netzwerk zur Kafka Plattform herstellen. Als Server erwartet der Konstruktor des \texttt{KafkaAdminClient} die IP-Adresse der Kafka-Instanz. Anschließend kann über die Methode \texttt{create\_topics} ein neues Topic angelegt werden. Sie erwartet eine Liste mit \texttt{NewTopic}-Objekte als Argument, welche ebenfalls das Python Modul \texttt{kafka-python} bereitstellt. Das Modul wirft eine Exception, falls ein Topic bereits vorhanden ist oder eine Verbindung nicht möglich ist (Fehlerbehandlung nicht dargestellt). Als letzten Registrierungsschritt muss der Benutzer zur Datenbank auf der Flask-Instanz hinzugefügt werden, denn diese vermeidet die Benutzer-Accounts des \ac{IMS} für die Webapplikation. Dazu wird ein Objekt des SQLAlchemy-Schemas \texttt{User} angelegt und über SQLALchemy Operationen in die Datenbank eingefügt. Treten Fehler bei Registrierungsschritten auf, sorgt die Fehlerbehandlung dafür, dass Schritte rückgängig gemacht werden oder nachfolgende Registrierungsschritte nicht mehr ausgeführt werden. Der Datenbestand bleibt konsistent.
+
+\subsubsection*{Beschreibung der \acs{API}-Route des Logins}
+
+Für einen Login am \ac{IMS} wird folgende \acs{API}-Route definiert:
+
+\texttt{http://193.196.53.24/login}
+
+\autoref{img:umlActivityLogin} im Anhang zeigt die Anwendungslogik der Flask Applikation vom Login eines Benutzers. Verbindet sich ein Benutzer mit seinem Client auf die oben genannte \acs{URI} wird eine Methode \texttt{login} der Flask Applikation aufgerufen, in der diese Abläufe implementiert sind. Ist ein Benutzer bereits eingeloggt und in der \acs{REST} \acs{API} authentifiziert, leitet die \acs{API} den Benutzer auf die Chatseite um, für die der Benutzer bereits authentifiziert ist. Greift der Client auf die \acs{URI} mit der Basisoperation \acs{HTTP} GET zu, findet keine Anmeldung am System statt. Dem Client wird die \acs{HTML}-Seite durch die \acs{API} ausgeliefert, über die der Benutzer sich anmelden kann. Greift der Client mit der Basisoperation \acs{HTTP} POST auf die \acs{URI} zu, startet der Anmeldevorgang. Zuerst wird überprüft, ob der Benutzername in der Datenbank vorhanden ist und das vom Client gesendete Passwort mit dem Passwort-Hash aus der Datenbank übereinstimmt. Falls nein, sind die Daten im \acs{JSON}-Payload invalide und der Benutzer wird über eine Fehlermeldung informiert. Anhand des Werts, auf den der Name \texttt{requested\_platform} im \acs{JSON}-Payload verweist, wird unterschieden, ob ein Benutzer über die \acs{XMPP}-basierte Plattform oder über die Apache Kafka Plattform kommunizieren möchte. Je nach gesetztem Eintrag, benutzt die \acs{API} entweder einen \acs{XMPP}-Client oder einen Apache Kafka Client als Python Modul, um Nachrichten empfangen und versenden zu können. Hat sich die Flask Applikation mit dem korrekten Python Client an einen der beiden Plattformen erfolgreich eingeloggt, muss die \ac{API} den Benutzer noch im Session-Management des LoginManagers einloggen. So weiß die \acs{API}, welcher Benutzer gerade am \acs{IMS} angemeldet ist und welche Plattform dieser benutzt.
+
+Den Code für den Loginvorgang zeigt \autoref{lst:flaskLoginCode}.
+
+\begin{lstlisting}[language=python, caption={Code der \acs{API}-Route für den Benutzerlogin}, label={lst:flaskLoginCode}]
+@app.route("/login", methods=['GET', 'POST'])
+def login():
+    # error handling code
+    user = User.query.filter_by(username=req_content["username"]).first()
+    if not user or not user.verify_password(req_content["password"]):
+        # send errors and exit
+    if req_content.get('requested_platform') == 'xmpp':
+        xmpp_client = create_sleekxmpp_client(user, req_content)
+
+        if xmpp_client.connect((config.get("ejabberd_ip"), config.get("ejabberd_port"))):
+            t1 = threading.Thread(target=xmpp_client.process, kwargs={'block': True}, daemon=True)
+            t1.start()
+            login_user(user, remember=req_content["remember"])
+            # send successfull message and exit
+        # if not taken -> send errors and exit
+    elif req_content.get('requested_platform') == 'kafka':
+        kafka_client = get_kafka_client()
+        global session_dict
+        session_dict[user.user_id] = {"kafka_client_object": kafka_client, "topic": user.kafka_topic_id, "requested_platform": "kafka"}
+        login_user(user, remember=req_content["remember"])
+        # send successfull message or handle errors and exit
+    else:
+        # send errors and exit
+\end{lstlisting}
+
+Im Dictionary \texttt{req\_content} befindet sich der vom Client an die \acs{API} übertragene Payload, der die Informationen für die Anmeldung enthält. Im Dictionary \texttt{config} sind Konfigurationsparameter und Zugangsdaten bereits eingelesen. Die \acs{REST} \acs{API} überprüft zuerst, ob der Benutzer in der Datenbank vorhanden ist. Hierzu verwendet sie die SQLAlchemy Operation \texttt{query.filter\_by}, mit der die Tabelle \texttt{user\_auth} durchsucht werden kann. Gesucht wird nach dem ersten auffindbaren Eintrag, der dem Benutzernamen entspricht. Anschließend wird überprüft, ob die SQLAlchemy Operation ein User-Objekt zurückgegeben hat und ob das übermittelte Passwort mit dem Passwort-Hash aus der Datenbank übereinstimmt. Falls das der Fall ist, wird anhand des Wertes, auf dem der Schlüssel \texttt{requested\_platform} aus dem Payload verweist, entschieden, für welche Plattform sich der Benutzer anmelden möchte. Fordert der Client die Plattform \texttt{xmpp} an, erzeugt die Methode \texttt{create\_sleekxmpp\_client} ein Objekt des Python \texttt{sleekxmpp}-Clients und gibt es an den Aufrufer zurück. Sie fügt es in das globale \texttt{session\_dict} bereits ein. Im nächsten Schritt wird ein Verbindungsaufbau zur ejabberd-Instanz mit Hilfe des \acs{XMPP}-Clients gestartet. Falls dieser erfolgreich ist, wird mit Hilfe des Python Moduls \texttt{threading} \cite{pythonThreading} ein Thread gestartet, der dauerhaft auf den Empfang von Nachrichten wartet. Sofern keine Fehler aufgetreten sind, kann das \texttt{sleekxmpp}-Objekt aus dem globalen \texttt{session\_dict} von anderen Methoden für den Nachrichtenversand verwendet werden. Der gestartete Thread wartet auf eingehende Nachrichten. Über die Methode \texttt{login\_user} des LoginManagers wird der Benutzer an der \acs{REST} \acs{API} angemeldet und ins Session-Management aufgenommen.
+Meldet sich der Client für die Plattform Kafka an, wird mit Hilfe des Python Moduls \texttt{pykafka} ein Objekt erzeugt und in das globale \texttt{session\_dictionary} eingefügt. Zusätzlich wird die Topic ID darin gespeichert, sodass ein Producer anhand des globalen Session-Dictionary weiß, wie die Topic ID des Benutzers lautet, an dem er die Nachricht senden möchte. Genau wie beim Anmeldevorgang an die \acs{XMPP}-basierte Plattform wird am Ende des Codeabschnitts der Benutzer über \texttt{login\_user} an der \acs{REST} \acs{API} angemeldet.
+
+\textbf{Bemerkungen:} Fehlerbehandlungen und Exception-Handling sind in \autoref{lst:flaskLoginCode} eewusst aus aufgrund von Unübersichtlichkeit nicht dargestellt. Die \acs{REST} \acs{API} informiert den Benutzer jedoch über Fehler.
 
 \pagebreak
 
@@ -2525,8 +2735,19 @@ kafka\_topic\_id & eindeutiger Zeichensatz, der zur Registrierung eines Topics a
 \begin{figure}[h]
 	\centering
 	\includegraphics[height=17.5cm]{images/umlRegistration}
-	\caption{\acs{UML} Aktivitätsdiagramm: Ablauf der Benutzerregistrierung, eigene Darstellung}
+	\caption{\acs{UML}-Aktivitätsdiagramm: Ablauf der Benutzerregistrierung, eigene Darstellung}
 	\label{img:umlActivityRegistration}
+\end{figure}
+
+\pagebreak
+
+\section{Ablauf des Logins eines Benutzers}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\textwidth]{images/umlLogin}
+	\caption{\acs{UML}-Aktivitätsdiagramm: Ablauf des Loginvorgangs, eigene Darstellung}
+	\label{img:umlActivityLogin}
 \end{figure}
 
 
