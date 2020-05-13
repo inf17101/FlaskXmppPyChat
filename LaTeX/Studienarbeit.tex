@@ -20,6 +20,14 @@
 %urls anzeigen
 \usepackage{url}
 
+%farbe
+\usepackage{color}															
+\usepackage{colortbl}
+
+%landscape
+\usepackage{afterpage}
+\usepackage{adjustbox}
+
 \usepackage{notoccite}
 
 %Codelisting
@@ -689,6 +697,14 @@ Eine wichtige Anforderung an Tests ist, dass diese schnell und effizient ablaufe
 
 \section{Diskussion über die Art der Benutzeroberfläche}
 \label{sec:DiskussionGUI}
+
+Mit den theoretischen Inhalten aus \autoref{sec:Benutzeroberfläche} wurden die Kernregeln einer Grafischen Benutzeroberfläche vermittelt. Um diese Regeln umzusetzen sind vorab mehrere Aspekte, welche nachfolgend aufgeführt sind, zu beachten.
+\begin{itemize}
+	\item Programmiersprache
+	\item Plattform
+	\item Aufwand
+\end{itemize}
+Die Programmiersprache ist für jedes Projekt frei wählbar. Neben Vorteilen und Erfahrungen spielen persönliche Interessen ein großer Faktor bei der Wahl der Programmiersprache. Mit der Entscheidung über die Programmiersprache kann auch indirekt die Basis für eine grafische Benutzeroberfläche gelegt werden, da sich stellenweise die Programmiersprache durch das ganze Projekt zieht. Aus diesen und weiteren Gründen wird in diesem Kapitel die Möglichkeiten einer grafischen Benutzeroberfläche mit der jeweiligen Programmiersprache erörtert. Dabei spielt die Plattform ebenfalls eine wichtige Rolle. Diese definiert wie und worauf der Benutzer das Programm nutzen kann. Wieder wird in Verbindung mit der Programmiersprache evaluiert welche Plattform zu Verfügung stehen und welche bezogen auf die Projektanforderungen verwendet werden kann.
 
 - Warum Webanwendung und keine Desktopanwendung?\\
 - Warum Flask und kein anderes Framework? - Besonderheiten, Statistitken, Entscheidungsmatrix\\
@@ -2750,5 +2766,54 @@ kafka\_topic\_id & eindeutiger Zeichensatz, der zur Registrierung eines Topics a
 	\label{img:umlActivityLogin}
 \end{figure}
 
+\pagebreak
+
+\chapter{Gewichtungsfaktor für die Kriterien der Entscheidungsmatrizen}
+\section{Kriterien und Gewichtung für die Web-Frameworks}
+\renewcommand{\arraystretch}{2}
+\begin{table}[h]
+	\centering
+	\caption{Gewichtung der Kriterien für die Web-Framworkarten}
+	\begin{tabular}{p{1,8cm}|p{1,4cm}|p{1,8cm}|p{1,5cm}|p{1,8cm}|p{1,8cm}|p{2,5cm}|}
+		& Umfang & Schwierig-keit & Komple-xität & Verwend-ungszweck & \textbf{Summe Gewichtung} & \textbf{Gewichtung}\\
+		\hline
+		Umfang & \cellcolor{gray} & 1 & 0 & 0 & \textbf{1} & \textbf{17\%}\\
+		\hline
+		Schwierig-keit & 0 & \cellcolor{gray} & 1 & 0 & \textbf{1} & \textbf{17\%}\\
+		\hline
+		Komple-xität & 1 & 0 & \cellcolor{gray} & 1 & \textbf{2} & \textbf{33\%}\\
+		\hline
+		Verwend-ungszweck & 1 & 1 & 0 & \cellcolor{gray} & \textbf{2} & \textbf{33\%}\\
+		\hline
+	\end{tabular}
+	\label{tab:GewichtungWebFramework}
+\end{table}
+\pagebreak
+
+\section{Kriterien und Gewichtung für die Frameworkart}
+\begin{table}[h]
+	\renewcommand{\arraystretch}{2}
+	\centering
+	\caption{Gewichtung der Kriterien für die Frameworkart}
+	\begin{adjustbox}{angle=90}
+		\begin{tabular}{p{2cm}|p{1,5cm}|p{1,5cm}|p{1,5cm}|p{1,5cm}|p{1,2cm}|p{1,8cm}|p{1,8cm}|p{1,4cm}}
+			& Nutzer-freund-lichkeit & Schwie-rig-keit & Umsetz-barkeit & Kompa-tibilität & Design& Verwend-ungs-zweck & \textbf{Summe Gewichtung} & \textbf{Ge-wicht-ung}  \\
+			\hline
+			Nutzer-freund-lichkeit & \cellcolor{gray} & 1 &1&1&1&1&\textbf{5}& \textbf{33\%}  \\
+			\hline
+			Schwierig-keit & 0 & \cellcolor{gray} &1&0&0&0&\textbf{1}& \textbf{7\%}  \\
+			\hline
+			Umsetzbar-keit  &0&0&\cellcolor{gray}&1&1&0&\textbf{2}& \textbf{13\%} \\
+			\hline
+			Kompatibi-lität & 0 & 1 &0&\cellcolor{gray}&1&0&\textbf{2}& \textbf{13\%}  \\
+			\hline
+			Design & 0 &  1 &0&0&\cellcolor{gray}&0&\textbf{1}& \textbf{7\%} \\
+			\hline 
+			Verwend-ungs-zweck & 0 & 1 &1&1&1&\cellcolor{gray}&\textbf{4}& \textbf{27\%}  \\
+			\hline
+		\end{tabular}
+		\label{tab:GewichtungFrameworkart}
+	\end{adjustbox}
+\end{table}
 
 \end{document}
