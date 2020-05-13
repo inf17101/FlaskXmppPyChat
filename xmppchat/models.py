@@ -7,12 +7,6 @@ import re
 
 regex = re.compile(r"from='([A-Za-z0-9]+)@[A-Za-z0-9-]+")
 
-#table for N to N relationship on User Table
-contacts = db.Table('contacts', db.Model.metadata,
-    db.Column('user_id', db.Integer, db.ForeignKey('user_auth.user_id'), primary_key=True),
-    db.Column('peer_id', db.Integer, db.ForeignKey('user_auth.user_id'), primary_key=True)
-)
-
 class User(UserMixin, db.Model):
     """
         class User representing a user of the chatsystem
@@ -26,11 +20,10 @@ class User(UserMixin, db.Model):
     passwd = db.Column(db.String(112), nullable=False)
     jabber_id = db.Column(db.String(255), unique=True)
     kafka_topic_id = db.Column(db.String(36))
-    register_date = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+    register_date = db.Column(db.DateTime, default=datetime.today, nullable=False)
     last_login = db.Column(db.DateTime, nullable=True)
-    contacts = db.relationship('User', secondary=contacts, primaryjoin=user_id==contacts.c.user_id, secondaryjoin=user_id==contacts.c.peer_id)
 
-    def __init__(self, user, email, passwd, topic_id, jabber_domain="@localhost"):
+    def __init__(self, user, email, passwd, topic_id, jabber_domain="@ejabberd-server"):
         """
             constructor for creating an user instance
             Return: None
