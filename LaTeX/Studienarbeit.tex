@@ -1882,6 +1882,7 @@ Kafka steht nun als Server-Dienst zur Verfügung und die Installation wurde durc
 \pagebreak
 
 \section{Python Modul sleekxmpp als \acs{XMPP}-Client}
+\label{sec:SleekxmppModul}
 
 Damit die Flask Applikation mit ejabberd kommunizieren kann, wird ein Python Modul benötigt, dass als \acs{XMPP}-Client mit ejabberd interagieren kann. Eine Anforderung ist, dass das Modul leicht zu verwenden ist und möglichst viele auf \acs{XMPP}-basierenden Chatfunktionalitäten enthält. Die Programmiersprache Python bietet viele \acs{XMPP}-Clients von denen einige im Folgenden aufgelistet sind:
 
@@ -1942,6 +1943,7 @@ if xmpp_client.connect('10.10.8.10', 5222):
 Zuerst wird eine Instanz der Klasse \textbf{EchoBot} erzeugt. Anschließend wird eine Liste mit benötigten \acs{XMPP}-Stanzas initialisiert. Zum Beispiel ermöglicht die \acs{XMPP}-Stanza XEP-0030 eine Service Discovery. Ein Client kann also verfügbare Dienste auf dem \acs{XMPP}-Server abfragen. XEP-0004 ruft Informationen über Datenformate und Datenaustausch vom Server ab. Genaue Details über XEP-Stanzas finden sich im offiziellen \acs{XMPP}-Definite Guide \cite{definiteGuideXMPP}. Die Stanzas werden anschließend in einer Schleife am \acs{XMPP}-Client registriert. Mit der Methode \texttt{connect} verbindet sich sleekxmpp unter Angabe von IP-Adresse und Port mit dem Server.  In der Dokumentation finden sich ausschließlich Beispiele, in denen die Methode \texttt{xmpp\_client.process(block=True)} aufgerufen wird. Das sleekxmpp-Objekt wartet dadurch auf eingehende Nachrichten. Die Konsequenz daraus ist, dass der sequentielle Programmablauf unterbrochen wurde, weil der Haupt-Thread blockiert. Mit dem  Code-Konstrukt aus der Dokumentation ist es nicht möglich in einem Programm auf eingehende Nachrichten zu warten und nebenbei eine Nachricht zu versenden. Ein Problem, das später fatal wäre, für die Umsetzung des \acs{IMS}. Die Lösung ist, wie in \autoref{lst:sleekxmppExampleUseEchoBot} dargestellt, die Methode \texttt{process(block=True)} in einem eigenen Thread ausführen zu lassen. Dadurch kann eine Nachricht versendet werden, während auf eintreffende Nachrichten gewartet werden kann. Trifft eine Nachricht ein, wird kurz zur Callback-Methode gesprungen und diese ausgeführt.\cite{pythonSleekxmpp}
 
 \section{Python Module für Apache Kafka Client}
+\label{sec:KafkaModul}
 
 Wie die \acs{REST} \acs{API} mit ejabberd kommunizieren kann, ist bereits erläutert. Es stellt sich allerdings die Frage, wie die \acs{REST} \acs{API} mit der Apache Kafka-Instanz kommunizieren kann. Für Python sind Module verfügbar, die direkt mit Apache Kafka kommunizieren können.
 
@@ -2130,7 +2132,7 @@ Der LoginManager bietet die folgenden beiden Methoden für das Ein- und Auslogge
 
 \begin{description}
 \item[login\_user:] Loggt einen Benutzer ein. Benötigt als Übergabeargument ein User-Objekt.
-\item[logout\_user:] Loggt einen Benutzer aus, indem .
+\item[logout\_user:] Loggt einen Benutzer aus.
 \end{description}
 
 Bevor diese beiden Methoden im Code der Flask Applikation benutzt werden können, muss eine Callback Methode implementiert werden, die beim Ein- und Ausloggen von Benutzern aufgerufen wird. In \autoref{lst:UserClassCallback} ist die Implementierung der Callback Methode dargestellt.
@@ -2220,6 +2222,61 @@ def register():
 
 Der \acs{JSON}-Payload ist bereits deserialisiert und befindet sich im Dictionary \texttt{req\_content}. In diesem Dictionary sind Informationen wie Benutzername, Passwort, E-Mail-Adresse und weitere enthalten, die zum Anlegen des Benutzers benötigt werden. Im Dictionary \texttt{config} sind alle Zugangsdaten der Konfigurationsdatei. Der Code beinhaltet alle drei notwendigen Registrierungsschritte. Zuerst wird ein Objekt der Klasse \texttt{UserManagement} erzeugt und mit Hilfe dieser Klasse der Benutzer auf der ejabberd-Plattform angelegt. Mit Hilfe des Return Codes dieser Operation, kann im Falle eines Fehlers weitere Registrierungsschritte verhindert werden. Die Methode dann wird vorzeitig verlassen und eine Antwort an den Client gesendet. Anschließend wird eine 36-stellige Topic ID mit dem Python Modul \texttt{uuid} zufällig erzeugt. Die Topic ID wird für das Anlegen eines Benutzers auf der Kafka-Plattform benötigt. Kafka kann keine Benutzer verwalten, jedoch Topics, welche Nachrichten speichern. Ein Topic wird einem Benutzer zugeordnet. So besitzt jeder Benutzer seinen eigenen Chatkanal und andere Benutzer empfangen keine Nachrichten von diesem Benutzer. Das Python Modul \texttt{kafka-python} \cite{pythonKafka} beinhaltet eine Klasse \texttt{KafkaAdminClient} mit dem ein neues Topic auf einer Kafka-Instanz angelegt werden kann. Nach \autoref{img:ArchitekturIMS} kann die Flask Applikation eine Verbindung über das Netzwerk zur Kafka Plattform herstellen. Als Server erwartet der Konstruktor des \texttt{KafkaAdminClient} die IP-Adresse der Kafka-Instanz. Anschließend kann über die Methode \texttt{create\_topics} ein neues Topic angelegt werden. Sie erwartet eine Liste mit \texttt{NewTopic}-Objekte als Argument, welche ebenfalls das Python Modul \texttt{kafka-python} bereitstellt. Das Modul wirft eine Exception, falls ein Topic bereits vorhanden ist oder eine Verbindung nicht möglich ist (Fehlerbehandlung nicht dargestellt). Als letzten Registrierungsschritt muss der Benutzer zur Datenbank auf der Flask-Instanz hinzugefügt werden, denn diese vermeidet die Benutzer-Accounts des \ac{IMS} für die Webapplikation. Dazu wird ein Objekt des SQLAlchemy-Schemas \texttt{User} angelegt und über SQLALchemy Operationen in die Datenbank eingefügt. Treten Fehler bei Registrierungsschritten auf, sorgt die Fehlerbehandlung dafür, dass Schritte rückgängig gemacht werden oder nachfolgende Registrierungsschritte nicht mehr ausgeführt werden. Der Datenbestand bleibt konsistent.
 
+\subsubsection*{Globales Dictionary für die Umsetzung von Chatfunktionalitäten}
+
+Für das Senden und Empfangen von Nachrichten werden die in \autoref{sec:SleekxmppModul} und \autoref{sec:KafkaModul} vorgestellten Python Module verwendet. Es stellt sich jedoch die Frage, wie die Objekte der Module für jeden Benutzer isoliert verwendet werden können. Die Methode, die aufgerufen wird, wenn ein Client auf eine bestimmte \acs{API}-Route zugreift, hat einen lokalen Namensraum. Alle Objekte und Variablen werden nach verlassen der Methode gelöscht. Die Probleme, bereits beim Login von Benutzern entstehen, zeigt \autoref{lst:flaskProblemLocalNamespace}. Der Codeumfang des \autoref{lst:flaskProblemLocalNamespace} ist auf die Darstellung der resultierende Probleme reduziert. Die sich daraus ergebenen Probleme können analog auf die Verwendung des Moduls für die Apache Kafka Plattform übertragen werden.
+
+\begin{lstlisting}[language=python, caption={Problem für Chatfunktionalitäten aufgrund des lokalen Namensraums von Methoden}, label={lst:flaskProblemLocalNamespace}]
+@app.route("/login", methods=["GET", "POST"])
+def login():
+	# code to login user into session management...
+	sleekxmpp_object = EchoBot("user1@ejabberd-server", "hallo123")
+	# code to prepare connection
+	if sleekxmpp_object.connect("10.10.8.10", 5222):
+		# code to listen for new messages
+\end{lstlisting}
+
+Nachdem das \texttt{sleekxmpp}-Objekt erstellt wurde, wird eine Verbindung mit dem \acs{XMPP}-Server hergestellt werden. Anschließend folgt der Code aus \autoref{lst:sleekxmppExampleUseEchoBot}, indem mittels eines Thread-Objekts auf eintreffende Nachrichten gewartet wird. Das kann aber nur solange geschehen, bis das \texttt{sleekxmpp}-Objekt beim Verlassen der Methode wieder zerstört wird. Damit erreicht der Thread sein natürliches Ende. Nachdem müssen aber solange Empfangen werden können, bis sich ein Benutzer ausloggt. Versendet ein Client durch Aufruf einer anderen \acs{API}-Route eine Nachricht, muss diese wieder ein \texttt{sleekxmpp}-Objekt erzeugen und die Nachricht versenden. Nach Verlassen des lokalen Namensraums der Methode ist das Objekt wieder zerstört. Es ist ineffizient ein Objekt ständig neu zu erzeugen, das nur eine sehr kurze Zeit, nämlich dem Versenden der Nachricht, benötigt wird.
+
+Das Objekt für kurze Operationen nicht dauernd erzeugen zu müssen, verbessert diese Situation. Eine Möglichkeit ist, das Objekt beim Login als globale Variable zu initialisieren. Auf diese Weise kann das Objekt von anderen Methoden wiederverwendet und auf eingehende Nachrichten bis zum Logout des Benutzers gewartet werden. Dagegen ist kritisch anzumerken, dass ein anderer Benutzer, der sich ebenfalls am \acs{IMS} anmeldet, das Objekt mit seinem erzeugten Objekt überschreibt. Denn einem Benutzer gehört eine Jabber-ID und das \texttt{sleekxmpp}-Objekt meldet sich über das Netzwerk mit Jabber-ID und Passwort am \acs{XMPP}-Server an. Ein Objekt kann nicht mehrere Verbindungen über mehrere Jabber-IDs verwalten \cite{pythonSleekxmpp}.
+
+Es ist also nach einer Möglichkeit gesucht, mit der Objekte wiederverwendet werden können und jeder Benutzer seine eigenen Objekte benutzt. Zusätzlich dürfen die Aktionen eines angemeldeten Benutzers die Aktionen eines anderen Benutzers nicht beeinflussen.
+
+Ein globales Dictionary das in der Datei der Flask Applikation angelegt wird, kann für jeden Benutzer ein eigenes Objekt speichern.
+
+Dieser Code initalisiert ein leeres Dictionary:
+
+\texttt{session\_dict = \{\}}
+
+Im Datentyp Dictionary bildet ein Schlüssel eindeutig auf einen Wert ab. Dieser Wert kann wieder ein Dictionary sein. Es ist eine Verschachtelung zulässig.\cite{pythonDictionaries}
+
+Das Dictionary enthält Informationen über den aktuell angemeldeten Benutzer und wird deshalb in dieser Studienarbeit auch häufig als Session-Dictionary bezeichnet. Der Begriff in dieser Arbeit bezeichnet dieses Dictionary.
+
+Ein Benutzer wird eindeutig über den Primärschlüssel in der Datenbank identifiziert. Der Primärschlüssel ist eine Ganzzahl. Diese Ganzzahl, welche auch als ID bezeichnet werden kann, kann als Schlüssel im Dictionary verwendet werden. Die ID als Schlüssel ist eindeutig und verweist dann auf ein weiteres Dictionary, dass alle für den angemeldeten Benutzer relevanten Daten speichert.
+
+\pagebreak
+
+\autoref{img:sessionDict} zeigt das Dictionary mit Beispieleinträgen.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=.6\textwidth]{images/sessionDict}
+	\caption{Beispiel: Einträge in das globale Dictionary für Chatfunktionalitäten, eigene Darstellung}
+	\label{img:sessionDict}
+\end{figure}
+
+Das Session-Dictionary zeigt einen Zustand, in dem zwei Benutzer am \acs{IMS} angemeldet sind. Die ID der beiden Benutzer aus der Datenbank wird als Schlüssel verwendet. Die beiden Benutzer sind für unterschiedliche Plattformen angemeldet. Der Benutzer testuser1 benutzt das Apache Kafka System für den Nachrichtentransport und der Benutzer testuser2 die \acs{XMPP}-basierte Plattform über ejabberd. Wichtig ist, dass für jeden Benutzer ein eigenes Objekt gespeichert wird, sodass kein Objekt überschrieben werden kann. Je nachdem, für welche Plattform sich ein Benutzer angemeldet hat, wird ein Objekt des entsprechenden Python-Clients unabhängig von anderen Benutzern unabhängig gespeichert. Zusätzlich können in diesem Dictionary auch noch weitere Informationen, wie zum Beispiel für welche Plattform ein Benutzer angemeldet ist.
+
+Der Vorteil ist folgender:
+
+Im Code von Methoden der \acs{API}-Routen kann durch Conditional Code unterschieden, welche Plattform der Benutzer benutzt. Dadurch kann eine \acs{API}-Route für beide Plattformen verwendet werden. Es muss nicht für jede Plattform eine extra \acs{API}-Route definiert werden. Die Fehlerbehandlung und die Überprüfungen sind zum Beispiel für den Versand von Nachrichten für beide Plattformen gleich. Das Frontend muss für beide Plattformen dieselbe Anfrage und denselben Payload versenden. Auf diese Weise kann Code gespart werden. Das vereinfacht die Wartung der Software. Code muss im Falle von Änderungen nur an einer Stelle geändert werden. Das reduziert die Fehleranfälligkeit.
+
+Ein weiterer Vorteil ist, dass auf die Daten in dem verschachtelten Dictionary schnell zugegriffen werden kann. Ein Dictionary bietet einen Zugriff auf einen Wert in der Geschwindigkeitsklasse O(1) \cite{pythonSpeed}. Bekommt die \acs{API} von einem Client den Auftrag, für einen Benutzer eine Nachricht zu versenden, kann sie gezielt auf das Objekt des Benutzers zugreifen und die Nachricht an die jeweilige Plattform senden.
+
+\textbf{Beispiel:} \texttt{session\_dict[32]['xmpp\_object'].send\_message(...)}
+
+Das Session-Dictionary ist in \autoref{img:sessionDict} nicht vollständig abgebildet. In dieser Arbeit wird das Dictionary um weitere Daten erweitert, wenn das für die Funktionen des \acs{IMS} notwendig ist.
+
 \subsubsection*{Beschreibung der \acs{API}-Route des Logins}
 
 Für einen Login am \ac{IMS} wird folgende \acs{API}-Route definiert:
@@ -2256,10 +2313,106 @@ def login():
         # send errors and exit
 \end{lstlisting}
 
-Im Dictionary \texttt{req\_content} befindet sich der vom Client an die \acs{API} übertragene Payload, der die Informationen für die Anmeldung enthält. Im Dictionary \texttt{config} sind Konfigurationsparameter und Zugangsdaten bereits eingelesen. Die \acs{REST} \acs{API} überprüft zuerst, ob der Benutzer in der Datenbank vorhanden ist. Hierzu verwendet sie die SQLAlchemy Operation \texttt{query.filter\_by}, mit der die Tabelle \texttt{user\_auth} durchsucht werden kann. Gesucht wird nach dem ersten auffindbaren Eintrag, der dem Benutzernamen entspricht. Anschließend wird überprüft, ob die SQLAlchemy Operation ein User-Objekt zurückgegeben hat und ob das übermittelte Passwort mit dem Passwort-Hash aus der Datenbank übereinstimmt. Falls das der Fall ist, wird anhand des Wertes, auf dem der Schlüssel \texttt{requested\_platform} aus dem Payload verweist, entschieden, für welche Plattform sich der Benutzer anmelden möchte. Fordert der Client die Plattform \texttt{xmpp} an, erzeugt die Methode \texttt{create\_sleekxmpp\_client} ein Objekt des Python \texttt{sleekxmpp}-Clients und gibt es an den Aufrufer zurück. Sie fügt es in das globale \texttt{session\_dict} bereits ein. Im nächsten Schritt wird ein Verbindungsaufbau zur ejabberd-Instanz mit Hilfe des \acs{XMPP}-Clients gestartet. Falls dieser erfolgreich ist, wird mit Hilfe des Python Moduls \texttt{threading} \cite{pythonThreading} ein Thread gestartet, der dauerhaft auf den Empfang von Nachrichten wartet. Sofern keine Fehler aufgetreten sind, kann das \texttt{sleekxmpp}-Objekt aus dem globalen \texttt{session\_dict} von anderen Methoden für den Nachrichtenversand verwendet werden. Der gestartete Thread wartet auf eingehende Nachrichten. Über die Methode \texttt{login\_user} des LoginManagers wird der Benutzer an der \acs{REST} \acs{API} angemeldet und ins Session-Management aufgenommen.
-Meldet sich der Client für die Plattform Kafka an, wird mit Hilfe des Python Moduls \texttt{pykafka} ein Objekt erzeugt und in das globale \texttt{session\_dictionary} eingefügt. Zusätzlich wird die Topic ID darin gespeichert, sodass ein Producer anhand des globalen Session-Dictionary weiß, wie die Topic ID des Benutzers lautet, an dem er die Nachricht senden möchte. Genau wie beim Anmeldevorgang an die \acs{XMPP}-basierte Plattform wird am Ende des Codeabschnitts der Benutzer über \texttt{login\_user} an der \acs{REST} \acs{API} angemeldet.
+Im Dictionary \texttt{req\_content} befindet sich der vom Client an die \acs{API} übertragene Payload, der die Informationen für die Anmeldung enthält. Im Dictionary \texttt{config} sind Konfigurationsparameter und Zugangsdaten bereits eingelesen. Die \acs{REST} \acs{API} überprüft zuerst, ob der Benutzer in der Datenbank vorhanden ist. Hierzu verwendet sie die SQLAlchemy Operation \texttt{query.filter\_by}, mit der die Tabelle \texttt{user\_auth} durchsucht werden kann. Gesucht wird nach dem ersten auffindbaren Eintrag, der dem Benutzernamen entspricht. Anschließend wird überprüft, ob die SQLAlchemy Operation ein User-Objekt zurückgegeben hat und ob das übermittelte Passwort mit dem Passwort-Hash aus der Datenbank übereinstimmt. Falls das der Fall ist, wird anhand des Wertes, auf dem der Schlüssel \texttt{requested\_platform} aus dem Payload verweist, entschieden, für welche Plattform sich der Benutzer anmelden möchte. Fordert der Client die Plattform \texttt{xmpp} an, erzeugt die Methode \texttt{create\_sleekxmpp\_client} ein Objekt des Python \texttt{sleekxmpp}-Clients und gibt es an den Aufrufer zurück. Sie fügt es in das globale Session-Dictionary bereits ein. Außerdem erzeugt sie eine zufällige Zeichenfolge, welche zusätzlich in das Session-Dictionary eingefügt wird. Diese wird später für den Empfang von Nachrichten benötigt und im weiteren Verlauf der Arbeit erläutert. Im nächsten Schritt wird ein Verbindungsaufbau zur ejabberd-Instanz mit Hilfe des \acs{XMPP}-Clients gestartet. Falls dieser erfolgreich ist, wird mit Hilfe des Python Moduls \texttt{threading} \cite{pythonThreading} ein Thread gestartet, der dauerhaft auf den Empfang von Nachrichten wartet. Sofern keine Fehler aufgetreten sind, kann das \texttt{sleekxmpp}-Objekt aus dem globalen Session-Dictionary von anderen Methoden für den Nachrichtenversand verwendet werden. Der gestartete Thread wartet im Hintergrund auf eingehende Nachrichten. Über die Methode \texttt{login\_user} des LoginManagers wird der Benutzer an der \acs{REST} \acs{API} angemeldet und ins Session-Management des LoginManagers aufgenommen.
+Meldet sich der Client für die Plattform Kafka an, wird mit Hilfe des Python Moduls \texttt{pykafka} ein Objekt erzeugt und in das globale Session-Dictionary eingefügt. Zusätzlich wird die Topic ID darin gespeichert, sodass ein Producer anhand des globalen Session-Dictionary weiß, wie die Topic ID des Benutzers lautet, an dem er die Nachricht senden möchte. Dieser Sachverhalt wird im Verlauf der Arbeit noch genauer erläutert. Genau wie beim Anmeldevorgang an die \acs{XMPP}-basierte Plattform wird am Ende des Codeabschnitts der Benutzer über \texttt{login\_user} an der \acs{REST} \acs{API} angemeldet.
 
 \textbf{Bemerkungen:} Fehlerbehandlungen und Exception-Handling sind in \autoref{lst:flaskLoginCode} eewusst aus aufgrund von Unübersichtlichkeit nicht dargestellt. Die \acs{REST} \acs{API} informiert den Benutzer jedoch über Fehler.
+
+\pagebreak
+
+\subsubsection*{Laden des Chatverlaufs bei Benutzung der \acs{XMPP}-basierten Plattform}
+
+Die \acs{API} muss einem Client den Nachrichtenverlauf übermitteln können. Der Client kann den Nachrichtenverlauf über die \acs{URI} \texttt{193.196.53.24/get\_messages} erhalten.  Die Nachrichten werden bei der \acs{XMPP}-basierten Plattform von ejabberd direkt in seiner MySQL-Datenbank gespeichert.
+
+\autoref{img:ejaberdChatHistory} zeigt einen Ausschnitt mit relevanten Spalten aus der Tabelle, in der die Chatverläufe von ejabberd gespeichert werden. Die Inhalte aus der Spalte xml sind auf die notwendigen Informationen begrenzt.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\textwidth]{images/ejabberdChatHistory}
+	\caption{Aufbau der Tabelle der Chatverläufe von ejabberd, eigene Darstellung}
+	\label{img:ejaberdChatHistory}
+\end{figure}
+
+Die \acs{API} muss den Chatverlauf aus der Tabelle direkt exportieren und in das Datenformat \acs{JSON} konvertieren. Das \acs{JSON}-Objekt mit den Chatverläufen kann einem Client dann zurückgegeben werden. Die Struktur der Tabelle entspricht nicht den Design-Prinzipien von relationalen Datenbanken. Die Nachrichten in der Tabelle sind redundant gespeichert. Zum Beispiel wird die gleiche Nachricht, die testuser2 an test schickt, von den beiden Chatpartnern jeweils einmal gespeichert. Die Nachrichten in Zeile 1 und 3, sowie in Zeile 2 und 4 sind jeweils gleich. Hinzu kommt, dass die Tabelle keine optimale Struktur besitzt, um anhand der Informationen in einer Spalte zu entscheiden, wer welche Nachricht gesendet und empfangen hat und zu welchem Chatverlauf eine Nachricht gehört. Ein einfacher Export des Chatverlaufs zwischen zwei Benutzern ist nicht möglich. Mit einem typischen SELECT-Befehl der Sprache \acs{SQL} ist es nicht möglich alle Chatverläufe für jeden Benutzer zu extrahieren.
+
+Eine mögliche Lösung ist, die Eindeutigkeit der Spalte xml zu verwenden. Die Spalte xml speichert die Nachricht im Datenformat \acs{XML}. In diesem Format überträgt das \acs{XMPP}-Protokoll die Nachricht zwischen Client und Server. Die Attribute from und to einer Nachricht verweisen eindeutig auf die Jabber-ID und damit auf den Benutzer, der die Nachricht versendet oder empfangen hat. Ein Chatverlauf ist zwischen zwei Kommunikationspartnern kann mit Hilfe der Spalten username, bare\_peer und und dem Attribut from aus dem \acs{XML} eindeutig aus der Tabelle extrahiert werden.
+
+Einen Algorithmus der diesen Ansatz nutzt, zeigt \autoref{lst:flaskExtractXMPPChathistory}.
+
+\begin{lstlisting}[language=python, caption={Code für die Extrahierung des Chatverlaufes von ejabberd}, label={lst:flaskExtractXMPPChathistory}]
+def get_chat_history(username):
+    POSITION_XML = 1
+    chat_rosters_bare_peers = Archiv.query.with_entities(Archiv.bare_peer).filter_by(username=username).group_by("bare_peer").all()
+    chat_msgs = {}
+    for bare_peer in chat_rosters_bare_peers:
+        list_peer_msgs = []
+        results = Archiv.query.with_entities(Archiv.txt, Archiv.xml, Archiv.created_at, Archiv.kind).filter_by(username=username).filter_by(bare_peer=bare_peer[0]).all()
+        for item in results:
+            match = re.findall(regex, item[POSITION_XML])
+            list_peer_msgs.append({"txt": item[0], "timestamp": item[2].strftime('%Y-%m-%d %H:%M:%S'), "type": item[3], "from": match[0]})
+        list_peer_msgs_sorted = list(sorted(list_peer_msgs, key=lambda k: k["timestamp"]))
+        chat_msgs[bare_peer[0].split('@')[0]] = list_peer_msgs_sorted
+    return chat_msgs
+\end{lstlisting}
+
+Die Methode implementiert eine Klasse \texttt{Archiv}, die ein SQLAlchemy Schema darstellt und den Aufbau der Tabelle von ejabberd beschreibt, die die Chatverläufe speichert. So kann SQLAlchemy auf die Tabelle der Datenbank von ejabebrd zugreifen. Das Schema ist aus Gründen der Vollständigkeit im Anhang \autoref{lst:flaskClassArchiv} abgebildet, eine Beschreibung bietet jedoch wenig Mehrwert. Vielmehr wird im Folgenden der Algorithmus beschrieben, den diese Klasse implementiert.
+Die Methode akzeptiert einen Benutzernamen und extrahiert den gesamten Chatverlauf des Benutzers mit seinen Kommunikationspartnern. Zu Beginn extrahiert eine SQLAlchemy Operation alle Chatpartner des Benutzers.
+Ein mögliches Ergebnis des Benutzers testuser2 sieht wie folgt aus:
+
+\texttt{[('test@ejabberd-server',),('testuser3@ejabberd-server',)]}
+
+Die SQLAlchemy Operation gibt eine List mit Tupeln zurück, die alle Benutzer enthält, mit denen testuser2 kommuniziert. Die Anzahl der Elemente der Liste entspricht der Anzahl der Chatverläufe.
+
+In den folgenden Erläuterung wird ausschließlich gezeigt, wie der Chatverlauf des Benutzers mit dem Kommunikationspartner \texttt{test@ejabberd-server} extrahiert wird. Die Methode muss die Vorgänge jedoch für jeden Chatpartner ausführen, sodass am Ende ein Chatverlauf von allen Kommunikationspartnern entsteht.
+
+Im nächsten Schritt muss für jeden Chatpartner der Nachrichtenverlauf mit einer SQLALchemy Operation abgefragt werden. Der Chatverlauf zwischen dem Benutzer und dem Chatpartner aus der Liste wird in der Variablen \texttt{results} gespeichert. Die Methode \texttt{with\_entities} teilt SQLAlchemy mit, dass nur die Spalten, die als Argumente übergeben sind, abgefragt werden sollen. Die relevanten Spalten sind: txt, xml, created\_at, kind. Die Bedeutung der Spalten ergibt sich aus \autoref{img:ejaberdChatHistory}. Zurückgegeben wird eine Liste von Tupeln, die alle Nachrichten des Kommunikationsverlaufs enthält.
+
+Stellt man die Ergebnisse in einer Tabelle dar, ergibt sich \autoref{img:ejabberdChatHistoryWithoutRedundancy}:
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\textwidth]{images/ejabberdChatHistoryWithoutRedundancy}
+	\caption{Darstellung der Chatverläufe von ejabberd mit entfernten Redundanzen, eigene Darstellung}
+	\label{img:ejabberdChatHistoryWithoutRedundancy}
+\end{figure}
+
+Im Vergleich zu \autoref{img:ejaberdChatHistory} sind alle redundanten Informationen entfernt. Das Ergebnis beinhaltet nicht mehr die redundant gespeicherten Nachrichten aus der Sicht von jedem Benutzer.
+
+Über die Spalte xml lässt sich über eine Regex\footnote{Mittels einer Regex können Zeichenketten durch Angabe eines Patterns aus einer Zeichenkette extrahiert werden.\cite{pythonRegex}} in Python, die Jabber-ID des Attributs from extrahieren. Anhand des from Attributs kann der Absender der Nachricht genau zugeordnet werden. Zum Beispiel lässt sich anhand des Attributs from in Zeile von \autoref{img:ejabberdChatHistoryWithoutRedundancy} sagen, dass die Nachricht \glqq hallo\grqq, von testuser2 stammt und der Benutzer test der Empfänger dieser Nachricht ist.
+
+Auf diese Weise baut der Algorithmus ein Dictionary für jede Nachricht, in der alle wichtige Informationen, wie Absender, Empfänger, Art der Nachricht (Einzel- oder Gruppenchat) und Zeitstempel der Nachricht enthalten sind.
+
+Die einzelnen Dictionaries werden dann in eine Liste eingefügt. Die Liste entspricht dann dem Chatverlauf zwischen zwei Benutzern.
+
+Das Ergebnis des Chatverlaufs zwischen den Benutzern testuser2 und test aus \autoref{img:ejabberdChatHistoryWithoutRedundancy} sieht wie folgt aus:
+
+\texttt{[\{'txt': 'hallo', 'timestamp': '2020-02-21 15:26:22', 'type': 'chat', 'from': 'testuser2'\},} \\ \texttt{\{'txt': 'hello', 'timestamp': '2020-02-21 15:26:38', 'type': 'chat', 'from': 'test'\}]}
+
+Damit der Nachrichtenverlauf zeitlich in der richtigen Reihenfolge gespeichert ist, wird die Liste nach dem Zeitstempel sortiert, siehe Zeile 11 in \autoref{lst:flaskExtractXMPPChathistory}.
+
+Diesen Ablauf muss die Methode für jeden Chatpartner durchlaufen. Die daraus erhaltenen Chatverläufe müssen noch in einem übergeordneten Dictionary \texttt{chat\_msgs} eingefügt werden. So enthält das Dictionary den Chatverlauf des Benutzers zu jedem Kommunikationspartner.
+
+Ein Beispiel des gesamten Nachrichtenverlaufs von testuser2 sieht wie folgt aus:
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\textwidth]{images/ejabberdExampleFullChathistory}
+	\caption{Beispiel: Gesamter Chatverlauf eines Benutzers von ejabberd, eigene Darstellung}
+	\label{img:ejabberdExampleFullChathistory}
+\end{figure}
+
+Die Namen der Chatpartner bilden als Schlüssel im Dictionary eindeutig auf den Chatverlauf ab. Das funktioniert, weil der Name des Chatpartners in der Flask Applikation gemäß \autoref{lst:classUser} eindeutig sein muss.
+
+Ein Client oder die Webanwendung kann sich nun auf die \acs{URI} \texttt{193.196.53.24/get\_chathistory} verbinden, um den gesamten Nachrichtenverlauf im Datenaustauschformat \acs{JSON} abzufragen. Das Dictionary das den gesamten Chatverlauf enthält kann über die Methode \texttt{jsonify} des Flask Moduls in ein JSON-Objekt leicht umgewandelt werden:
+
+\texttt{jsonify(chat\_msgs)}
+
+Der Mehrwert des vorgestellten Algorithmus ist, das ein Client den Chatverlauf in einer geordneten Struktur erhält und selbst entscheiden kann, in welcher Formatierung die Nachrichten dem Benutzer angezeigt werden. Außerdem ist über das Key-Value-Prinzip schnell auf den Chatverlauf des Benutzers mit einem bestimmten Kommunikationspartner zugreifbar:
+
+\texttt{chat\_msgs['test']} oder \texttt{chat\_msgs['testuser3']}
+
+
+
 
 \pagebreak
 
@@ -2743,6 +2896,28 @@ kafka\_topic\_id & eindeutiger Zeichensatz, der zur Registrierung eines Topics a
 \end{tabular}
 \label{tab:descriptionUserClass}
 \end{table}
+
+\pagebreak
+
+\begin{lstlisting}[language=python, caption={SQLAlchemy Schema für die Tabelle der Chatverläufe von ejabberd}, label={lst:flaskClassArchiv}]
+from xmppchat.api import db
+
+class Archiv(db.Model):
+
+    __bind_key__ = "ejabberd_database"
+    __tablename__ = "archive"
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
+    username = db.Column(db.String(191), nullable=False)
+    bare_peer = db.Column(db.String(191), nullable=False)
+    xml = db.Column(db.String, nullable=False)
+    txt = db.Column(db.String, nullable=True)
+    kind = db.Column(db.String(10), nullable=True)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+
+\end{lstlisting}
+
+\textbf{Bemerkung:} Die Klassenvariable \texttt{bin\_key} benötigt SQLAlchemy, wenn auf mehr als eine Datenbank zugegriffen werden soll. Anhand des Parameters weiß SQLAlchemy, zu welcher Datenbank die Tabelle gehört.
 
 \pagebreak
 
