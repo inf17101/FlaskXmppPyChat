@@ -1,0 +1,963 @@
+{% extends "index.html" %}
+{% block title %}Go Chat!{% endblock %}
+{%block content%}
+
+<style>
+
+  .input-group .emojionearea .form-control{
+    width: max-content;
+  }
+
+  #containerMain { 
+    margin-top: 50pt!important;
+    height: 90vh;
+    min-height: 300px;
+    margin-left: 1%;
+    margin-right: 1%;
+  }
+  @media screen and (max-width: 415px) {
+    #containerMain {
+     font-size: 14px;
+    }
+  }
+  .timestamp p {
+    float: right;
+    margin-bottom: 0em;
+    opacity: 0.5;
+    font-size: small;
+  }
+  .timestamp-left p {
+    margin-bottom: 0em;
+    opacity: 0.5;
+    font-size: small;
+  }
+   
+  /* CHAT */
+  /******************/
+  .chat-history{
+    display: inline;
+  }
+  
+  .chat .chat-history .message-data {
+    margin-bottom: 15px;
+  }
+  .chat .chat-history .message-data-time {
+    color: #a8aab1;
+    padding-left: 6px;
+  }
+  .chat .chat-history .message {
+    color: white;
+    padding: 18px 20px;
+    line-height: 26px;
+    font-size: 16px;
+    border-radius: 5px;
+    margin-bottom: 30px;
+    width: fit-content;
+    position: relative;
+  }
+  @media screen and (max-width: 415px) {
+    .chat .chat-history .message {
+     font-size: 14px;
+    }
+  }
+  .chat .chat-history .message:after {
+  content: "";
+      position: absolute;
+      top: -15px;
+      left: 20px;
+      border-width: 0 15px 15px;
+      border-style: solid;
+      border-color: #CCDBDC transparent;
+      display: block;
+      width: 0;
+  }
+  .chat .chat-history .you-message {
+    background: #CCDBDC;
+    color:#003366;
+    max-width: 50%;
+    overflow-wrap: anywhere;
+  }
+  .chat .chat-history .me-message {
+    background: #3f79af;
+    max-width: 50%;
+    overflow-wrap: anywhere;
+  }
+  .chat .chat-history .me-message:after {
+    border-color: #3f79af transparent;
+      right: 20px;
+      top: -15px;
+      left: auto;
+      bottom:auto;
+  }
+  .chat .chat-message {
+    padding: 30px;
+  }
+  .chat .chat-message .fa-file-o, .chat .chat-message .fa-file-image-o {
+    font-size: 16px;
+    color: gray;
+    cursor: pointer;
+  }
+  
+  ul{
+    list-style-type: none;
+    padding-inline-start: 0px;
+  }
+  
+  /* CONTENT WINDOW */
+  /******************/
+  
+  .col {
+    padding: 0% 0% 0% 0%;
+    margin: 0% 2% 0% 0%;
+  }
+  
+  #content-window{
+    max-height: 90vh;
+  }
+  
+  /* CONTACT PROFIL */
+  /******************/
+  
+  #containerMain .contact-profile {
+    height: 60px;
+    line-height: 60px;
+    background: #f5f5f5;
+  }
+  #containerMain .contact-profile img {
+    width: 40px;
+    border-radius: 50%;
+    float: left;
+    margin: 9px 12px 0 9px;
+  }
+  #containerMain .contact-profile p {
+    float: left;
+  }
+  .dropdown { 
+    margin-left: 20px; 
+    margin-right: 2%; 
+    float: right!important;
+  }
+  .dropdown a#dropdownMenuLink.btn.dropdown-toggle {
+    background-color: #3f79af;
+    color: #f5f5f5;
+  }
+  .scrollable-messages { 
+    float: left;
+    padding: 0% 3% 0% 3%;
+    height: 70vh; 
+    overflow-y: scroll;
+    width: -webkit-fill-available;
+  }
+  .scrollable-messages::-webkit-scrollbar {
+    width: 6px;
+    background: #959a9e;
+  }
+  .scrollable-messages::-webkit-scrollbar-thumb {
+    background-color: #3f79af;
+  }
+  .align-left {
+    text-align: left;
+  }
+  .align-right {
+    text-align: right;
+  }
+  .float-right {
+    float: right;
+  }
+  .clearfix {
+    margin-right: 5%;
+  }
+  .clearfix:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+  }
+  .you {
+    color: #CCDBDC;
+  }
+  .me {
+    color: #3f79af;
+  }
+  .input-group {
+    padding: 0% 0% 0% 1%;
+    position: absolute;
+    bottom: 0;
+    max-width: 98%;
+    flex-wrap: nowrap;
+    word-break: break-all;
+  }
+  #send-submit-button {
+    color: #3f79af;
+    border-color: #3f79af;
+  }
+  #send-submit-button:hover {
+    background-color: #3f79af;
+    color: white;
+    border-color: white;
+  }
+  .form-control {
+    min-height: 60px;
+    max-height: 115px;
+  }
+  
+  .message-float-left {
+    margin-left: 5%;
+  }
+  
+  
+  /* SIDEPANEL */
+  /*************/
+  #containerMain #sidepanel {
+    min-width: 280px;
+    max-width: 300px;
+    max-height: 90vh;
+    background: #001b66;
+    color: #f5f5f5;
+    position: relative;
+  }
+  @media screen and (max-width: 735px) {
+    #containerMain #sidepanel {
+      min-width: 50px;
+      max-width: 100px;
+    }
+  }
+  @media screen and (max-width: 415px) {
+    #containerMain #sidepanel {
+      min-width: 50px;
+      max-width: 65px;
+    }
+  }
+  #containerMain #sidepanel #profile {
+    width: 80%;
+    margin: 25px auto;
+  }
+  #containerMain #sidepanel #profile.single_groupchat_options .wrap {
+    height: 140px;
+    line-height: initial;
+  }
+  #containerMain #sidepanel #profile.single_groupchat_options .wrap p {
+    margin-top: 20px;
+  }
+  #containerMain #sidepanel #profile.single_groupchat_options .wrap i.expand-button {
+    -moz-transform: scaleY(-1);
+    -o-transform: scaleY(-1);
+    -webkit-transform: scaleY(-1);
+    transform: scaleY(-1);
+    filter: FlipH;
+    -ms-filter: "FlipH";
+  }
+  #containerMain #sidepanel #profile .wrap {
+    height: 60px;
+    line-height: 60px;
+    overflow: hidden;
+    -moz-transition: 0.3s height ease;
+    -o-transition: 0.3s height ease;
+    -webkit-transition: 0.3s height ease;
+    transition: 0.3s height ease;
+  }
+  #containerMain #sidepanel #profile .wrap img {
+    width: 50px;
+    border-radius: 50%;
+    padding: 3px;
+    border: 2px solid #e74c3c;
+    height: auto;
+    float: left;
+    cursor: pointer;
+    -moz-transition: 0.3s border ease;
+    -o-transition: 0.3s border ease;
+    -webkit-transition: 0.3s border ease;
+    transition: 0.3s border ease;
+  }
+  #containerMain #sidepanel #profile .wrap img.online {
+    border: 2px solid #2ecc71;
+  }
+  #containerMain #sidepanel #profile .wrap img.away {
+    border: 2px solid #f1c40f;
+  }
+  #containerMain #sidepanel #profile .wrap img.busy {
+    border: 2px solid #e74c3c;
+  }
+  #containerMain #sidepanel #profile .wrap img.offline {
+    border: 2px solid #95a5a6;
+  }
+  #containerMain #sidepanel #profile .wrap p {
+    float: left;
+    margin-left: 15px;
+  }
+  @media screen and (max-width: 735px) {
+     #sidepanel #profile .wrap p {
+      display: none;
+    }
+  }
+  #containerMain #sidepanel #profile .wrap i.expand-button {
+    float: right;
+    margin-top: 23px;
+    font-size: 0.8em;
+    cursor: pointer;
+    color: #3f79af;
+  }
+  @media screen and (max-width: 735px) {
+     #sidepanel #profile .wrap i.expand-button {
+      display: none;
+    }
+  }
+  #containerMain #sidepanel #profile .wrap #status-options {
+    position: absolute;
+    opacity: 0;
+    visibility: hidden;
+    width: 150px;
+    margin: 70px 0 0 0;
+    border-radius: 6px;
+    border-style: solid;
+    border-color: #001b66;
+    z-index: 99;
+    line-height: initial;
+    background: #3f79af;
+    -moz-transition: 0.3s all ease;
+    -o-transition: 0.3s all ease;
+    -webkit-transition: 0.3s all ease;
+    transition: 0.3s all ease;
+  }
+  @media screen and (max-width: 735px) {
+    #containerMain #sidepanel #profile .wrap #status-options {
+      width: 50%;
+      margin-top: 57px;
+    }
+  }
+  @media screen and (max-width: 415px) {
+    #containerMain #sidepanel #profile .wrap #status-options {
+      width: 85%;
+      margin-top: 57px;
+    }
+  }
+  #containerMain #sidepanel #profile .wrap #status-options.active {
+    opacity: 1;
+    visibility: visible;
+    margin: 75px 0 0 0;
+  }
+  #containerMain #sidepanel #profile .wrap #status-options:before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 8px solid #3f79af;
+    margin: -8px 0 0 24px;
+  }
+  @media screen and (max-width: 735px) {
+     #sidepanel #profile .wrap #status-options:before {
+      margin-left: 23px;
+    }
+  }
+  #containerMain #sidepanel #profile .wrap #status-options ul {
+    overflow: hidden;
+    border-radius: 6px;
+  }
+  #containerMain #sidepanel #profile .wrap #status-options ul li {
+    padding: 15px 0 30px 18px;
+    display: block;
+    cursor: pointer;
+  }
+  @media screen and (max-width: 735px) {
+     #sidepanel #profile .wrap #status-options ul li {
+      padding: 15px 0 35px 22px;
+    }
+  }
+   #sidepanel #profile .wrap #status-options ul li:hover {
+    background: #4e77a0;
+  }
+  #containerMain #sidepanel #profile .wrap #status-options ul li span.status-circle {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin: 5px 0 0 0;
+  }
+  @media screen and (max-width: 735px) {
+     #sidepanel #profile .wrap #status-options ul li span.status-circle {
+      width: 14px;
+      height: 14px;
+    }
+  }
+  #containerMain #sidepanel #profile .wrap #status-options ul li span.status-circle:before {
+    content: '';
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    margin: -3px 0 0 -3px;
+    background: transparent;
+    border-radius: 50%;
+    z-index: 0;
+  }
+  @media screen and (max-width: 735px) {
+     #sidepanel #profile .wrap #status-options ul li span.status-circle:before {
+      height: 18px;
+      width: 18px;
+    }
+  }
+  #containerMain #sidepanel #profile .wrap #status-options ul li p {
+    padding-left: 12px;
+  }
+  @media screen and (max-width: 735px) {
+     #sidepanel #profile .wrap #status-options ul li p {
+      display: none;
+    }
+  }
+  #containerMain #sidepanel #profile .wrap #status-options ul li#status-online span.status-circle {
+    background: #2ecc71;
+  }
+  #containerMain #sidepanel #profile .wrap #status-options ul li#status-online.active span.status-circle:before {
+    border: 1px solid #2ecc71;
+  }
+  #containerMain #sidepanel #profile .wrap #status-options ul li#status-away span.status-circle {
+    background: #f1c40f;
+  }
+  #containerMain #sidepanel #profile .wrap #status-options ul li#status-away.active span.status-circle:before {
+    border: 1px solid #f1c40f;
+  }
+  #containerMain #sidepanel #profile .wrap #status-options ul li#status-busy span.status-circle {
+    background: #e74c3c;
+  }
+  #containerMain #sidepanel #profile .wrap #status-options ul li#status-busy.active span.status-circle:before {
+    border: 1px solid #e74c3c;
+  }
+  #containerMain #sidepanel #profile .wrap #status-options ul li#status-offline span.status-circle {
+    background: #95a5a6;
+  }
+  #containerMain #sidepanel #profile .wrap #status-options ul li#status-offline.active span.status-circle:before {
+    border: 1px solid #95a5a6;
+  }
+  #containerMain #sidepanel #profile .wrap #single_groupchat_options {
+    padding: 85px 0 0 0;
+    display: block;
+    line-height: initial !important;
+  }
+  #containerMain #sidepanel #profile .wrap #single_groupchat_options label {
+    float: left;
+    clear: both;
+    margin: 0 8px 5px 0;
+    padding: 5px 0;
+  }
+  #containerMain #sidepanel #profile .wrap #single_groupchat_options input {
+    border: none;
+    margin-bottom: 6px;
+    background: #3f79af;
+    border-radius: 3px;
+    color: #f5f5f5;
+    padding: 7px;
+    width: calc(100% - 43px);
+  }
+  #containerMain #sidepanel #profile .wrap #single_groupchat_options input:focus {
+    outline: none;
+    background: #435f7a;
+  }
+  #containerMain #sidepanel #search {
+    border-top: 1px solid #3f79af;
+    border-bottom: 1px solid #3f79af;
+    font-weight: 300;
+  }
+  @media screen and (max-width: 735px) {
+     #sidepanel #search {
+      display: none;
+    }
+  }
+  #containerMain #sidepanel #search label {
+    position: absolute;
+    margin: 10px 0 0 20px;
+  }
+  #containerMain #sidepanel #search input {
+    font-family: "proxima-nova",  "Source Sans Pro", sans-serif;
+    padding: 10px 0 10px 46px;
+    width: 100%;
+    border: none;
+    background: #2d5e8b;
+    color: #f5f5f5;
+  }
+  #containerMain #sidepanel #search input:focus {
+    outline: none;
+    background: #3f6d99;
+  }
+  #containerMain #sidepanel #search input::-webkit-input-placeholder {
+    color: #f5f5f5;
+  }
+  #containerMain #sidepanel #search input::-moz-placeholder {
+    color: #f5f5f5;
+  }
+  #containerMain #sidepanel #search input:-ms-input-placeholder {
+    color: #f5f5f5;
+  }
+  #containerMain #sidepanel #search input:-moz-placeholder {
+    color: #f5f5f5;
+  }
+  #containerMain #sidepanel #contacts {
+    height: calc(100% - 177px);
+    overflow-y: scroll;
+  }
+  @media screen and (max-width: 735px) {
+    #containerMain #sidepanel #contacts {
+      height: calc(100% - 160px);
+      overflow-y: scroll;
+      overflow-x: hidden;
+    }
+    #containerMain #sidepanel #contacts::-webkit-scrollbar {
+      display: none;
+    }
+  }
+  @media screen and (max-width: 415px) {
+    #containerMain #sidepanel #contacts {
+      height: calc(100% - 155px);
+      overflow-y: scroll;
+      overflow-x: hidden;
+    }
+    #containerMain #sidepanel #contacts::-webkit-scrollbar {
+      display: none;
+    }
+  }
+   #sidepanel #contacts.single_groupchat_options {
+    height: calc(100% - 334px);
+  }
+  #containerMain #sidepanel #contacts::-webkit-scrollbar {
+    width: 15px;
+    background: #2c3e50;
+  }
+  #containerMain #sidepanel #contacts::-webkit-scrollbar-thumb {
+    background-color: #3f79af;
+  }
+  #containerMain #sidepanel #contacts ul li.contact {
+    position: relative;
+    padding: 10px 0 15px 0;
+    font-size: 0.9em;
+    cursor: pointer;
+  }
+  @media screen and (max-width: 735px) {
+    #containerMain #sidepanel #contacts ul li.contact {
+      padding: 15% 6% 10% 7%;
+    }
+  }
+  @media screen and (max-width: 415px) {
+    #containerMain #sidepanel #contacts ul li.contact {
+      padding-left: 10%;
+    }
+  }
+  #containerMain #sidepanel #contacts ul li.contact:hover {
+    background: #3f79af;
+  }
+  #containerMain #sidepanel #contacts ul li.contact.active {
+    position: relative;
+    padding: 10px 0 15px 0;
+    font-size: 0.9em;
+    background: #3f79af;
+    border-right: 5px solid #435f7a;
+  }
+  @media screen and (max-width: 735px) {
+    #containerMain #sidepanel #contacts ul li.contact.active {
+      padding: 15% 6% 10% 7%;
+    }
+  }
+  @media screen and (max-width: 415px) {
+    #containerMain #sidepanel #contacts ul li.contact.active {
+      padding-left: 10%;
+      border: hidden;
+    }
+  }
+  #containerMain #sidepanel #contacts ul li.contact.active span.contact-status {
+    border: 2px solid #3f79af !important;
+  }
+  #containerMain #sidepanel #contacts ul li.contact .wrap {
+    width: 88%;
+    margin: 0 auto;
+    position: relative;
+  }
+  @media screen and (max-width: 735px) {
+    #containerMain #sidepanel #contacts ul li.contact .wrap {
+      width: 100%;
+    }
+  }
+  @media screen and (max-width: 415px) {
+    #containerMain #sidepanel #contacts ul li.contact .wrap {
+      display: flex;
+    }
+  }
+  #containerMain #sidepanel #contacts ul li.contact .wrap span {
+    position: absolute;
+    left: 0;
+    margin: -2px 0 0 -2px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 2px solid #2c3e50;
+    background: #95a5a6;
+  }
+  #containerMain #sidepanel #contacts ul li.contact .wrap span.online {
+    background: #2ecc71;
+  }
+  #containerMain #sidepanel #contacts ul li.contact .wrap span.away {
+    background: #f1c40f;
+  }
+  #containerMain #sidepanel #contacts ul li.contact .wrap span.busy {
+    background: #e74c3c;
+  }
+  #containerMain #sidepanel #contacts ul li.contact .wrap img {
+    width: 40px;
+    border-radius: 50%;
+    float: left;
+    margin-right: 10px;
+  }
+  @media screen and (max-width: 735px) {
+    #containerMain #sidepanel #contacts ul li.contact .wrap img {
+      margin-right: 0px;
+      width: 40%!important;
+    }
+  }
+  @media screen and (max-width: 415px) {
+    #containerMain #sidepanel #contacts ul li.contact .wrap img {
+      margin-right: 0px;
+      width: 80%!important;
+    }
+  }
+  #containerMain #sidepanel #contacts ul li.contact .wrap .meta {
+    padding: 5px 0 0 0;
+  }
+  #containerMain #sidepanel #contacts ul li.contact .wrap .meta .name {
+    font-weight: 600;
+  }
+  @media screen and (max-width: 735px) {
+     #containerMain #sidepanel #contacts ul li.contact .wrap .meta p {
+      margin: 0% 0% 0% 45%;
+      padding: 0 0 1px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    #containerMain #sidepanel #contacts ul li.contact .wrap .meta .name {
+      font-weight: 400;
+    }
+    #containerMain #sidepanel #contacts ul li.contact .wrap .meta p:nth-child(even) {
+      display: none;
+    }
+  }
+  @media screen and (max-width: 415px) {
+    #containerMain #sidepanel #contacts ul li.contact .wrap .meta .name {
+      display: none;
+    }
+  }
+  #containerMain #sidepanel #contacts ul li.contact .wrap .meta .preview {
+    margin: 5px 0 0 0;
+    padding: 0 0 1px;
+    font-weight: 400;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -moz-transition: 1s all ease;
+    -o-transition: 1s all ease;
+    -webkit-transition: 1s all ease;
+    transition: 1s all ease;
+    height: 22px;
+    overflow-y: hidden;
+  }
+  #containerMain #sidepanel #contacts ul li.contact .wrap .meta .preview span {
+    position: initial;
+    border-radius: initial;
+    background: none;
+    border: none;
+    padding: 0 2px 0 0;
+    margin: 0 0 0 1px;
+    opacity: .5;
+  }
+  #containerMain #sidepanel #bottom-bar {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+  }
+  #containerMain #sidepanel #bottom-bar button {
+    float: left;
+    border: none;
+    width: 50%;
+    padding: 10px 0;
+    background: #32465a;
+    color: #f5f5f5;
+    cursor: pointer;
+    font-size: 0.85em;
+    font-family: "proxima-nova",  "Source Sans Pro", sans-serif;
+  }
+  @media screen and (max-width: 735px) {
+    #containerMain #sidepanel #bottom-bar button {
+      float: none;
+      width: 100%;
+      padding: 10%;
+    }
+  }
+  #containerMain #sidepanel #bottom-bar button:focus {
+    outline: none;
+  }
+  #containerMain #sidepanel #bottom-bar button:nth-child(1) {
+    border-right: 1px solid #2c3e50;
+  }
+  @media screen and (max-width: 735px) {
+    #containerMain #sidepanel #bottom-bar button:nth-child(1) {
+      border-right: none;
+      border-bottom: 1px solid #2c3e50;
+    }
+  }
+  #containerMain #sidepanel #bottom-bar button:hover {
+    background: #435f7a;
+  }
+  #containerMain #sidepanel #bottom-bar button i {
+    margin-right: 3px;
+    font-size: 1em;
+  }
+  @media screen and (max-width: 735px) {
+    #containerMain #sidepanel #bottom-bar button i {
+      font-size: 1.3em;
+    }
+  }
+  @media screen and (max-width: 735px) {
+    #containerMain #sidepanel #bottom-bar button span {
+      display: none;
+    }
+  }
+  
+  @media screen and (max-height: 700px) {
+    #containerMain {
+      max-height: 86vh;
+    }
+    #containerMain #sidepanel {
+      max-height: 86vh;
+    }
+    #containerMain #sidepanel #profile {
+      margin-bottom: 10px;
+    }
+    #containerMain #sidepanel #contacts {
+      height: calc(100% - 155px);
+    }
+    #containerMain .contact-profile {
+      line-height: inherit;
+      height: 30px;
+    }
+    #containerMain .contact-profile img {
+      display: none;
+    }
+    #containerMain .contact-profile p {
+      margin: 0px;
+      padding: 2% 0% 0% 5%;
+    }
+    .dropdown a#dropdownMenuLink.btn.dropdown-toggle{
+      padding: 5%;
+    }
+    .dropdown a#dropdownMenuLink.btn.dropdown-toggle i{
+      font-size: 1em;
+      padding-left: 5%;
+    }
+    .dropdown a#dropdownMenuLink.btn.dropdown-toggle::after{
+      vertical-align: 2px;
+      margin-left: 0%;
+    }
+    .form-control {
+      min-height: 60px;
+      max-height: 60px;
+    }
+    #content-window {
+      max-height: 86vh;
+    }
+  
+  }
+  /* Buttons at the dropdown-Menu */
+  #single_groupchat_options .chat_change_wrapper button {
+    user-select: none;
+    border: 1px solid transparent;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: .25rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    color: white;
+    background-color: transparent;
+    background-image: none;
+    border-color: #3f79af;
+  }
+  #single_groupchat_options .chat_change_wrapper button:hover {
+    display: inline-block;
+    font-weight: 400;
+    user-select: none;
+    border: 1px solid transparent;
+    background-color: #3f79af;
+    color:white;
+    border-color: #3f79af;
+  }
+  /* Buttons for responsive Layout */
+  #Change_Chat-Buttons button{
+    border: 1px solid transparent;
+    color: white;
+    background-color: #3f79af;
+    display:none;
+  }
+  #Change_Chat-Buttons button:hover{
+    color: white;
+    background-color: #007bff;
+  }
+  @media screen and (max-width: 735px) {
+    #Change_Chat-Buttons {
+      height: fit-content;
+    }
+    #Change_Chat-Buttons button{
+    display:grid;
+    width: -webkit-fill-available;
+  }
+  }
+
+  .input-group>.custom-select:not(:first-child), .input-group>.form-control:not(:first-child) {
+    max-width: inherit;
+  }
+
+
+  .modal-header {
+    color:#3f79af;
+  }
+
+  #addContactInput {
+    width: 100%;
+    padding: 20px 10px; 
+    line-height: 28px;
+    margin: 3% 0% 3% 0%;
+    border-radius: 0%;
+    border-color: #007bff;
+  }
+
+  /* Aenderung */
+  .emojionearea .emojionearea-editor {
+    height: -webkit-fill-available;
+  }
+  
+
+  #alertFormaxlength {
+    display: none;
+    bottom: 0;
+    position: fixed;
+    padding: 0 0 0 0;
+  }
+
+  
+</style>
+
+<div id="containerMain" class="row">
+  <div id="sidepanel">
+    <div id="profile">
+      <div class="wrap">
+        <img id="Userstatus" src="{{url_for('static', filename='img/usericon2.png')}}" class="online" alt="Avatar">
+        <p id="NameOnlineAvatar">{{username}}</p>
+        <!-- Menue for Single Group
+        <i class="fa fa-chevron-down expand-button" aria-hidden="true"></i>
+        -->
+        <div id="status-options">
+          <ul>
+            <li id="status-online" class="active"><span class="status-circle"></span> <p>Online</p></li>
+            <li id="status-away"><span class="status-circle"></span> <p>Away</p></li>
+            <li id="status-busy"><span class="status-circle"></span> <p>Busy</p></li>
+            <li id="status-offline"><span class="status-circle"></span> <p>Offline</p></li>
+          </ul>
+        </div>
+        <!--
+        <div id="single_groupchat_options">
+          <div class = "chat_change_wrapper">
+            <button type="button" class="Single-Chat">Single-Chat</button>
+            <button type="button" class="Group-Chat-Button" style="float:right;">Group-Chat</button>
+          </div>
+        </div>
+        -->
+      </div>
+    </div>
+    <div id="search">
+      <label for=""><i class="fa fa-search" aria-hidden="true"></i></label>
+      <input id="filterContacts" type="text" placeholder="Search contacts...">
+    </div>
+    <!-- Single/Group-Button
+    <div id="Change_Chat-Buttons">
+      <button type="button" class="Single-Chat">Group</button>
+    </div>
+    -->
+    <div id="contacts" class="SingleContacts">
+      <ul id="contacts_list">
+      </ul>
+    </div>
+    <div id="bottom-bar">
+      <button id="addcontact" data-toggle="modal" data-target="#staticBackdrop"><i class="fa fa-user-plus fa-fw" aria-hidden="true"></i> <span>Add contact</span></button>
+      <button id="settings"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> <span>Settings</span></button>
+    </div>
+     <div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">Add your contact!</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="display: none;">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div id="addContact">
+              <input id="addContactInput" class="form-control" type="text" placeholder="Add your new contact...">
+              <div class="invalid-feedback" id="addContactInput-invalid"><span></span></div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" id="closeModalButton" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+            <button type="button" id="addContactButton" class="btn btn-outline-primary">Add contact</button>
+          </div>
+        </div>
+      </div>
+    </div>  
+  </div>
+  <div id="content-window" class="col">
+    <div class="contact-profile">
+      <img src="{{url_for('static', filename='img/usericon2.png')}}" alt="Avatar">
+      <p>No Contact</p>
+      <div class="dropdown">
+        <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-single_groupchat_options="false">
+          <i class="fa fa-bars fa-lg"></i>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+          <a class="dropdown-item" href="#">Profile</a>
+          <a class="dropdown-item" href="#">Privacy</a>
+          <a class="dropdown-item" href="#">more...</a>
+        </div>
+      </div>
+    </div>
+    <div id="messages-container" class="scrollable-messages chat">   
+    <div class="chat-history">
+      <div id="form-response" class="mb-3"></div>
+      <ul id="chat-list" class="chat-ul">
+      <!-- Start Nachrichten -->
+      <div id="mbox"></div>
+      <!-- ENde Nachrichten-->
+      </ul>
+      
+    </div> <!-- end chat-history -->
+    
+    </div>
+    <div id="input-group-content"class="input-group">
+      <textarea id="input-message" class="form-control" placeholder="Enter your message..." maxlength="250" aria-label="Recipient's username" aria-describedby="send-submit-button"></textarea>
+      <div class="input-group-append">
+        <button class="btn btn-outline-primary" type="button" id="send-submit-button">Send</button>
+        
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+
+
+
+
+{%endblock%}
+
+
+{%block scripts%}
+<script src="{{ url_for('static',filename='js/gochat_kafkajs.js') }}"></script>
+{% endblock %}
+
+
+
