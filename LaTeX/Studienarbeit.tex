@@ -2456,6 +2456,7 @@ Die \acs{API} nutzt die Einträge aus dem Session-Dictionary. Der Aufruf \texttt
 \autoref{lst:flaskSendMessage} zeigt, wie die Nachricht versendet wird, wenn der Benutzer für die Plattform ejabberd angemeldet ist.
 
 \begin{lstlisting}[language=python, caption={Code für den Versand einer Nachricht über die \acs{API} an ejabberd}, label={lst:flaskSendMessage}]
+# if part of Listing 5.44
 if session_dict[current_user.user_id]['requested_platform']=='xmpp':
     session_dict[current_user.user_id]["xmpp_object"].push_message(JSON_Data["to"]+"@ejabberd-server", JSON_Data["msg_body"], JSON_Data["msg_subject"], JSON_Data["msg_type"])
     # if no errors -> send successfull feedback to client
@@ -2467,7 +2468,61 @@ In {JSON\_Data} sind die Parameter enthalten, die der Client an die \acs{API} ü
 
 Anders ist die Situation, wenn die Nachricht über die Apache Kafka Plattform versendet werden soll:
 
-Apache Kafka verwaltet die Topics von Benutzern, aber nicht die Kontaktliste eines Benutzers. Hierzu muss in der MySQL-Datenbank, die die Flask Applikation benutzt, eine Tabelle erstellt werden, die jedem Benutzer einen Chatpartner zuordnet.
+Apache Kafka verwaltet die Topics von Benutzern, aber nicht die Kontaktliste eines Benutzers. Hierzu muss in der MySQL-Datenbank, die die Flask Applikation benutzt, eine Tabelle erstellt werden, die jedem Benutzer einen Chatpartner zuordnet. Die Beziehung zwischen den Benutzern im \acs{IMS} ist eine Many-To-Many-Relationship. In deutscher Literatur wird eine Many-To-Many-Relationship auch als m:m-Beziehung bezeichnet \cite{Schubert2007}. Nach Schubert \cite{Schubert2007} besteht zwischen zwei Entitätenklassen E1 und E2 genau dann eine m:m-Beziehung, wenn zu jedem Exemplar aus E1 mehrere Exemplare der Entitätenklasse E2 gehören können und umgekehrt. Im \acs{IMS} kann ein Benutzer von mehreren Benutzern als Kontakt hinzugefügt werden genauso, wie er selbst mehrere Benutzer als Kontakt hinzufügen kann. Die Besonderheit ist, dass in diesem Fall die Entitätenklassen E1 und E2 gleich sind und beide die Entitätenklasse Benutzer repräsentieren.
+
+In \autoref{tab:tableContacts} ist die Tabelle contacts mit Einträgen dargestellt.
+
+\begin{table}[h]
+\centering
+\caption{Übersicht über die Tabelle contacts für die Speicherung von Chatpartnern für die Plattform Apache Kafka}
+\begin{tabular}{|l|l|}
+\hline
+\textbf{user\_id} &  \textbf{peer\_id} \\
+\hline
+41 & 32 \\
+\hline
+41 & 12 \\
+\hline
+32 & 41 \\
+\hline
+12 & 41 \\
+\hline
+... & ... \\
+\hline
+\end{tabular}
+\label{tab:tableContacts}
+\end{table}
+
+Die Tabelle beinhaltet die IDs aus der Tabelle \texttt{user\_auth} der Datenbank (siehe Anhang \autoref{lst:classUser} und \autoref{tab:descriptionUserClass}) als Fremdschlüssel. Wie in vorherigen Kapiteln erwähnt, speichert die Tabelle \texttt{user\_auth} die Benutzer des \acs{IMS}. Sowohl die Spalte \texttt{user\_id} und \texttt{peer\_id} sind aufgrund der m:m-Beziehung zwischen den Benutzern Primärschlüssel in \autoref{tab:tableContacts}. Die ID eines Benutzers bildet eindeutig auf die ID eines anderen Benutzers ab, welcher sein Chatpartner ist. Die Zuordnung gilt auch umgekehrt. Weil die Kommunikation in einem \acs{IMS} bidirektional ist, muss ein Eintrag für beide Richtungen gesetzt werden, wenn ein Benutzer jemanden als Kontakt hinzufügt, siehe \autoref{tab:tableContacts}.
+
+Die contacts hat den Mehrwert, dass die \acs{API} vor dem Versenden einer Nachricht über die Apache Kafka Plattform überprüfen kann, ob die Benutzer Chatpartner sind.
+
+Der Code für den Versand einer Nachricht über die Apache Kafka Plattform ist in \autoref{lst:flaskSendMessageKafka} dargestellt.
+
+\begin{lstlisting}[language=python, caption={Code für den Versand einer Nachricht über die \acs{API} an Apache Kafka}, label={lst:flaskSendMessageKafka}]
+# elif part of Listing 5.44
+elif session_dict[current_user.user_id]['requested_platform']=='kafka':
+# check in table contacts if chat partners exists
+# return error as JSON if chat partners does not exist
+# get kafka topic id of chat partner through a join with table user_auth
+# peer_kafka_topic stores the kafka topic id of the chat partner
+msg_timestamp = datetime.today().strftime('%Y-%m-%d %H:%M')
+msg = {"msg": JSON_Data['msg_body'], "from": JSON_Data['from'], "to": JSON_Data['to'], "timestamp": msg_timestamp, "type": "chat"}
+session_dict[current_user.user_id]['kafka_producer_object'].produce(json.dumps(msg).encode())
+
+if peer_id in session_dict:
+session_dict[peer_id]['kafka_producer_object'].produce(json.dumps(msg).encode())
+else:
+kafka_client = get_kafka_client()
+topic = kafka_client.topics[peer_kafka_topic]
+with topic.get_producer() as kafka_producer:
+    kafka_producer.produce(json.dumps(msg).encode())
+\end{lstlisting}
+
+In \texttt{JSON\_Data} sind die Parameter des Payloads aus der \acs{HTTP} POST Anfrage.
+Zuerst überprüft die \acs{API} mit Hilfe der in \autoref{tab:tableContacts} dargestellten Tabelle contacts, ob dem Sender der Empfänger als Chatpartner zugeordnet ist. Dafür muss ein Eintrag in der Tabelle contacts existieren. Weil in \texttt{JSON\_Data} nur der Benutzername des Absenders und des Empfängers vorhanden sind, muss über ein Join\footnote{Ein Join bildet aus den Datensätzen zweier Tabellen einer relationalen Datenbank eine Ergebnistabelle, deren Datensätze, je nach angegebener Bedingung, Attribute beider Tabellen enthält.\cite{Schubert2007}} mit der Tabelle user\_auth festgestellt werden, ob ein Eintrag in der Tabelle contacts existiert. Falls nein, darf die Nachricht nicht versendet werden und die \acs{API} antwortet dem Client mit einem Fehler im \acs{JSON}-Format. Sind die beiden Benutzer Chatpartner, wird über das Session-Dictionary der Producer des Empfängers aufgerufen und die Nachricht in sein spezielles Topic produziert. Die Vorgehensweise funktioniert nur, wenn Sender und Empfänger gleichzeitig online sind. Ist der Empfänger offline, ist kein Eintrag im Session-Dictionary und damit kein Producer-Objekt vorhanden. Dann muss ein Producer-Objekt manuell erzeugt werden und die Nachricht in das Topic des Empfängers produziert werden. Die Topic ID des Empfängers wird in diesem Fall über den bereits beschriebenen Join aus der Datenbank abgefragt. Der Versand der Nachricht ist optimiert für den Fall, dass der Empfänger ebenfalls online ist. Es muss kein Producer-Objekt extra erzeugt werden. Producer-Objekt und Topic ID werden aus dem Session-Dictionary direkt verwendet. Nur wenn der Empfänger der Nachricht offline ist, muss ein Producer-Objekt auf Kosten der Performanz erzeugt werden.
+
+\textbf{Bemerkung:} \texttt{json.dumps(msg).encode()} konvertiert das Dictionary \texttt{msg} in einen Byte-Code. So kann ein \acs{JSON}-Objekt in ein Topic produziert werden.
 
 \pagebreak
 
