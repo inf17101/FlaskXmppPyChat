@@ -138,7 +138,7 @@ frame=None,
 \usepackage[printonlyused]{acronym}
 
 % titel definieren
-\newcommand{\titel}{Entwicklung eines Chatsystems\\auf Basis von XMPP}
+\newcommand{\titel}{Entwicklung eines Instant-Messaging-Systems mit Python}
 
 %autor definieren
 \newcommand{\autor}{Lukas Priester,Oliver Klapper}
@@ -208,7 +208,7 @@ Ich versichere hiermit, dass ich meine Bachelorarbeit (bzw. Studien- und Projekt
 
 %% eigentlich hier \titel verwenden statt duplicated titel, aber umbruch erzwingt
 %% doppeltes ausschreiben des titels
-\texttt{Entwicklung eines Chatsystems auf Basis von XMPP}
+\texttt{Entwicklung eines Instant-Messaging-Systems mit Python}
 
 \smallskip
 
@@ -339,6 +339,7 @@ Ort, Datum & Unterschrift
 \acro{API}{Application Programming Interface}
 \acro{SSH}{Secure Shell}
 \acro{UML}{Unified Modeling Language}
+\acro{SSE}{Server-Sent-Events}
 \acro{HTML}{Hypertext Markup Language}
 \acro{PDF}{Portable Document Format}
 \acro{JSON}{JavaScript Object Notation}
@@ -2520,9 +2521,34 @@ with topic.get_producer() as kafka_producer:
 \end{lstlisting}
 
 In \texttt{JSON\_Data} sind die Parameter des Payloads aus der \acs{HTTP} POST Anfrage.
-Zuerst überprüft die \acs{API} mit Hilfe der in \autoref{tab:tableContacts} dargestellten Tabelle contacts, ob dem Sender der Empfänger als Chatpartner zugeordnet ist. Dafür muss ein Eintrag in der Tabelle contacts existieren. Weil in \texttt{JSON\_Data} nur der Benutzername des Absenders und des Empfängers vorhanden sind, muss über ein Join\footnote{Ein Join bildet aus den Datensätzen zweier Tabellen einer relationalen Datenbank eine Ergebnistabelle, deren Datensätze, je nach angegebener Bedingung, Attribute beider Tabellen enthält.\cite{Schubert2007}} mit der Tabelle user\_auth festgestellt werden, ob ein Eintrag in der Tabelle contacts existiert. Falls nein, darf die Nachricht nicht versendet werden und die \acs{API} antwortet dem Client mit einem Fehler im \acs{JSON}-Format. Sind die beiden Benutzer Chatpartner, wird über das Session-Dictionary der Producer des Empfängers aufgerufen und die Nachricht in sein spezielles Topic produziert. Die Vorgehensweise funktioniert nur, wenn Sender und Empfänger gleichzeitig online sind. Ist der Empfänger offline, ist kein Eintrag im Session-Dictionary und damit kein Producer-Objekt vorhanden. Dann muss ein Producer-Objekt manuell erzeugt werden und die Nachricht in das Topic des Empfängers produziert werden. Die Topic ID des Empfängers wird in diesem Fall über den bereits beschriebenen Join aus der Datenbank abgefragt. Der Versand der Nachricht ist optimiert für den Fall, dass der Empfänger ebenfalls online ist. Es muss kein Producer-Objekt extra erzeugt werden. Producer-Objekt und Topic ID werden aus dem Session-Dictionary direkt verwendet. Nur wenn der Empfänger der Nachricht offline ist, muss ein Producer-Objekt auf Kosten der Performanz erzeugt werden.
+Zuerst überprüft die \acs{API} mit Hilfe der in \autoref{tab:tableContacts} dargestellten Tabelle contacts, ob dem Sender der Empfänger als Chatpartner zugeordnet ist. Dafür muss ein Eintrag in der Tabelle contacts existieren. Weil in \texttt{JSON\_Data} nur der Benutzername des Absenders und des Empfängers vorhanden sind, muss über ein Join\footnote{Ein Join bildet aus den Datensätzen zweier Tabellen einer relationalen Datenbank eine Ergebnistabelle, deren Datensätze, je nach angegebener Bedingung, Attribute beider Tabellen enthält.\cite{Schubert2007}} mit der Tabelle user\_auth festgestellt werden, ob ein Eintrag in der Tabelle contacts existiert. Falls nein, darf die Nachricht nicht versendet werden und die \acs{API} antwortet dem Client mit einem Fehler im \acs{JSON}-Format. Sind die beiden Benutzer Chatpartner, wird über das Session-Dictionary der Producer des Empfängers aufgerufen und die Nachricht in sein spezielles Topic produziert. Zusätzlich wird der Producer des Senders aus dem Session-Dictionary aufgerufen und die Nachricht ebenfalls an den Sender verschickt. So haben Sender und Empfänger immer einen synchronisierten Chatverlauf.
+
+Die Vorgehensweise funktioniert nur, wenn Sender und Empfänger gleichzeitig online sind. Ist der Empfänger offline, ist kein Eintrag im Session-Dictionary und damit kein Producer-Objekt vorhanden. Dann muss ein Producer-Objekt manuell erzeugt werden und die Nachricht in das Topic des Empfängers produziert werden. Die Topic ID des Empfängers wird in diesem Fall über den bereits beschriebenen Join aus der Datenbank abgefragt. Der Versand der Nachricht ist optimiert für den Fall, dass der Empfänger ebenfalls online ist. Es muss kein Producer-Objekt extra erzeugt werden. Producer-Objekt und Topic ID werden aus dem Session-Dictionary direkt verwendet (Zeile 12 in \autoref{lst:flaskSendMessageKafka}). Nur wenn der Empfänger der Nachricht offline ist, muss ein Producer-Objekt auf Kosten der Performanz erzeugt werden (Zeile 16 in \autoref{lst:flaskSendMessageKafka}).
 
 \textbf{Bemerkung:} \texttt{json.dumps(msg).encode()} konvertiert das Dictionary \texttt{msg} in einen Byte-Code. So kann ein \acs{JSON}-Objekt in ein Topic produziert werden.
+
+\subsubsection*{Umsetzung der Zustellung von empfangenen Nachrichten an den Client}
+
+Die \acs{REST} \acs{API} kommuniziert mit Apache Kafka oder mit ejabberd über bestimmte Python Module. Es stellt sich jedoch die Frage, wie die Nachricht dem Client des \acs{IMS} übermittelt wird. Empfängt die \acs{API} eine Nachricht, muss sie die Nachricht direkt dem Client oder zum Web-Frontend weiterleiten ohne, dass der Client ständig nach neuen Nachrichten am Flask-Server anfragen muss. Dieser Mechanismus wird als Server Push bezeichnet. Bei einem Server Push hält ein Client die Verbindung zum Server dauerhaft offen. Der Server schickt den Client über diese Verbindung automatisch Informationen ohne, dass der Client explizit beim Server anfragen muss. Dieser Mechanismus wird für die Umsetzung in der Studienarbeit benötigt, weil ansonsten der Informationsfluss unterbrochen ist und keine Echtzeitübertragung von Nachrichten möglich ist. Der Client müsste ohne diesen Mechanismus nach einer Zeitspanne t beim Server anfragen, ob neue Nachrichten vorhanden sind. Falls ja, überträgt der Server die neuen Nachrichten und der Client verarbeitet diese. Ein \acs{IMS} besitzt jedoch eine gewisse Echtzeitfähigkeit, weshalb dieser Ansatz zu verwerfen ist.
+
+Zwei Webtechnologien, mit denen ein Server Push umgesetzt werden kann, sind:
+
+\begin{itemize}
+\item Web Sockets
+\item \ac{SSE}
+\end{itemize}
+
+Über Web Sockets ist eine bidirektionale Kommunikation zwischen Client und Server möglich. Ein Server kann einem Client Nachrichten senden und umgekehrt auch Nachrichten vom Client über den Web Socket empfangen. Client und Server können ohne Unterbrechungen miteinander kommunizieren, solange die Verbindung bestehen bleibt.
+
+Bei \ac{SSE} kann nur der Server dem Client Informationen senden. Die Verbindung ist unidirektional. Der Client erhält in Echtzeit automatisch Informationen vom Server. Die Informationen gehören zu einem Event. Der Client empfängt Informationen für ein oder mehrere Events.
+
+Gemeinsamkeiten von beiden Technologien sind, dass beide über das \acs{HTTP}-Protokoll kommunizieren und sie lang andauernde Verbindungen zwischen Client und Server benutzen.
+
+Ein Nachteil von \acs{SSE}s ist eine geringere Anzahl an Browsern mit \acs{SSE}s als mit Web Sockets kompatibel sind. Ein Vorteil ist, dass \acs{SSE}s bei einer verlorenen Verbindung zwischen Server und Client automatisch erneut eine Verbindung herstellen.
+
+Für die Studienarbeit wird ausschließlich eine unidirektionale Verbindung vom Server zum Client benötigt. Der Client versendet seine Nachrichten, wie im vorherigen Abschnitt erklärt mit einer \acs{HTTP} POST Anfrage. Eine Verbindung vom Client zum Server wird nicht gebraucht. Aus diesem Grund werden \acs{SSE}s verwendet, um die Nachrichten den Clients zuzustellen.
+
+
 
 \pagebreak
 
