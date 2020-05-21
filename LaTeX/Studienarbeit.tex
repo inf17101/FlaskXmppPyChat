@@ -38,6 +38,8 @@
 \definecolor{burntorange}{rgb}{0.8, 0.33, 0.0}
 \definecolor{cornellred}{rgb}{0.7, 0.11, 0.11}
 
+% print escaped characters e.g. \n
+\newcommand*{\escape}[1]{\texttt{\textbackslash#1}}
 
 \usepackage{listingsutf8}
 \lstset{
@@ -340,6 +342,7 @@ Ort, Datum & Unterschrift
 \acro{SSH}{Secure Shell}
 \acro{UML}{Unified Modeling Language}
 \acro{SSE}{Server-Sent-Events}
+\acro{MIME}{Multipurpose Internet Mail Extensions}
 \acro{HTML}{Hypertext Markup Language}
 \acro{PDF}{Portable Document Format}
 \acro{JSON}{JavaScript Object Notation}
@@ -2529,25 +2532,75 @@ Die Vorgehensweise funktioniert nur, wenn Sender und Empfänger gleichzeitig onl
 
 \subsubsection*{Umsetzung der Zustellung von empfangenen Nachrichten an den Client}
 
-Die \acs{REST} \acs{API} kommuniziert mit Apache Kafka oder mit ejabberd über bestimmte Python Module. Es stellt sich jedoch die Frage, wie die Nachricht dem Client des \acs{IMS} übermittelt wird. Empfängt die \acs{API} eine Nachricht, muss sie die Nachricht direkt dem Client oder zum Web-Frontend weiterleiten ohne, dass der Client ständig nach neuen Nachrichten am Flask-Server anfragen muss. Dieser Mechanismus wird als Server Push bezeichnet. Bei einem Server Push hält ein Client die Verbindung zum Server dauerhaft offen. Der Server schickt den Client über diese Verbindung automatisch Informationen ohne, dass der Client explizit beim Server anfragen muss. Dieser Mechanismus wird für die Umsetzung in der Studienarbeit benötigt, weil ansonsten der Informationsfluss unterbrochen ist und keine Echtzeitübertragung von Nachrichten möglich ist. Der Client müsste ohne diesen Mechanismus nach einer Zeitspanne t beim Server anfragen, ob neue Nachrichten vorhanden sind. Falls ja, überträgt der Server die neuen Nachrichten und der Client verarbeitet diese. Ein \acs{IMS} besitzt jedoch eine gewisse Echtzeitfähigkeit, weshalb dieser Ansatz zu verwerfen ist.
+Die \acs{REST} \acs{API} kommuniziert mit Apache Kafka oder mit ejabberd über bestimmte Python Module. Es stellt sich jedoch die Frage, wie die Nachricht dem Client des \acs{IMS} übermittelt wird. Empfängt die \acs{API} eine Nachricht, muss sie die Nachricht direkt dem Client oder zum Web-Frontend weiterleiten ohne, dass der Client ständig nach neuen Nachrichten am Flask-Server anfragen muss. Dieser Mechanismus wird als Server Push bezeichnet. Bei einem Server Push \cite{sseVSwebsockets} hält ein Client die Verbindung zum Server dauerhaft offen. Der Server schickt den Client über diese Verbindung automatisch Informationen ohne, dass der Client explizit beim Server anfragen muss. Dieser Mechanismus wird für die Umsetzung in der Studienarbeit benötigt, weil ansonsten der Informationsfluss unterbrochen ist und keine Echtzeitübertragung von Nachrichten möglich ist. Der Client müsste ohne diesen Mechanismus nach einer Zeitspanne t beim Server anfragen, ob neue Nachrichten vorhanden sind. Falls ja, überträgt der Server die neuen Nachrichten und der Client verarbeitet diese. Ein \acs{IMS} besitzt jedoch eine gewisse Echtzeitfähigkeit, weshalb dieser Ansatz zu verwerfen ist.
 
-Zwei Webtechnologien, mit denen ein Server Push umgesetzt werden kann, sind:
+Zwei Webtechnologien, mit denen ein Server Push umgesetzt werden kann, sind \cite{sseVSwebsockets}:
 
 \begin{itemize}
 \item Web Sockets
 \item \ac{SSE}
 \end{itemize}
 
-Über Web Sockets ist eine bidirektionale Kommunikation zwischen Client und Server möglich. Ein Server kann einem Client Nachrichten senden und umgekehrt auch Nachrichten vom Client über den Web Socket empfangen. Client und Server können ohne Unterbrechungen miteinander kommunizieren, solange die Verbindung bestehen bleibt.
+Über Web Sockets ist eine bidirektionale Kommunikation zwischen Client und Server möglich. Ein Server kann einem Client Nachrichten senden und umgekehrt auch Nachrichten vom Client über den Web Socket empfangen. Client und Server können ohne Unterbrechungen miteinander kommunizieren, solange die Verbindung bestehen bleibt.\cite{sseVSwebsockets}
 
-Bei \ac{SSE} kann nur der Server dem Client Informationen senden. Die Verbindung ist unidirektional. Der Client erhält in Echtzeit automatisch Informationen vom Server. Die Informationen gehören zu einem Event. Der Client empfängt Informationen für ein oder mehrere Events.
+Bei \ac{SSE}s kann nur der Server dem Client Informationen senden \cite{sseMorzilla, sseVSwebsockets}. Die Verbindung ist unidirektional. In \autoref{img:SSE-Architecture} ist ein Ablauf eines Server-Sent-Events zwischen Client und Server dargestellt.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=.8\textwidth]{images/SSE-Architecture}
+	\caption{Ablauf eines Server-Sent-Events \cite{sseFunctionGraphic}}
+	\label{img:SSE-Architecture}
+\end{figure}
+
+Der Client erhält in Echtzeit automatisch Informationen vom Server. Die Informationen gehören zu einem Event. Der Client empfängt Informationen für ein oder mehrere Events.\cite{sseMorzilla, sseVSwebsockets}
 
 Gemeinsamkeiten von beiden Technologien sind, dass beide über das \acs{HTTP}-Protokoll kommunizieren und sie lang andauernde Verbindungen zwischen Client und Server benutzen.
 
-Ein Nachteil von \acs{SSE}s ist eine geringere Anzahl an Browsern mit \acs{SSE}s als mit Web Sockets kompatibel sind. Ein Vorteil ist, dass \acs{SSE}s bei einer verlorenen Verbindung zwischen Server und Client automatisch erneut eine Verbindung herstellen.
+Ein Nachteil von \acs{SSE}s ist, dass eine geringere Anzahl an Browsern mit \acs{SSE}s als mit Web Sockets kompatibel sind. Ein Vorteil ist, dass \acs{SSE}s bei einer unterbrochenen Verbindung zwischen Server und Client automatisch erneut eine Verbindung herstellen.\cite{sseMorzilla}
 
-Für die Studienarbeit wird ausschließlich eine unidirektionale Verbindung vom Server zum Client benötigt. Der Client versendet seine Nachrichten, wie im vorherigen Abschnitt erklärt mit einer \acs{HTTP} POST Anfrage. Eine Verbindung vom Client zum Server wird nicht gebraucht. Aus diesem Grund werden \acs{SSE}s verwendet, um die Nachrichten den Clients zuzustellen.
+Für die Studienarbeit wird ausschließlich eine unidirektionale Verbindung vom Server zum Client benötigt. Der Client versendet seine Nachrichten, wie im vorherigen Abschnitt erklärt mit einer \acs{HTTP} POST Anfrage. Eine Verbindung vom Client zum Server wird deshalb nicht gebraucht. Aus diesem Grund werden \acs{SSE}s verwendet, um die Nachrichten den Clients zuzustellen.
 
+Daten, die der Server dem Client über ein \acs{SSE} sendet, müssen immer als Zeichensatz in UTF-8 kodiert sein und wie folgt formatiert sein \cite{sseMorzilla}:
+
+\texttt{data: <Daten>\escape{n}\escape{n}}
+
+Zusätzlich muss das serverseitige Skript, das Ereignisse sendet, mit dem \acs{MIME}-Typ\footnote{ Der MIME-Typ gibt an, um welche Art oder Klasse es sich bei den gesendeten Daten handelt.\cite{mimeTypDescription}} \glqq text/event-stream\grqq dem Client antworten \cite{sseMorzilla}.
+
+In Python Flask lassen sich Server-Sent-Events mit Generatoren realisieren. Generatoren in Python sind Funktionen, die Werte generieren und an den Aufrufer zurückgeben. Sie enthalten anstatt einer \texttt{return}-Anweisung ein \texttt{yield}. Ein Generator ist ein Objekt über das iteriert werden muss, um einen Wert zu erhalten. Die \texttt{yield}-Instruktion gibt den momentanen Wert zurück.
+
+\autoref{lst:pythonGeneratorExample} zeigt ein Beispiel eines Generators. Der Code gibt zeilenweise die Zahlen 1 bis 10 auf der Konsole aus.
+
+\begin{lstlisting}[language=python, caption={Beispiel: Code für ein Generator Objekt in Python}, label={lst:pythonGeneratorExample}]
+def myfunction(x):
+    for i in range(10):
+        yield x
+        x += 1
+
+for i in myfunction(1):
+    print(i)
+\end{lstlisting}
+
+Der Generator erzeugt zehn Werte und inkrementiert den übergebenen Wert x bis die Abbruchbedingung zutrifft. Im Unterschied zu einer Funktion mit \texttt{return}-Anweisung kann sich ein Generator den Zustand von Variablen nach jeder Iteration merken. Der Generator in \autoref{lst:pythonGeneratorExample} gibt nach jeder Iteration einen Wert zurück ohne, dass der aktuelle x-Wert wie bei einer \texttt{return}-Anweisung verloren geht.
+
+Eine \acs{API}-Route in Flask kann einen Generator benutzen, um ein Server-Sent-Event zu implementieren. Ein Beispiel zeigt \autoref{lst:pythonGeneratorFlaskExample}.
+
+\begin{lstlisting}[language=python, caption={Beispiel: Code für ein Server-Sent-Event in Python Flask}, label={lst:pythonGeneratorFlaskExample}]
+from flask import Flask, Response
+app = Flask(__name__)
+
+def myfunction(x):
+    for i in range(10):
+        yield "data: %s\n\n" % x
+        x += 1
+
+@app.route('/')
+def print_x():
+    return Response(myfunction(1), mimetype="text/event-stream")
+\end{lstlisting}
+
+Die \texttt{Response}-Funktion von Flask aus \autoref{lst:pythonGeneratorFlaskExample} akzeptiert ein Generator-Objekt. Ruft ein Client die  \acs{URI} / auf, so startet das Server-Sent-Event und sendet dem Client die Zahlen 1 bis 10.
+
+Diese Funktionalität von Flask kann genutzt werden, um einem Client Nachrichten auszuliefern, wann immer diese Eintreffen.
 
 
 \pagebreak
