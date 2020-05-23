@@ -2119,9 +2119,9 @@ def verify_password(self, password):
 
 Die Methode \texttt{check\_password\_hash} berechnet dabei zuerst den Hashwert des in Klartext übergebenen Passworts. Anschließend überprüft es, ob der berechnete Hashwert mit dem übergebenen Hashwert übereinstimmt. Auf diese Weise kann ein User-Objekt, dass von der Datenbank über SQLAlchemy zurückgegeben wird, eine Methode anbieten, die sofort überprüfen kann, ob ein Passwort mit dem Passwort des Benutzers aus der Datenbank übereinstimmt. Der Rückgabeparameter ist vom Typ Boolean und ist True, falls die Hashwerte und damit die Passwörter übereinstimmen, ansonsten False.
 
-\subsubsection*{Umsetzung der Login-Funktion eines Benutzers}
+\subsubsection*{Umsetzung der Logins eines Benutzers}
 
-Die Klasse \texttt{User} wurde so modifiziert, dass sie Login Funktionalitäten unterstützt. Bevor die Methoden des \texttt{flask\_login} Moduls verwendet werden können, muss ein Flask-, SQLAlchemy- und LoginManager-Objekt in der Flask Applikation instanziiert werden. (siehe \autoref{lst:flaskPrepareLogin}).
+Die Klasse \texttt{User} wurde so modifiziert, dass sie Login Funktionalitäten unterstützt. Bevor die Methoden des \texttt{flask\_login} Moduls verwendet werden können, muss ein Flask-, SQLAlchemy- und Login-Manager-Objekt in der Flask Applikation instanziiert werden. (siehe \autoref{lst:flaskPrepareLogin}).
 
 \begin{lstlisting}[language=python, caption={Vorbereitungen der Login Funktionalität in der Flask Applikation}, label={lst:flaskPrepareLogin}]
 app = Flask(__name__)
@@ -2132,7 +2132,7 @@ login_mgmt.login_view = 'login'
 
 Über das LoginManager-Objekt \texttt{login\_mgmt} können in der Flask Applikation Benutzer ein- und ausgeloggt werden. Das Objekt abstrahiert alle dafür benötigten Operationen und verwaltet die Sessions der Benutzer selbstständig. Das Modul vereinfacht die Implementierung eines Logins. Damit nicht angemeldete Benutzer, beim Zugriff auf eine geschützte Ressource zurück zur Login-Seite geleitet werden, wird \texttt{login\_view} entsprechend gesetzt. Zeile 4 in \autoref{lst:flaskPrepareLogin} definiert, dass die Methode \texttt{login} der Flask Applikation aufgerufen wird, wenn ein Benutzer, der nicht eingeloggt ist, auf eine geschützte Seite zugreift. Wie diese Methode funktioniert und implementiert ist, wird im weiteren Verlauf noch beschrieben.\cite{flaskLogin}
 
-Der LoginManager bietet die folgenden beiden Methoden für das Ein- und Ausloggen von Benutzen:
+Der Login-Manager bietet die folgenden beiden Methoden für das Ein- und Ausloggen von Benutzen:
 
 \begin{description}
 \item[login\_user:] Loggt einen Benutzer ein. Benötigt als Übergabeargument ein User-Objekt.
@@ -2149,7 +2149,22 @@ def load_user(user_id):
 
 Die Methode lädt ein User-Objekt über die SQLALchemy Operation \texttt{query.get} aus der Datenbank und gibt es zurück. Die Wichtigkeit von Methode \texttt{get\_id} aus \autoref{lst:UserMethodFlaskLogin} zeigt sich in diesem Listing. Ohne diese Funktion, die die ID des User-Objekts zurückgibt, fehlt der Callback Methode der Parameter, der einen Benutzer eindeutig in der Datenbank identifiziert.\cite{flaskLogin}
 
-Die vorgestellten Methoden des LoginManagers und der Klasse \texttt{User} können in der Flask Applikation genutzt werden, um Benutzer zu registrieren oder ein- und auszuloggen. So wird vermieden, dass an verschiedenen Stellen im Code mehrfach der gleiche Code programmiert wird.
+Die vorgestellten Methoden des Login-Managers und der Klasse \texttt{User} können in der Flask Applikation genutzt werden, um Benutzer zu registrieren oder ein- und auszuloggen. So wird vermieden, dass an verschiedenen Stellen im Code mehrfach der gleiche Code programmiert wird.
+
+Zusätzlich muss verhindert werden, dass bestimmte \acs{API}-Route von einem unangemeldeten Benutzer aufgerufen werden kann.
+
+In \autoref{lst:flaskLoginProtectedDecorator} ist dargestellt, wie mit dem Login-Manager eine \acs{API}-Route vor unangemeldeten Benutzern geschützt werden kann.
+
+\begin{lstlisting}[language=python, caption={Code für den Schutz der \acs{API}-Route vor unangemeldeten Benutzern}, label={lst:flaskLoginProtectedDecorator}]
+@app.route("/gochat")
+@login_required
+def gochat():
+    # code of the method gochat
+\end{lstlisting}
+
+Der Decorator \texttt{@login\_required} verhindert, dass ein Client die \acs{API}-Route aufruft, wenn er nicht über den Login-Manager bereits angemeldet ist. Der Mehrwert ist, dass ohne zusätzlichem Programmieraufwand, dafür gesorgt werden kann, dass nur angemeldete Benutzer die Chatfunktionalitäten des \acs{IMS} benutzen dürfen. Der Decorator muss nur über die Definition der \acs{API}-Routen eingefügt werden, welche nur von angemeldeten Benutzern aufgerufen werden dürfen.\cite{flaskLogin}
+
+\pagebreak
 
 \subsubsection*{Umsetzung der Registrierung von Benutzern}
 
@@ -2287,7 +2302,7 @@ Für einen Login am \ac{IMS} wird folgende \acs{API}-Route definiert:
 
 \texttt{http://193.196.53.24/login}
 
-\autoref{img:umlActivityLogin} im Anhang zeigt die Anwendungslogik der Flask Applikation vom Login eines Benutzers. Verbindet sich ein Benutzer mit seinem Client auf die oben genannte \acs{URI} wird eine Methode \texttt{login} der Flask Applikation aufgerufen, in der diese Abläufe implementiert sind. Ist ein Benutzer bereits eingeloggt und in der \acs{REST} \acs{API} authentifiziert, leitet die \acs{API} den Benutzer auf die Chatseite um, für die der Benutzer bereits authentifiziert ist. Greift der Client auf die \acs{URI} mit der Basisoperation \acs{HTTP} GET zu, findet keine Anmeldung am System statt. Dem Client wird die \acs{HTML}-Seite durch die \acs{API} ausgeliefert, über die der Benutzer sich anmelden kann. Greift der Client mit der Basisoperation \acs{HTTP} POST auf die \acs{URI} zu, startet der Anmeldevorgang. Zuerst wird überprüft, ob der Benutzername in der Datenbank vorhanden ist und das vom Client gesendete Passwort mit dem Passwort-Hash aus der Datenbank übereinstimmt. Falls nein, sind die Daten im \acs{JSON}-Payload invalide und der Benutzer wird über eine Fehlermeldung informiert. Anhand des Werts, auf den der Name \texttt{requested\_platform} im \acs{JSON}-Payload verweist, wird unterschieden, ob ein Benutzer über die \acs{XMPP}-basierte Plattform oder über die Apache Kafka Plattform kommunizieren möchte. Je nach gesetztem Eintrag, benutzt die \acs{API} entweder einen \acs{XMPP}-Client oder einen Apache Kafka Client als Python Modul, um Nachrichten empfangen und versenden zu können. Hat sich die Flask Applikation mit dem korrekten Python Client an einen der beiden Plattformen erfolgreich eingeloggt, muss die \ac{API} den Benutzer noch im Session-Management des LoginManagers einloggen. So weiß die \acs{API}, welcher Benutzer gerade am \acs{IMS} angemeldet ist und welche Plattform dieser benutzt.
+\autoref{img:umlActivityLogin} im Anhang zeigt die Anwendungslogik der Flask Applikation vom Login eines Benutzers. Verbindet sich ein Benutzer mit seinem Client auf die oben genannte \acs{URI} wird eine Methode \texttt{login} der Flask Applikation aufgerufen, in der diese Abläufe implementiert sind. Ist ein Benutzer bereits eingeloggt und in der \acs{REST} \acs{API} authentifiziert, leitet die \acs{API} den Benutzer auf die Chatseite um, für die der Benutzer bereits authentifiziert ist. Greift der Client auf die \acs{URI} mit der Basisoperation \acs{HTTP} GET zu, findet keine Anmeldung am System statt. Dem Client wird die \acs{HTML}-Seite durch die \acs{API} ausgeliefert, über die der Benutzer sich anmelden kann. Greift der Client mit der Basisoperation \acs{HTTP} POST auf die \acs{URI} zu, startet der Anmeldevorgang. Zuerst wird überprüft, ob der Benutzername in der Datenbank vorhanden ist und das vom Client gesendete Passwort mit dem Passwort-Hash aus der Datenbank übereinstimmt. Falls nein, sind die Daten im \acs{JSON}-Payload invalide und der Benutzer wird über eine Fehlermeldung informiert. Anhand des Werts, auf den der Name \texttt{requested\_platform} im \acs{JSON}-Payload verweist, wird unterschieden, ob ein Benutzer über die \acs{XMPP}-basierte Plattform oder über die Apache Kafka Plattform kommunizieren möchte. Je nach gesetztem Eintrag, benutzt die \acs{API} entweder einen \acs{XMPP}-Client oder einen Apache Kafka Client als Python Modul, um Nachrichten empfangen und versenden zu können. Hat sich die Flask Applikation mit dem korrekten Python Client an einen der beiden Plattformen erfolgreich eingeloggt, muss die \ac{API} den Benutzer noch im Session-Management des Login-Managers einloggen. So weiß die \acs{API}, welcher Benutzer gerade am \acs{IMS} angemeldet ist und welche Plattform dieser benutzt.
 
 Den Code für den Loginvorgang zeigt \autoref{lst:flaskLoginCode}.
 
@@ -2319,7 +2334,7 @@ def login():
         # send errors and exit
 \end{lstlisting}
 
-Im Dictionary \texttt{req\_content} befindet sich der vom Client an die \acs{API} übertragene Payload, der die Informationen für die Anmeldung enthält. Im Dictionary \texttt{config} sind Konfigurationsparameter und Zugangsdaten bereits eingelesen. Die \acs{REST} \acs{API} überprüft zuerst, ob der Benutzer in der Datenbank vorhanden ist. Hierzu verwendet sie die SQLAlchemy Operation \texttt{query.filter\_by}, mit der die Tabelle \texttt{user\_auth} durchsucht werden kann. Gesucht wird nach dem ersten auffindbaren Eintrag, der dem Benutzernamen entspricht. Anschließend wird überprüft, ob die SQLAlchemy Operation ein User-Objekt zurückgegeben hat und ob das übermittelte Passwort mit dem Passwort-Hash aus der Datenbank übereinstimmt. Falls das der Fall ist, wird anhand des Wertes, auf dem der Schlüssel \texttt{requested\_platform} aus dem Payload verweist, entschieden, für welche Plattform sich der Benutzer anmelden möchte. Fordert der Client die Plattform \texttt{xmpp} an, erzeugt die Methode \texttt{create\_sleekxmpp\_client} ein Objekt des Python \texttt{sleekxmpp}-Clients und gibt es an den Aufrufer zurück. Sie fügt es in das globale Session-Dictionary bereits ein. Außerdem erzeugt sie eine zufällige Zeichenfolge, welche zusätzlich in das Session-Dictionary eingefügt wird. Diese wird später für den Empfang von Nachrichten benötigt und im weiteren Verlauf der Arbeit erläutert. Im nächsten Schritt wird ein Verbindungsaufbau zur ejabberd-Instanz mit Hilfe des \acs{XMPP}-Clients gestartet. Falls dieser erfolgreich ist, wird mit Hilfe des Python Moduls \texttt{threading} \cite{pythonThreading} ein Thread gestartet, der dauerhaft auf den Empfang von Nachrichten wartet. Sofern keine Fehler aufgetreten sind, kann das \texttt{sleekxmpp}-Objekt aus dem globalen Session-Dictionary von anderen Methoden für den Nachrichtenversand verwendet werden. Der gestartete Thread wartet im Hintergrund auf eingehende Nachrichten. Über die Methode \texttt{login\_user} des LoginManagers wird der Benutzer an der \acs{REST} \acs{API} angemeldet und ins Session-Management des LoginManagers aufgenommen.
+Im Dictionary \texttt{req\_content} befindet sich der vom Client an die \acs{API} übertragene Payload, der die Informationen für die Anmeldung enthält. Im Dictionary \texttt{config} sind Konfigurationsparameter und Zugangsdaten bereits eingelesen. Die \acs{REST} \acs{API} überprüft zuerst, ob der Benutzer in der Datenbank vorhanden ist. Hierzu verwendet sie die SQLAlchemy Operation \texttt{query.filter\_by}, mit der die Tabelle \texttt{user\_auth} durchsucht werden kann. Gesucht wird nach dem ersten auffindbaren Eintrag, der dem Benutzernamen entspricht. Anschließend wird überprüft, ob die SQLAlchemy Operation ein User-Objekt zurückgegeben hat und ob das übermittelte Passwort mit dem Passwort-Hash aus der Datenbank übereinstimmt. Falls das der Fall ist, wird anhand des Wertes, auf dem der Schlüssel \texttt{requested\_platform} aus dem Payload verweist, entschieden, für welche Plattform sich der Benutzer anmelden möchte. Fordert der Client die Plattform \texttt{xmpp} an, erzeugt die Methode \texttt{create\_sleekxmpp\_client} ein Objekt des Python \texttt{sleekxmpp}-Clients und gibt es an den Aufrufer zurück. Sie fügt es in das globale Session-Dictionary bereits ein. Außerdem erzeugt sie eine zufällige Zeichenfolge, welche zusätzlich in das Session-Dictionary eingefügt wird. Diese wird später für den Empfang von Nachrichten benötigt und im weiteren Verlauf der Arbeit erläutert. Im nächsten Schritt wird ein Verbindungsaufbau zur ejabberd-Instanz mit Hilfe des \acs{XMPP}-Clients gestartet. Falls dieser erfolgreich ist, wird mit Hilfe des Python Moduls \texttt{threading} \cite{pythonThreading} ein Thread gestartet, der dauerhaft auf den Empfang von Nachrichten wartet. Sofern keine Fehler aufgetreten sind, kann das \texttt{sleekxmpp}-Objekt aus dem globalen Session-Dictionary von anderen Methoden für den Nachrichtenversand verwendet werden. Der gestartete Thread wartet im Hintergrund auf eingehende Nachrichten. Über die Methode \texttt{login\_user} des Login-Managers wird der Benutzer an der \acs{REST} \acs{API} angemeldet und ins Session-Management des Login-Managers aufgenommen.
 Meldet sich der Client für die Plattform Kafka an, wird mit Hilfe des Python Moduls \texttt{pykafka} ein Producer-Objekt erzeugt und in das globale Session-Dictionary eingefügt. Methoden, die Nachrichten versenden, können das Producer-Objekt direkt verwenden. Zusätzlich wird die Topic ID darin gespeichert, sodass ein Producer anhand des globalen Session-Dictionary weiß, wie die Topic ID des Benutzers lautet, an dem er die Nachricht senden möchte. Dieser Sachverhalt wird im Verlauf der Arbeit noch genauer erläutert. Genau wie beim Anmeldevorgang an die \acs{XMPP}-basierte Plattform wird am Ende des Codeabschnitts der Benutzer über \texttt{login\_user} an der \acs{REST} \acs{API} angemeldet.
 
 \textbf{Bemerkungen:} Fehlerbehandlungen und Exception-Handling sind in \autoref{lst:flaskLoginCode} bewusst aufgrund von Unübersichtlichkeit nicht dargestellt. Die \acs{REST} \acs{API} informiert den Benutzer jedoch über Fehler.
@@ -2455,7 +2470,7 @@ else:
     # send error -> no valid plattform
 \end{lstlisting}
 
-Die \acs{API} nutzt die Einträge aus dem Session-Dictionary. Der Aufruf \texttt{current\_user.user\_id} ist eine Funktion des LoginManagers, der die ID des Benutzers zurückgibt, der diese Operation gerade aufruft. Zurückgegeben wird die ID des Benutzers aus der Tabelle user\_auth, welche die Benutzerinformationen speichert. Die ID ist, wie in vorherigen Abschnitten beschrieben, der Primärschlüssel der Tabelle und verweist eindeutig auf den Benutzer. Der LoginManager benutzt diese ID, um die Sessions von Benutzern zu verwalten. Weil die ID eines Benutzers im Session-Dictionary als Schlüssel benutzt wird, kann die \acs{API} direkt auf die Einträge des Benutzers im Session-Dictionary zugreifen und verwenden. Durch diese Überprüfung versendet die \acs{API} die Nachricht an die richtige Plattform im Backend.
+Die \acs{API} nutzt die Einträge aus dem Session-Dictionary. Der Aufruf \texttt{current\_user.user\_id} ist eine Funktion des Login-Managers, der die ID des Benutzers zurückgibt, der diese Operation gerade aufruft. Zurückgegeben wird die ID des Benutzers aus der Tabelle user\_auth, welche die Benutzerinformationen speichert. Die ID ist, wie in vorherigen Abschnitten beschrieben, der Primärschlüssel der Tabelle und verweist eindeutig auf den Benutzer. Der Login-Manager benutzt diese ID, um die Sessions von Benutzern zu verwalten. Weil die ID eines Benutzers im Session-Dictionary als Schlüssel benutzt wird, kann die \acs{API} direkt auf die Einträge des Benutzers im Session-Dictionary zugreifen und verwenden. Durch diese Überprüfung versendet die \acs{API} die Nachricht an die richtige Plattform im Backend.
 
 \autoref{lst:flaskSendMessage} zeigt, wie die Nachricht versendet wird, wenn der Benutzer für die Plattform ejabberd angemeldet ist.
 
@@ -2600,8 +2615,34 @@ def print_x():
 
 Die \texttt{Response}-Funktion von Flask aus \autoref{lst:pythonGeneratorFlaskExample} akzeptiert ein Generator-Objekt. Ruft ein Client die  \acs{URI} / auf, so startet das Server-Sent-Event und sendet dem Client die Zahlen 1 bis 10.
 
-Diese Funktionalität von Flask kann genutzt werden, um einem Client Nachrichten auszuliefern, wann immer diese Eintreffen.
+Diese Funktionalität von Flask kann genutzt werden, um einem Client Nachrichten auszuliefern.
 
+In \autoref{lst:flaskPykafkaSSE} ist das Server-Sent-Event dargestellt, das Nachrichten, die von der Kafka Plattform empfangen werden, an den Client übermittelt.
+
+\begin{lstlisting}[language=python, caption={Code des Server-Sent-Events für den Empfang von Nachrichten der Kafka Plattform}, label={lst:flaskPykafkaSSE}]
+@app.route('/kafkastream/')
+def get_messages():
+    client = get_kafka_client()
+    def events(user_id):
+        global session_dict
+        for i in client.topics[session_dict[user_id]['topic']].get_simple_consumer():
+            yield 'data: {0}\n\n'.format(i.value.decode())
+    return Response(events(current_user.user_id), mimetype="text/event-stream")
+\end{lstlisting}
+
+Verbindet sich ein Client auf die \acs{URI} \texttt{193.196.53.24/kafkastream/}, führt die Flask Applikation die Funktion \texttt{get\_messages} aus. Zuerst erzeugt die Methode \texttt{get\_kafka\_client} ein Objekt des Moduls pykafka. Das Objekt verbindet sich automatisch mit dem Kafka-Broker. Anschließend initialisiert die \texttt{Response}-Methode das Server-Sent-Event und ruft die Methode \texttt{events} auf.
+Die Operation \texttt{current\_user.user\_id} des Login-Managers gibt die ID des eingeloggten Benutzers zurück, der diese \acs{API}-Route aufruft. Für jeden Benutzer wird ein eigenes \acs{SSE} erzeugt. Die ID des Benutzers ist Schlüssel des globalen Session-Dictionary. Über die ID und das Session-Dictionary kann das Topic eines bestimmten Benutzers abgefragt werden. Für dieses Topic wird ein Consumer-Objekt über \texttt{get\_simple\_consumer} erzeugt. Der Consumer wartet auf eingehende Nachrichten. Der Generator gibt die eintreffenden Nachrichten zurück, welche dem Client über das Server-Sent-Event zugestellt werden.
+
+\pagebreak
+
+Die Architektur dieser Lösung verdeutlicht \autoref{img:SSE-kafkaMessages}.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=.9\textwidth]{images/SSE-kafkaMessages}
+	\caption{Ablauf des Empfangs von Nachrichten über die Apache Kafka Plattform, eigene Darstellung}
+	\label{img:SSE-kafkaMessages}
+\end{figure}
 
 \pagebreak
 
