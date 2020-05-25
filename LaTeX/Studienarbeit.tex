@@ -342,6 +342,7 @@ Ort, Datum & Unterschrift
 \acro{SSH}{Secure Shell}
 \acro{UML}{Unified Modeling Language}
 \acro{SSE}{Server-Sent-Events}
+\acro{RAM}{Random-Access Memory}
 \acro{MIME}{Multipurpose Internet Mail Extensions}
 \acro{HTML}{Hypertext Markup Language}
 \acro{PDF}{Portable Document Format}
@@ -2617,6 +2618,17 @@ Die \texttt{Response}-Funktion von Flask aus \autoref{lst:pythonGeneratorFlaskEx
 
 Diese Funktionalität von Flask kann genutzt werden, um einem Client Nachrichten auszuliefern.
 
+Die Architektur dieser Lösung verdeutlicht \autoref{img:SSE-kafkaMessages}.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=.9\textwidth]{images/SSE-kafkaMessages}
+	\caption{Ablauf des Empfangs von Nachrichten über die Apache Kafka Plattform, eigene Darstellung}
+	\label{img:SSE-kafkaMessages}
+\end{figure}
+
+Die Producer der Chatpartner eines Benutzers produzieren Nachrichten in sein Topic. Der Consumer des Empfängers konsumiert die Nachrichten und der Server sendet die Nachrichten über das Server-Sent-Event an den Client.
+
 In \autoref{lst:flaskPykafkaSSE} ist das Server-Sent-Event dargestellt, das Nachrichten, die von der Kafka Plattform empfangen werden, an den Client übermittelt.
 
 \begin{lstlisting}[language=python, caption={Code des Server-Sent-Events für den Empfang von Nachrichten der Kafka Plattform}, label={lst:flaskPykafkaSSE}]
@@ -2633,16 +2645,60 @@ def get_messages():
 Verbindet sich ein Client auf die \acs{URI} \texttt{193.196.53.24/kafkastream/}, führt die Flask Applikation die Funktion \texttt{get\_messages} aus. Zuerst erzeugt die Methode \texttt{get\_kafka\_client} ein Objekt des Moduls pykafka. Das Objekt verbindet sich automatisch mit dem Kafka-Broker. Anschließend initialisiert die \texttt{Response}-Methode das Server-Sent-Event und ruft die Methode \texttt{events} auf.
 Die Operation \texttt{current\_user.user\_id} des Login-Managers gibt die ID des eingeloggten Benutzers zurück, der diese \acs{API}-Route aufruft. Für jeden Benutzer wird ein eigenes \acs{SSE} erzeugt. Die ID des Benutzers ist Schlüssel des globalen Session-Dictionary. Über die ID und das Session-Dictionary kann das Topic eines bestimmten Benutzers abgefragt werden. Für dieses Topic wird ein Consumer-Objekt über \texttt{get\_simple\_consumer} erzeugt. Der Consumer wartet auf eingehende Nachrichten. Der Generator gibt die eintreffenden Nachrichten zurück, welche dem Client über das Server-Sent-Event zugestellt werden.
 
+Diese Lösung eignet sich auch für den Empfang von Nachrichten über die \acs{XMPP}-basierte Plattform ejabberd. Der sleekxmpp-Client von Python arbeitet mit einer Callback-Methode, die aufgerufen wird, wenn eine neue Nachricht eingetroffen ist. Der Code der Callback-Methode verarbeitet die Nachricht und muss die Nachricht direkt in das Server-Sent-Event weitergeben. Den Server-Push aus der Callback-Methode heraus auszulösen, ist mit den Möglichkeiten von Flask nicht möglich. Das Generator-Objekt muss hierzu von der Callback-Methode befüllt werden, was nicht möglich ist. Ein Generator-Objekt kann nur einmal erstellt werden und produziert solange Werte, bis die Abbruchbedingung zutrifft. Eine Aktualisierung des Generator-Objekts, während es ausgeführt wird, ist nicht möglich. Diesen Entschluss bestätigt die Recherche nach einer Möglichkeit, ein Generator-Objekt zu aktualisieren. Die Empfehlung von Communities wie \glqq stackoverflow.com\grqq ist ein Generator-Objekt neu zu erzeugen, statt es zu aktualisieren \cite{resetGeneratorObjectPython}. Zusätzlich ist fraglich, was eine geeignete Abbruchbedingung innerhalb des Generator-Objekts ist, denn der Empfang der Nachricht lässt sich nur über die Callback-Methode realisieren. Sleekxmpp bietet keine Schnittstelle für Entwickler, um auf eine Queue oder Liste, in der die Nachrichten zwischengespeichert werden, zuzugreifen.
+
+Eine geeignete Lösung ist, Redis als Zwischenspeicher von Nachrichten einzusetzen. Redis ist eine In-Memory Datenbank und ist Open-Source. Eine In-Memory Datenbank speichert Daten im nicht persistenten Speicher (\acs{RAM}). Redis kann als Cache, High-Performance Datenbank und als Message-Broker verwendet werden.\cite{redisDocumentation}
+
+Für die Lösung mit dem sleekxmpp-Client wird Redis als Message-Broker eingesetzt, der die Nachrichten im \acs{RAM} zwischenspeichert. Redis arbeitet nach dem in \autoref{img:PublishSubscribeTanenbaum} auf Seite \pageref{img:PublishSubscribeTanenbaum} vorgestellten Publish-Subscribe-Prinzip, mit dem Unterschied, dass der Datenraum nicht persistent ist. Im Zusammenhang mit Redis und dem Publish-Subscribe-Prinzip gibt es drei wichtige Fachbegriffe, die häufig verwendet werden: Publisher, Subscriber und Channel. Publisher produzieren Nachrichten in einen Channel von Redis, aus denen Subscriber die Nachrichten lesen können. Die Voraussetzung dafür ist, dass der Subscriber sich bei Redis für den Channel registriert.
+
 \pagebreak
 
-Die Architektur dieser Lösung verdeutlicht \autoref{img:SSE-kafkaMessages}.
+\autoref{img:RedisFunction} verdeutlicht die Funktion des Publish-Subscribe-Prinzips von Redis nach \cite{redisDocumentation}.
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=.9\textwidth]{images/SSE-kafkaMessages}
-	\caption{Ablauf des Empfangs von Nachrichten über die Apache Kafka Plattform, eigene Darstellung}
-	\label{img:SSE-kafkaMessages}
+	\includegraphics[width=\textwidth]{images/RedisFunction}
+	\caption{Funktion des Publish-Subscribe-Prinzips von Redis, eigene Darstellung}
+	\label{img:RedisFunction}
 \end{figure}
+
+Mehrere Publisher können in einen Channel Nachrichten schreiben und umgekehrt können mehrere Subscriber Nachrichten aus einem Channel lesen. Ein Channel ist die logische Verbindung zwischen Publisher und Subscriber, über den die Nachrichten ausgetauscht werden.\cite{redisDocumentation}
+
+Flask unterstützt das Python Modul redis-py, mit dem Publish- und Subscribe-Operationen in die In-Memory Datenbank veranlasst werden können.
+
+\autoref{lst:prepareFlaskForRedis} zeigt, wie eine In-Memory Datenbank mit Python erstellt werden kann und die Benutzung von Redis vorbereitet wird.
+
+\begin{lstlisting}[language=python, caption={Code für die Einbindung von Redis in die Flask Applikation}, label={lst:prepareFlaskForRedis}]
+import redis
+#more imports ...
+
+app = Flask(__name__)
+red = redis.StrictRedis(decode_responses=True)
+#more code ...
+\end{lstlisting}
+
+Nach dem Import des Moduls im Code der Flask Applikation muss eine StrictRedis-Instanz erzeugt werden. Über diese Instanz, in \autoref{lst:prepareFlaskForRedis} \glqq redis\grqq genannt, können Nachrichten in Channels produziert werden oder aus einem Channel gelesen werden.
+
+Wichtige Operationen:
+
+\begin{description}
+\item[red.publish(<channel>, <message>)] Eine Nachricht in einen bestimmten Channel hineinschreiben (Publish-Operation).
+\item[red.subscribe(<channel>)] Einen Channel abonnieren (Subscribe-Operation).
+\item[red.listen()] Nachrichten aus dem abonnierten Channel lesen.
+\end{description}
+
+\pagebreak
+
+In \autoref{img:RedisSleekxmppMessages} ist der logische Ablauf bei der Zustellung der Nachrichten über das Server-Sent-Event und Redis abgebildet.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\textwidth]{images/RedisSleekxmppMessages}
+	\caption{Empfang von Nachrichten über das Server-Sent-Event mit Redis, eigene Darstellung}
+	\label{img:RedisSleekxmppMessages}
+\end{figure}
+
+Die Sleekxmpp-Clients der Sender versenden die Nachrichten an ejabberd über \acs{XMPP}. Die Sleekxmpp-Clients der Empfänger warten auf eingehende Nachrichten vom ejabberd-Server. Trifft eine Nachricht ein, produziert die Callback-Methode des Sleekxmpp-Objekts die Nachricht in den Channel des Empfängers. Diese Operation ist die Publish-Operation. Beim Login eines Benutzers am \acs{IMS} wird eine Channel-ID zufällig erzeugt und dem Benutzer im Session-Dictionary zugewiesen. Auf diese Weise ist die Zuordnung von einem Benutzer zu seinem Channel nach dem Login eindeutig gegeben. Auf diese Funktion wird im Detail nicht genauer eingegangen. Die Beschreibung hat keinen Mehrwert für die Lösung des Empfangs einer Nachricht. Die Flask Applikaion liest über die Subscribe-Operation die Nachrichten aus dem Channel des Benutzers und stellt diesen die Nachrichten über ein Server-Sent-Event zu.
 
 \pagebreak
 
