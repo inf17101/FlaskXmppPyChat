@@ -2643,15 +2643,13 @@ def get_messages():
 \end{lstlisting}
 
 Verbindet sich ein Client auf die \acs{URI} \texttt{193.196.53.24/kafkastream/}, führt die Flask Applikation die Funktion \texttt{get\_messages} aus. Zuerst erzeugt die Methode \texttt{get\_kafka\_client} ein Objekt des Moduls pykafka. Das Objekt verbindet sich automatisch mit dem Kafka-Broker. Anschließend initialisiert die \texttt{Response}-Methode das Server-Sent-Event und ruft die Methode \texttt{events} auf.
-Die Operation \texttt{current\_user.user\_id} des Login-Managers gibt die ID des eingeloggten Benutzers zurück, der diese \acs{API}-Route aufruft. Für jeden Benutzer wird ein eigenes \acs{SSE} erzeugt. Die ID des Benutzers ist Schlüssel des globalen Session-Dictionary. Über die ID und das Session-Dictionary kann das Topic eines bestimmten Benutzers abgefragt werden. Für dieses Topic wird ein Consumer-Objekt über \texttt{get\_simple\_consumer} erzeugt. Der Consumer wartet auf eingehende Nachrichten. Der Generator gibt die eintreffenden Nachrichten zurück, welche dem Client über das Server-Sent-Event zugestellt werden.
+Die Operation \texttt{current\_user.user\_id} des Login-Managers gibt die ID des eingeloggten Benutzers zurück, der diese \acs{API}-Route aufruft. Weil die ID für jeden Benutzer unterschiedlich ist, wird damit die Methode \texttt{events} für jeden Benutzer mit unterschiedlichem Argument aufgerufen. Die ID des Benutzers ist Schlüssel des globalen Session-Dictionary. Über die ID und das Session-Dictionary kann das Topic eines bestimmten Benutzers abgefragt werden. Für jeden Benutzer wird über das Topic ein Consumer-Objekt über \texttt{get\_simple\_consumer} erzeugt. Für jeden Benutzer wird ein eigenes Consumer-Objekt erzeugt, dass Nachrichten aus dem Topic des Benutzers konsumiert. Ein Benutzer kann keine Nachrichten empfangen, die nicht für ihn bestimmt sind. Der Generator gibt die eintreffenden Nachrichten zurück, welche dem Client über das Server-Sent-Event zugestellt werden.
 
 Diese Lösung eignet sich auch für den Empfang von Nachrichten über die \acs{XMPP}-basierte Plattform ejabberd. Der sleekxmpp-Client von Python arbeitet mit einer Callback-Methode, die aufgerufen wird, wenn eine neue Nachricht eingetroffen ist. Der Code der Callback-Methode verarbeitet die Nachricht und muss die Nachricht direkt in das Server-Sent-Event weitergeben. Den Server-Push aus der Callback-Methode heraus auszulösen, ist mit den Möglichkeiten von Flask nicht möglich. Das Generator-Objekt muss hierzu von der Callback-Methode befüllt werden, was nicht möglich ist. Ein Generator-Objekt kann nur einmal erstellt werden und produziert solange Werte, bis die Abbruchbedingung zutrifft. Eine Aktualisierung des Generator-Objekts, während es ausgeführt wird, ist nicht möglich. Diesen Entschluss bestätigt die Recherche nach einer Möglichkeit, ein Generator-Objekt zu aktualisieren. Die Empfehlung von Communities wie \glqq stackoverflow.com\grqq ist ein Generator-Objekt neu zu erzeugen, statt es zu aktualisieren \cite{resetGeneratorObjectPython}. Zusätzlich ist fraglich, was eine geeignete Abbruchbedingung innerhalb des Generator-Objekts ist, denn der Empfang der Nachricht lässt sich nur über die Callback-Methode realisieren. Sleekxmpp bietet keine Schnittstelle für Entwickler, um auf eine Queue oder Liste, in der die Nachrichten zwischengespeichert werden, zuzugreifen.
 
 Eine geeignete Lösung ist, Redis als Zwischenspeicher von Nachrichten einzusetzen. Redis ist eine In-Memory Datenbank und ist Open-Source. Eine In-Memory Datenbank speichert Daten im nicht persistenten Speicher (\acs{RAM}). Redis kann als Cache, High-Performance Datenbank und als Message-Broker verwendet werden.\cite{redisDocumentation}
 
 Für die Lösung mit dem sleekxmpp-Client wird Redis als Message-Broker eingesetzt, der die Nachrichten im \acs{RAM} zwischenspeichert. Redis arbeitet nach dem in \autoref{img:PublishSubscribeTanenbaum} auf Seite \pageref{img:PublishSubscribeTanenbaum} vorgestellten Publish-Subscribe-Prinzip, mit dem Unterschied, dass der Datenraum nicht persistent ist. Im Zusammenhang mit Redis und dem Publish-Subscribe-Prinzip gibt es drei wichtige Fachbegriffe, die häufig verwendet werden: Publisher, Subscriber und Channel. Publisher produzieren Nachrichten in einen Channel von Redis, aus denen Subscriber die Nachrichten lesen können. Die Voraussetzung dafür ist, dass der Subscriber sich bei Redis für den Channel registriert.
-
-\pagebreak
 
 \autoref{img:RedisFunction} verdeutlicht die Funktion des Publish-Subscribe-Prinzips von Redis nach \cite{redisDocumentation}.
 
@@ -2679,6 +2677,8 @@ red = redis.StrictRedis(decode_responses=True)
 
 Nach dem Import des Moduls im Code der Flask Applikation muss eine StrictRedis-Instanz erzeugt werden. Über diese Instanz, in \autoref{lst:prepareFlaskForRedis} \glqq redis\grqq genannt, können Nachrichten in Channels produziert werden oder aus einem Channel gelesen werden.
 
+\pagebreak
+
 Wichtige Operationen:
 
 \begin{description}
@@ -2686,8 +2686,6 @@ Wichtige Operationen:
 \item[red.subscribe(<channel>)] Einen Channel abonnieren (Subscribe-Operation).
 \item[red.listen()] Nachrichten aus dem abonnierten Channel lesen.
 \end{description}
-
-\pagebreak
 
 In \autoref{img:RedisSleekxmppMessages} ist der logische Ablauf bei der Zustellung der Nachrichten über das Server-Sent-Event und Redis abgebildet.
 
@@ -2699,6 +2697,27 @@ In \autoref{img:RedisSleekxmppMessages} ist der logische Ablauf bei der Zustellu
 \end{figure}
 
 Die Sleekxmpp-Clients der Sender versenden die Nachrichten an ejabberd über \acs{XMPP}. Die Sleekxmpp-Clients der Empfänger warten auf eingehende Nachrichten vom ejabberd-Server. Trifft eine Nachricht ein, produziert die Callback-Methode des Sleekxmpp-Objekts die Nachricht in den Channel des Empfängers. Diese Operation ist die Publish-Operation. Beim Login eines Benutzers am \acs{IMS} wird eine Channel-ID zufällig erzeugt und dem Benutzer im Session-Dictionary zugewiesen. Auf diese Weise ist die Zuordnung von einem Benutzer zu seinem Channel nach dem Login eindeutig gegeben. Auf diese Funktion wird im Detail nicht genauer eingegangen. Die Beschreibung hat keinen Mehrwert für die Lösung des Empfangs einer Nachricht. Die Flask Applikaion liest über die Subscribe-Operation die Nachrichten aus dem Channel des Benutzers und stellt diesen die Nachrichten über ein Server-Sent-Event zu.
+
+\pagebreak
+
+Der Code für das Server-Sent-Event ist in \autoref{lst:flaskSleekxmppSSE} dargestellt.
+
+\begin{lstlisting}[language=python, caption={Code des Server-Sent-Events für den Empfang von Nachrichten über ejabberd}, label={lst:flaskSleekxmppSSE}]
+@app.route('/stream')
+def stream():
+    def event_stream(user_id):
+        pubsub = red.pubsub()
+        global session_dict
+        stream_id = session_dict[user_id]["stream_id"]
+        pubsub.subscribe(stream_id)
+        for message in pubsub.listen():
+            yield 'data: %s\n\n' % message['data']
+    return Response(event_stream(current_user.user_id), mimetype="text/event-stream", status=200)
+\end{lstlisting}
+
+Verbindet sich ein Client auf die \acs{URI} \texttt{http://193.196.53.24/stream}, führt die Flask Applikation die Methode \texttt{stream} aus. Die Methode \texttt{Respone} des Flask-Moduls ruft für jeden Benutzer die Methode \texttt{event\_stream} auf, die Daten für das Server-Sent-Event produziert. Genau wie in \autoref{lst:flaskPykafkaSSE}, sorgt die Operation \texttt{current\_user.user\_id} dafür, dass sich das Argument der Methode \texttt{event\_stream} je nach Benutzer unterscheidet. Die Benutzer-ID wird dafür verwendet, um für jeden Benutzer die Channel-ID aus dem Session-Dictionary auszulesen. In \autoref{lst:flaskSleekxmppSSE} ist die Channel-ID \glqq stream\_id\grqq genannt. Anschließend werden über den Subscribe-Mechanismus die Nachrichten aus dem Channel gelesen und der Generator produziert die Nachrichten in den Event-Stream. Der Client erhält die Nachrichten über den Event-Stream.
+
+Mit Server-Sent-Events werden die Nachrichten automatisch dem Client übermitteln. Wird die Verbindung unterbrochen, verbindet sich der Client-Code automatisch erneut mit dem Server-Sent-Event. Die Lösung macht den Empfang von Nachrichten direkt am Client oder in einem Web Frontend möglich.
 
 \pagebreak
 
