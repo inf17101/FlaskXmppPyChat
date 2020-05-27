@@ -622,80 +622,7 @@ Während ein User ein Textfeld beschreibt wird im Hintergrund, mithilfe des Java
 \end{lstlisting}
 Mit \texttt{\$(document).ready} werden grundsätzlich erste Probleme, die auftreten können verhindert. Demnach könnte ohne diese Funktion auf Elemente zugegriffen werden, welche noch nicht vollständig geladen sind. Das ready verhindert diese Problematik und wartet mit der Ausführung bis die Webseite komplett geladen ist. JQuery besitzt zahlreiche Plugins die bei der Webentwicklung verwendet werden können. JavaScript bildetet ein fundamentaler Baustein, der mithilfe zahlreicher Möglichkeiten und Frameworks für jede Anwendung Optionen bereitstellt, um dynamische Änderungen oder Interaktionen in die Webanwendung zu integrieren.\cite{buhler2018webtechnologien}
 
-
 \pagebreak
-\section{Grundlagen von Softwaretests}
-\label{sec:GrundlagenSoftwaretests}
-
-Die Entwicklung eines Softwareprodukts ist stets aufwendig und fehlerbehaftet. Es gibt eine Reihe potentieller Fehler, die eine Software aufweisen kann.
-
-\smallskip
-
-\subsubsection*{Häufige Fehlerarten:}
-
-\smallskip
-
-\begin{itemize}
-\item syntaktische Fehler
-\item semantische Fehler
-\item Logische Fehler
-\item Designfehler
-\item Fehler im Bedienkonzept
-\item Laufzeitfehler
-\item Fehler als Folge physikalischer Betriebsbedingungen
-\end{itemize}
-
-Syntaktische Fehler verstoßen gegen die Richtlinien und der Grammatik der Programmiersprache. Bei semantischen Fehlern ist die Syntax korrekt, aber das Programm ist inhaltlich falsch. Ein Beispiel wäre eine falsche Parameterreihenfolge in einer Funktion. Logische Fehler bestehen aus einem falschen Problemlösungsansatz, zum Beispiel aufgrund eines Fehlschlusses oder einer falschen Interpretation einer Programmspezifikation. Designfehler sind Fehler im Grundkonzept der Software. Die Ursachen liegen in der Definition der Anforderungen an das Softwareprodukt oder an Codewiederholungen, die bei Software-Wartungen nicht auf den gleichen Stand gebracht werden. Ein Fehler im Bedienkonzept ist ein Fehler, bei dem sich das Programm anders als von Benutzern erwartet verhält, obwohl es technisch fehlerfrei arbeitet. Laufzeitfehler sind Fehler, die auftreten während das Programm abgearbeitet wird. Ein möglicher Laufzeitfehler entsteht durch einen Aufruf eines Unterprogramms mit falschen Eingabeparametern. Fehler als Folge physikalischer Betriebsbedingungen sind Fehler, die durch elektromagnetische Felder, Temperaturschwankungen oder Strahlung bei technisch einwandfreier Software zu Fehlern und unerwünschten Verhalten führen. Ein Kippen eines Bits auf aufgrund der beschriebenen Einflüsse kann die Ausführung des Programms beeinträchtigen oder abstürzen lassen.\cite{witte2019testmanagement}\\
-
-Syntaktische Fehler können durch den Interpreter oder Compiler schnell identifiziert und behoben werden. Semantische Fehler, logische Fehler und andere Fehlerarten sind schwer zu finden. Die Programmverifikation stellt einen systematischen Ansatz dar, um die Fehlerfreiheit von Programmen zu beweisen. Sie wendet mathematische Beweisführungen, Axiome und Schlussregeln an, um solche Fehler ausschließen zu können.\\
-In wenigen modernen Programmiersprachen ist jedoch eine Beweisführung auf Fehlerfreiheit möglich. Die Softwarestrukturen und der Codeumfang wachsen und erschweren die manuelle Beweisführung. Nach dem niederländischen Informatiker Dijkstra E. W. lässt sich ein Programm formal in eine Vor- und Nachbedingung spezifizieren. \autoref{img:VorNachbedingungDijkstra} zeigt den logischen Aufbau eines Programms. Eine Vorbedingung (precondition) ist eine Menge an Zusicherungen, die zu Beginn eines Programms gültig ist. Eine Nachbedingung (postcondition) ist eine Menge an Zusicherungen, die am Ende des Programms gültig sind. Der Begriff Zusicherung (assertion) ist definiert als eine Aussage, die an einer bestimmten Stelle des Programmablaufes gültig ist. Ein Programm ist nach Dijkstra genau dann korrekt, wenn das Programm seine Vorbedingungen in einer endlichen Anzahl an Schritten in seine Nachbedingung überführt. Vor- und Nachbedingungen sind in der Programmspezifikation genau definiert.\cite{kirchner2017}
-
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=\textwidth]{images/VorNachbedingungDijkstra}
-	\caption{Logischer Aufbau eines Programms nach Dijkstra, eigene Darstellung}
-	\label{img:VorNachbedingungDijkstra}
-\end{figure}
-
-Das einhalten von Vor- und Nachbedingungen ist in moderner Softwareentwicklung stets gefordert. Weil das anwenden von Beweisführungen und Schlussregeln auf Programmen heutzutage zu komplex sind und für den Menschen in komplexen Softwarearchitekturen nur noch schwer nachzuvollziehen sind, wird explizit Code entwickelt, der den entwickelten Code testet. Das führt zur Unterscheidung zwischen Produktions- und Testcode. Der Testcode soll den Produktionscode auf korrektes Verhalten überprüfen.\cite{kirchner2017}
-
-Nach der Auslieferung von Software können Fehler immer noch entdeckt werden, zum Beispiel durch den Kunden. Das bestätigt die These von Dijkstra:
-
-\smallskip
-
-\textbf{\glqq Durch Testen kann man stets nur die Anwesenheit, nie aber die Abwesenheit von Fehlern beweisen.\grqq} (vgl. Dijkstra E. W. - The Humble Programmer, ACM Turing Lecture 1972)
-
-\smallskip
-
-Diese These bestätigt Witte F. in \cite{witte2019testmanagement}. Testaktivitäten schlagen fehl und erzeugen Fehler. Nach \cite{witte2019testmanagement} ist das Risiko, dass noch unentdeckte Fehler im Testobjekt vorhanden sind geringer, je höher die Testabdeckung ist. Testen zeigt nicht, dass die Software fehlerfrei ist, selbst wenn keine Fehler nachgewiesen werden. Testen ist kein mathematischer Beweis. Softwaretests beziehen sich immer auf die Betrachtung von Stichproben, es werden nicht alle möglichen Eingabeparameter und deren Kombinationen mit allen möglichen Vorbedingungen getestet, sondern diejenigen, die am ehesten praxisrelevant sind. Der Testaufwand richtet sich dabei nach Priorität und Risiko. Der Aufwand ist dabei immer mit
-dem Nutzen abzugleichen. 
-
-\smallskip
-
-Eine Software vollständig zu testen ist somit unmöglich. Ein Test dient zur Feststellung, ob ein Programm wie in der Spezifikation festgehalten
-funktioniert und nichts anderes tut, aber nicht um alle möglichen Fehler ausschließen zu können.
-
-\smallskip
-
-Tests eines komplexen Software-Systems lassen sich in verschiedene Testarten einordnen. Nicht jeder Test ist in jedem Entwicklungsstand möglich. Weil aber nicht jede Teststufe oder Testart zu jedem Zeitpunkt möglich ist, müssen die Testarten eindeutig voneinander abgegrenzt werden.
-
-\subsubsection*{Testarten:}
-
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=6cm]{images/Testarten.png}
-	\caption{Übersicht über Testarten, eigene Darstellung}
-	\label{img:Testarten}
-\end{figure}
-
-Die häufigsten Testarten lassen sich in vier Bereiche aufteilen - Integrationstests, Unittests, Systemtests und Abnahmetests, siehe \autoref{img:Testarten}. \textbf{Integrationstests} sind abgestimmte Reihen von mehreren Tests, die dazu dienen, verschiedene voneinander abhängige Komponenten eines komplexen Systems im Zusammenspiel miteinander zu prüfen. Für den Integrationstest erstellt man nun Testszenarien, die das Zusammenwirken der beiden betroffenen Komponenten zeigen. Die Anzahl der Integrationsstufen richtet sich nach der Komplexität der Software. \textbf{Systemtests} werden durchgeführt, um die gesamte Software gegen die gesamten Anforderungen des Kunden zu testen. Das beinhaltet alle funktionalen Anforderungen und nicht funktionalen Anforderungen, wie zum Beispiel Qualität oder Bedienbarkeit. Weil Systemtests die gesamte Software testen, sind diese zum Zeitpunkt der Fertigstellung der Software durchzuführen. Idealerweise wird die Produktivumgebung des Kunden zuerst nachgestellt und die Software mit Live-Szenarien aus dem Produktivbetrieb getestet. Ein \textbf{Abnahmetest}, \textbf{Verfahrenstest}, \textbf{Akzeptanztest} oder auch \textbf{User Acceptance Test} ist ein Test der ausgelieferten Software durch den Kunden und/oder Auftraggeber. Der Test wird oft mit Kopien von echten Daten in der Produktionsumgebung des Kunden durchgeführt. Diese Testart hat nicht das Ziel Fehler zu entdecken, sondern das der Kunde Vertrauen in das Endprodukt gewinnt. Fehler sollten schon durch andere Testarten entdeckt worden und behoben sein. Zum Beispiel durch \textbf{Unittests}. Unittests eignen sich dafür, bei jedem Entwicklungsstand einzusetzen. Diese Art von Tests werden in der Softwareentwicklung durchgeführt, um kleine, funktionale Einzelteile (\textbf{Units}) zu testen. Ein \textbf{Unit} kann dabei ein kleiner Codeabschnitt sein oder eine Methode einer Klasse sein. Weil Algorithmen auf Modulebene meist nur eine begrenzte Komplexität aufweisen und über klar definierte Schnittstellen aktiviert werden, können sie mit relativ wenigen Testfällen ziemlich umfassend getestet werden.\cite{witte2019testmanagement}
-
-\smallskip
-
-Eine wichtige Anforderung an Tests ist, dass diese schnell und effizient ablaufen. Effizient, um nicht mehr als die notwendigen Ressourcen zu verbrauchen und schnell, um möglichst oft aufgerufen zu werden.\cite{hubertz2016softwaretests} Diese Anforderungen erfüllen vor allem Unittests, weshalb für die Entwicklung der Softwarefunktionalitäten des Projekts Unittests eingesetzt werden. Diese werden im nächsten Kapitel genauer erläutert. 
-
-\subsection{Unittests}
-\label{Unittests}
 
 \chapter{Umsetzung und Implementierung}
 \label{chap:Umsetzung}
@@ -3122,12 +3049,167 @@ Die Funktion \texttt{modular\_ajax(url, type, formData)} übernimmt die Aufgabe,
 chat_messages[user_name][to_jid].push({"from": user_name, "timestamp": msg_timestamp, "txt": msg, "type": "chat"});
 \end{lstlisting}
 Daher muss zum Abschluss der Funktion das Dictionary-Objekt mithilfe der \texttt{push}-Funktion um die Nachricht, welche soeben gesendet wurde, erweitert werden (\autoref{lst:SendFunctionUpdateChatMessageObject}).
-\newpage
 
-\chapter{Datenanalyse}
-\label{chap:Datenanalyse}
+\pagebreak
 
-\newpage
+\section{Grundlagen von Softwaretests}
+\label{sec:GrundlagenSoftwaretests}
+%%TODO: einbauen von mehrwert von terminalserver
+Die Entwicklung eines Softwareprodukts ist stets aufwendig und fehlerbehaftet. Es gibt verschiedene potentieller Fehler, die eine Software aufweisen kann. Für die Entwicklung des \acs{IMS} ist es wichtig, die Grundlagen von Softwaretests zu kennen, um Fehler im Code zu vermeiden. Es ist erforderlich sich mit Fehlerarten auseinanderzusetzen und zu verstehen, welche Fehler durch Tests entdeckt werden können.
+
+\smallskip
+
+\subsubsection*{Häufige Fehlerarten:}
+
+\smallskip
+
+\begin{itemize}
+\item syntaktische Fehler
+\item semantische Fehler
+\item Logische Fehler
+\item Designfehler
+\item Fehler im Bedienkonzept
+\item Laufzeitfehler
+\item Fehler als Folge physikalischer Betriebsbedingungen
+\end{itemize}
+
+Syntaktische Fehler verstoßen gegen die Richtlinien und der Grammatik der Programmiersprache. Bei semantischen Fehlern ist die Syntax korrekt, aber das Programm ist inhaltlich falsch. Ein Beispiel ist eine falsche Parameterreihenfolge in einer Funktion. Logische Fehler bestehen aus einem falschen Problemlösungsansatz, zum Beispiel aufgrund eines Fehlschlusses oder einer falschen Interpretation einer Programmspezifikation. Designfehler sind Fehler im Grundkonzept der Software. Die Ursachen liegen in der Definition der Anforderungen an das Softwareprodukt oder an Codewiederholungen, die bei Software-Wartungen nicht auf den gleichen Stand gebracht werden. Ein Fehler im Bedienkonzept ist ein Fehler, bei dem sich das Programm anders als von Benutzern erwartet verhält, obwohl es technisch fehlerfrei arbeitet. Laufzeitfehler sind Fehler, die auftreten während das Programm abgearbeitet wird. Ein möglicher Laufzeitfehler entsteht durch einen Aufruf eines Unterprogramms mit falschen Eingabeparametern. Fehler als Folge physikalischer Betriebsbedingungen sind Fehler, die durch elektromagnetische Felder, Temperaturschwankungen oder Strahlung bei technisch einwandfreier Software zu Fehlern und unerwünschten Verhalten führen. Ein Kippen eines Bits aufgrund der beschriebenen Einflüsse kann die Ausführung des Programms beeinträchtigen oder abstürzen lassen.\cite{witte2019testmanagement}\\
+
+Syntaktische Fehler können durch den Interpreter oder Compiler schnell identifiziert und behoben werden. Semantische Fehler, logische Fehler und andere Fehlerarten sind schwerer zu finden. Die Programmverifikation stellt einen systematischen Ansatz dar, um die Fehlerfreiheit von Programmen zu beweisen. Sie wendet mathematische Beweisführungen, Axiome\footnote{Axiom: absolut richtig erkannter Grundsatz; gültige Wahrheit, die keines Beweises bedarf.} und Schlussregeln an, um solche Fehler ausschließen zu können.\\
+In wenigen modernen Programmiersprachen ist eine Beweisführung auf Fehlerfreiheit möglich. Die Softwarestrukturen und der Codeumfang wachsen und erschweren die manuelle Beweisführung. Nach dem niederländischen Informatiker Dijkstra E. W. lässt sich ein Programm formal in eine Vor- und Nachbedingung spezifizieren. \autoref{img:VorNachbedingungDijkstra} zeigt den logischen Aufbau eines Programms. Eine Vorbedingung (precondition) ist eine Menge an Zusicherungen, die zu Beginn eines Programms gültig ist. Eine Nachbedingung (postcondition) ist eine Menge an Zusicherungen, die am Ende des Programms gültig sind. Der Begriff Zusicherung (assertion) ist definiert als eine Aussage, die an einer bestimmten Stelle des Programmablaufes gültig ist. Ein Programm ist nach Dijkstra genau dann korrekt, wenn das Programm seine Vorbedingungen in einer endlichen Anzahl an Schritten in seine Nachbedingung überführt. Vor- und Nachbedingungen sind in der Programmspezifikation genau definiert.\cite{kirchner2017}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\textwidth]{images/VorNachbedingungDijkstra}
+	\caption{Logischer Aufbau eines Programms nach Dijkstra, eigene Darstellung}
+	\label{img:VorNachbedingungDijkstra}
+\end{figure}
+
+Das einhalten von Vor- und Nachbedingungen ist in moderner Softwareentwicklung stets gefordert. Weil das anwenden von Beweisführungen und Schlussregeln auf Programmen heutzutage zu komplex sind und für den Menschen in komplexen Softwarearchitekturen nur noch schwer nachzuvollziehen sind, wird explizit Code programmiert, der den entwickelten Code testet. Das führt zur Unterscheidung zwischen Produktions- und Testcode. Der Testcode soll den Produktionscode auf korrektes Verhalten überprüfen.\cite{kirchner2017}
+
+Nach der Auslieferung von Software können Fehler immer noch entdeckt werden, zum Beispiel durch den Kunden. Das bestätigt die These von Dijkstra:
+
+\smallskip
+
+\textbf{\glqq Durch Testen kann man stets nur die Anwesenheit, nie aber die Abwesenheit von Fehlern beweisen.\grqq} (vgl. Dijkstra E. W. - The Humble Programmer, ACM Turing Lecture 1972)
+
+\smallskip
+
+Diese These bestätigt Witte F. in \cite{witte2019testmanagement}. Testaktivitäten schlagen fehl und erzeugen Fehler. Nach \cite{witte2019testmanagement} ist das Risiko, dass noch unentdeckte Fehler im Testobjekt vorhanden sind geringer, je höher die Testabdeckung ist. Testen zeigt nicht, dass die Software fehlerfrei ist, selbst wenn keine Fehler nachgewiesen werden. Testen ist kein mathematischer Beweis. Softwaretests beziehen sich immer auf die Betrachtung von Stichproben, es werden nicht alle möglichen Eingabeparameter und deren Kombinationen mit allen möglichen Vorbedingungen getestet, sondern diejenigen, die am ehesten praxisrelevant sind. Der Testaufwand richtet sich dabei nach Priorität und Risiko. Der Aufwand ist dabei immer mit
+dem Nutzen abzugleichen.
+
+\smallskip
+
+Eine Software vollständig zu testen ist somit unmöglich. Ein Test dient zur Feststellung, ob ein Programm, wie in der Spezifikation festgehalten,
+funktioniert, aber er dient nicht dazu, um alle möglichen Fehler ausschließen zu können.
+
+\smallskip
+
+In dieser Arbeit ist es wichtig, eine geeignete Testart zu finden, um Tests ohne großen Aufwand durchführen zu können.
+
+Tests eines komplexen Software-Systems lassen sich in verschiedene Testarten einordnen. Nicht jeder Test ist in jedem Entwicklungsstand möglich. Weil aber nicht jede Teststufe oder Testart zu jedem Zeitpunkt möglich ist, müssen die Testarten eindeutig voneinander abgegrenzt werden.
+
+\subsubsection*{Testarten:}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=6cm]{images/Testarten.png}
+	\caption{Übersicht über Testarten, eigene Darstellung}
+	\label{img:Testarten}
+\end{figure}
+
+Die häufigsten Testarten lassen sich in vier Bereiche aufteilen - Integrationstests, Unittests, Systemtests und Abnahmetests, siehe \autoref{img:Testarten}. \textbf{Integrationstests} sind abgestimmte Reihen von mehreren Tests, die dazu dienen, verschiedene voneinander abhängige Komponenten eines komplexen Systems im Zusammenspiel miteinander zu prüfen. Für den Integrationstest erstellt man nun Testszenarien, die das Zusammenwirken der beiden betroffenen Komponenten zeigen. Die Anzahl der Integrationsstufen richtet sich nach der Komplexität der Software. \textbf{Systemtests} werden durchgeführt, um die gesamte Software gegen die gesamten Anforderungen des Kunden zu testen. Das beinhaltet alle funktionalen Anforderungen und nicht funktionalen Anforderungen, wie zum Beispiel Qualität oder Bedienbarkeit. Weil Systemtests die gesamte Software testen, sind diese zum Zeitpunkt der Fertigstellung der Software durchzuführen. Idealerweise wird die Produktivumgebung des Kunden zuerst nachgestellt und die Software mit Live-Szenarien aus dem Produktivbetrieb getestet. Ein \textbf{Abnahmetest}, \textbf{Verfahrenstest}, \textbf{Akzeptanztest} oder auch \textbf{User Acceptance Test} ist ein Test der ausgelieferten Software durch den Kunden und/oder Auftraggeber. Der Test wird oft mit Kopien von echten Daten in der Produktionsumgebung des Kunden durchgeführt. Diese Testart hat nicht das Ziel Fehler zu entdecken, sondern das der Kunde Vertrauen in das Endprodukt gewinnt. Fehler sollten schon durch andere Testarten entdeckt worden und behoben sein. Zum Beispiel durch \textbf{Unittests}, welche kleine Abschnitte des Codes testen.\cite{witte2019testmanagement}
+
+\smallskip
+
+Eine wichtige Anforderung an Tests ist, dass diese schnell und effizient ablaufen. Effizient, um nicht mehr als die notwendigen Ressourcen zu verbrauchen und schnell, um möglichst oft aufgerufen zu werden.\cite{hubertz2016softwaretests} Diese Anforderungen erfüllen vor allem Unittests, weshalb für die Entwicklung der Softwarefunktionalitäten des Projekts Unittests eingesetzt werden. Diese werden im nächsten Kapitel genauer erläutert.
+
+Zusätzlich werden Systemtests von fertiggestellten Teilen während der Entwicklung in einer Testumgebung durchgeführt. Das dient dazu, um das Zusammenwirken einzelner Teile und die Performanz des Systems selbst austesten zu können.
+
+\subsection{Unittests}
+\label{Unittests}
+
+Unittests eignen sich dafür, sie bei jedem Entwicklungsstand einzusetzen. Diese Art von Tests werden in der Softwareentwicklung durchgeführt, um kleine, funktionale Einzelteile (\textbf{Units}) zu testen. Ein \textbf{Unit} kann dabei ein kleiner Codeabschnitt sein oder eine Methode einer Klasse sein. Weil Algorithmen auf Modulebene meist nur eine begrenzte Komplexität aufweisen und über klar definierte Schnittstellen aktiviert werden, können sie mit relativ wenigen Testfällen ziemlich umfassend getestet werden.\cite{witte2019testmanagement, hubertz2016softwaretests}
+
+Ein Unittest ruft eine definierte Funktion mit vorgegebenen Parametern auf und vergleicht das erzielte Ergebnis mit der vorgegebenen
+Erwartung. Als Testfall (test case) wird eine Testeinheit bezeichnet, die eine bestimmte Antwort zu einem gegebenen Satz an Eingabewerten prüft.\cite{hubertz2016softwaretests}
+
+Ein Beispiel als Testfall ist in \autoref{img:TestfallAllgemein} dargestellt.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=.9\textwidth]{images/TestfallAllgemein}
+	\caption{Beispiel: Testfall für die Überprüfung eines Benutzernames auf invalide Zeichen, eigene Darstellung}
+	\label{img:TestfallAllgemein}
+\end{figure}
+
+Der Testfall in \autoref{img:TestfallAllgemein} überprüft, ob das Verhalten einer Methode, die einen Benutzernamen auf invalide Zeichen überprüft, korrekt ist.
+
+Ein Testfall hat nach Hubertz drei mögliche Ergebnisse \cite{hubertz2016softwaretests}:
+
+\begin{description}
+\item[Erfolgreich] Das Resultat entspricht der Erwartung.
+\item[Fehler] Das Resultat entspricht nicht der Erwartung.
+\item[Ausnahme] Eine geworfene Ausnahme während des Ablaufs führt zum Abbruch des Tests.
+\end{description}
+
+Entgegen der Annahme ist im Beispiel in \autoref{img:TestfallAllgemein} der Benutzername nicht gültig. Entweder ist die Erwartung des Entwicklers unpassend oder die beiden Backslashes sind in einem Benutzernamen als Zeichen valide und der Algorithmus der Methode ist fehlerhaft. Der Mehrwert von Unittests ist, dass sie auf kleine Abschnitte mit geringem Aufwand angewendet werden können. Sie helfen, Schwächen der Codeabschnitte aufzudecken und die Entwickler müssen die Codeabschnitte reflektieren. Das verringert Fehleranfälligkeit und erhöht die Korrektheit der gesamten Software.\cite{hubertz2016softwaretests}
+
+In Python lassen sich Unittests mit dem Modul \textbf{unittest} umsetzen. Eine Klasse definiert einen Testfall. Die Klasse erbt von der Basisklasse \texttt{unittest.TestCase} des Moduls. Die Klasse kann mehrere Methoden enthalten, die jeweils einen Test darstellen.\cite{hubertz2016softwaretests}
+
+\pagebreak
+
+Eine Umsetzung des Beispiels in \autoref{img:TestfallAllgemein} mit dem Modul \texttt{unittest} zeigt \autoref{lst:unittestCheckUsername}.
+
+\begin{lstlisting}[language=python, caption={Beispiel: Unittest für eine Methode zur Überprüfung eines Benutzernamens des \acs{IMS}}, label={lst:unittestCheckUsername}]
+import unittest
+class TestUsername(unittest.TestCase):
+    def setUp(self):
+        self.test_name = "test\\user3"
+
+    def test_contains_invalid_characters(self):
+        result = contains_invalid_characters(test_name)
+        self.assertFalse(result)
+\end{lstlisting}
+
+Die Methode \texttt{setUp} richtet eine Testvorrichtung ein \cite{hubertz2016softwaretests}.
+Als Testvorrichtung (test fixture) wird eine Umgebung bezeichnet, die einen oder mehrere Tests vor- und nachbereitet \cite{hubertz2016softwaretests}. Eine Methode der Klasse stellt einen Test, dar. Vor jedem Test wird die Methode \texttt{setUp} ausgeführt, die in diesem Beispiel einen Benutzernamen anlegt. Mit Testvorrichtungen lassen sich komplizierte Eingabeparameter einmalig vorbereiten und in Tests verwenden. Mit Hilfe der Methode \texttt{assertFalse} aus dem Modul \texttt{unittest} wird untersucht, ob das Resultat \texttt{false} ist. Assert-Methoden wie diese, definieren durch ihren Aufruf bereits den erwarteten Wert. Weitere Assert-Methoden sind detailliert in \cite{hubertz2016softwaretests} erklärt. Der Unittest zeigt in der Kommandozeile nach der Ausführung an, welches Ergebnis der Testfall hat.
+
+\subsection{Mocktests für das vortäuschen falscher Tatsachen}
+
+Manchmal ist es nicht möglich, Methoden und Funktionen so zu testen, wie sie in der normalen Nutzung gebraucht werden. Ein Beispiel ist ein Datenbankzugriff in einem Codeabschnitt. Ein Test der Funktion benötigt das Netzwerk oder aufwendige Operationen, um auf die Datenbank zuzugreifen. Das verlangsamt den Unittest. Ferner wird bei einer Schreiboperation der Datenbestand der Produktiv- oder Testumgebung verändert. Ein Unittest dessen Ausführung lange dauert oder den Datenbestand inkonsistent macht, ist grundsätzlich zu vermeiden. Aus diesem Grund setzen Entwickler Mocks ein, um Ergebniswerte für solche Art von Operationen vorzutäuschen. Erst dann ist der Test mit den Anforderungen an Unittests durchführbar.\cite{hubertz2016softwaretests}
+
+\pagebreak
+
+In Python lassen sich Ergebniswerte mit dem Dekorator \texttt{@patch} des Moduls \texttt{unittest} definieren \cite{hubertz2016softwaretests}. Ein Beispiel zeigt \autoref{lst:unittestMockExample}. Der Unittest testet die bereits vorgestellte Methode der Klasse \texttt{UserManagement} aus \autoref{lst:UserManagementSubprocess}. 
+
+Die Methode \texttt{create\_user\_remotely} aus \autoref{lst:UserManagementSubprocess} legt einen Benutzer in der Datenbank von ejabberd über \acs{SSH} an.
+
+\begin{lstlisting}[language=python, caption={Beispiel: Unittest für eine Methode zur Überprüfung eines Benutzernamens}, label={lst:unittestMockExample}]
+import unittest
+from unittest.mock import patch
+from UserManagement import UserManagement
+
+class UserRegistrationTests(unittest.TestCase):
+
+    def setUp(self):
+        self.user_reg_obj = UserManagement("30.30.30.30", "user", priv_key="privkey_file", sudo_passwd="passwd")
+
+    @patch("UserManagement.subprocess.Popen")
+    def test_register_remotely(self, mocked_popen):
+        mocked_popen.return_value.communicate.return_value = ('output', 'error')
+        mocked_popen.return_value.returncode = 0
+        return_code = self.user_reg_obj.create_user_remotely("testuser2", "hallo123", "ejabberd-server")
+        self.assertEqual(return_code, 0)
+\end{lstlisting}
+
+Der Unittest überprüft, ob die Methode das erwartete Ergebnis liefert, wenn mit dem Mock ein Rückgabewert des Moduls \texttt{subproccess} definiert wird. Das Modul \texttt{subprocess} setzt wie in \autoref{chap:Umsetzung} bereits beschrieben, den \acs{SSH}-Zugriff um. In dem Dekorator \texttt{@patch} ist die Datei, das Modul und das Objekt angegeben, für die ein Ergebniswert vorgetäuscht werden soll \cite{hubertz2016softwaretests}. In diesem Fall: \texttt{UserManagement.subprocess.Popen}. Anschließend kann über den zusätzlichen Übergabeparameter \texttt{mocked\_popen} auf den Mock zugegriffen werden und Ergebniswerte für verschiedene Operationen des Objekts definiert werden \cite{hubertz2016softwaretests}. Das Übergabeargument kann beliebig genannt werden, denn \texttt{@patch} sorgt dafür, dass es gültig ist. Die getestete Methode verwendet die definierten Ergebniswerte während des Tests so, als wenn das Objekt tatsächlich diese Ergebnisse liefert. Über die Assert-Methode \texttt{assertEqual} wird überprüft, ob der Rückgabewert der getesteten Methode wie erwartet Null ist.
+
+\pagebreak
+
+Unittest und Mocks werden in der Studienarbeit verwendet, um Ergebnisse von Operationen auf Datenbanken oder Netzwerke zu simulieren. Mocks ermöglichen es, aufwendige Operationen, wie \acs{API}-Routen der Flask Applikation zu testen. Das ist für die Studienarbeit wichtig, um Anforderungen an Funktion und an die Qualität des Codes zu erfüllen. Tests helfen Fehlfunktionen nachvollziehen zu können und diese im \acs{IMS} zu minimieren. Die Software wird durch das Testen zunehmend fehlertoleranter.
+
+\pagebreak
 
 \chapter{Ergebnis}
 \label{chap:Ergebnis}
