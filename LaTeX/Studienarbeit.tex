@@ -544,31 +544,31 @@ Das Internet mit seinen Funktionen Text-, Bild, Sound und weiteres abzubilden od
 	\caption{Grundgerüst einer HTML-Datei, \cite{buhler2017html5}}
 	\label{img:GrundgeruestHTML}
 \end{figure}
-\\Der \autoref{img:GrundgeruestHTML} sind die 3 wichtigen Tags (html, head, body) eines Standard \ac{HTML}-Dokumentes sowie der unter A angegebenen Dokumenttyp zu entnehmen. Während in vielen Programmiersprachen die Syntax umfassend groß sein kann, ist die Grammatik bei HTML sehr schlicht. Für die Korrektheit sind daher die genannten Tags bedeutend. Außerdem werden überwiegend Verschachtelung bei der Darstellung einer Webseite benötigt. Für weiteren Einfluss auf die Tags können sogenannte Attribute, wie in der folgenden \autoref{img:HTMLattribute} dargestellt, den Tags zugeteilt werden. 
+\\Der \autoref{img:GrundgeruestHTML} sind die 3 wichtigen Tags (html, head, body) eines Standard \ac{HTML}-Dokumentes sowie der unter A angegebenen Dokumenttyp zu entnehmen. Während in vielen Programmiersprachen die Syntax umfassend groß sein kann, ist die Grammatik bei \ac{HTML} schlicht. Für die Korrektheit sind daher die genannten Tags bedeutend. Außerdem werden überwiegend Verschachtelung bei der Darstellung einer Webseite benötigt. Für einen weiteren Einfluss auf die Tags können sogenannte Attribute, wie in der folgenden \autoref{img:HTMLattribute} dargestellt, dem jeweiligen Tag zugeordnet werden. 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=2.5]{images/HTMLattribute}
 	\caption{Attribut eine \ac{HTML}-Tags, \cite{buhler2017html5}}
 	\label{img:HTMLattribute}
 \end{figure}
-\\Eine \ac{HTML}-Datei entsteht also vor allem durch Tags. Während nun das Dateiformat als reine Textdatei vorliegt, entstehen Fragen über die gestalterischen Aspekte wie z.B. Farben, Grafiken, Videos oder ähnliches. Hauptsächlich werden diese Aspekte innerhalb einer \ac{CSS}-Datei behandelt, dennoch gibt es dafür auch Punkte, die in einer \ac{HTML}-Datei zu beachten sind. Um beispielsweise Grafiken oder Videos, die sich innerhalb eines anderen Unterordners befinden, zu integrieren, muss auf diese referenziert werden. Hierfür bietet \ac{HTML} die absolute und relative Referenz. Eine absolute Referenz, wie z.B. \textit{C:/Dokumente/Mustermann/Eigene Dateien/Webseiten/button.gif}, wird aufgrund der Abhängigkeit zum User des Computers nicht verwendet. Für die relative Referenz ist wiederum eine einheitliche Ordnerstruktur wichtig, da der Pfad von dem Speicherort der \ac{HTML}-Datei angegeben wird. Diese Struktur kann, wie in der folgenden Abbildung dargestellt, aussehen.
+\\Als Resultat geht hervor, dass der Kern einer \ac{HTML}-Datei die Tags darstellen. Während nun das Dateiformat als reine Textdatei vorliegt, entstehen Fragen über die gestalterischen Aspekte wie z.B. Farben, Grafiken, Videos oder ähnliches. Hauptsächlich werden diese Aspekte innerhalb einer \ac{CSS}-Datei behandelt, dennoch gibt es dafür Merkmale, die in einer \ac{HTML}-Datei zu beachten sind. Um beispielsweise Grafiken oder Videos, die sich innerhalb eines anderen Unterordners befinden, zu integrieren, muss auf diese referenziert werden. Hierfür bietet \ac{HTML} die absolute und relative Referenz. Eine absolute Referenz, wie z.B. \textit{C:/Dokumente/Mustermann/Eigene Dateien/Webseiten/button.gif}, wird aufgrund der Abhängigkeit zum User des Computers nicht verwendet. Für die relative Referenz ist wiederum eine einheitliche Ordnerstruktur wichtig, da der Pfad von dem Speicherort der \ac{HTML}-Datei angegeben wird. Diese Struktur kann, wie in der folgenden \autoref{img:TreeHTMLStruktur} dargestellt, aussehen.
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.8]{images/TreeHTMLStruktur}
 	\caption{Ordnerstruktur bei der Webentwicklung, eigene Darstellung} 
 	\label{img:TreeHTMLStruktur}
 \end{figure}
-\\Demnach würde die \ac{HTML}-Datei in dem Ordner \textit{templates} liegen und die Bilder im Ordner \textit{static/img}, welcher über die relative Referenz unabhängig vom Betriebssystem und ähnliches erreicht werden kann. Je nach Dateityp orientieren sich auch die Tags innerhalb des \ac{HTML}-Dokumentes danach. Für eine Grafik gibt es daher den \texttt{img}-Tag, der die Referenz zum Bild enthält. Mit der Webentwicklung wird das Ziel verfolgt Inhalt und Gestaltung strikt voneinander zu trennen. Daher werden \ac{CSS}-Dateien, die sich mit dem Design befassen, benötigt.
+\\Demnach würde die \ac{HTML}-Datei in dem Ordner \textit{templates} liegen und die Bilder im Ordner \textit{static/img}, welcher über die relative Referenz unabhängig vom Betriebssystem und ähnliches erreicht werden kann. Je nach Dateityp orientieren sich auch die Tags innerhalb des \ac{HTML}-Dokumentes an den zu implementierenden Medientyp. Für eine Grafik gibt es daher den \texttt{img}-Tag, der die Referenz zum Bild enthält. Mit der Webentwicklung wird das Ziel verfolgt Inhalt und Gestaltung strikt voneinander zu trennen. Daher werden \ac{CSS}-Dateien, die sich mit dem Design befassen, benötigt.\cite{buhler2017html5}
 
 \textbf{CSS:}\\
-Die Dateien, die als \ac{CSS} deklariert werden, übernehmen die gestalterischen Aspekte, die ein \ac{HTML}-Dokument nicht erfüllen kann. Neben Designvarianten bietet \ac{CSS} auch die Möglichkeit die Webseite an das jeweilige Endgerät, unterschiedlicher Auflösung, anzupassen. Wie schon für die \ac{HTML}-Dateien gilt auch für \ac{CSS}, dass Attribute nur von bestimmten Browsern akzeptiert werden. Daher gehört zur Webentwicklung ein ausgiebiges Testen dazu. Eine \ac{CSS}-Datei sollte Regeln folgen um Probleme, die im Zusammenhang mit dem HTML-Dokument auftreten können, zu verhindern. Die Grundregel bezieht sich auf den Ort der \ac{CSS}-Definition. Diese kann zum Einen in einer externen Datei, intern in einem eigenen Tag, oder integriert in den \ac{HTML}-Tag erfolgen. Dies ist unter anderem relevant wenn mehrere \ac{CSS}-Dateien zum Einsatz kommen, da die verschieden Orte durch verschiedene Prioritäten geprägt sind. Generell wird die \ac{CSS}-Definitionen in eine eigene Datei ausgelagert um das Design und die \ac{HTML}-Datei zu trennen. Die \autoref{img:CSSrules} stellt dar, wie eine \ac{CSS}-Definition aufgebaut ist.
+Die Dateien, die als \ac{CSS} deklariert werden, übernehmen die gestalterischen Aspekte, die ein \ac{HTML}-Dokument nicht erfüllen kann. Neben Designvarianten bietet \ac{CSS} auch die Möglichkeit, die Webseite an das jeweilige Endgerät, unterschiedlicher Auflösung, anzupassen. Wie schon für die \ac{HTML}-Dateien gilt auch für \ac{CSS}, dass Attribute nur von bestimmten Browsern akzeptiert werden. Daher gehört zur Webentwicklung ein ausgiebiges Testen dazu. Eine \ac{CSS}-Datei sollte Regeln folgen um Probleme, die im Zusammenhang mit dem HTML-Dokument auftreten können, zu verhindern. Die Grundregel bezieht sich auf den Ort der \ac{CSS}-Definition. Diese kann zum Einen in einer externen Datei, intern in einem eigenen Tag, oder integriert in den \ac{HTML}-Tag erfolgen. Dies ist unter anderem relevant wenn mehrere \ac{CSS}-Dateien zum Einsatz kommen, da die verschieden Orte durch verschiedene Prioritäten geprägt sind. Generell wird die \ac{CSS}-Definitionen in eine eigene Datei ausgelagert um das Design und die \ac{HTML}-Datei zu trennen. Die \autoref{img:CSSrules} stellt dar, wie eine \ac{CSS}-Definition aufgebaut ist.
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=2.5]{images/CSS_Definition}
 	\caption{Aufbau einer \ac{CSS}-Regel, \cite{buhler2017html5}}
 	\label{img:CSSrules}
 \end{figure}	
-\\Der Aufbau besteht grundlegend aus einem Selektor, dem seine Eigenschaften bearbeitet werden sollen. Damit die Auswirkungen erkennbar werden, muss die \ac{CSS}-Datei mit dem HTML-Dokument verknüpft werden. Dies erfolgt innerhalb des Head-Tags in der \ac{HTML}-Datei mithilfe des \texttt{link}-Tags \texttt{<link rel=\dq sytlesheet\dq \;type=\dq text/css\dq \;href=\dq design.css\dq>}. Der Selektor befindet sich immer vor einer geschweiften Klammer und kann unterschiedlich verwendet werden. Aufgrund der Verbindung zur HTML-Datei hängt der Selektor vom \ac{HTML}-Tag ab. Wird bspw. ein Button in dem \ac{HTML}-Tag als Klasse definiert so erfolgt der Zugriff über den Punkt. Wird jedoch der Button mit einer ID ausgestattet, so muss mit dem Hashtag darauf zugegriffen werden. Die nachfolgende Abbildung zeigt diese Varianten.
+\\Der Aufbau besteht grundlegend aus einem Selektor, dem seine Eigenschaften bearbeitet werden sollen. Damit die Auswirkungen erkennbar werden, muss die \ac{CSS}-Datei mit dem HTML-Dokument verknüpft werden. Dies erfolgt innerhalb des Head-Tags in der \ac{HTML}-Datei mithilfe des \texttt{link}-Tags \texttt{<link rel=\dq sytlesheet\dq \;type=\dq text/css\dq \;href=\dq design.css\dq>}. Der Selektor befindet sich immer vor einer geschweiften Klammer und kann unterschiedlich verwendet werden. Aufgrund der Verbindung zur HTML-Datei hängt der Selektor vom \ac{HTML}-Tag ab. Wird bspw. ein Button in dem \ac{HTML}-Tag als Klasse definiert so erfolgt der Zugriff über den Punkt. Wird jedoch der Button mit einer ID ausgestattet, so muss mit dem Rautezeichen darauf zugegriffen werden. Die nachfolgende Abbildung zeigt diese Varianten.
 \begin{figure}[h]
 	\begin{minipage}[c]{.4\textwidth}
 		\includegraphics[width=\textwidth]{images/CSSID}
@@ -578,7 +578,7 @@ Die Dateien, die als \ac{CSS} deklariert werden, übernehmen die gestalterischen
 	\hspace{.1\linewidth}% Abstand zwischen Bilder
 	\begin{minipage}[c]{.4\textwidth}
 		\includegraphics[width=\textwidth]{images/CSSKlasse}
-		\caption{Zugriff über Klasse, \cite{buhler2017html5}} %TODO richtige Größe
+		\caption{Zugriff über Klasse, \cite{buhler2017html5}}
 		\label{img:CSSClass}
 	\end{minipage}
 \end{figure}
@@ -589,17 +589,17 @@ Für die Eigenschaften bietet sich mit der dritten Version von \ac{CSS} (\ac{CSS
 	\caption{Ma"seinheiten innerhalb der Webentwicklung, \cite{buhler2017html5}} 
 	\label{img:CSSmasseinheiten}
 \end{figure}
-\ac{CSS} verwendet die Selektoren und wendet auf diesen die definierten Eigenschaften an. Nebenbei bietet \ac{CSS} die Möglichkeit an, ein Layout zu erstellen. Dafür ist das sogenannte Boxmodell ausschlaggebend. Dieser ist definiert, die Elemente als eine Box mit Eigenschaften zu betrachten. Demnach gibt es in dem Zusammenhang vielerlei Möglichkeiten eine Box an die richtige Position, sowie mit der richtigen Größe abzubilden. Die Boxen können mit absoluten Werten definiert werden. Mit relativen Werten, welche Prozentwerte enthalten, können die Boxen sich in Abhängigkeit des Browserfensters ändern. Mit \ac{CSS}3 gibt es auch die Möglichkeiten flexible Boxen zu verwenden. Dadurch werden die Boxen unabhängig von der Position und Anordnung spalten- oder zeilenweise an den zur Verfügung gestellten Platz angeordnet. Bei der Betrachtung des Layouts spielt ebenfalls das Endgerät eine Rolle. In dem Zusammenhang können \textbf{Media Queries} zum Einsatz kommen. Diese bieten die Option, Eigenschaften eines Selektors entsprechend der angegebenen Pixel zu ändern.
+\ac{CSS} verwendet die Selektoren und wendet auf diesen die definierten Eigenschaften an. Nebenbei bietet \ac{CSS} die Möglichkeit an, ein Layout zu erstellen. Dafür ist das sogenannte Boxmodell ausschlaggebend. Dieser ist definiert, die Elemente als eine Box mit Eigenschaften zu betrachten. Demnach gibt es in dem Zusammenhang vielerlei Möglichkeiten eine Box an die richtige Position, sowie mit der richtigen Größe abzubilden. Die Boxen können mit absoluten Werten definiert werden. Mit relativen Werten, welche Prozentwerte enthalten, können die Boxen sich in Abhängigkeit des Browserfensters ändern. Mit \ac{CSS}3 gibt es ebenso die Möglichkeiten flexible Boxen zu verwenden. Dadurch werden die Boxen unabhängig von der Position und Anordnung spalten- oder zeilenweise an den zur Verfügung gestellten Platz angeordnet. Bei der Betrachtung des Layouts spielt genauso das Endgerät eine Rolle. In dem Zusammenhang können \textbf{Media Queries} zum Einsatz kommen. Diese bieten die Option, Eigenschaften eines Selektors entsprechend der angegebenen Pixel zu ändern.
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=2.8]{images/MediaQbsp}
 	\caption{Beispiel eines Media Queries, \cite{buhler2017html5}}
 	\label{img:/MediaQbsp}
 \end{figure}
-\\Die \autoref{img:/MediaQbsp} stellt dar wie die Media Queries eingesetzt werden können. Die Definition erfolgt entweder in der \ac{CSS}-Datei oder in dem Style-Tag einer \ac{HTML}-Datei. Mit diesen Grundlagen lassen sich Seiten gestalterisch anpassen und auf mehreren mobilen Endgeräten ausgeben. Wird Content benutzt der sich ggf. zur Laufzeit ändert, wird überwiegend auf das dritte Element der Webentwicklung zurückgegriffen. Dabei geht es um JavaScript.\cite{buhler2017html5}
+\\Die \autoref{img:/MediaQbsp} stellt dar wie die Media Queries eingesetzt werden können. Die Definition erfolgt entweder in der \ac{CSS}-Datei oder in dem Style-Tag einer \ac{HTML}-Datei. Mit diesen Grundlagen lassen sich Seiten gestalterisch anpassen und auf mehreren mobilen Endgeräten ausgeben. Werden Inhalte benutzt, die sich ggf. zur Laufzeit ändern, wird überwiegend auf das dritte Element der Webentwicklung zurückgegriffen. Hierbei handelt es sich um JavaScript.\cite{buhler2017html5}
 
 \textbf{JavaScript}\\
-JavaScript verfolgt das Ziel interaktive oder dynamische Elemente auf der Webseite zu integrieren. Es ist eine Skriptsprache, die überwiegend auf Seiten des Clients eingesetzt wird. Der Code kann direkt über den Browser ausgeführt werden, da ein heutiger Browser einen Interpreter für die Skriptsprache besitzt. Dadurch ist JavaScript von den heutigen Browsern abhängig, weshalb ausgiebige Tests auf verschiedene Browsern erfolgen muss. Mit JavaScript ergeben sich Möglichkeiten Probleme bzw. Schwierigkeiten dynamisch zu lösen. Ein beliebter Fall als Beispiel ist die Formularüberprüfung. Hierbei kann JavaScript die Korrektheit noch auf Seiten des Clients überprüfen und erst nach Abschluss dem Server übertragen. Dadurch können unnötige Datenübertragungen verhindert werden. Eine Schwierigkeit die JavaScript birgt ist die Ausschaltfunktion in den meisten Browsern. Besitzt eine Webseite eine große Anzahl an JavaScript Code so kann durch Deaktivierung im Browser mancher Content nicht mehr funktionieren. Wie mit der Integration von \ac{CSS} gibt es auch bei JavaScript die Möglichkeit es innerhalb der \ac{HTML}-Datei oder in einer externen Datei zu verwenden. Im Falle der internen Lösung gibt es den <script>-Tag, der eine JavaScript-Code enthalten kann. Das nachfolgende \autoref{lst:JavaScriptExample} stellt dar, wie so ein JavaScript in den HTML-Body integriert werden kann.
+JavaScript verfolgt das Ziel interaktive oder dynamische Elemente auf der Webseite zu integrieren. Es ist eine Skriptsprache, die überwiegend auf Seiten des Clients eingesetzt wird. Der Code kann direkt über den Browser ausgeführt werden, da ein heutiger Browser einen Interpreter für die Skriptsprache besitzt. Dadurch ist JavaScript von den heutigen Browsern abhängig, weshalb ausgiebige Tests auf verschiedene Browsern erfolgen muss. Mit JavaScript ergeben sich Möglichkeiten Probleme bzw. Schwierigkeiten dynamisch zu lösen. Ein beliebter Fall, als Beispiel, ist die Formularüberprüfung. Hierbei kann JavaScript die Korrektheit noch auf Seiten des Clients überprüfen und erst nach Abschluss dem Server übertragen. Dadurch können unnötige Datenübertragungen verhindert werden. Eine Schwierigkeit, die JavaScript birgt, ist die Ausschaltfunktion in den meisten Browsern. Besitzt eine Webseite eine große Anzahl an JavaScript Code so kann durch Deaktivierung im Browser mancher Inhalt nicht mehr funktionieren. Wie mit der Integration von \ac{CSS} gibt es auch bei JavaScript die Möglichkeit es innerhalb der \ac{HTML}-Datei oder in einer externen Datei zu verwenden. Im Falle der internen Lösung gibt es den script-Tag, der eine JavaScript-Code enthalten kann. Das nachfolgende \autoref{lst:JavaScriptExample} stellt dar, wie so ein JavaScript in den HTML-Body integriert werden kann.
 \begin{lstlisting}[language=HTML,caption=Example Listing of JavaScript-Code,label={lst:JavaScriptExample}]
 <div class="Login_succeeded">
 <script>
@@ -607,21 +607,88 @@ document.write("Your Login was succesful");
 </script>
 </div>
 \end{lstlisting}
-Das Beispiel bildet ein simpler Fall von JavaScript ab. Der Code erzeugt lediglich ein Text in der HTML-Klasse. Eine der beliebtesten Verwendungen von JavaScript sind Fenster, die zur Benachrichtigung oder Warnung benutzt werden. In Verbindung mit Event-Handler, die auf bestimmte Ereignisse reagieren, kann so, je nach Anwendung, Fenster oder andere Elemente erzeugt werden. Ein Beispiel für solch ein Event-Handler wäre das "onclick". Dadurch lässt sich JavaScript-Code erst ausführen wenn bspw. auf ein Button geklickt wird. Neben Fenstern gibt es zahlreiche weitere Verwendungsmöglichkeiten, wie zum Beispiel Formulare, Textfelder, Checkboxen usw. Eine besondere Variante von JavaScript ist \textbf{\ac{Ajax}}, welches ein weiteres wichtiges Feature mit in die Webentwicklung einbringt. \ac{Ajax} kommt vor allem zum Einsatz, wenn es um Elemente geht die nicht durch eine Aktualisierung des Browser ausgelöst werden sollen. \ac{Ajax} ermöglicht in solch einem Fall die dynamische Anfrage. Die Nachfolgende \autoref{img:/AjaxUseCase} erklärt das Funktionsprinzip von \ac{Ajax} sehr genau.
+Das Beispiel bildet ein simpler Fall von JavaScript ab. Der Code erzeugt lediglich ein Text in der HTML-Klasse. Eine der beliebtesten Verwendungen von JavaScript sind Fenster, die zur Benachrichtigung oder Warnung benutzt werden. In Verbindung mit Event-Handler, die auf bestimmte Ereignisse reagieren, kann so, je nach Anwendung, Fenster oder andere Elemente erzeugt werden. Ein Beispiel für so ein Event-Handler wäre das \glqq onclick\grqq. Dadurch lässt sich JavaScript-Code erst ausführen wenn bspw. auf ein Button oder anderes \ac{HTML}-Element geklickt wird. Neben Fenstern gibt es zahlreiche weitere Verwendungsmöglichkeiten, wie zum Beispiel Formulare, Textfelder, Checkboxen usw. Eine besondere Variante von JavaScript ist \textbf{\ac{Ajax}}, welches ein weiteres wichtiges Feature mit in die Webentwicklung einbringt. \ac{Ajax} kommt vor allem zum Einsatz, wenn es um Elemente geht die nicht durch eine Aktualisierung des Browser ausgelöst werden sollen. \ac{Ajax} ermöglicht in so einem Fall die dynamische Anfrage. Die nachfolgende \autoref{img:/AjaxUseCase} erklärt das Funktionsprinzip von \ac{Ajax} detailliert.
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=1.0]{images/AjaxUseCase}
 	\caption{Anwendungsfall von Ajax, \cite{buhler2018webtechnologien}} 
 	\label{img:/AjaxUseCase}
 \end{figure}
-Während ein User ein Textfeld beschreibt wird im Hintergrund, mithilfe des JavaScript-Objektes XMLHttpRequest, eine Anfrage an den Webserver gesendet. Dieser kann mit ersten Teilergebnissen antworten und so dem User bspw. eine Autovervollständigung anbieten. \ac{Ajax} ist in dem Fall keine neue Technologie sondert verwendet JavaScript anders, um mit dem Webserver im Hintergrund zu kommunizieren. In diesem Fall ist die Autovervollständigung lediglich ein einfaches Beispiel um die Funktion von \ac{Ajax} zu verstehen. Darüber hinaus gibt es weitaus mehr Anwendungsfälle von \ac{Ajax}. Bei aufwändigen Webseiten kommt ein weiteres Element zur Webentwicklung hinzu, das die Entwicklung erleichtern soll. Dabei handelt es sich um Frameworks. Wie es für \ac{CSS} Bootstrap als Framework gibt, so werden viele auch im Zusammenhang mit JavaScript angeboten. Eines der beliebtesten Frameworks ist \textbf{jQuery}. Mit jQuery wird das Programmieren von JavaScript unterstützt. Außerdem orientiert es sich an der Darstellung von \ac{CSS} wie bspw. der Zugriff auf ein Element über \$(\dq \#bereich1\dq) oder \$(\dq .farbe1\dq). Wie JavaScript kann auch jQuery auf die Elemente der \ac{HTML}-Seite zugreifen. Der Standardaufbau, welcher in dem folgenden \autoref{lst:jQueryExample} dargestellt ist, zeigt eine Merkmal auf das zu achten ist.
+Während ein User ein Textfeld beschreibt wird im Hintergrund, mithilfe des JavaScript-Objektes XMLHttpRequest, eine Anfrage an den Webserver gesendet. Dieser kann mit ersten Teilergebnissen antworten und so dem User bspw. eine Autovervollständigung anbieten. \ac{Ajax} ist in dem Fall keine neue Technologie sondert verwendet JavaScript anders, um mit dem Webserver im Hintergrund zu kommunizieren. In diesem Fall ist die Autovervollständigung lediglich ein einfaches Beispiel um die Funktion von \ac{Ajax} zu verstehen. Darüber hinaus gibt es weitaus mehr Anwendungsfälle von \ac{Ajax}. Bei aufwändigen Webseiten kommt ein weiteres Element zur Webentwicklung hinzu, das die Umsetzung erleichtern soll. Dabei handelt es sich um Frameworks. Wie es für \ac{CSS} und \ac{HTML} Bootstrap als Framework gibt, so gibt es auch im Zusammenhang mit JavaScript eine Vielzahl an Frameworks. Eines der beliebtesten Frameworks ist \textbf{jQuery}. Mit jQuery wird das Programmieren von JavaScript unterstützt. Außerdem ist der Zugriff auf HTML-Elemente bekannt durch die Varianten des Selektors bei \ac{CSS}. Der Zugriff auf ein Element erfolgt in jQuery über \$(\dq \#bereich1\dq) oder \$(\dq .farbe1\dq). Der Standardaufbau, welcher in dem folgenden \autoref{lst:jQueryExample} dargestellt ist, zeigt eine Merkmal auf das zu achten ist.
 \begin{lstlisting}[language=HTML,caption=Example Listing of jQuery,label={lst:jQueryExample}]
 <script> $(document).ready(function(){
 /* Hier der jQuery-Code */ });
 </script>
 \end{lstlisting}
-Mit \texttt{\$(document).ready} werden grundsätzlich erste Probleme, die auftreten können verhindert. Demnach könnte ohne diese Funktion auf Elemente zugegriffen werden, welche noch nicht vollständig geladen sind. Das ready verhindert diese Problematik und wartet mit der Ausführung bis die Webseite komplett geladen ist. JQuery besitzt zahlreiche Plugins die bei der Webentwicklung verwendet werden können. JavaScript bildetet ein fundamentaler Baustein, der mithilfe zahlreicher Möglichkeiten und Frameworks für jede Anwendung Optionen bereitstellt, um dynamische Änderungen oder Interaktionen in die Webanwendung zu integrieren.\cite{buhler2018webtechnologien}
+Mit \texttt{\$(document).ready} werden grundsätzlich erste Probleme, die auftreten können verhindert. Demnach könnte ohne diese Funktion auf Elemente zugegriffen werden, welche noch nicht vollständig geladen sind. Das ready verhindert diese Problematik und wartet mit der Ausführung bis die Webseite komplett geladen ist. Die Problematik tritt sowohl bei jQuery als auch bei JavaScript auf. JQuery besitzt zahlreiche Plugins die bei der Webentwicklung verwendet werden können. JavaScript bildetet ein fundamentaler Baustein, der mithilfe zahlreicher Möglichkeiten und Frameworks für jede Anwendung Optionen bereitstellt, um dynamische Änderungen oder Interaktionen in die Webanwendung zu integrieren.\cite{buhler2018webtechnologien}
+\pagebreak
 
+\section{HTML und CSS-Entwicklung mithilfe von Bootstrap}
+\label{sec:Bootstrap}
+Im \autoref{sec:HTMLCSSJS} taucht der Begriff Bootstrap erstmalig auf. Herrn Krause zur Folge handelt es sich bei Bootstrap um ein \ac{CSS} Framework. In diesem Zusammenhang stellt sich die Frage, wieso der Titel des Abschnitts \ac{HTML} mit einbringt. Eine Frage welche im Verlauf des Abschnitts behandelt wird. Außerdem wird heutzutage ein Webauftritt durch zahlreiche Frameworks und Tools unterstützt, was die Relevanz des Abschnitts erklärt. Im Folgenden steht die Verwendung von Bootstrap und die hilfreichen Komponente, welche bei einer Webapplikation benutzt werden können, im Vordergrund. Hierbei handelt sich um zwei Komponenten deren Implementierung dargestellt werden. Weitere Kompontenten sind nicht Bestandteil der Ausführung, da sie aufgrund der Ähnlichkeit abgeleitet werden können. 
+
+\subsection*{Installation und Integration von Bootstrap}
+Bootstrap hat seinen Ursprung im Jahr 2010. Aufgrund der MIT Lizenz ist die Software frei zugänglich und erlaubt eine Wiederverwendung bei eigenen Projekten. Zum Zeitpunkt der Studienarbeit handelt es sich bei Bootstrap um die vierte Version (Bootstrap 4).\cite{bootstrapOnline}
+Die Installation von Bootstrap unterschiedet sich von herkömmlichen Programmen, wie es ein unerfahrener Computernutzer gewöhnt ist. Bei Bootstrap handelt es sich um eine Vielzahl an Dateien, welche entweder über eine Online Verbindung eingebunden werden können, oder lokal. Bei der Online Verbindung muss lediglich die Quelle im entsprechenden Tag richtig gesetzt werden. Wird hingegen Bootstrap heruntergeladen, wird lokal ein Bootstrap-Ordner angelegt, der zahlreiche CSS-Dateien beinhaltet. Ein Übersicht über alle mitgelieferten Dateien ist in der \autoref{img:BootstrapStructer} dargestellt. Egal welcher Weg für die Integration von Bootstrap verwendet wird, die Webseite in Form der HTML-Datei muss mit den entsprechenden CSS-Dateien verknüpft werden.
+\begin{lstlisting}[language=HTML,caption=Importieren der Bootstrap-Dateien,label={lst:IncludeBootstrap}]
+<head>
+<link rel="stylesheet"href="static/css/bootstrap.min.css') }}">
+<link rel="stylesheet" href="static/css/font-awesome.min.css') }}">
+</head>
+\end{lstlisting}
+Für die Integration gibt es mehrerer Möglichkeiten. Die wohl am häufigsten empfohlene Variante ist, die Integration im Header der HTML-Datei. Dafür wird, wie in dem \autoref{lst:IncludeBootstrap} dargestellt, innerhalb des head-Tags eine Referenz zur CSS-Datei von Bootstrap eingefügt. In diesem Fall handelt es sich um eine relative Referenz bei der die Dateien sich in dem entsprechenden Ordner befinden. \cite{krause2016introducing}
+
+\subsection*{Wichtige Komponten und ihre Implementierung mithilfe Bootstrap}
+\label{BootstrapComponents}
+Mit dem Ziel Projekte bzw. Programme unabhängig von Betriebssystemen zu entwickeln, schieben sich die Webapplikationen immer mehr in den Vordergrund. Mithilfe von Bootstrap kann der Webauftritt komfortabel unterstützt werden. In diesem Abschnitt werden wichtige Komponenten und wie sie anzuwenden sind erörtert. Dadurch wird ein Basiswissen für Projekte welche als Webapplikation realisiert wird vermittelt. Aufgrund der Vielzahl an von Bootstrap angebotenen Möglichkeiten, werden ausschließlich die am häufigsten verwendeten Komponenten erläutert.
+
+\textbf{Buttons}\\
+Mit Bootstrap als CSS-Framework sind Komponenten wie Buttons in verschiedenen Formen bereits verfügbar. Das nachfolgende Listing (\autoref{lst:IncludeBootstrapButton}) bildet ab, wie ein vorgefertigter Button in eine HTML-Datei implementiert werden kann.
+\begin{lstlisting}[language=HTML,caption=Implmentierung eines vorgerftigten Buttons,label={lst:IncludeBootstrapButton}]
+<button class="btn btn-primary" type="submit">Button</button>
+\end{lstlisting}
+An dieser Stelle lässt sich die Frage nach der HTML-Verknüpfung, obwohl es sich um eine CSS-Framework handelt, beantworten. Die CSS-Dateien von Bootstrap definieren die Komponenten in ihrem gestalterischen Aspekt. An welcher Stelle und wie der Button zu verwenden ist, wird weiterhin mit \ac{HTML} oder \ac{JS} gelöst. Bei Betrachtung des Listings ist vor allem der Klassenname auffällig. Dieser ist bei einer eigenen Implementierung frei zu wählen. Wird aber eine Komponente von Bootstrap implementiert sind die spezifischen Namen zu verwenden, da zu diesem Namen eine Referenz in der CSS-Datei besteht.
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=2.1]{images/BootstrapButton}
+	\caption{Darstellung eines Buttons durch Bootstrap, \cite{bootstrapOnline}} 
+	\label{img:BootstrapButton}
+\end{figure}
+Nach erfolgreicher Implementierung kann ein Button, wie in \autoref{img:BootstrapButton} dargestellt, verwendet werden.
+
+\textbf{Formulare}\\
+Für einen Online-Händler ist das Formular nicht mehr wegzudenken. Doch auch bei Webapplikationen, die eine Registrierung bzw. eine Anmeldung verlangen benötigten in irgendeiner Form ein Formular. Hierfür kann eines mithilfe von Buttons und Inputs selbst implementiert werden oder ein Framework bringt Abhilfe. Im Fall von Bootstrap gibt es verschiedene Möglichkeiten eines Formulars. Für die Implementierung und Funktionsweise wird ein allgemeingültiges Formular betrachtet. Das \autoref{lst:IncludeBootstrapForm} stellt das Formular innerhalb der HTML-Datei dar.
+\begin{lstlisting}[language=HTML,caption=Implmentierung eines Formulars \cite{bootstrapOnline},label={lst:IncludeBootstrapForm}]
+<form>
+<div class="form-group">
+<label for="exampleInputEmail1">Email address</label>
+<input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+<small id="Help" class="form-text text-muted">Helptext</small>
+</div>
+<div class="form-group">
+<label for="exampleInputPassword1">Password</label>
+<input type="password" class="form-control" id="exInpPwd">
+</div>
+<div class="form-group form-check">
+<input type="checkbox" class="form-check-input" id="exampleCheck1">
+<label class="form-check-label" for="Check1">Check me out</label>
+</div>
+<button type="submit" class="btn btn-primary">Submit</button>
+</form>
+\end{lstlisting}
+Das Listing symbolisiert nicht nur das Formular sondern reflektiert die Verschachtelung einer HTML-Datei aus \autoref{sec:HTMLCSSJS}. Bestandteile dieses Listings, die nichts mit Bootstrap zu tun haben, sind:
+\begin{itemize}
+	\item HTML-Tags wie form, div, label, input, small
+	\item Text innerhalb der HTML-Elemente
+	\item Identifikationsnamen
+\end{itemize}
+Die Erkenntnis dieser Aufzählung zeigt, wie schlicht Bootstrap verwendet werden kann. Anderseits zeigt es wie aufwendig ein Formular auch mithilfe Bootstrap ist. Hier sei nochmals zu erwähnen, dass Bootstrap ausschließlich bei der Gestaltung unterstützt. Daher kann sind die HTML-Inhalte eigenständig zu implementieren. Dennoch kann mithilfe von Bootstrap ein Formular gestalterisch schnell umgesetzt werden. Das Resultat des Listings stellt die \autoref{img:BootstrapForm} dar. \cite{bootstrapOnline}
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=1.0]{images/BootstrapForm}
+	\caption{Darstellung eines Formulars mit Bootstrap, \cite{bootstrapOnline}} 
+	\label{img:BootstrapForm}
+\end{figure}
 \pagebreak
 
 \chapter{Umsetzung und Implementierung}
@@ -630,28 +697,20 @@ Mit \texttt{\$(document).ready} werden grundsätzlich erste Probleme, die auftre
 \section{Diskussion über die Art der Benutzeroberfläche}
 \label{sec:DiskussionGUI}
 
-Mit den theoretischen Inhalten aus \autoref{sec:Benutzeroberfläche} wurden die Kernregeln einer Grafischen Benutzeroberfläche vermittelt. Um diese Regeln umzusetzen sind vorab mehrere Aspekte, welche nachfolgend aufgeführt sind, zu beachten.
+Mit den theoretischen Inhalten aus \autoref{sec:Benutzeroberfläche} besteht Kenntnis über die Kernregeln einer grafischen Benutzeroberfläche. Um diese Regeln umzusetzen, sind vorab mehrere Aspekte, welche nachfolgend aufgeführt sind, zu beachten.
 \begin{itemize}
 	\item Programmiersprache
 	\item Plattform
 	\item Aufwand
 \end{itemize}
-Die Programmiersprache ist für jedes Projekt frei wählbar. Neben Vorteilen und Erfahrungen spielen persönliche Interessen ein großer Faktor bei der Wahl der Programmiersprache. Mit der Entscheidung über die Programmiersprache kann auch indirekt die Basis für eine grafische Benutzeroberfläche gelegt werden, da sich stellenweise die Programmiersprache durch das ganze Projekt zieht. Aus diesen und weiteren Gründen wird in diesem Kapitel die Möglichkeiten einer grafischen Benutzeroberfläche mit der jeweiligen Programmiersprache erörtert. Dabei spielt die Plattform ebenfalls eine wichtige Rolle. Diese definiert wie und worauf der Benutzer das Programm nutzen kann. Wieder wird in Verbindung mit der Programmiersprache evaluiert welche Plattform zu Verfügung stehen und welche bezogen auf die Projektanforderungen verwendet werden kann.
+Die Programmiersprache ist für jedes Projekt frei wählbar. Neben Vorteilen und Erfahrungen spielen persönliche Interessen ein großer Faktor bei der Wahl der Programmiersprache. Mit der Entscheidung über die Programmiersprache kann indirekt die Basis für eine grafische Benutzeroberfläche gelegt werden, je nachdem ob Backend und Frontend in der gleichen Programmiersprache sind. Aus diesen und weiteren Gründen wird in diesem Kapitel die Möglichkeiten einer grafischen Benutzeroberfläche mit der gewählten Sprache Python erörtert. Dabei spielt die Plattform ebenfalls eine wichtige Rolle. Diese definiert, wie und worauf der Benutzer das Programm nutzen kann. Welche Plattformen in Verbindung mit Python zur Verfügung stehen und welche, bezogen auf die Projektanforderungen, verwendet werden können, wird in den folgenden Abschnitten erörtert. Im Falle einer Entscheidung ist der Aufwand, in Form der Zeitspanne, ein wichtiges Kriterium, welches zu Diskussion beiträgt. Dieses Kriterium, bildet die Möglichkeit die Projektumsetzung mit den Projektanforderungen zu vergleichen. Bei der grafische Benutzeroberfläche nimmt das Kriterium Einfluss auf die Wahl eines Frameworks.
 
-- Warum Webanwendung und keine Desktopanwendung?\\
-- Warum Flask und kein anderes Framework? - Besonderheiten, Statistitken, Entscheidungsmatrix\\
-- Warum entscheiden wir uns für ein Microframework?\\
-- keine Erwähnung von Gesamtkonzept\\
-- Flask Einführung\\
-- Und wie kann ich es nutzen? Beispiele auch mit ORM\\
-
-\pagebreak
 \subsection{GUI-Programmierung mit Python}
 \label{subsec:GuiPython}
-Bei der Umsetzung einer grafischen Benutzeroberfläche müssen Regeln bezüglich der Usability (\autoref{sec:Benutzeroberfläche}) und die Eigenschaften der Programmiersprache beachtet werden. Mit Python als Programmiersprache kommen mehrere Module, welche für die Grafische Benutzeroberfläche benutzt werden können, einher. Für diese Module ist vorab die Plattform zu wählen. Dabei geht es um die Diskussion auf welche Plattform sich eine Chatapplikation mit Bezug zu den Nutzern besser realisieren lässt.
+Bei der Umsetzung einer grafischen Benutzeroberfläche müssen Regeln bezüglich der Usability (\autoref{sec:Benutzeroberfläche}) und die Eigenschaften der Programmiersprache beachtet werden. Mit Python als Programmiersprache kommen mehrere Module, welche für die grafische Benutzeroberfläche benutzt werden können, einher. Für diese Module ist vorab die Plattform zu wählen. Dabei geht es um die Diskussion, auf welche Plattform sich eine Chatapplikation mit Bezug zu den Nutzern besser realisieren lässt.
 
-Die \ac{GUI}-Programmierung bei Python unterscheidet sich im Konzept nicht allzu sehr von anderen Programmiersprachen. Neben Schaltflächen stehen auch Fenster oder Menüs als Komponenten zur Verfügung. Angeordnet können diese in sogenannten Container. Für eine geeignete Anwenderschnittstelle müssen die Komponenten in die Container integriert werden. Hinzukommt ein äußerer Container, auch als Frame bezeichnet, ein Layout-Manager und eine Implementierung damit Aktionen durch Komponenten ausgelöst werden können. Wie im \autoref{sec:Benutzeroberfläche} erläutert, verfolgt eine \ac{GUI} mehreren Regeln. Demnach gibt es für die Programmierung einer grafischen Benutzeroberfläche vielerlei Möglichkeiten. In Python werden \ac{GUI} Frameworks angeboten, die eine Programmierung erleichtern sollen. Diese Frameworks können sich in der Art und der Verwendung unterscheiden. Außerdem sind Frameworks plattformabhängig. Damit ist eine Verwendung als Desktop- oder Webapplikation gemeint. Daher ist in der ersten Phase eine Plattform, anhand der Anforderungen an die Chatapplikation, zu evaluieren.\cite{Steyer2018} \\
-Die nachfolgende \autoref{tab:EntscheidungsmatrixFrameworkart} spiegelt die Ergebnisse eines Vergleichs zwischen den Tool-Frameworks und den Web-Frameworks von Python wider. Die Kriterien orientieren sich am Projekt und werden nachfolgend erläutert. Die \textbf{Nutzerfreundlichkeit} beinhaltet die Frage nach der Verständlichkeit. Dabei geht es darum, wie verständlich ein GUI mithilfe des Tools aufgebaut werden kann. Außerdem beinhaltet das Kriterium auch die Möglichkeiten des Tools auf die Nutzerfreundlichkeit einzugehen. Die \textbf{Schwierigkeit} orientiert sich an der Implementierung. Dafür wird betrachtet wie leicht, schnell und komfortabel die Frameart in das Gesamtsystem integriert werden kann. Unabhängig von der Schwierigkeit geht es bei der \textbf{Umsetzbarkeit} um die Mittel, welche für eine Umsetzung benötigt werden, sowie auch um den Aufwand bei der Umsetzung. Die \textbf{Kompatibilität} umfasst die Unabhängigkeit von Betriebssystemen, Browsern usw. Standard für eine grafische Oberfläche bildet auch das \textbf{Design}. Demnach geht es um die Möglichkeiten ein gutes Erscheinungsbild der Oberfläche mit dem entsprechenden Framework umzusetzen. Das letzte Kriterium, \textbf{Verwendungszweck}, bildet die Verbindung zum Projekt. Dabei wird analysiert, wie die Frameworkart zum Zweck des Projektes passt. Die Gewichtung der Kriterien innerhalb der \autoref{tab:EntscheidungsmatrixFrameworkart} sind der \autoref{tab:GewichtungFrameworkart} des Anhangs zu entnehmen.
+Die \ac{GUI}-Programmierung bei Python unterscheidet sich im Konzept nicht allzu sehr von anderen Programmiersprachen. Neben Schaltflächen stehen auch Fenster oder Menüs als Komponenten zur Verfügung. Angeordnet können diese in sogenannten Container. Für eine geeignete Anwenderschnittstelle müssen die Komponenten in die Container integriert werden. Hinzukommt ein äußerer Container, auch als Frame bezeichnet, ein Layout-Manager und eine Implementierung damit Aktionen durch Komponenten ausgelöst werden können. Wie im \autoref{sec:Benutzeroberfläche} erläutert, folgt eine \ac{GUI} mehreren Regeln. Demnach gibt es für die Programmierung einer grafischen Benutzeroberfläche vielerlei Möglichkeiten. In Python werden \ac{GUI} Frameworks angeboten, die eine Programmierung erleichtern sollen. Diese Frameworks können sich in der Art und der Verwendung unterscheiden. Außerdem sind Frameworks plattformabhängig. Damit ist eine Verwendung als Desktop- oder Webapplikation gemeint. Daher ist in der ersten Phase eine Plattform, anhand der Anforderungen an die Chatapplikation, zu evaluieren.\cite{Steyer2018} \\
+Die nachfolgende \autoref{tab:EntscheidungsmatrixFrameworkart} spiegelt die Ergebnisse eines Vergleichs zwischen den Tool-Frameworks und den Web-Frameworks von Python wider. Die Kriterien orientieren sich am Projekt und werden nachfolgend erläutert. Die \textbf{Nutzerfreundlichkeit} beinhaltet die Frage nach der Verständlichkeit. Dabei geht es darum, wie verständlich eine GUI mithilfe des Tools aufgebaut werden kann. Außerdem beinhaltet das Kriterium auch die Möglichkeiten des Tools, auf die Nutzerfreundlichkeit einzugehen. Die \textbf{Schwierigkeit} orientiert sich an der Implementierung. Dafür wird betrachtet wie leicht, schnell und komfortabel die Frameworkart in das Gesamtsystem integriert werden kann. Unabhängig von der Schwierigkeit geht es bei der \textbf{Umsetzbarkeit} um die Mittel, welche für eine Umsetzung benötigt werden, sowie auch um den Aufwand bei der Umsetzung. Die \textbf{Kompatibilität} umfasst die Unabhängigkeit von Betriebssystemen, Browsern usw. Ein Standardkriterium für eine grafische Oberfläche ist das \textbf{Design}. Demnach geht es um die Möglichkeiten ein gutes Erscheinungsbild der Oberfläche mit dem entsprechenden Framework umzusetzen. Das letzte Kriterium, \textbf{Verwendungszweck}, bildet die Verbindung zum Projekt. Dafür wird analysiert, wie die Frameworkart zum Zweck des Projektes passt. Die Gewichtung der Kriterien innerhalb der \autoref{tab:EntscheidungsmatrixFrameworkart} sind der \autoref{tab:GewichtungFrameworkart} des Anhangs zu entnehmen.
 \renewcommand{\arraystretch}{2}
 \begin{table}[h]
 	\centering
@@ -716,7 +775,7 @@ app = Flask(__name__)
 
 @app.route('/home')
 def homepage():
-	return render_template('homepage.html')
+return render_template('homepage.html')
 \end{lstlisting}
 Das \autoref{lst:FlaskMinApp} spiegelt das Routen sowie das Rendern einer \ac{HTML}-Datei von Python wider. Aufgrund des Paketverwaltungsprogramm pip kann Flask komfortabel installiert werden. Dementsprechend wird Flask in der ersten Zeile importiert, dann einer Anwendung zugeordnet und eine Route definiert. Dieser Route wird die Zeichenkette \glqq /homegrqq{} zugeteilt. Dadurch entstehen Vorteile auf Seiten der Betreiber als auch auf Seiten des Nutzers. Eine Route kann mithilfe des Browsers aufgerufen werden. In dem Fall der Anwendung aus dem \autoref{lst:FlaskMinApp}, läuft die Flask-Applikation auf der Adresse des localhost. Mit Aufruf des localhost (127.0.0.1) wird in der Flask-Applikation eine Route gesucht, welche auf die Anfrage eingeht. Dafür ergeben sich 3 Möglichkeiten, welche an dieser Stelle kurz erwähnt werden. Zum Einen kann der Browser zurückgeben, dass eine Webseite nicht erreichbar ist (\autoref{img:FlaskWebseiteNichtErreichabr}). 
 \begin{figure}[h]
@@ -750,14 +809,13 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
 db = SQLAlchemy(app)
 
-
 class User(db.Model):
-	id = db.Column(db.Integer, primary_key=True)
-	username = db.Column(db.String(80), unique=True, nullable=False)
-	email = db.Column(db.String(120), unique=True, nullable=False)
+id = db.Column(db.Integer, primary_key=True)
+username = db.Column(db.String(80), unique=True, nullable=False)
+email = db.Column(db.String(120), unique=True, nullable=False)
 
 def __repr__(self):
-	return '<User %r>' % self.username
+return '<User %r>' % self.username
 \end{lstlisting}
 Das Listing zeigt eine minimale Anwendung, welche die Erweiterung für die Datenbank nutzt. Dadurch bietet sich für den Programmierer, nach importieren alle nötigen Klassen, Benutzer ohne großen Aufwand herzustellen und der Datenbank hinzuzufügen (\autoref{lst:SQLAlchemyAddUser}).
 \begin{lstlisting}[language=Python,caption=Hinzufügen eines Objektes in die Datenbanktabelle,label={lst:SQLAlchemyAddUser}]
@@ -2648,89 +2706,154 @@ Mit Server-Sent-Events werden die Nachrichten automatisch dem Client übermittel
 
 \pagebreak
 
-\section{Entwicklung des Chat-Clients}
-\label{sec:ClientEntwicklung}
+\section{Entwicklung des Frontends für den XMPP-Client}
+\label{sec:FrontendXMPP}
+Einleitend geht der \autoref{subsec:GuiPython} auf die Möglichkeiten einer grafischen Benutzeroberfläche mit Python ein. Mit dem Resultat der Entscheidungsmatrizen aus \autoref{tab:EntscheidungsmatrixFrameworkart} und \autoref{tab:EntscheidungsmatrixWebFramework} erfolgt die Umsetzung mithilfe der in \autoref{sec:HTMLCSSJS} erläuterten Werkzeuge einer Webentwicklung. In diesem Zusammenhang werden im Folgenden alle relevanten HTML- und JavaScript-Dateien analysiert und detailliert erläutert. 
 
-\subsection{Entwicklung der GUI}
-\label{subsec:EntwicklungGUI}
-Einleitend wurde im \autoref{subsec:GuiPython} auf die Möglichkeiten einer grafischen Benutzeroberfläche mit Python eingegangen. Mit dem Resultat der Entscheidungsmatrizen aus \autoref{tab:EntscheidungsmatrixFrameworkart} und \autoref{tab:EntscheidungsmatrixWebFramework} erfolgt die Umsetzung mithilfe der in \autoref{sec:Benutzeroberfläche} erläuterten Werkzeuge einer Webentwicklung. Für die Entwicklung eines Web-Frontends %TODO vllt Quelle reinbringen
-bildet eine Rahmenstruktur die Basis der Webseite. Der Rahmen bezieht sich dabei auf ein einzelnes \ac{HTML}-Dokument. Um nun auf den \ac{HTML}-Aufbau der Webseiten einzugehen ist das Verständnis über die Verknüpfung und Auslieferzeitpunkten der Einzelseiten relevant. Für diese Verknüpfung können die nachfolgenden Abbildungen betrachtet werden.
+Vorab ist der Begriff des XMPP-Clients zu definieren. Mit der Entwicklung eines Chatsystem auf Basis von XMPP wird das Ziel verfolgt ejabberd als Messaging-System und XMPP als Kommunikationssprache zu nutzen. Dafür wird sowohl ein Server als auch ein Client benötigt. Mit der Projektumsetzung auf der Web-Plattform kann der Client verschieden definiert werden. Nach Günter Pomaska kann der Client sowohl die Hardware, als auch die Software darstellen.\cite{pomaska2012webseiten}. Demnach handelt es sich bei dem XMPP-Client um die Software bzw. den Browser welcher über XMPP mit dem Server kommuniziert.
+
+\subsection*{Das Prinzip der Webseiten-Programmierung}
+\label{WebsiteProgramming}
+Bei der Entwicklung eines Frontends für eine Web-Applikation sind wichtige Bestandteile zu beachten. Diese bilden den Kern des Unterabschnitts. Wie der Einführung zu entnehmen ist bilden die Werkzeuge aus \autoref{sec:HTMLCSSJS} den Kern der Webseiten-Programmierung. Diese werden nach Günter Pomaska als \glqq Sprachen im Web\grqq bezeichnet. Zu den Sprachen kommt die Webseite als weiteres Bestandteil hinzu. Für die Entwicklung des Frontends ist die Kenntnis über das Ausliefern von Webseiten relevant. Dafür kann die \autoref{img:WebseiteAnforderung} betrachtet werden.
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=2.1]{images/WebseiteAnfordern}
+	\caption{Das Anfordern einer Webseite eine Clients, \cite{pomaska2012webseiten}}
+	\label{img:WebseiteAnforderung}
+\end{figure}
+Mithilfe einer URL kann der Client eine Webseite vom Web-Server anfordern. Nach der Datenübertragung wird die Seite vom Browser dargestellt. Bezogen auf dieses Funktionsprinzip können die Inhalte nicht ohne eine erneute Anforderung verändert werden. Daher werden HTML-Dokumente als statische Dateien bezeichnet. Wird eine clientseitige Dynamik mithilfe von Javascript und dem \ac{DOM} integriert, können die Webinhalte clientseitig ohne Neuanforderung verändert werden. Eine Variante, welche heutzutage fester Bestandteil der Webseiten-Programmierung ist. \cite{pomaska2012webseiten}
+Bei der Implementierung dynamischer Elemente, wie der Formularüberprüfung auf Seiten des Clients, kann die Verknüpfung zu den Prinzipien hergestellt werden. Außerdem tritt das Konstrukt aus \autoref{img:WebseiteAnforderung} in mehreren Bereichen der Client-Entwicklung auf.
+
+\subsection*{Organisation und Aufbau des Frontends}
+\label{AufbauFrontendXMPP}
+Für die Entwicklung eines Web-Frontends bildet eine Rahmenstruktur die Basis. Hierbei handelt es sich um den Webauftritt durch die Verknüpfung mehrerer HTML-Dateien.\cite{buhler2017html5}
+Um auf den \ac{HTML}-Aufbau der Webseiten einzugehen ist das Verständnis über die Struktur und die Verknüpfung der Einzelseiten relevant. Für diese Verknüpfungen können die nachfolgenden Abbildungen betrachtet werden.
 \begin{figure}[h]
 	\begin{minipage}[c]{.4\textwidth}
 		\includegraphics[width=\textwidth]{images/HTMLDateienOrdner}
-		\caption{Zugriff über ID, eigene Darstellung}
+		\caption{HTML-Dateien, eigene Darstellung}
 		\label{img:HTMLDateienOrdner}
 	\end{minipage}
 	\hspace{0.05\linewidth}% Abstand zwischen Bilder
 	\begin{minipage}[c]{.4\textwidth}
 		\includegraphics[scale=0.7]{images/HTMLDateienAufrufbaum}
-		\caption{Zugriff über Klasse, eigene Darstellung}
+		\caption{Interaktionen zwischen den Dateien, eigene Darstellung}
 		\label{img:DateinAufrufbaum}
 	\end{minipage}
 \end{figure}
-\autoref{img:HTMLDateienOrdner} zeigt welche HTML-Dateien für die Applikation relevant sind und wo diese in der Ordnerstruktur zu finden sind. Die zweite \autoref{img:DateinAufrufbaum} zeigt wie die Seiten gegenseitig benötigt werden. Hierbei handelt es sich nicht um den Source-Code sondern um die Aufrufstruktur für den Nutzer. Mit der \textit{index.html} in kursiver Schrift wird angedeutet, dass kein Nutzer diese Seite ausgeliefert bekommt. Dieses \ac{HTML}-Dokument dient lediglich als Basis. Die weiteren Dateien erben den Inhalt der index.html, was die UML-Notation andeuten soll. Auf der zweiten Ebene hat der Nutzer die Möglichkeit zwischen den Dateien, welche hinter einer Route liegen, zu wechseln, je nach Verwendung. Mit dem Verständnis über die Beziehungen der Dateien wird im Folgenden auf den \ac{HTML}-Aufbau der einzelnen HTML-Dokumenten eingegangen.
+\autoref{img:HTMLDateienOrdner} zeigt welche HTML-Dateien für die Applikation bzw. für den XMPP-Client relevant sind und wo diese in der Ordnerstruktur zu finden sind. Die Ordnerstruktur hängt mit der Verwendung von Flask zusammen und orientiert sich an dem \autoref{subsec:Flask}. Die zweite \autoref{img:DateinAufrufbaum} zeigt wie die Seiten sich gegenseitig benötigen. Hierbei handelt es sich nicht um Referenzen innerhalb des Source-Codes, sondern um die Aufrufstruktur für den Nutzer. Mit der \textbf{index.html}, dargestellt in kursiver Schrift, wird angedeutet, dass kein Nutzer diese Seite ausgeliefert bekommt. Dieses \ac{HTML}-Dokument dient lediglich als Basis. Die weiteren Dateien erben den Inhalt der index.html, was die UML-Notation andeuten soll. Auf der zweiten Ebene hat der Nutzer die Möglichkeit zwischen den Dateien, welche hinter einem API-Endpunkt liegen, zu wechseln, je nach Verwendung. Mit dem Verständnis über die Beziehungen der Dateien wird im Folgenden auf den \ac{HTML}-Aufbau der einzelnen HTML-Dokumenten eingegangen.
 
+\subsection*{Vererbung von Webseiten mithilfe von Flask}
+\label{subsec:TemplateInheritance}
+Flask als microframework bietet zahlreiche Möglichkeiten. Aus \autoref{subsec:Flask} ist bekannt, dass Flask mehrere Komponenten beinhaltet. Eines kann als Jinja identifiziert werden, welches unter anderem als Template-Bibliothek bezeichnet wird. Wie dem vorherigen Abschnitt zu entnehmen ist, handelt es sich bei dem Konzept des Frontends um die Vererbung von HTML-Elementen. Ein Konzept, welche durch Jinja ermöglicht wird.
 
-\subsubsection*{Strukturaufbau der Webseiten}
-\label{subsubsec: StrukturaufbauWebseiten}
-Eine Struktur als Rahmen der Webseite basiert grundlegend auf die Verwendung von \ac{HTML}. Für die Webseite bedeutet dies, dass die Struktur aus div-Boxen, welches ein \ac{HTML}-Elementen darstellt, besteht. Die div-Box kann den Tags, welche in \autoref{sec:HTMLCSSJS} erläutert wurden, zugeordnet werden, und bildet dadurch eine weitere Variante der \ac{HTML}-Tags. Grundsätzlich basiert eine Webseite auf einer index.html Datei, welche als Ausgangspunkt für den ersten Aufruf eines Nutzers dient. Bezogen auf die Struktur gibt es bei der Web-Entwicklung lediglich Vorschläge wie eine Umsetzung erfolgen kann, dennoch ist das Konzept nach eigenen Anforderungen zu definieren. Demnach kann eine Webseite komplett in der \textbf{index.html} Datei ausgeliefert werden, oder für jede Route, die der Nutzer adressieren kann, wird eine neue \ac{HTML}-Datei ausgeliefert. Im Rahmen der Studienarbeit wird das zweite Konzept verfolgt, weshalb die index.html Datei lediglich als Basis für eine einheitliche Struktur dient. Dieses Konzept ist in der \autoref{img:DateinAufrufbaum} dargestellt. Außerdem ist daraus ersichtlich, dass die index.html nicht direkt ausgeliefert wird. Wie die nachfolgende \autoref{img:index-struktur} zeigt, bildet der nav-Tag das Konstrukt welches der Hauptbestandteil der index-Seite darstellt.
+Die offizielle Seite von Flask bezeichnet das Vererben von HTML-Vorlagen als mächtigstes Tool von Jinja. Die Vererbung erlaubt das Konstruieren eines Rahmens für den gesamten Webauftritt. Um dieses Prinzip zu verwenden werden mindestens 2 HTML-Seiten benötigt. In einem ersten Schritt wird das sogenannte \glqq Base Template\grqq definiert. Diese Seite verkörpert den Rahmen, wobei es alle Elemente, welche dauerhaft benötigt werden, implementiert. Ein Beispiel für die Grundseite ist im \autoref{lst:BaseTemplate} dargestellt.
+\begin{lstlisting}[language=HTML,caption=Beispiel einer Grundseite für das Vererbungsprinzip,label={lst:BaseTemplate}]
+<!doctype html>
+<html>
+	<head>
+		{% block head %}
+		<link rel="stylesheet" href="">
+		<title>{% block title %}{% endblock %} - My Webpage</title>
+		{% endblock %}
+	</head>
+	<body>
+		<div id="content">{% block content %}{% endblock %}</div>
+		<div id="footer">
+			{% block footer %}
+			{% endblock %}
+		</div>
+	</body>
+</html>
+\end{lstlisting}
+Das hinzugewonnen Feature ist die Unterteilung des Base Templates in Blöcke. Diese werden mit \texttt{\{\% Block X\%\}} eingeleitet. Den Abschluss eine Blocks wird mit \texttt{\{\% endblock \%\}} dargestellt. Ein Block, wie er im \autoref{lst:BaseTemplate} dargestellt ist, wird vom Base Template definiert. Dadurch wird indirekt ein freiere Raum konstruiert, der von dem Kindelement befüllt werden kann ohne Inhalte zu überschreiben. Das Base Template lässt sich laut der Dokumentation als Elternteil bezeichnen. Im weiteren Verlauf bieten die Blöcke die Möglichkeit von Kindelementen überschrieben zu werden. Die Aufgabe eines \glqq Child Templates\grqq besteht darin, die leeren Blöcke mit Inhalt zu füllen. Aufschluss darüber wie eine Kindseite dies löst, bildet das \autoref{lst:ChildTemplate} ab. Demnach beginnt das HTML-Dokument nicht mit den Standard-Tag \texttt{<!doctype html>}, sondern stellt die Verknüpfung zum Base Template her. In dem Fall stellt das \texttt{extends} ein Keyword dar, wodurch alle HTML-Elemente der Elternseite übernommen werden. Das umfasst die HTML-Tags und was damit einhergeht. Außerdem werden die Blöcke als eine Art Rahmen übernommen.
+\begin{lstlisting}[language=HTML,caption=Beispiel einer Grundseite für das Vererbungsprinzip,label={lst:ChildTemplate}]
+{% extends "layout.html" %}
+{% block title %}Index{% endblock %}
+{% block head %}
+	{{ super() }}
+	<style type="text/css">
+		.important { color: #336699; }
+	</style>
+{% endblock %}
+{% block content %}
+	<h1>Index</h1>
+	<p class="important">
+	Welcome on my awesome homepage.
+{% endblock %}
+\end{lstlisting}
+Um die Blöcke mit Inhalt zu füllen replizieren die Kindseiten den Blocknamen. Anschließend können die HTML-Tags und Attribute definiert werden. Im Folgenden liegt das Augenmerk auf Zeile 4 des Listings. Wird der Block von einem Kindelement mit Inhalt befüllt, würden die Blockinhalte des Elternelements überschrieben werden. Um dieses Vorgehen zu verhindern kann mithilfe von \texttt{\{\{ super() \}\}} die Blockinhalte des Base Templates übernommen werden. Dieses Prinzip der Vererbung finden Verwendung bei der Entwicklung der index.html. \cite{FlaskTempInherDoc}
+
+\subsection*{Strukturaufbau der Webseiten}
+\label{subsec:StrukturaufbauWebseiten}
+Aus dem aktuellen Kenntnisstand geht hervor, dass ein Webauftritt durch mehrere Werkzeuge realisiert werden kann. Mit der Implementierung und Erörterung des Strukturaufbaus wird das HTML-Grundgerüst gebildet. Daher sind die Einzelseiten aus \autoref{img:HTMLDateienOrdner} mit den HTML-Elementen der Kern des Abschnittes. Zur Vereinfachung der Darstellung wird auf ausführlichen HTML-Code verzichtet. Ausschließlich wichtige Bestandteile für die Webseite und ihrer Funktion als Teil des XMPP-Clients werden dargestellt. Bei diesen handelt es sich um:
+\begin{itemize}
+	\item HTML-Tags, welche für den Webauftritt benötigt werden
+	\item Klassennamen
+	\item Identifikationsnamen
+	\item Verschachtelungen je nach Relevanz
+\end{itemize}
+Die Erläuterung des HTML-Codes erfolgt mithilfe von Abbildungen. Ein HTML-Tag bildet demnach eine Box mit schwarzen Rahmen. Dadurch können Verschachtelungen als innere Elemente der äußeren Box dargestellt werden. Füllt sich im Verlauf eine HTML-Box, so werden unrelevante Boxen grau abgebildet.
+
+Eine Struktur als Rahmen der Webseite basiert grundlegend auf die Verwendung von \ac{HTML}. Für die Webseite bedeutet dies, dass die Struktur aus div-Boxen und anderen \ac{HTML}-Elementen besteht. Die div-Box kann den Tags, welche in \autoref{sec:HTMLCSSJS} erläutert wurden, zugeordnet werden. Dies erweitert den Umfang der \ac{HTML}-Tags aus \autoref{sec:HTMLCSSJS} um eine weitere Variante. Grundsätzlich basiert ein Webauftritt auf einer index.html Datei, welche als Ausgangspunkt für den ersten Aufruf eines Nutzers dient. Bezogen auf die Struktur gibt es bei der Web-Entwicklung lediglich Vorschläge wie eine Umsetzung erfolgen kann, dennoch ist das Konzept nach eigenen Anforderungen zu definieren. Demnach kann eine Webseite komplett in der \textbf{index.html} Datei ausgeliefert werden, oder für jede Route, die der Nutzer adressieren kann, wird eine neue \ac{HTML}-Datei ausgeliefert. Im Rahmen der Studienarbeit wird das zweite Konzept verfolgt, weshalb die index.html Datei lediglich als Basis für eine einheitliche Struktur dient. Dieses Konzept ist in der \autoref{img:DateinAufrufbaum} dargestellt und im \autoref{subsec:TemplateInheritance} beschrieben. Außerdem ist daraus ersichtlich, dass die index.html nicht direkt ausgeliefert wird. Wie die nachfolgende \autoref{img:index-struktur} zeigt, bildet der nav-Tag das Konstrukt, welches der Hauptbestandteil der index-Seite und damit dem Base Template darstellt.
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=\linewidth]{images/indexbody}
-	\caption{Basis-Konstrukt der Index-Seite, eigene Darstellung}
+	\caption{Navigationsleiste innerhalb des Base Templates, eigene Darstellung}
 	\label{img:index-struktur}
 \end{figure}
-Der nav-Tag wird unter der Verwendung einer Navigationsleiste in HTML5 benutzt. Das Konstrukt ist Teil der index-Datei, um eine einheitliche Navigationsleiste für jede weitere Webseite zu definieren. Des Weiteren sind dieser Leiste HTML-Elemente zuzuordnen. Der strukturelle Aufbau mit den Ergänzung an dem Basis-Konstrukt ist in der folgenden \autoref{img:index-strukturInhalt} dargestellt.
+Der nav-Tag wird unter der Verwendung einer Navigationsleiste in HTML5 benutzt. Mit der Verwendung des speziellen Klassenamens wird auf Bootstrap referenziert. Welche Rolle der Klassenname bei Bootstrap hat, ist Bestandteil von \autoref{sec:Bootstrap}. Das Konstrukt ist Teil der index-Datei, um eine einheitliche Navigationsleiste für jede weitere Webseite zu definieren. Des Weiteren sind dieser Leiste HTML-Elemente zuzuordnen. Der strukturelle Aufbau mit den Ergänzung an dem Basis-Konstrukt ist in der folgenden \autoref{img:index-strukturInhalt} dargestellt.
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=\linewidth]{images/indexbodyInhalt}
 	\caption{Erweiterung der Navigationsleiste um weitere HTML-Elemente, eigene Darstellung}
 	\label{img:index-strukturInhalt}
 \end{figure}\\
-Die Erweiterungen beinhalten zwei i-Tags, welche Icons darstellen bzw. hervorheben sollen. Der a-Tag definiert eine Referenz in Form eines Hyperlinks, welcher zu einer angegebenen Seite verzweigen kann. Grundidee ist hierbei die Verzweigung des Logos auf die index-Seite bzw. auf die Webseite, die der Nutzer als home-Seite betrachten soll. Die div-Box als letztes Element der Index-Seite beinhaltet weitere Elemente, die keine Relevanz für den Strukturaufbau der Webseite darstellt. Diesem Element sind überwiegend weitere Links und Textfelder zugeordnet, wie es der \autoref{img:Navbar} zu entnehmen ist. Den \ac{HTML}-Elementen kann mithilfe von \ac{CSS} gestalterische Aspekte verliehen werden. Diese Aufgabe kann das unter \autoref{sec:HTMLCSSJS} vorgestellte Framework namens Bootstrap übernehmen. Dies ist mitunter der Grund weshalb den \ac{HTML}-Elementen solche Klassennamen gegeben werden. Bezogen auf diese definierten Klassennamen kann durch einbinden der bootstrap.css Datei im header die definierten Styles verwendet werden. Mit kleinen Ergänzungen stellt die \autoref{img:Navbar} die vollständige index-Seite dar.
+Die Erweiterungen beinhalten zwei i-Tags, welche Icons darstellen bzw. hervorheben sollen. Interessant an diesen Tags ist der Klassenname. Aufgrund der Verwendung von Bootstrap können spezielle Klassennamen angewendet werden, um auf Styles zu referenzieren. Das Gleiche gilt für Icons. Nur besteht dadurch eine Referenz auf die \textbf{fontawesome.min.css} Datei aus \autoref{img:BootstrapStructer}. Der a-Tag definiert eine Referenz in Form eines Hyperlinks, welcher zu einer angegebenen Seite verzweigen kann. Grundidee ist hierbei die Verzweigung des Logos auf die index-Seite bzw. auf die Webseite, die der Nutzer als home-Seite betrachten soll. Die div-Box als letztes Element der Index-Seite beinhaltet weitere Elemente, die keine Relevanz für den Strukturaufbau der Webseite darstellen. Diesem Element sind überwiegend weitere Links und Textfelder zugeordnet, wie es der \autoref{img:Navbar} zu entnehmen ist. Den \ac{HTML}-Elementen kann mithilfe von \ac{CSS} gestalterische Aspekte verliehen werden. Diese Aufgabe kann das unter \autoref{sec:Bootstrap} vorgestellte Framework namens Bootstrap übernehmen. Mit kleinen Ergänzungen zur den vorgefertigten CSS-Elementen von Bootstrap stellt die \autoref{img:Navbar} die vollständige index-Seite dar, welche ausschließlich zur Vererbung dient. 
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=\linewidth]{images/indexHTML&CSS}
 	\caption{Webbrowserdarstellung der Index-Seite, eigene Darstellung}
 	\label{img:Navbar}
 \end{figure}\\
-Aufbauend auf der Index-Seite können alle weiteren Webseiten die Navigationsleiste über die index.html Datei erben, wie es das Konzept aus \autoref{img:DateinAufrufbaum} darstellt. Dadurch kann eine durchgängige Struktur beibehalten werden. Die Index-Seite bildet daher keine Möglichkeit durch einen Nutzer direkt adressiert zu werden. Die erste Anlaufstelle eines unangemeldeten Nutzers wird durch die Login-Seite abgebildet. Unabhängig von der Navigationsleiste bietet die \textbf{login.html} Datei ein Formular für den Anmeldevorgang. Mithilfe von Bootstrap wird die Basis-Struktur durch div-Boxen und Klassennamen definiert, wie sie der folgenden \autoref{img:BasisStrukturLogin} zu entnehmen sind.
+Aufbauend auf der Index-Seite können alle weiteren Webseiten die Navigationsleiste über die index.html Datei erben, wie es das Konzept aus \autoref{img:DateinAufrufbaum} darstellt. Hierfür wird die Vorgehensweise aus \autoref{subsec:TemplateInheritance} verwendet. Dadurch kann eine durchgängige Struktur beibehalten werden. Die Index-Seite bildet daher keine Möglichkeit durch einen Nutzer direkt adressiert zu werden. Die erste Anlaufstelle eines unangemeldeten Nutzers wird durch die Login-Seite abgebildet. Unabhängig von der Navigationsleiste bietet die \textbf{login.html} Datei ein Formular für den Anmeldevorgang. Mithilfe von Bootstrap wird die Basis-Struktur durch div-Boxen und Klassennamen definiert, wie sie der folgenden \autoref{img:BasisStrukturLogin} zu entnehmen sind.
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=\linewidth]{images/loginBasisStruktur}
 	\caption{Basis-Struktur der login-Seite, eigene Darstellung}
 	\label{img:BasisStrukturLogin}
 \end{figure}
-Basierend auf diesem Aufbau bildet die Klasse \textit{d-flex justify-content-center} die Möglichkeit weitere div-Boxen flexibel anzuordnen. Eine Variante wie sie in \autoref{sec:HTMLCSSJS} unter \ac{CSS} erläutert wurde. Die \autoref{img:BasisStrukturLogin} bildet noch kein Formular der Login-Seit ab, sondern lediglich Container für eine korrekte Anordnung. Im Folgenden wird der div-Box mit der Klasse \textit{content-section pt-5 pl-5} ein form-Tag hinzugefügt, um in Kooperation mit Bootstrap ein Formular, bezogen auf die Anmeldung, zu konstruieren.
+Basierend auf diesem Aufbau bildet die Klasse \texttt{d-flex justify-content-center} die Möglichkeit weitere div-Boxen flexibel anzuordnen. Eine Variante wie sie in \autoref{sec:HTMLCSSJS} unter \ac{CSS} erläutert wird. Die \autoref{img:BasisStrukturLogin} bildet noch kein Formular der Login-Seit ab, sondern lediglich einen Container für eine korrekte Anordnung. Im Folgenden wird der div-Box mit der Klasse \texttt{content-section pt-5 pl-5} ein form-Tag hinzugefügt, um in Kooperation mit Bootstrap ein Formular, bezogen auf die Anmeldung, zu konstruieren.
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.55]{images/loginBasisStruktur&FormContainer}
 	\caption{Integration des Formular-Tags in die Login-Basisstruktur, eigene Darstellung}
 	\label{img:BasisStrukturLoginUnd Formular}
 \end{figure}\\
-Die Design-Elemente werden über der bootstrap.css Datei dem Formular mitgegeben. Der strukturelle Aufbau der Login-Seite ist damit vollendet. Für das Formular werden dem form-Container Textfelder, Buttons und ähnliches hinzugefügt, welche das Formular gestalterisch vervollständigen. Diese Elemente sind in der \autoref{img:LoginSeiteVollständig} dargestellt. Außerdem bildet die \autoref{img:LoginSeiteVollständig} die vollständige Login-Seite ab, wobei dieser Webseite eine weitere div-Box zugeteilt wird, welches für die Struktur keine Relevanz darstellt und daher nicht aufgeführt wurde.
+Die Design-Elemente werden über der Bootstrap-Datei dem Formular mitgegeben. Der strukturelle Aufbau der Login-Seite ist damit vollendet. Für das Formular werden dem form-Container Textfelder, Buttons und ähnliches hinzugefügt, welche das Formular gestalterisch vervollständigen. Diese Elemente sind in der \autoref{img:LoginSeiteVollständig} dargestellt. Außerdem bildet die \autoref{img:LoginSeiteVollständig} die vollständige Login-Seite ab, wobei dieser Webseite eine weitere div-Box zugeteilt werden kann, welche für die Struktur keine Relevanz darstellt und daher nicht aufgeführt ist.
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=\linewidth]{images/loginSeiteFertig}
 	\caption{Vollständige Login-Seite, eigene Darstellung}
 	\label{img:LoginSeiteVollständig}
 \end{figure}
-Aufgrund der Ähnlichkeit der \textbf{Registrierungs-Seite} zur Login-Seite erfolgt dafür keine detaillierte Erläuterung sondern lediglich die Darstellung der strukturierten Webseite mit den HTML-Inhalten und der Designdarstellung dieser Route. Einziges unterscheidendes Merkmal zur Login-Seite sind die HTML-Elemente innerhalb des Formulars, welche sich vor allem in der Anzahl unterscheiden. Die folgende \autoref{img:RegisterSeiteVollständig} zeigt sowohl die Struktur als auch die Darstellung für den Nutzer.
+Aufgrund der Ähnlichkeit der \textbf{Registrierungs-Seite} zur Login-Seite erfolgt dafür keine detaillierte Erläuterung sondern lediglich die Darstellung der strukturierten Webseite mit den HTML-Inhalten und der Designdarstellung dieses Endpunktes. Einziges unterscheidendes Merkmal zur Login-Seite sind die HTML-Elemente innerhalb des Formulars, welche sich vor allem in der Anzahl unterscheiden. Die folgende \autoref{img:RegisterSeiteVollständig} zeigt sowohl die Struktur als auch die Darstellung für den Nutzer.
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=\linewidth]{images/RegisterPage}
+	\includegraphics[width=\linewidth]{images/RegisterPage2}
 	\caption{Vollständige Registrierungs-Seite, eigene Darstellung}
 	\label{img:RegisterSeiteVollständig}
 \end{figure}
-Aus der \autoref{img:RegisterSeiteVollständig} sind die erwähnten Unterschiede nicht zu entnehmen, da Sie keine Einwirkung auf die Grundstruktur der Registrierungsseite haben und daher wurden diese nicht mit in die form-Box aufgenommen. Die Hauptseite des Web-Clients wird dem Nutzer durch die \textbf{gochat.html} Datei ausgeliefert. Wie der \autoref{img:DateinAufrufbaum} zu entnehmen ist, kann der Nutzer die Seite von der login.html Seite erreichen. Dabei handelte es sich um einen normalen Anmeldevorgang. Die gochat.html Datei beinhaltet den Aufbau des Chats sowie zahlreiche weitere Funktionen welche dem Nutzer nur angeboten werden wenn er angemeldet ist. Ein Securityaspekt, welcher im routing geregelt wird und kein Bestandteil der HTML-Dokumente ist. Die gochat.html Datei gliedert sich in mehrere HTML-Tags bzw. in mehrere div-Boxen, auf die im einzelnen detaillierter eingegangen wird. Dafür stellt die erste \autoref{img:BasisStruktur1Gochat} eine Art erste Ebene dar, welche die einzelnen Elemente voneinander abgrenzt und eine Struktur für die Teilbereiche bildet.
+Aus der \autoref{img:RegisterSeiteVollständig} sind die erwähnten Unterschiede nicht zu entnehmen, da Sie keinen Einfluss auf die Grundstruktur der Registrierungsseite haben. Ausschließlich bei der Darstellung tieferer Verschachtelungen würden die Unterschiede erkennbar werden.\\ 
+Die Hauptseite des Web-Clients wird dem Nutzer durch die \textbf{gochat.html} Datei ausgeliefert. Wie der \autoref{img:DateinAufrufbaum} zu entnehmen ist, kann der Nutzer die Seite von der login.html Seite erreichen. Dabei handelte es sich um einen normalen Anmeldevorgang, der ausschließlich nach einer Registrierung erfolgen kann. Die gochat.html Datei beinhaltet den Aufbau des Chats sowie zahlreiche weitere Funktionen welche dem Nutzer nur angeboten werden wenn er angemeldet ist. Ein Securityaspekt, welcher im Backend geregelt wird und kein Bestandteil der HTML-Dokumente ist. Die gochat.html Datei gliedert sich in mehrere HTML-Tags bzw. in mehrere div-Boxen, auf die im einzelnen detaillierter eingegangen wird. Dafür stellt die erste \autoref{img:BasisStruktur1Gochat} eine Art erste Ebene dar, welche die einzelnen Elemente voneinander abgrenzt und eine Struktur für die Teilbereiche bildet.
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=\linewidth]{images/BasisStruktur1Gochat}
 	\caption{Strukturierung von gochat.html auf der ersten Ebene, eigene Darstellung}
 	\label{img:BasisStruktur1Gochat}
 \end{figure}
-Die ausgegraute div-Box mit der Klasse \textit{navbar} wird ausschließlich für die Vollständigkeit mitaufgeführt. Die Klasse ist Teil der index.html und wird von gochat.html geerbt. Dadurch besteht die erste Ebene aus den drei anderen div-Boxen. Die erste div-Box mit der id \textit{containerMain} deckt den gesamten Viewport der Webseite ab. Dadurch ergibt sich die Möglichkeit innere Container entsprechend des Viewports anzupassen.\\
-Ein relevantes Merkmal ist dabei die Klasse \textit{row}, welches Bestandteil von Bootstrap ist. Die Klasse kann in mehreren Situationen zum Einsatz kommen. Im Fall von der gochat.html handelt es sich um das Grid-System von Bootstrap. Dieses bietet die Möglichkeit Container bzw. div-Boxen in dem von Bootstrap spezifizierten Grid auszurichten. Dadurch wird dem Anwender die Möglichkeit geboten eine row zu definieren und diese, wie die nachfolgende Abbildung zeigt, in columns zu unterteilen.
+Die ausgegraute div-Box mit der Klasse \textit{navbar} wird ausschließlich für die Vollständigkeit mit aufgeführt. Die Klasse ist Teil der index.html und wird von gochat.html geerbt. Dadurch besteht die erste Ebene aus den drei anderen div-Boxen. Die erste div-Box mit der id \texttt{containerMain} deckt den gesamten Viewport der Webseite ab. Dadurch ergibt sich die Möglichkeit innere Container entsprechend des Viewports anzupassen.\\
+Ein relevantes Merkmal ist hierbei die Klasse \texttt{row}, welches Bestandteil von Bootstrap ist. Die Klasse kann in mehreren Situationen zum Einsatz kommen. Im Fall von der gochat.html Datei handelt es sich um das Grid-System von Bootstrap. Dieses bietet die Möglichkeit Container bzw. div-Boxen in dem von Bootstrap spezifizierten Grid auszurichten. Dadurch wird dem Anwender die Möglichkeit geboten eine row zu definieren und diese, wie die nachfolgende Abbildung zeigt, in columns zu unterteilen.
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.9]{images/GridSystem}
@@ -2738,49 +2861,66 @@ Ein relevantes Merkmal ist dabei die Klasse \textit{row}, welches Bestandteil vo
 	\label{img:GridSystem}
 \end{figure}
 Mit diesem Konzept können die Inhalte problemlos aneinander gereiht bzw. angeordnet werden. \cite{krause2016introducing}\\
-Aufgrund dieser Konzeptionierung wird der id \textit{content-window} die Klasse \textit{col} zugeordnet. Damit wird gewährleistet, dass sich die div-Box wie eine Spalte anordnet. Die Anordnung kann außerdem über eigene CSS-Styles definiert werden, wie es bei dem Sidepanel der Fall ist. Da die CSS keine detaillierte Auswirkung auf die Struktur hat wird auf diese Styles nicht genaueres eingegangen. Im Folgenden soll das Sidepanel mit seinem Container im Vordergrund stehen. Um die innere Struktur zu definieren sind die Aufgaben bzw. die Anzeigemöglichkeiten des Sidepanels zu definieren. Entsprechend der Aufgaben können Boxen angelegt werden welche den Inhalt im weiteren Verlauf spezifizieren. Demnach sind folgende Bestandteile:
+Aufgrund dieser Konzeptionierung wird der id \texttt{content-window} die Klasse \texttt{col} zugeordnet. Damit wird gewährleistet, dass sich die div-Box wie eine Spalte anordnet. Die Anordnung kann außerdem über eigene CSS-Styles definiert werden, wie es bei dem Sidepanel der Fall ist. Da die CSS keine detaillierte Auswirkung auf die Struktur hat wird auf diese Styles nicht genaueres eingegangen. Im Folgenden soll das Sidepanel mit seinem Container im Vordergrund stehen. Um die innere Struktur zu definieren sind die Aufgaben bzw. die Anzeigemöglichkeiten des Sidepanels zu definieren. Entsprechend der Aufgaben können Boxen angelegt werden, welche den Inhalt im weiteren Verlauf spezifizieren. Demnach handelt es sich um die folgenden Bestandteile:
 \begin{itemize}
 	\item Profilanzeige
 	\item Suchfunktion innerhalb der eigenen Kontaktliste
 	\item Kontaktliste für Einzel- und Gruppenchats
 	\item Zusätzliche Optionen
 \end{itemize}
-relevant für das Sidepanel. Zur Integration in die gochat.html wird für jedem Bestandteil einen eigenen Container definiert. Diese werden dem Sidepanel zugeordnet, wie es auf der nachfolgenden Abbildung dargestellt ist.
+Zur Integration in die gochat.html wird für jeden Bestandteil einen eigener Container definiert. Diese werden dem Sidepanel zugeordnet, wie es auf der nachfolgenden \autoref{img:Sidepanel} dargestellt ist.
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=\linewidth]{images/BasisStruktur1GochatSidepanel}
+	\includegraphics[scale=0.55]{images/BasisStruktur1GochatSidepanel}
 	\caption{Erweiterung des Sidepanels um die aufgezählten Bestandteile, eigene Darstellung}
 	\label{img:Sidepanel}
 \end{figure}
-Die eigenständigen Container bietet die Möglichkeit die Elemente getrennt voneinander zu gestalten. Außerdem kann dadurch den Elementen im weiteren Verlauf dynamische Aspekte zugeteilt werden. Damit steht die Struktur des Sidepanels. Den einzelnen Containern können weitere HTML-Elemente zugeordnet werden. Das bedeutet eine tiefere Verschachtelung, die nicht nähers erläutert wird. Lediglich auf Elemente welche der Nutzer sehen kann soll kurz dargestellt werden. Für die id \textit{profile} bedeutet das, ein img-Tag für das Profilbild und ein p-Tag für den Namen des Nutzers.\\
-Der \textit{search}-Box kann ein Inputfield zugeordnet werden, welches dem Nutzer die Möglichkeit bietet Texte einzugeben. \cite{bootstrapOnline}\\
-Für \textit{contacts} gibt es keine erwähnenswerte Inhalte. Mit der Umsetzung der zusätzlichen Optionen wird der \textit{bottom-bar} zwei Buttons zugeteilt, welche diese Optionen bereitstellen sollen. Für die div-Box mit der id \textit{content-wndow} ist die Vorgehensweise identisch um alle Aufgabenbereiche, aus den Anforderungen, in der grafischen Benutzeroberfläche abzudecken. Diesem Container müssen daher folgende Bestandteile zugeordnet werden.
+Die eigenständigen Container bietet die Möglichkeit die Elemente getrennt voneinander zu gestalten. Außerdem kann dadurch den Elementen im weiteren Verlauf dynamische Aspekte zugeteilt werden. Damit steht die Struktur des Sidepanels. Den einzelnen Containern können weitere HTML-Elemente zugeordnet werden. Das hat eine tiefere Verschachtelung zur Folge, welche nicht nähers erläutert wird. Lediglich Elemente, die der Nutzer sehen kann sollen kurz dargestellt werden. Für den Container mit der id \texttt{profile} bedeutet das, ein img-Tag für das Profilbild und ein p-Tag für den Namen des Nutzers.
+Der \texttt{search}-Box kann ein Inputfield zugeordnet werden, welches dem Nutzer die Möglichkeit bietet Texte einzugeben. \cite{bootstrapOnline}\\
+Dem Container, unterhalb der search-Box, kann eine größere Relevanz zugeordnet werden. Grund hierfür ist die Verbindung des Containers mit den Projektanforderungen. Die div-Box mit der Id \texttt{contacts} enthält die Chatpartner des angemeldeten Nutzers. Wie die einzelnen Kontakte in den Container integriert werden können, kann der nachfolgenden \autoref{img:SidepanelContacts} entnommen werden. 
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.55]{images/SidepanelContacts}
+	\caption{Darstellung der Kontakte als HTML-Elemente, eigene Darstellung}
+	\label{img:SidepanelContacts}
+\end{figure}
+Hierfür kommen die Listen-Elemente von HTML5 zum Einsatz. Das \texttt{ul} definiert die Liste und steht für eine \textit{unordered list}. Kindelemente des \texttt{ul}-Tags sind die \texttt{li}-Tags. Diese definieren ein Listeneintrag.
+Übertragen auf die Funktion handelt es sich bei dem \texttt{ul-Tag} um die Initialisierung einer Liste von Kontakten. Entsprechend symbolisieren die li-Container einen einzelnen Kontakt. Standardmäßig werden Listen unter HTML5 mit Bullets markiert. Diese Eigenschaft kann mithilfe von CSS verhindert werden. Die Klassennamen nehmen Bezug zur den dynamischen und gestalterischen Inhalten. Aus diesem Grund unterscheidet sich ein Klassenname von den anderen. Das Resultat davon, ist die Gestaltung eines einzelnen Kontaktes. Dadurch kann dem Benutzer ein Kontakt als \glqq aktiv\grqq bzw. ausgewählt dargestellt werden. Die Darstellung aus Sicht des Benutzers ist in \autoref{img:GochatUserview} ersichtlich. \cite{w3schoolsUlTag}\\
+Mit der Umsetzung der zusätzlichen Optionen wird der \texttt{bottom-bar} zwei Buttons zugeteilt, welche diese Optionen bereitstellen sollen. Für die div-Box mit der id \texttt{content-window} ist die Vorgehensweise identisch, um alle Aufgabenbereiche, aus den Anforderungen, in der grafischen Benutzeroberfläche abzudecken. Diesem Container müssen daher folgende Bestandteile zugeordnet werden.
 \begin{itemize}
 	\item Profilanzeige des Chatpartners
 	\item Nachrichtenansicht
 	\item Möglichkeit eine Nachricht einzugeben (Textfeld)
 \end{itemize}
-In Abhängigkeit dieser definierten Bestandteile wird jedem ein Container zugeteilt, der die definierten Aufgaben innehalten soll.
+In Abhängigkeit dieser definierten Bestandteile wird jedem ein Container zugeteilt, der die Aufgaben innehalten soll.
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=\linewidth]{images/BasisStruktur1GochatContentWindow}
 	\caption{Erweiterung des Containers \textit{content-window} um die aufgezählten Bestandteile, eigene Darstellung}
 	\label{img:Content-window}
 \end{figure}
-Der Klasse \textit{contact-profil} sind die gleichen HTML-Elemente wie in der div-Box \textit{profile} untergeordnet. Ergänzend dazu ist dem Kontaktprofil des Chatpartners ein Dropdownmenü zugeteilt, welches weitere Optionen bereitstellen soll. Für die Struktur von gochat.html werden diese Unterpunkte nicht benötigt. Außerdem ist das Dropdownmenü überwiegend ein CSS-Element, weshalb es kein wichtiger Aspekt in der Struktur darstellt. Der Container mit der id \textit{messages-container} bildet lediglich einen Rahmen um die Nachrichten des Chats, weshalb der Container keine weiteren HTML-Elemente aufzeigt. Die Nachrichten entstehen zur Laufzeit und sind daher kein Bestandteil der Struktur. Das Hauptmerkmal der Klasse \textit{input-group} ist das Textfeld und der Button, welches es innehat. Dadurch wird dem Nutzer gewährleistet seine Nachrichten einzugeben und über ein Button zu senden. Weitere HTML-Elemente spielen in der Struktur keine Rolle und sind daher nicht weiters aufgeführt. Alle Elemente, welche die Struktur der gochat.html Datei beschreiben sind in der \autoref{img:Content-window} aufgeführt. Unter der Verwendung von Bootstrap und eigenen Styles zeigt die \autoref{img:GochatUserview} die Hauptseite aus der Sicht des Nutzers.
+Der Klasse \texttt{contact-profil} sind die gleichen HTML-Elemente wie der div-Box \texttt{profile} untergeordnet. Ergänzend dazu ist dem Kontaktprofil des Chatpartners ein Dropdownmenü zugeteilt, welches weitere Optionen bereitstellen soll. Für die Struktur von gochat.html wird dieses Element nicht benötigt. Außerdem ist das Dropdownmenü überwiegend ein CSS-Element, weshalb es kein wichtiger Aspekt in der Struktur darstellt. Der Container mit der Id \texttt{messages-container} bildet lediglich einen Rahmen um die Nachrichten des Chats, weshalb der Container keine besonderen Attribute hat. Dem Container werden ausschließlich weiteren HTML-Elemente zugeteilt. Die Nachrichten entstehen zur Laufzeit und sind daher nur in der Gestaltung zu erläutern. Dafür ist die \autoref{img:ContentWindowChatMessages} zu beachten. Der Abbildung zur Folge hat der Nachrichten-Container eine weitere div-Box sowie Listen-Elemente gekennzeichnet mit dem \texttt{ul} und \texttt{li}-Tag. Übertragen auf die Darstellung der Nachrichten aus \autoref{img:GochatUserview} bilden die Listeneintrag eine einzelne Nachricht. Die Nachrichten werden entsprechend der unterschiedlichen Klassennamen identifiziert. Der \texttt{li}-Tag mit der Klasse \texttt{clearfix} symbolisiert die empfangenen Nachrichten.
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=\linewidth]{images/GochatUserAnsicht}
+	\includegraphics[scale=0.5]{images/ContentWindowChatMessages}
+	\caption{HTML-Ansicht der Nachrichten, eigene Darstellung}
+	\label{img:ContentWindowChatMessages}
+\end{figure}
+Demzufolge steht der leere li-Tag für die gesendeten Nachrichten. Für die detaillierte Darstellung, werden weitere HTML-Elemente innerhalb der Listeneinträge benötigt. Da diese keinen Einfluss auf den strukturellen Aufbau haben, sind sie zu vernachlässigen.\\
+Das Hauptmerkmal der Klasse \texttt{input-group} ist das Textfeld und der Button, welches es innehat. Dadurch wird dem Nutzer gewährleistet seine Nachrichten einzugeben und über ein Button zu senden. Weitere HTML-Elemente spielen in der Struktur keine Rolle und sind daher nicht weiters aufgeführt. Alle Elemente, welche die Struktur der gochat.html Datei beschreiben sind in der \autoref{img:Content-window} aufgeführt. Unter der Verwendung von Bootstrap und eigenen Styles zeigt die \autoref{img:GochatUserview} die Hauptseite aus der Sicht des Benutzers.
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=1.2]{images/GochatUserAnsicht}
 	\caption{gochat.html aus Sicht des Nutzers, eigene Darstellung}
 	\label{img:GochatUserview}
 \end{figure}
-Mit der fertigen Struktur von gochat.html wurden alle Webseiten, die der Webserver ausliefert, erläutert. Das Erscheinungsbild, wie es bspw. in \autoref{img:GochatUserview} dargestellt ist entsteht hauptsächlich unter der Verwendung von \ac{CSS}. Diese Details werden aufgrund der Redundanzen und der Ähnlichkeit zu den Beispielen aus \autoref{sec:HTMLCSSJS} nicht nähers erläutert und können dem Source-Code entnommen werden. Eine größere Relevanz spielen die dynamischen Elemente, welche das Nutzerverhalten direkt beeinflussen können. Aus diesem Grund wird der JavaScript Code mit Bezug zur jeweiligen HTML-Datei detaillierter erläutert.
+Mit der fertigen Struktur von gochat.html sind alle Webseiten, die der Webserver ausliefert, im Detail erörtert. Das Erscheinungsbild, wie es bspw. in \autoref{img:GochatUserview} dargestellt ist entsteht hauptsächlich unter der Verwendung von \ac{CSS}. Diese Details werden aufgrund der Redundanzen und der Ähnlichkeit zu den Beispielen aus \autoref{sec:HTMLCSSJS} nicht nähers erläutert und können dem Source-Code entnommen werden. Eine größere Relevanz spielen die dynamischen Elemente, welche das Nutzerverhalten direkt beeinflussen können. Aus diesem Grund wird der JavaScript Code mit Bezug zur jeweiligen HTML-Datei detaillierter erläutert.
 
-\subsubsection*{Integration dynamischer Elemente in die Webseiten}
+\subsection*{Integration dynamischer Elemente in die Webseiten}
 \label{subsubsec:DynamischeElementeWebseiten}
-Der Web-Client bzw. die Webseiten benötigen für eine korrekte Ausführung JavaScript. Dadurch können Vorteile genutzt werden, welche schon unter \autoref{sec:HTMLCSSJS} erläutert wurden. Im Falle des Web-Clients bietet JavaScript die Möglichkeit HTML-Elemente zur Laufzeit zu verändern. Eine Veränderung der Styles ist ebenso möglich. Wie JavaScript in den einzelnen Webseiten verwendet wird und was für ein Nutzen es bietet soll nachfolgende erläutert werden. Die Vorgehensweise orientiert sich an dem vorherigen Abschnitt. Grund hierfür ist die Auswirkung eines JavaScript-Codes auf ein einzelnes \ac{HTML}-Dokument, weshalb die jeweilige Datei mit dem entsprechenden Codesnippet im Vordergrund steht.
+Der XMPP-Client bzw. die Webseiten benötigen für eine korrekte Ausführung JavaScript. Dadurch können Vorteile genutzt werden, welche Bestandteil im \autoref{sec:HTMLCSSJS} sind. Im Falle des XMPP-Clients bietet JavaScript die Möglichkeit HTML-Elemente zur Laufzeit zu verändern. Eine Veränderung der Styles ist ebenso möglich. Wie JavaScript in den einzelnen Webseiten verwendet wird und was für ein Nutzen es bietet, soll nachfolgende erläutert werden. Die Vorgehensweise orientiert sich an dem vorherigen Abschnitt. Grund hierfür ist die Auswirkung eines JavaScript-Codes auf ein einzelnes \ac{HTML}-Dokument, weshalb die jeweilige Datei mit dem entsprechenden Codesnippet im Vordergrund steht.
 
-Den Anfang macht die \textbf{index.html} Datei. Wie schon des Öfteren erläutert bildet die index.html Datei keine Webseite, welche vom Nutzer direkt adressiert werden kann. Deshalb benötigt die Datei als Basisseite keine dynamischen Elemente. Aufgrund der Vererbung können statische Dateien, welche sowohl von Bootstrap als auch von anderen Frameworks benötigt werden, in dem Header mitangegeben werden. 
+Den Anfang stellt die \textbf{index.html} Datei dar. Da die Seite nicht direkt adressiert wird, benötigt die Datei als Basisseite keine dynamischen Elemente. Aufgrund des Konzeptes der Vererbung, aus \autoref{subsec:TemplateInheritance}, können statische Dateien, welche sowohl von Bootstrap als auch von anderen Frameworks benötigt werden, in dem Header mitangegeben werden. 
 \begin{lstlisting}[language=HTML,caption=Listing der eingebundenen JS-Dateien im Header der index.html,label={lst:HeaderWithJS}]
 <head>
 <script src="{{url_for('static',filename='js/jquery-3.4.1.min.js')}}"></script>
@@ -2788,50 +2928,71 @@ Den Anfang macht die \textbf{index.html} Datei. Wie schon des Öfteren erläuter
 <script src="{{url_for('static',filename='js/bootstrap.min.js')}}"></script>
 </head>
 \end{lstlisting}
-Das \autoref{lst:HeaderWithJS} stellt dar, welche statische Dateien, die lokal auf dem Server liegen, über den relativen Pfad eingebunden werden. Dabei handelt es sich lediglich um ein Ausschnitt ausgewählter Dateien, die in direkter Beziehung zur ihrem Framework liegen. Während jQuery und Bootstrap eindeutig zu identifizieren sind, handelt es sich bei \texttt{emojionearea.min.js} um eine JavaScript-Datei welche die Einbindung von Emojis ermöglicht. Eine detaillierte Erklärung der \ac{JS}-Dateien, welche als Framework fungieren, ist nicht Bestandteil der Studienarbeit. Mit der \textbf{Login-Seite} entstehen auch die ersten dynamischen Elemente, welche in der JavaScript-Datei namens \texttt{loginjs.js} implementiert sind. Für einen Überblick sind die Aufgabenbereiche, die mithilfe von \ac{JS} gelöst werden können, zu definieren.
+Das \autoref{lst:HeaderWithJS} stellt dar, welche statische Dateien, die lokal auf dem Server liegen, über den relativen Pfad eingebunden werden. Dabei handelt es sich lediglich um ein Ausschnitt ausgewählter Dateien, die in direkter Beziehung zur ihrem Framework liegen. Während jQuery und Bootstrap eindeutig zu identifizieren sind, handelt es sich bei \texttt{emojionearea.min.js} um eine JavaScript-Datei, welche die Realisierung von Emojis ermöglicht. Eine detaillierte Erklärung der \ac{JS}-Dateien, welche als Framework fungieren, sind nicht Bestandteil der Studienarbeit.\\
+Mit der \textbf{Login-Seite} entstehen die ersten dynamischen Elemente, welche in der JavaScript-Datei namens \texttt{loginjs.js} implementiert sind. Für einen Überblick sind die Aufgabenbereiche, die mithilfe von \ac{JS} gelöst werden können, zu definieren.
 \begin{itemize}
 	\item Überprüfen des Loginformulars auf eine Eingabe
 	\item Überprüfen der Logindaten auf Korrektheit
 	\item Rückmeldungen an den Benutzer
 \end{itemize}
-Um den Server zu entlasten sind vor allem die Formularfelder Clientseitig zu überprüfen. Damit ist vor allem die Überprüfung von leeren Feldern gemeint. Außerdem kann mithilfe von JavaScript die Dateninhalte, nach der Überprüfung, dem Server übermittelt werden. Wie es bei JavaScript üblich ist, hängen viele Funktionen an \ac{HTML}-Elementen. Für die Login-Seite, wie sie in der \autoref{img:LoginSeiteVollständig} dargestellt ist, werden die Funktionen an den Login- bzw. Sign in-Button gehängt. Dies ist zu Beginn des \autoref{lst:JSLoginButton} dargestellt. Durch \texttt{\$(\#login-form-button)} wird auf das \ac{HTML}-Element referenziert. 
+Um den Server zu entlasten sind vor allem die Formularfelder clientseitig zu überprüfen. Damit ist vor allem die Überprüfung von leeren Feldern gemeint. Außerdem kann mithilfe von JavaScript die Dateninhalte, nach der Überprüfung, dem Server übermittelt werden. Wie es bei JavaScript üblich ist, referenzieren viele Funktionen auf \ac{HTML}-Elemente. Für die Login-Seite, wie sie in der \autoref{img:LoginSeiteVollständig} dargestellt ist, werden die Funktionen mit dem Login- bzw. Sign in-Button verknüpft. Dies ist zu Beginn des \autoref{lst:JSLoginButton} dargestellt. Durch \texttt{\$(\#login-form-button)} wird auf das \ac{HTML}-Element mit der entsprechenden Id referenziert. 
 \begin{lstlisting}[language=Javascript,caption=Angehängte Funktion an ein HTML-Element,label={lst:JSLoginButton}]
 $('#login-form-button').click(function(event){
-event.preventDefault()
-var form = $('#login-form');
-var url = form.prop('action');
-var type = form.prop('method');
-var form_data = {
-username: document.getElementById("username").value,
-password: document.getElementById("password").value,
-remember: document.getElementById("formRememberCheck").checked }
-if (checkformIsFilled(form_data)){modular_ajax(url,type,form_data);}});
+	event.preventDefault()
+	var form = $('#login-form');
+	var url = form.prop('action');
+	var type = form.prop('method');
+	var form_data = {
+		username: document.getElementById("username").value,
+		password: document.getElementById("password").value,
+		remember: document.getElementById("formRememberCheck").checked }
+	if (checkformIsFilled(form_data)){
+		modular_ajax(url,type,form_data);}
+});
 \end{lstlisting}
-Mit \texttt{.click(function(event){...})} wird ermöglicht eine Funktion, durch einen Klick, des Anwenders, auszuführen. Der Klick stellt dabei das \texttt{event} dar. Dies wird in Zeile 2 benötigt um ggf. das Event bzw. die ausgelöste Funktion zu unterbrechen. Ein beliebte Anwendung von \texttt{preventDefault()} sind die Formulare, wie es in diesem Codesnippet ersichtlich ist. Grund dafür, ist die Bindung zu einem Button. Um nämlich die normale Funktion eines Buttons zu unterbrechen kann die Funktion aus Zeile 2 verwendet werden. Unter diesem Prinzip wird das \glqq canceln\grqq{} eines Ereignisses verstanden. \cite{w3schoolsPrevDefault}\\
-Vor der Überprüfung werden Variablen mit den jeweiligen \ac{HTML}-Elementen initialisiert. Die relevante Funktion zur Überprüfung des Formulars wird in der If-Bedingung aufgerufen und ihre Funktionsweise wird durch die \autoref{img:CheckFunctionLogin} visuell dargestellt.
+Mit \texttt{.click(function(event)\{...\})} wird ermöglicht eine Funktion, durch einen Klick des Anwenders, auszuführen. Der Klick stellt dabei das \texttt{event} dar. Dies wird in Zeile 2 benötigt um ggf. das Event bzw. die ausgelöste Funktion zu unterbrechen. Ein beliebte Anwendung von \texttt{preventDefault()} sind die Formulare, wie es in diesem Codesnippet ersichtlich ist. Grund dafür, ist die Bindung zu einem Button. Um nämlich die normale Funktion eines Buttons zu unterbrechen kann die Funktion aus Zeile 2 verwendet werden. Unter diesem Prinzip wird das \glqq canceln\grqq{} eines Ereignisses verstanden. \cite{w3schoolsPrevDefault}\\
+Vor der Überprüfung werden Variablen mit den jeweiligen \ac{HTML}-Elementen initialisiert. Die relevante Funktion zur Überprüfung des Formulars wird in der If-Bedingung aufgerufen und ihre Funktionsweise wird durch die \autoref{img:CheckFunctionLogin} visuell dargestellt.%TODO form_data besser erklären
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.8]{images/FunktionUeberpruefenLogin}
 	\caption{Funktionsdarstellung von \textit{checkformIsFilled(form\_data)}, eigene Darstellung}
 	\label{img:CheckFunctionLogin}
 \end{figure}
-Interessant ist hierbei die Abfrage nach dem leeren Feld, welches über \texttt{!\$.trim(value)} gelöst wird. Eine Variante, die durch jQuery ermöglicht wird. In diesem Fall ist \texttt{Trim} eine Funktion, welche alle leeren Inhalte vor und nach einem Wort bzw. String ignoriert. Ist der String danach leer, so ergibt die erste Bedingung ein True. Dadurch ist überprüft ob der Nutzer etwas eingetragen hat. Der Nutzer bekommt eine Rückmeldung und das Senden der Daten an den Server über die Funktion \texttt{modular\_ajax()} wird verhindert. Sind alle Felder korrekt ausgefüllt wird der andere Pfad ausgeführt und die Daten werden dem Server übermittelt. Dafür wird \texttt{modular\_ajax()} verwendet. Die Funktion bildetet einen Codeblock ab, welcher für Ajax Standard ist. Dabei werden die Daten in einem geeigneten Format dem Server übermittelt. Ein Ausschnitt ist im folgenden \autoref{lst:LoginDataSend} dargestellt.
-\begin{lstlisting}[language=Javascript,caption=Ausschnitt aus \textit{modular\_ajax()},label={lst:LoginDataSend}]
+Interessant ist hierbei die Abfrage nach den leeren Feldern, welches über \texttt{!\$.trim(value)} gelöst wird. Eine Variante, die durch jQuery ermöglicht wird. In diesem Fall ist \texttt{Trim} eine Funktion, welche alle leeren Inhalte vor und nach einem Wort bzw. String ignoriert. \cite{jQueryTrim}\\ 
+Angewendet wird diese Methode beim Iterieren über das Dictionary \texttt{form\_data}, welches alle zu überprüfenden Inputfelder enthält. Mit \texttt{.value} wird die Variable mit dem Inhalt des Feldes initialisiert. Trim überprüft bei jeden Schleifendurchlauf den Value eines Keys. Ist der String bzw. der Value leer, so ergibt die erste Bedingung durch das vorangestellt Ausrufezeichen ein True. Daraus geht hervor, dass der Benutzer in das Feld nichts eingetragen hat. Ist das Resultat der zweiten Bedingungen ebenfalls ein True bekommt der Benutzer eine Rückmeldung und das Senden der Daten an den Server über die Funktion \texttt{modular\_ajax()} wird verhindert. Sind alle Felder korrekt ausgefüllt wird der andere Pfad ausgeführt und die Daten werden dem Server übermittelt. Dafür wird \texttt{modular\_ajax()} verwendet. Die Funktion bildetet einen Codeblock ab, welcher für Ajax Standard ist. Weitere Details über Ajax sind Bestandteil vom \autoref{sec:HTMLCSSJS}. Innerhalb der Funktion werden die Daten in einem geeigneten Format dem Server übermittelt. Ein Ausschnitt ist im folgenden \autoref{lst:LoginDataSend} dargestellt.
+\begin{lstlisting}[language=Javascript,caption=Ausschnitt aus \texttt{modular\_ajax()},label={lst:LoginDataSend}]
 function modular_ajax(url, type, formData) {
-var csrftoken = $('meta[name=csrf-token]').attr('content')
-$.ajax({
-url: url,
-data: JSON.stringify(formData),
-headers: { "X-CSRF-Token": csrftoken }, }).done(function() {}); };
+	var csrftoken = $('meta[name=csrf-token]').attr('content')
+	$.ajax({
+		url: url,
+		data: JSON.stringify(formData),
+		headers: { "X-CSRF-Token": csrftoken },
+		success: function ( data ){
+			location.href = "/gochat"
+		},
+		error: function(data) {
+			data = data.responseJSON
+			printMessageWithCategory("Ups!", data.feedback, data.category);
+		}, 
+}).done(function() {}); };
 \end{lstlisting}
-Wie dem \autoref{lst:LoginDataSend} zu entnehmen ist, handelt es sich bei der Datenübertragung um eine JSON-Format. Außerdem wird dem Header das CSRF-Token mitgegeben, um die Session auf eine höheres Sicherheitslevel zu heben. Zur Vollständigkeit der JavaScript Datei gibt es lediglich noch Funktionen, die \ac{HTML}-Text ausgeben oder Klassen eines \ac{HTML}-Elements ändern. Diese haben keine große Auswirkung auf das Systemverhalten, weshalb keine detaillierte Erklärung Bestandteil der Studienarbeit ist. Die Überprüfung, wie sie dem Nutzer erscheint, ist in \autoref{img:LoginUeberpruefungsVarianten} dargestellt.
+Wie dem \autoref{lst:LoginDataSend} zu entnehmen ist, handelt es sich bei der Datenübertragung um ein JSON-Format, welches mittels \texttt{JSON.stringify()} aus \texttt{form\_data} generiert wird. Außerdem wird dem Header das CSRF-Token mitgegeben, um die Session auf ein höheres Sicherheitslevel zu heben. Mit \texttt{success} und \texttt{error} bietet Ajax die Möglichkeit auf die Antwort des Servers zu reagieren. Bei einem erfolgreichen request erfolgt mittels der Angaben in Zeile 8 ein redirect auf die Hauptseite. Erhält der XMPP-Client vom Server ein Fehler in Form eines HTTP-Statuscodes, so wird dem Benutzer eine Nachricht als HTML-Text generiert.\cite{jQueryAjax}\\
+Zur Vollständigkeit der JavaScript Datei gibt es lediglich noch Funktionen, die \ac{HTML}-Text ausgeben oder Klassen eines \ac{HTML}-Elements ändern. Diese haben keine große Auswirkung auf das Systemverhalten, weshalb keine detaillierte Erklärung Bestandteil der Studienarbeit ist. Die Überprüfung, wie sie dem Nutzer erscheint, ist in der \autoref{img:LoginUeberpruefungsVarianten} dargestellt.
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=\linewidth]{images/LoginUeberpruefungJSGesamt}
 	\caption{Überprüfungsvarianten der Login-Seite aus Nutzersicht, eigene Darstellung}
 	\label{img:LoginUeberpruefungsVarianten}
 \end{figure}
-Die \autoref{img:LoginUeberpruefungsVarianten} besteht dabei aus 3 Einzelbilder von denen die zwei linken Bilder Ergebnisse der Funktion \texttt{checkformIsFilled(form\_data)} darstellen. Das dritte Bild entsteht wiederum erst nach dem Datenaustausch mit dem Server. Wie schon bei dem Strukturaufbau gibt es auch bei den dynamischen Elementen kaum Unterschiede zwischen der Login-Seite und der \textbf{Registrierung-Seite}. Die JavaScript Datei \texttt{registerjs.js} wird um Validierungs-Funktionen ergänzt. Dabei wird verhindert, dass der Nutzer ungültige Daten an den Server senden kann. Grundsätzlich handelt es sich bei der Validierung um eine regular Expression (zu dt. Regulärer Ausdruck) oder der allgemeinen Kontrolle der Inputfelder. Das folgende \autoref{lst:RegisterValidateFunction} zeigt die Validierung des Textfeldes der E-Mail-Adresse.
+Die \autoref{img:LoginUeberpruefungsVarianten} besteht aus 3 Einzelbilder von denen die zwei linken Bilder Ergebnisse der Funktion \texttt{checkformIsFilled(form\_data)} darstellen. Das dritte Bild entsteht wiederum erst nach dem Datenaustausch mit dem Server. Der entsprechende Code kann dem \autoref{lst:LoginDataSend} Zeile 11 und 12 entnommen werden. Wie schon bei dem Strukturaufbau, gibt es auch bei den dynamischen Elementen kaum Unterschiede zwischen der Login-Seite und der \textbf{Registrierung-Seite}.
+Bei den Unterschieden und Ergänzungen handelt es sich um:
+\begin{itemize}
+	\item Erweiterung der Textfelder
+	\item Kein \glqq remember me\grqq
+	\item Validierungsfunktionen
+	\item Checkbox für die Datenschutzrichtlinie
+\end{itemize}
+Die Textfelder sind Bestandteil der Struktur und daher zu vernachlässigen. Die Darstellung aus Sicht des Benutzer ist in der \autoref{img:RegisterUeberpruefenJS} dargestellt. Die Validierungsfunktionen sind Bestandteil der \texttt{registerjs.js}. Diese Funktionen besitzen die Aufgabe, das Senden ungültiger Daten an den Server zu verhindern. Grundsätzlich handelt es sich bei der Validierung um eine regular Expression (zu dt. Regulärer Ausdruck) oder der allgemeinen Kontrolle der Inputfelder. Das folgende \autoref{lst:RegisterValidateFunction} zeigt die Validierung des Textfeldes der E-Mail-Adresse.
 \begin{lstlisting}[language=Javascript,caption=Validierungsfunktion \textit{validateEmail()},label={lst:RegisterValidateFunction}]
 function validateEmail(email, id_key) {
 if(re.test(String(email).toLowerCase()) == false) {
@@ -2843,14 +3004,15 @@ return false
 }
 return true };
 \end{lstlisting}
-Zu beachten ist die Variable \texttt{re}, welche eine regular expression darstellen soll. Aufgrund der Anzahl an Zeichen, ist die Variable nicht aufgeführt. Die E-Mail wird in Form der Variable \texttt{email} der test-Funktion, die auf der regular expression ausgeführt wird, mitgegeben. Dadurch wird überprüft ob die E-Mail alle typischen Merkmale aufweist. Ist dies nicht der Fall, so wird für den Nutzer eine Nachricht generiert, die als \ac{HTML}-Text dargestellt wird. Diese Art der Validierung steht symbolisch für die weiteren Funktionen, weshalb eine detaillierte Erläuterung aller Funktion nicht durchgeführt wird. Weitere Funktionen, welche nicht für die Funktionsfähigkeit zuständig sind, wie bspw. das Löschen der Benachrichtigungen oder das Leeren der Textfelder werden nicht detailliert erklärt und sind dem Source-Code zu entnehmen. Die Validierungs-Funktionen, sowie die Textnachrichten an den Nutzer, sind in der nachfolgenden \autoref{img:RegisterUeberpruefenJS} dargestellt.
+Zu beachten ist die Variable \texttt{re}, welche eine regular expression darstellen soll. Aufgrund der Anzahl an Zeichen, ist die Variable nicht aufgeführt und kann dem Source-Code entnommen werden. Die E-Mail wird in Form der Variable \texttt{email} der test-Funktion, die auf der regular expression ausgeführt wird, mitgegeben. Dadurch wird überprüft ob die E-Mail in Form des Strings alle typischen Merkmale aufweist. Ist dies nicht der Fall, so wird für dem Benutzer eine Nachricht generiert, die als \ac{HTML}-Text dargestellt wird. Diese Art der Validierung steht symbolisch für die weiteren Funktionen, weshalb eine detaillierte Erläuterung aller Funktion nicht durchgeführt wird. Weitere Funktionen, welche nicht für die Funktionsfähigkeit zuständig sind, wie bspw. das Löschen der Benachrichtigungen oder das Leeren der Textfelder werden nicht detailliert erklärt und sind dem Source-Code zu entnehmen. Die Validierungsfunktionen, sowie die Textnachrichten an den Nutzer, sind in der nachfolgenden \autoref{img:RegisterUeberpruefenJS} dargestellt.
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=1.25]{images/RegisterUeberpruefenJS}
+	\includegraphics[scale=0.58]{images/RegisterUeberpruefenJS}
 	\caption{Überprüfung der Registrierungs-Seite aus Nutzersicht, eigene Darstellung}
 	\label{img:RegisterUeberpruefenJS}
 \end{figure}\\
-Den größten Umfang an dynamischen Elementen besitzt die als Hauptseite spezifizierte \textbf{gochat.html}. Nach aktuellem Stand ist der JavaScript-Code Bestandteil dieses \ac{HTML}-Dokumentes. Hierbei wurde die Variante des script-Tags mit direktem JavaScript-Code verfolgt. Ansonsten sind keine weiteren äußeren Unterschiede zu den erklärten JavaScript-Dateien zu nennen. Aufgrund der Menge an \ac{JS}-Code werden lediglich für den Chat relevante Funktionen detailliert erläutert. Um die Funktionen, welche mithilfe von JS-Code umgesetzt werden können, zu erläutern, muss ihr jeweiliger Aufgabenbereich definiert werden. Dabei kann zur Orientierung \autoref{img:GochatUserview} betrachtet werden. Die Abbildung verknüpft die Möglichkeiten des Nutzers, mit Funktionen, die umgesetzt werden müssen. Die nachfolgende \autoref{tab:JavaScript Aufgabendefinition für gochat.html} bildet die Funktionen von gochat.html ab. Dabei sind die meisten Funktionen der \autoref{img:GochatUserview} zu entnehmen. Weitere Funktionen ergeben sich bei der Umsetzung und sind für den Nutzer nicht ersichtlich.
+Den größten Umfang an dynamischen Elementen besitzt die als Hauptseite spezifizierte \textbf{gochat.html} Datei. Wie bei den anderen HTML-Dokumenten wurden auch für die Hauptseite der JavaScript-Code strikt von dem HTML-Code getrennt. Die dynamischen Elemente sind in der \texttt{gochatjs.js} Datei definiert. Ansonsten sind keine weiteren äußeren Unterschiede zu den anderen JavaScript-Dateien zu nennen. 
+Aufgrund der Menge an \ac{JS}-Code werden lediglich für den Chat relevante Funktionen detailliert erläutert. Um die Funktionen, welche mithilfe von JS-Code umgesetzt werden können, zu erläutern, muss ihr jeweiliger Aufgabenbereich definiert werden. Dafür kann zur Orientierung \autoref{img:GochatUserview} betrachtet werden. Die Abbildung verknüpft die Möglichkeiten des Nutzers, mit Funktionen, die umgesetzt werden müssen. Die nachfolgende \autoref{tab:JavaScript Aufgabendefinition für gochat.html} bildet die Funktionen von gochat.html ab. Dabei sind die meisten Funktionen der \autoref{img:GochatUserview} zu entnehmen. Weitere Funktionen ergeben sich bei der Umsetzung und sind für den Nutzer nicht ersichtlich.
 \begin{table}[h]
 	\centering
 	\caption{Aufgabendefinition von der Chat-Seite}
@@ -2877,20 +3039,47 @@ Den größten Umfang an dynamischen Elementen besitzt die als Hauptseite spezifi
 	\end{tabular}
 	\label{tab:JavaScript Aufgabendefinition für gochat.html}
 \end{table}
-Um die Funktionen voneinander abzugrenzen wird in der letzten Spalte angegeben, ob die Funktion Auswirkung auf den Chat hat oder ob die Umsetzung überwiegend die Benutzerfreundlichkeit unterstützt. Infolgedessen stehen die Funktionen, welche für den Chat benötigt werden, in dem Vordergrund und werden detaillierter erläutert. Die erste Funktion handelt von der \textbf{Kontaktliste}, da die weiteren Funktionen sich auf Kontakte oder ähnliches beziehen. Für jede Funktion können Aufgaben definiert werden, welche abzudecken sind. Im Falle der Kontaktliste handelt es sich um folgende Aufgaben:
+Um die Funktionen voneinander abzugrenzen wird in der letzten Spalte angegeben, ob die Funktion Auswirkung auf den Chat hat oder ob die Umsetzung überwiegend die Benutzerfreundlichkeit unterstützt. Infolgedessen stehen die Funktionen, welche für den Chat benötigt werden, in dem Vordergrund und werden detaillierter erläutert.
+Was der Tabelle nicht zu entnehmen ist, sind Variablen die zu Beginn der JavaScript-Datei global initialisiert werden. Aufgrund der Abhängigkeit zahlreicher Funktionen zu dieser Variable, wird in einem ersten Schritt die Variable \texttt{chat\_messages} detailliert erläutert.\\
+Die globale Variable wird entsprechend des nachfolgenden Listings unabhängig von einem HTML-Elemente initialisiert.
+\begin{lstlisting}[language=Javascript,caption=Initialisierung des chatmessages Objekt,label={lst:ChatMessagesObject}]
+var chat_messages = {};
+\end{lstlisting}
+In JavaScript entspricht \texttt{\{\}} einem Objekt. Das Ziel des Objektes ist, für jeden Client seine Nachrichten und Chatpartner temporär zu halten, um durch Funktionen einen schnellen Zugriff zu erlangen. Die Darstellung des Objektes ist mit einem Dictionary von Python zu vergleichen. Das Füllen des Objektes erfolgt durch eine Kommunikation mit dem Server. Nach dem Erhalt der Daten sieht das Objekt, wie in \autoref{img:ChatMessagesObjectXMPP} dargestellt, aus.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth]{images/ChatMessagesObjectXMPP}
+	\caption{Dateninhalt des chat\_messages-Objektes, eigene Darstellung}
+	\label{img:ChatMessagesObjectXMPP}
+\end{figure} 
+Dementsprechend bringt der Server die Key-Value Paare in die dargestellte Form. Der erste Key entspricht dem angemeldeten Benutzer. Dem folgen seine Kontakte ebenfalls als Keys. Jedem Chatpartner kann so eindeutig der Chatverlauf zugeteilt werden.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth]{images/ChatMessagesObjectXMPP2}
+	\caption{Erweiterte Dateninhalte des chat\_messages-Objektes, eigene Darstellung}
+	\label{img:ChatMessagesObjectXMPP2}
+\end{figure}
+Ersichtlich ist dies in der \autoref{img:ChatMessagesObjectXMPP2}. Der Chatverlauf wird wiederum als Array gespeichert. Jeder Position wird ein JSON-Objekt zugeteilt. Dieses symbolisiert eine ausgetauschte Nachricht zwischen den Nutzern und hat folgende Einträgen:
+\begin{itemize}
+	\item from als Sender
+	\item timestamp als Zeitstempel
+	\item txt als Nachricht
+	\item type zur Identifierung des Nachrichtentyps
+\end{itemize}
+Im weiteren Verlauf werden die Funktionen der \autoref{tab:JavaScript Aufgabendefinition für gochat.html} erläutert. Wie das chat\_messages-Objekt für die Funktionen relevant ist, ist Bestandteil der Erläuterung.\\
+Die erste Funktion handelt von der \textbf{Kontaktliste}, da die weiteren Funktionen sich auf Kontakte oder ähnliches beziehen. Für jede Funktion können Aufgaben definiert werden, welche abzudecken sind. Im Falle der Kontaktliste handelt es sich um folgende Aufgaben:
 \begin{itemize}
 	\item Anzeigen aller Kontakte des angemeldeten Nutzers.
 	\item Neue Kontakte der Kontaktliste hinzufügen.
-	\item Ergänzungen wie bspw. die preview der Nachricht, der Kontaktliste hinzufügen.
+	\item Ergänzungen wie bspw. die Preview des entsprechenden Kontaktes zu aktivieren.
 \end{itemize}
-Die Aufgaben werden, je nach Verwendung in verschiedene Funktionen realisiert. Die Kontaktliste zu füllen übernimmt die Funktion \textit{fillInContactPeers()}. Dafür werden vorab die \ac{HTML}-Elemente benötigt, wie es das nachfolgende \autoref{lst:HTMLElementsForContaclistfunction} darstellt.
-\begin{lstlisting}[language=Javascript,caption=HTML Elemente für \textit{fillInContactPeers()},label={lst:HTMLElementsForContaclistfunction}]
+Die Aufgaben werden, je nach Verwendung in verschiedene Funktionen realisiert. Die Kontaktliste zu füllen übernimmt die Funktion \texttt{fillInContactPeers()}. Dafür werden vorab die \ac{HTML}-Elemente benötigt, wie es das nachfolgende \autoref{lst:HTMLElementsForContaclistfunction} darstellt.
+\begin{lstlisting}[language=Javascript,caption=HTML Elemente für \texttt{fillInContactPeers()},label={lst:HTMLElementsForContaclistfunction}]
 var contact_ul = $("#contacts_list");
 var user_name = $('#NameOnlineAvatar').text();
 \end{lstlisting}
-Außerdem werden die Kontakte aus der Datenbank benötigt. Dafür wird mittels Ajax ein Request an den Server %TODO welche Server?
-gesendet. Der Request wird wiederum durch eine andere Funktion umgesetzt, welche zu einer anderen Aufgabe gehört und zu einem späteren Zeitpunkt erläutert wird. Die Umsetzung der zu hinzufügenden Kontakten wird innerhalb einer For-Schleife, wie es dem \autoref{lst:HTMLElementsForContaclistfunction} zu entnehmen ist, gelöst.
-\begin{lstlisting}[language=Javascript,caption=HTML Elemente für \textit{fillInContactPeers()},label={lst:HTMLElementsForContaclistfunction}]
+Außerdem werden die Kontakte aus der Datenbank benötigt. Dafür wird mittels Ajax ein Request an den Server gesendet. Der Request wird wiederum durch eine andere Funktion umgesetzt, welche zu einer anderen Aufgabe gehört und zu einem späteren Zeitpunkt erläutert wird. Die Umsetzung der zu hinzufügenden Kontakten wird innerhalb einer For-Schleife, wie es dem \autoref{lst:HTMLElementsForContaclistfunction} zu entnehmen ist, gelöst.
+\begin{lstlisting}[language=Javascript,caption=HTML Elemente für \texttt{fillInContactPeers()},label={lst:HTMLElementsForContaclistfunction}]
 for (const peer of Object.keys(chat_messages[user_name]))
 {
 var position_last_message_object = chat_messages[user_name][peer].length - 1;
@@ -2898,51 +3087,70 @@ var last_message_dict = chat_messages[user_name][peer][position_last_message_obj
 var message_string = last_message_dict.txt;
 if (last_message_dict.from == user_name)
 {
-message_string = "<span>You:</span> " + message_string;
+	message_string = "<span>You:</span> " + message_string;
 }
-// Elemente in HTML-Element einbinden
+// Variablen in HTML-Element einbinden
 }
 \end{lstlisting}
-Dafür wird mittels \texttt{Object.keys(chat\_messages[user\_name])} auf die Kontaktnamen, mit dem der angemeldete User geschrieben hat zugegriffen. Mithilfe der Variablen \texttt{position\_last\_message\_object} wird aus dem Response die Position der letzten Nachricht, bei dem sowohl der angemeldete User (\texttt{user\_name}) als auch der Kontakt (\texttt{peer}) übereinstimmt, gefiltert. Dadurch lässt sich in Zeile 4 die Eigenschaften der letzten Nachricht in Form eines Dictionarys ermitteln. % TODO Überprüfung ob Dictionary bei JS korrekt ist?
-Mit der If-Bedingung wird überprüft ob die Nachricht gesendet oder empfangen wurde. Danach erfolgt lediglich das Einbinden der Elemente in den \ac{HTML}-Content, wie er in der \autoref{img:Sidepanel} dargestellt ist. Mit der vervollständigten Kontaktliste kann die nächste Funktion erläutert werden. Dabei handelts es sich um die \textbf{Aktivierung des Kontaktes}. Diese Möglichkeit gehört zur Chat-Funktionalität und der Usability. Das liegt daran, dass der Nutzer eine Übersicht bekommt welcher Kontakt gerade ausgewählt ist. Außerdem wird der aktive Kontakt benötigt um ihm im Chatfenster anzuzeigen damit der angemeldete Benutzer mit diesem Kontakt schreiben kann. Daher wird der Funktion beide Aspekte zugeordnet. Für die Aktivierung der Kontakte innerhalb der Kontaktliste müssen zwei Ausgangssituation betrachtet werden. Zum Einen soll nach dem Login stets der erste Kontakt aktiviert werden. In allen anderen Fällen erfolgt die Aktivierung über einen Klick auf den entsprechenden Kontakt.
-
+Dafür wird mittels \texttt{Object.keys(chat\_messages[user\_name])} auf die Kontakte des angemeldeten Nutzers zugegriffen. Mithilfe der Variablen \texttt{position\_last\_message\_object} wird aus dem Objekt die Position der letzten Nachricht, bei dem sowohl der angemeldete User (\texttt{user\_name}) als auch der Kontaktpartner (\texttt{peer}) übereinstimmt, gefiltert. Dadurch lässt sich in Zeile 4 die Eigenschaften der letzten Nachricht in Form eines Zugriffs auf ein Dictionary ermitteln. Mit der If-Bedingung wird überprüft ob die Nachricht gesendet oder empfangen wurde. Danach erfolgt lediglich das Einbinden der Elemente in den \ac{HTML}-Content, wie er in der \autoref{img:Sidepanel} dargestellt ist.\\
+Mit der vervollständigten Kontaktliste kann die nächste Funktion erläutert werden. Dabei handelts es sich um die \textbf{Aktivierung des Kontaktes}. Diese Möglichkeit gehört zur Chat-Funktionalität und der Usability. Das liegt daran, dass der Nutzer eine Übersicht bekommt welcher Kontakt gerade ausgewählt ist. Außerdem wird der aktive Kontakt benötigt um ihm im Chatfenster anzuzeigen damit der angemeldete Benutzer mit diesem Kontakt schreiben kann. Daher wird der Funktion beide Aspekte zugeordnet. Für die Aktivierung der Kontakte innerhalb der Kontaktliste müssen zwei Ausgangssituation betrachtet werden. Zum Einen soll nach dem Login stets der erste Kontakt aktiviert werden. In allen anderen Fällen erfolgt die Aktivierung über einen Klick auf den entsprechenden Kontakt.\\
 Für die Umsetzung sind mögliche Fehlerquellen zu verhindern. Eine der häufigsten Fehlerquellen bei \ac{JS} ist der Zugriff auf ein Objekt, welches noch nicht vollständigen geladen wurde. JavaScript bzw. jQuery bietet hierfür durch eine \texttt{ready}-Funktion, welche auf das \ac{DOM} angewendet wird, Abhilfe.
 \begin{lstlisting}[language=Javascript,caption= Ready() Funktion von jQuery,label={lst:jQueryReadyFunction}]
 $(document).ready(function(){
-$("contacts").addClass("singleContacts") });
+$("contacts").addClass("exampleClass") });
 \end{lstlisting}
-Das \glqq Ready\grqq, wie es im \autoref{lst:jQueryReadyFunction} dargestellt ist, bildet das Event. Dieses spezielle Event lässt sich wiederum nur auf das aktuelle \glqq document\grqq{} anwenden. In diesem speziellen Fall wird das Event erst ausgelöst wenn das \ac{DOM} vollständig geladen hat. Wird nun auf \ac{HTML}-Elemente zugegriffen, ist es sinnvoll die Funktion nach Auslösen des Events aufzurufen bzw. zu implementieren. \cite{w3schoolsJQueryReady}
-
-Diese Art der Implementierung kam bei der Aktivierung der Kontakte zum Einsatz, wobei die Intervall-Funktion den interessanteren Abschnitt bildet. Sie ist ebenfalls im \autoref{lst:IntervallFunctionForChecking} dargestellt.
-\begin{lstlisting}[language=Javascript,caption= Ready() Funktion mit der Intervall-Funktion zue Überprüfung der Kontaktliste,label={lst:IntervallFunctionForChecking}]
+Das \glqq Ready\grqq, wie es im \autoref{lst:jQueryReadyFunction} dargestellt ist, bildet das Event. Dieses spezielle Event lässt sich wiederum nur auf das aktuelle \glqq document\grqq{} anwenden. In diesem speziellen Fall wird das Event erst ausgelöst wenn das \ac{DOM} vollständig geladen hat. Wird nun auf \ac{HTML}-Elemente zugegriffen, ist es sinnvoll die Funktion nach Auslösen des Events aufzurufen bzw. zu implementieren. \cite{w3schoolsJQueryReady}\\
+Das \ac{DOM} lässt sich als eine Repräsentation eines HTML- oder XML-Dokumentes definieren. Demnach besitzt das DOM alle strukturellen HTML-Elemente der Webseite und ist wie in der \autoref{img:HTMLDOM} dargestellt aufgebaut.\cite{w3schoolsDOM}
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=1.2]{images/HTMLDOM}
+	\caption{Beispiel eines Document Object Model, \cite{w3schoolsDOM}}
+	\label{img:HTMLDOM}
+\end{figure}\\
+Um im weiteren Verlauf die Kontakte zu aktivieren wird das Konzept der \texttt{ready-Funktion} angewendet. Außerdem wird zur Umsetzung eine Intervall-Funktion benötigt. Beide Konzepte sind im \autoref{lst:IntervallFunctionForChecking} dargestellt. Die Intervall-Funktion wird für das Funktionsprinzip benötigt und wird von JavaScript angeboten. Mit \texttt{setInterval(function()\{\})}, aus Zeile 3 des Listings, bietet JavaScript die Möglichkeit in einem bestimmten Zeitintervall konstant Code auszuführen. \cite{w3schoolssetInterval}\\
+Im Fall des \autoref{lst:IntervallFunctionForChecking} wird nach jeder Sekunde die Methode \texttt{checkExistingofElement(stopIntervall)}, welche überprüft ob sich ein Kontakt in der Kontaktliste befindet, aufgerufen. An dieser Stelle ist ein Widerspruch zur ready-Funktion zu erkennen, da diese Funktion erst ausgelöst wird wenn alles geladen ist. 
+\begin{lstlisting}[language=Javascript,caption= Ready() Funktion mit der Intervall-Funktion zur Überprüfung der Kontaktliste,label={lst:IntervallFunctionForChecking}]
 $(document).ready( function() {
-var stopIntervall 
-stopIntervall = setInterval(function() {
-checkExistingofElement(stopIntervall)
-}, 1000);
+	var stopIntervall 
+	stopIntervall = setInterval(function() {
+		checkExistingofElement(stopIntervall)
+	}, 1000);
 });
 \end{lstlisting}
-Mit \texttt{setInterval(function()\{\});} bietet JavaScript die Möglichkeit in einem bestimmten Zeitintervall konstant Code auszuführen.\cite{w3schoolssetInterval}\\Im Fall des \autoref{lst:IntervallFunctionForChecking} wird nach jeder Sekunde die Methode \texttt{checkExistingofElement(stopIntervall)}, welche überprüft ob sich ein Kontakt in der Kontaktliste befindet, aufgerufen. An dieser Stelle ist ein Widerspruch zur ready-Funktion zu erkennen, da diese Funktion erst ausgelöst wird wenn alles geladen ist. Grund für eine Überprüfung nach dem Prinzip (\autoref{lst:IntervallFunctionForChecking}) ist das dynamische Hinzufügen der Kontakte aus der Datenbank, welche über die Funktion \texttt{fillInContactPeers()} realisiert wurde. Der Funktion \texttt{checkExistingofElement(stopIntervall)} wird der Parameter \texttt{stopIntervall} übergeben. Die Variablen wird mit der ID der Intervall-Funktion initialisiert, um zu einem späteren Zeitpunkt die Intervall-Funktion zu stoppen. Ein Ablauf der Funktion ist in der \autoref{img:FunctionCheckExisitingofElement} dargestellt.
+Grund für eine Überprüfung nach dem Prinzip (\autoref{lst:IntervallFunctionForChecking}) ist das dynamische Hinzufügen der Kontakte aus der Datenbank, welche über die Funktion \texttt{fillInContactPeers()} realisiert wird. Der Funktion \texttt{checkExistingofElement(stopIntervall)} wird der Parameter \texttt{stopIntervall} übergeben. Die Variablen wird mit der ID der Intervall-Funktion initialisiert, um zu einem späteren Zeitpunkt die Intervall-Funktion zu stoppen. Ein Ablauf der Funktion ist in der \autoref{img:FunctionCheckExisitingofElement} dargestellt.
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.7]{images/FunctionCheckExisitingofElement}
-	\caption{Ablauf der Funktion \textit{checkExistingofElement(stopIntervall)}, eigene Darstellung}
+	\caption{Ablauf der Funktion \texttt{checkExistingofElement(stopIntervall)}, eigene Darstellung}
 	\label{img:FunctionCheckExisitingofElement}
 \end{figure}
-Die Fortsetzung zur Aktivierung des ersten Kontaktes erfolgt über die Funktion \texttt{filterFirstContact()}, welche lediglich dem entsprechenden \ac{HTML}-Element eine Klasse entfernt und dem anderen eine Klasse hinzufügt. Diese Funktion wird daher nicht detailliert erläutert. Zum Abschluss der Aktivierung wird aus der vorherigen Funktion die Funktion \texttt{firstactiveContact(li)} aufgerufen. Auch diese Funktion bearbeitet die \ac{HTML}-Elemente und bildet für die Chat-Funktionalität keine größere Bedeutung. Das Ergebnis der Funktion ist, dass der erste Kontakt in den Chat-Fenster geladen wird. Wie zu Beginn der Aufgabe erwähnt, werden die Kontakte auch durch ein Klick aktiviert. Dies ist wiederum in einer separaten Funktion realisiert. Diese Funktion unterscheidet sich von \texttt{firstactiveContact(li)} kaum, hat aber kleinere Ergänzungen, welche dazu beitragen, dass die Funktion separiert wurde. Bei den Ergänzungen handelt sich bspw. um die Möglichkeit die Kontaktklasse zwischen zwei Klassen zu wechseln, was unter \ac{JS} mit \texttt{.toggleClass()} realisiert wird. Der Einsatz dieser Funktion ist im \autoref{lst:ToggleContactClass} abgebildet.
+Die Fortsetzung zur Aktivierung des ersten Kontaktes erfolgt über die Funktion \texttt{filterFirstContact()}, welche lediglich dem entsprechenden \ac{HTML}-Element eine Klasse entfernt und dem ersten Kontakt in Form des ersten Listeneintrags eine Klasse hinzufügt(\autoref{lst:FilterFirstContactFunction}).
+\begin{lstlisting}[language=Javascript,caption= \texttt{filterFirstContact}-Funktion,label={lst:FilterFirstContactFunction}]
+function filterFirstContact(){
+	var ul_tag, li
+	$(".contact.active").removeClass('active');
+	ul_tag = document.getElementById('contacts_list');
+	li = ul_tag.getElementsByTagName("li")[0];
+	$(li).addClass("active")
+	firstactiveContact(li);  
+}
+\end{lstlisting}
+Das Resultat dieser Funktion ist die Erweiterung des ersten Listeneintrags um eine weitere Klasse. Die entsprechende Auswirkung auf den Benutzer wird durch CSS realisiert.
+Zum Abschluss der Aktivierung wird aus der vorherigen Funktion die Funktion \texttt{firstactiveContact(li)} aufgerufen. Auch diese Methode bearbeitet ausschließlich die \ac{HTML}-Elemente. Das Ergebnis der Funktion ist, dass der erste Kontakt in den Chat-Fenster geladen wird. Wie zu Beginn der Aufgabe erwähnt, werden die Kontakte auch durch ein Klick aktiviert. Dies ist wiederum in einer separaten Funktion realisiert. Diese Funktion unterscheidet sich von \texttt{firstactiveContact(li)} kaum, hat aber kleinere Ergänzungen, welche dazu beitragen, dass die Funktion separiert wird. Bei den Ergänzungen handelt sich bspw. um die Möglichkeit die Kontaktklasse zwischen zwei Klassen zu wechseln, was unter \ac{JS} mit \texttt{.toggleClass()} realisiert wird. Der mögliche Einsatz dieser Funktion ist im \autoref{lst:ToggleContactClass} abgebildet.
 \begin{lstlisting}[language=Javascript,caption=Togglen der Klasse des ausgewählten Kontaktes,label={lst:ToggleContactClass}]
 $(".contact.active").removeClass('active');
 $(this).toggleClass('contact');
 $(this).toggleClass('contact active');
 \end{lstlisting}
-Außerdem steht die Funktion im Zusammenhang mit der \glqq Kontakt suchen\grqq{} Funktion, welche nicht detailliert erläutert wird, da es sich dabei um eine Funktion für die Benutzerfreundlichkeit handelt. Bei einer weiteren Funktion, welche für die Chat-Funktionalität relevant ist, handelt es sich um das \textbf{Hinzufügen von Kontakten}. Der Nutzer kann die Funktion benutzen indem er einen Button unterhalb des Sidepanels, wie es in \autoref{img:GochatUserview} dargestellt ist, anklickt. Diese Anwendung durch den Benutzer schließt schon auf die Umsetzung der Funktion mit JavaScript, wobei dem Nutzer mithilfe von Bootstrap und \ac{HTML} vorab ein weiteres Fenster, wie es in der \autoref{img:AddContactWindow} dargestellt ist, angezeigt wird. 
+Außerdem steht die Funktion im Zusammenhang mit der \glqq Kontakt suchen\grqq{} Funktion, welche nicht detailliert erläutert wird, da es sich dabei um eine Funktion für die Benutzerfreundlichkeit handelt.\\
+Bei einer weiteren Funktion, welche für die Chat-Funktionalität relevant ist, handelt es sich um das \textbf{Hinzufügen von Kontakten}. Der Nutzer kann die Funktion benutzen indem er einen Button unterhalb des Sidepanels, wie es in \autoref{img:GochatUserview} dargestellt ist, anklickt. Diese Anwendung durch den Benutzer schließt schon auf die Umsetzung der Funktion mit JavaScript, wobei dem Nutzer mithilfe von Bootstrap und \ac{HTML} vorab ein weiteres Fenster, wie es in der \autoref{img:AddContactWindow} dargestellt ist, angezeigt wird. Hierbei handelt es sich um eine Bootstrap-Komponente namens \texttt{modal}. Wie Bootstrap-Komponente implementiert werden ist Bestandteil von \autoref{sec:Bootstrap}. 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=1.0]{images/AddContactWindow}
 	\caption{Extrafenster aus Sicht des Nutzers um ein Kontakt hinzuzufügen, eigene Darstellung}
 	\label{img:AddContactWindow}
 \end{figure}
-Dadurch besitzt der Nutzer die Möglichkeit einen Kontakt in das Textfeld einzutragen. Mit dem Klick auf den Button \glqq Add contact\grqq{} wird seine Eingabe bestätigt. Dieser Button bzw. der Klick wird als Event zum Auslösen einer Funktion genutzt, wie es nachfolgend (\autoref{lst:AddContactClickFunction}) ausschnittsweise dargestellt wird.
+Mit dem Modal besitzt der Nutzer die Möglichkeit einen Kontakt in das Textfeld einzutragen. Mit dem Klick auf den Button \glqq Add contact\grqq{} wird seine Eingabe bestätigt. Dieser Button bzw. der Klick wird als Event zum Auslösen einer Funktion genutzt, wie es nachfolgend (\autoref{lst:AddContactClickFunction}) ausschnittsweise dargestellt wird.
 \begin{lstlisting}[language=Javascript,caption=Funktionsverknüpfung an den Kontak hinzufügen Button unter JS,label={lst:AddContactClickFunction}]
 $("#addContactButton").click(function(){}
 \end{lstlisting}
@@ -2951,11 +3159,46 @@ Diese Funktion kann, wie schon beim Anmeldeformular, vor dem Senden der Daten an
 var letters = /^[A-Za-z]+[0-9]*$/;
 if(!addContactName.match(letters))
 {
-// Rückmeldung an den Benutzer
-return false;
+	// Rückmeldung an den Benutzer
+	return false;
 }
 \end{lstlisting}
-Das \autoref{lst:AddContactClickInputCheck} stellt die Überprüfung dar und gibt im Fehlerfall eine Rückmeldung an den Benutzer. Eine weitere Fehlerquellen ist die Eingabe seines eigenen Namens. Aufgrund der Eindeutigkeit eines Benutzernamens wäre es ergebnislos die Daten an den Server zu senden. Die letzte Überprüfung vor dem Request an den Server ist die Überprüfung der Kontaktliste. Dadurch wird verhindert ein bereits hinzugefügten Kontakt erneut hinzuzufügen. Anschließend erfolgt der Request an den Server. Sollte der Namen nicht registriert sein bekommt der Client eine Rückmeldung, welche leicht umgewandelt als \ac{HTML}-Text dem Benutzer angezeigt wird. Bei einem erfolgreichen Request wird die Funktion \texttt{addContactToList(name, preview\_message)} aufgerufen. Die Funktion fügt den Kontakt der Kontaktlist hinzu. Aufgrund der Ähnlichkeit zu bereits erläuterten Funktionen wird diese Funktion nicht detailliert erläutert. Bei Betrachtung der \autoref{tab:JavaScript Aufgabendefinition für gochat.html} ist ersichtlich, dass die Funktion des Einzel- und Gruppenchats sowie Funktionen, welche die Nachrichten betreffen, noch nicht detailliert erläutert wurden. Die Funktion für den Wechsel der Chatart ist aufgrund der Zuordnung zur Benutzerfreundlichkeit und keiner größeren Relevanz für die Chat-Funktionalität nicht erwähnenswert. Anders verhält es sich bei den Funktionen, die sich mit den Nachrichten befassen. Diese werden wiederum benötigt damit die Clients sich Nachrichten senden und anzeigen lassen können. Aufgrund der Komplexität wurde die gesamte Nachrichten-Funktionalität in mehrere Teilfunktionen ausgelagert. Einen Überblick über alle Funktionen soll die nachfolgende \autoref{tab:FunctionsForMessagesJS} bieten.
+Das \autoref{lst:AddContactClickInputCheck} stellt die Überprüfung dar und gibt im Fehlerfall eine Rückmeldung an den Benutzer. Eine weitere Fehlerquellen ist die Eingabe seines eigenen Namens (\autoref{lst:AddContactClickInputCheckOwnName}).
+\begin{lstlisting}[language=Javascript,caption=Überprüfung der Eingabe auf eigenen Namen,label={lst:AddContactClickInputCheckOwnName}]
+if(addContactName == $('#NameOnlineAvatar').text())
+{
+	// Rückmeldung an den Benutzer
+	return false;
+}
+\end{lstlisting} 
+Aufgrund der Eindeutigkeit eines Benutzernamens wäre es ergebnislos die Daten an den Server zu senden. Die letzte Überprüfung vor dem Request an den Server ist die Überprüfung der Kontaktliste. Dafür gibt es mehrere Möglichkeiten. Die erste Variante ist die Überprüfung der p-Tags von dem jeweiligen Listeneintrag der Kontaktliste. Die zweite Möglichkeit ist die Abfrage des chat\_messages Objekt. Aufgrund des Key-Value-Prinzips erfolgt ein Datenzugriff schneller, als ein Iterieren über die Kontaktliste. Aus diesem Grund wird die zweite Variante implementiert (\autoref{lst:AddContactClickInputCheckExistingsContact}).
+\begin{lstlisting}[language=Javascript,caption=Überprüfung der Eingabe einen bereits vorhandenen Kontakt,label={lst:AddContactClickInputCheckExistingsContact}]
+if(addContactName in chat_messages[$('#NameOnlineAvatar').text()])
+{
+	// Rückmeldung an den Benutzer
+	return false;
+}
+\end{lstlisting} 
+Dadurch wird verhindert einen bereits hinzugefügten Kontakt erneut hinzuzufügen. Anschließend erfolgt der Request an den Server. Sollte der Namen nicht registriert sein bekommt der Client eine Rückmeldung, welche leicht umgewandelt als \ac{HTML}-Text dem Benutzer angezeigt wird. Bei einem erfolgreichen Request wird die Funktion \texttt{addContactToList(name, preview\_message)} aufgerufen. Die Funktion fügt den Kontakt der Kontaktlist hinzu. Aufgrund der strikten Trennung von HTML und JavaScript sind Funktionen, welche HTML-Elemente konstruieren, nicht Bestandteil des Abschnittes. Zur Verdeutlichung der Möglichkeiten von JavaScript, ein HTML-Element zu integrieren, wird so eine Funktion wie \texttt{addContactToList(name, preview\_message)} einmalig erläutert (\autoref{lst:AddContacttoList}). Weitere Funktion, die diese Prinzip anwenden, werden im weiteren Verlauf nicht detailliert erklärt.
+\begin{lstlisting}[language=Javascript,caption=Hinzufügen des Kontaktes mithilfe von HTML-Elementen,label={lst:AddContacttoList}]
+function addContactToList(name, preview_message)
+{
+var contact_ul = $('#contacts_list');
+contact_ul.append(`
+	<li class="contact" id="${name}">
+	<div class="wrap">
+	<span class="contact-status online"></span>
+	<img src="{{url_for('static', filename='img/usericon2.png')}}" alt="Avatar">
+	<div class="meta">
+	<p class="name">${name}</p>
+	<p class="preview">${preview_message}</p>
+	</div>
+	</div>
+	</li>`);
+}
+\end{lstlisting}  
+Die angewendete Funktion \texttt{.append} wird durch jQuery ermöglicht. Dadurch lässt sich an das entsprechende HTML-Element, HTML-Code anhängen. Mit dem Konstrukt \texttt{\$\{name\}} wird ermöglicht, JavaScript-Variablen in den HTML-Code zu integrieren.\\ 
+Bei Betrachtung der \autoref{tab:JavaScript Aufgabendefinition für gochat.html} ist ersichtlich, dass die Funktion des Einzel- und Gruppenchats sowie Funktionen, welche die Nachrichten betreffen, noch nicht detailliert erläutert wurden. Die Funktion für den Wechsel der Chatart ist aufgrund der Zuordnung zur Benutzerfreundlichkeit und keiner größeren Relevanz für die Chat-Funktionalität nicht erwähnenswert. Anders verhält es sich bei den Funktionen, die sich mit den Nachrichten befassen. Diese werden wiederum benötigt damit die Clients sich Nachrichten senden und anzeigen lassen können. Aufgrund der Komplexität wurde die gesamte Nachrichten-Funktionalität in mehrere Teilfunktionen ausgelagert. Einen Überblick über alle Funktionen soll die nachfolgende \autoref{tab:FunctionsForMessagesJS} bieten. Darin aufgeführt sind sowohl die Funktionsnamen als auch eine kurze Beschreibung der Funktion.
 \begin{table}[h]
 	\centering
 	\caption{Funktionen zum Nachrichten senden und anzeigen lassen}
@@ -2976,49 +3219,52 @@ Das \autoref{lst:AddContactClickInputCheck} stellt die Überprüfung dar und gib
 	\end{tabular}
 	\label{tab:FunctionsForMessagesJS}
 \end{table}
-Damit ein Nutzer zum Zeitpunkt seines Logins auf die Nachrichten zugreifen kann wird im JavaScript die Funktion \textit{pull\_chat\_hisotry(username)} unabhängig von den \ac{HTML}-Elementen aufgerufen.
-\begin{lstlisting}[language=Javascript,caption=Aufruf der Funktion mit der relevanten Variablen dekleration,label={lst:FunctioncallAndVariable}]
-var chat_messages = {};
+Damit Funktionen zum Zeitpunkt eines Logins des Nutzers auf die Nachrichten zugreifen können, wird im JavaScript die Funktion \texttt{pull\_chat\_hisotry(username)} unabhängig von den \ac{HTML}-Elementen aufgerufen (\autoref{lst:FunctioncallAndVariable}).
+\begin{lstlisting}[language=Javascript,caption=Aufruf der Funktion \texttt{pull\_chat\_hisotry(username)},label={lst:FunctioncallAndVariable}]
 pull_chat_hisotry($('#NameOnlineAvatar').text());
 \end{lstlisting}
-Außerdem zeigt das \autoref{lst:FunctioncallAndVariable}, zusätzlich zum Aufruf, die Variable, welche alle Nachrichten des angemeldeten Benutzers in Form eines Dictionarys enthalten soll. Die Variable wird wiederum innerhalb der Funktion initialisiert. Bei den Einzelheiten der Funktion handelt es sich vor allem um den Post-Request an den Server mittels Ajax. 
+Zudem erfolgt innerhalb der Funktion die Initialisierung des chat\_messages-Objekt. Übergeben wird der Funktion, mittels jQuery, der Benutzernamen des angemeldeten Nutzers.
+Bei den Einzelheiten der Funktion handelt es sich vor allem um den Post-Request an den Server mittels Ajax. Ein Ausschnitt ist im \autoref{lst:FunctionChathistory} dargestellt und zeigt, dass die Variable \texttt{chat\_messages} mit der Antwort des Servers initialisiert wird.
 \begin{lstlisting}[language=Javascript,caption=Ausschnitt aus der Funktion \textit{pull\_chat\_hisotry(username)} ,label={lst:FunctionChathistory}]
 var URL = "/get_chathistory";
 const post_data = {"username": username};
-$.ajax({url: URL, type: "post",
-data: JSON.stringify(post_data),
-success: function(response_data){
-chat_messages = response_data;
-fillInContactPeers();
-}
+$.ajax({
+	url: URL, type: "post",
+	data: JSON.stringify(post_data),
+	success: function(response_data){
+		chat_messages = response_data;
+		fillInContactPeers();
+	}
 });
 \end{lstlisting}
-Ein Ausschnitt ist im \autoref{lst:FunctionChathistory} dargestellt und zeigt, dass die Variable \texttt{chat\_messages} mit der Antwort des Servers initialisiert wird. Demnach enthält die Variable den gesamten Nachrichtenverlauf des angemeldeten Benutzers, vorausgesetzt das Backend sendet die Daten korrekt. Mit der \texttt{URL} Variable wird die Route angesprochen, welche für die Datenübertragung zuständig ist. Nach dem erfolgreichen Request und dem Erhalt der Response wird nicht nur die Variable initialisiert, sondern auch die Funktion \texttt{fillInContactPeers()} aufgerufen, welche aber zu einem früheren Zeitpunkt bereits erläutert wurde. Mehr Funktionsinhalte kann \texttt{pull\_chat\_hisotry(username)} nicht zugeteilt werden. Die Funktion besitzt aufgrund der Initialisierung der Variable eine große Bedeutung für die Chat-Funktionalität. Die nächste Funktion \texttt{fill\_in\_chat\_msgs\_single\_chat(user\_name, peer\_name)} kann aufgrund des gefüllten Dictionarys aufgerufen werden. Übergeben werden der Funktion der Benutzername des angemeldeten Benutzers und der Name des aktiven Kontaktes. 
-\begin{lstlisting}[language=Javascript,caption=Ausschnitt aus der Funktion \textit{pull\_chat\_hisotry(username)} ,label={lst:FunctionFillInChat}]
+Demnach enthält die Variable den gesamten Nachrichtenverlauf des angemeldeten Benutzers, vorausgesetzt der Server sendet die Daten korrekt. Mit der \texttt{URL} Variable wird die Route angesprochen, welche für die Datenübertragung zuständig ist. Nach dem erfolgreichen Request und dem Erhalt der Response wird nicht nur die Variable initialisiert, sondern auch die Funktion \texttt{fillInContactPeers()} aufgerufen, welche bereits definiert ist. Mehr Funktionsinhalte kann der Methode texttt{pull\_chat\_hisotry(username)} nicht zugeteilt werden. Die Funktion besitzt aufgrund der Initialisierung der Variable eine große Bedeutung für die Chat-Funktionalität.\\
+Die nächste Funktion \texttt{fill\_in\_chat\_msgs\_single\_chat(user\_name, peer\_name)} kann aufgrund des gefüllten chat\_messages-Objekt aufgerufen werden. Übergeben werden der Funktion der Benutzername des angemeldeten Nutzers und der Name des aktiven Kontaktes. 
+\begin{lstlisting}[language=Javascript,caption=Ausschnitt aus der Funktion \texttt{pull\_chat\_hisotry(username)} ,label={lst:FunctionFillInChat}]
 for (var i=0; i<chat_messages[user_name][peer_name].length; i++ ) {
 var msg_timestamp = chat_messages[user_name][peer_name][i].timestamp;
 msg_timestamp = msg_timestamp.substring(0, msg_timestamp.length-3);
-if (chat_messages[user_name][peer_name][i].from == user_name)
-{
-// Ausgeben der Nachricht als "YOU"	
-} else if(chat_messages[user_name][peer_name][i].from == peer_name)
-{	
-// Ausgeben der Nachricht als Empfangen
-}
+	if (chat_messages[user_name][peer_name][i].from == user_name)
+	{
+		// Ausgeben der Nachricht als "YOU"	
+	} else if(chat_messages[user_name][peer_name][i].from == peer_name)
+	{	
+		// Ausgeben der Nachricht als Empfangen
+	}
 }
 \end{lstlisting}
-Die Funktion greift grundsätzlich auf das Dicitonary \texttt{chat\_messages} zu (\autoref{lst:FunctionFillInChat}), um die Nachrichten entsprechend des Benutzers auszugeben. Daher wird die Funktion erst nach Ausgabe der Kontaktliste aufgerufen. Wie dem \autoref{lst:FunctionFillInChat} zu entnehmen ist, wird die Ausgabe der Nachrichten in einer For-Schleife realisiert. Diese Schleife iteriert über die Anzahl der Nachrichten des Nachrichtenverlaufs zwischen den Übergabeparametern. Anschließend wird für die Ausgabe der Zeit das richtige Format einer Variable zugewiesen. In Zeile 5 erfolgt die erste Überprüfung ob es sich bei der Nachricht aus dem Dictionary um eine gesendete oder empfangene Nachricht handelt. Je nachdem welche If-Bedingung zutrifft, wird die Nachricht anders in das Chat-Fenster ausgegeben. Zum Abschluss, was das \autoref{lst:FunctionFillInChat} nicht aufzeigt, wird das \ac{HTML}-Element bzw. das Chat-Fenster herunter gescrollt. Dadurch sieht der Benutzer sofort die letzten Nachrichten. Beide erläuterte Funktionen sind für die Ausgabe von Nachrichten zuständig. Die weiteren Funktionen, bis auf \texttt{printSingleChatMessage\linebreak(JSON\_DATA)}, befassen sich mit dem Senden und Empfangen von Nachrichten. Zunächst wird das Empfangen von Nachrichten erläutert. Dafür wird das folgende \autoref{lst:EventStreamFunction} betrachtet.
+Die Mehtode wird an mehreren Stellen aufgerufen. Als Ziel hat die Funktion, das Chat-Fenster mit dem Nachrichtenverlauf zu füllen. Daher finden der Funktionsaufruf überall statt, wo der Kontakt bspw. durch ein Klick aktiviert wird. Die Funktion greift grundsätzlich auf das Objekt \texttt{chat\_messages} zu (\autoref{lst:FunctionFillInChat}), um die Nachrichten entsprechend des Benutzers auszugeben. Daher wird die Funktion erst nach Ausgabe der Kontaktliste aufgerufen. Wie dem \autoref{lst:FunctionFillInChat} zu entnehmen ist, wird die Ausgabe der Nachrichten in einer For-Schleife realisiert. Diese Schleife iteriert über die Anzahl der Nachrichten des Nachrichtenverlaufs zwischen den Übergabeparametern. Anschließend wird für die Ausgabe der Zeit das richtige Format einer Variable zugewiesen. In Zeile 5 erfolgt die erste Überprüfung ob es sich bei der Nachricht aus dem Objekt um eine gesendete oder empfangene Nachricht handelt. Je nachdem welche If-Bedingung zutrifft, wird die Nachricht anders in das Chat-Fenster ausgegeben. Zum Abschluss, was das \autoref{lst:FunctionFillInChat} nicht aufzeigt, wird das \ac{HTML}-Element bzw. das Chat-Fenster herunter gescrollt. Dadurch sieht der Benutzer sofort die letzten Nachrichten. Andere Methode zur Ausgabe von dem Nachrichtenverlauf werden nicht benötigt.\\
+Die weiteren Funktionen, bis auf \texttt{printSingleChatMessage(JSON\_DATA)}, befassen sich mit dem Senden und Empfangen von Nachrichten. Zunächst wird das Empfangen von Nachrichten erläutert. Dafür wird das folgende \autoref{lst:EventStreamFunction} betrachtet.
 \begin{lstlisting}[language=Javascript,caption=Öffnen des Eventstreams um Nachrichten zu empfangen ,label={lst:EventStreamFunction}]
 var source = new EventSource('/stream');
 source.onmessage = function (event) {
-var result = event.data
-result = result.split("data: ").join("");
-var json_obj = JSON.parse(result);
-printSingleChatMessage(json_obj);
+	var result = event.data
+	result = result.split("data: ").join("");
+	var json_obj = JSON.parse(result);
+	printSingleChatMessage(json_obj);
 };
 \end{lstlisting}
-In Zeile 1 wird die Variable \texttt{source} mit der Route, auf der gehört wird, initialisiert. Dafür wird ein Objekt von Typ \texttt{EventSource} angelegt. Dies wird laut Quellen als Interface bezeichnet, welches erlaubt Server-Sent Events zu empfangen. Vorteil dieser Variante ist die Automatisierung. Das bedeutet der Client muss beim Server nicht nachfragen, sondern kann auf der Route parallel \texttt{/stream} hören, ob ein Sent-Event auftritt.\cite{w3schoolsServerSentEvent}\\
-Das \autoref{lst:EventStreamFunction} bildet in Zeile 2 das \texttt{onmessage} Event ab. Dadurch kann eine Funktion ausgelöst werden, sobald eine Nachricht empfangen wurde. Anschließend erfolgt eine Formatierung der empfangenen Daten, damit diese zur weiteren Verarbeitung der nächsten Funktion übergeben werden können. Hierbei ist interessant wie die Daten an den Client ankommen und in welches Format diese gebracht werden.
+In Zeile 1 wird die Variable \texttt{source} mit der Route, auf der gehört wird, initialisiert. Dafür wird ein Objekt von Typ \texttt{EventSource} angelegt. Dies wird laut Quellen als Interface bezeichnet, welches erlaubt Server-Sent Events zu empfangen. Vorteil dieser Variante ist die Automatisierung. Das bedeutet der Client muss beim Server nicht nachfragen, sondern kann auf der Route \texttt{/stream} hören, ob ein Sent-Event auftritt.\cite{w3schoolsServerSentEvent}\\
+Das \autoref{lst:EventStreamFunction} stellt in Zeile 2 das \texttt{onmessage} Event dar. Dadurch kann eine Funktion ausgelöst werden, sobald eine Nachricht empfangen wurde. Anschließend erfolgt eine Formatierung der empfangenen Daten. Dafür wird der Variable \texttt{result} ein String entfernt. Anschließend wird mithilfe von JavaScript die Daten in ein JSON-Objekt transferiert. Dadurch wird die weitere Verarbeitung erleichtert. Hierbei ist interessant wie die Daten an den Client ankommen und in welches Format diese gebracht werden.
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=1.2]{images/GochatAusgabeEmpfangenerNachrichtBearbeitet}
@@ -3032,7 +3278,27 @@ Das \autoref{lst:EventStreamFunction} bildet in Zeile 2 das \texttt{onmessage} E
 	\caption{Empfangene Nachricht nach der Formatierung, eigene Darstellung}
 	\label{img:ReceivedMessageJSON}
 \end{figure}
-Die Formatierung in eine JSON-Objekt erlaubt es in der aufgerufenen Funktion \texttt{printSingleChatMessage(json\_obj)} leichter auf die Inhalte zuzugreifen. Eine detailliert Erläuterung der Funktion wird nicht erfolgen. Die Aufgabe der Funktion besteht darin die Daten aus dem JSON-Objekt zu ziehen und in die richtigen \ac{HTML}-Elementen zu integrieren, was für die Funktionsfähigkeit keine größere Bedeutung darstellt. Nachfolgend soll das Senden im Vordergrund stehen. Hierfür ist die Funktion \texttt{send\_msg\_single\_chat()} vorgesehen. Diese ist aufgrund der Abhängigkeit zu einem Event an ein \ac{HTML}-Element gebunden. Bei diesem \ac{HTML}-Element handelt es sich um den \glqq Send\grqq-Button, welcher in \autoref{img:GochatUserview} ersichtlich ist. Nach dem Klick des Buttons und dem aufrufen der Funktion werden zunächst Variablen initialisiert. Dafür wird auf \ac{HTML}-Elemente zugegriffen, welche sowohl die Nachricht aus dem Textfeld enthalten, als auch den aktiven Kontakt an wen die Nachricht gesendet werden soll.
+Die Formatierung in eine JSON-Objekt erlaubt eine leichtere Verarbeitung der Daten in der aufgerufenen Funktion \texttt{printSingleChatMessage(json\_obj)}. %TODO Funktion genauers erklären 
+Dieser Vorteil ist auch bei betrachten des \autoref{lst:printSingleMessagesFunction} ersichtlich. Demnach kann komfortabel auf die Attribute des Objektes zugegriffen werden, um diese den neuen Variablen zuzuordnen. 
+\begin{lstlisting}[language=Javascript,caption=Funktion und Datenverarbeitung des JSON-Objektes ,label={lst:printSingleMessagesFunction}]
+function printSingleChatMessage(JSON_DATA)
+{
+	var from = JSON_DATA.from.split("@")[0];
+	var msg_timestamp = JSON_DATA.timestamp;
+	var msg = JSON_DATA.msg;
+	var msg_type = JSON_DATA.type;
+	var user_name = $('#NameOnlineAvatar').text(); 
+	if($('.contact.active').attr("id") == from) 
+	{
+		// Nachricht ausgeben
+		// Fenster auf Nachricht scrollen
+	}
+	chat_messages[user_name][from].push({"from": from, "timestamp": msg_timestamp, "txt": msg, "type": "chat"});
+	updateLastMessageInContactView(user_name, from, from, msg);
+}
+\end{lstlisting}
+Die Funktion erlaubt das Ausgeben von empfangenen Nachrichten. Dafür ist relevant welcher Kontakt aktiv und im Hauptfenster dargestellt ist. Diese Überprüfung erfolgt mit der If-Bedingung. Durch den Zugriff auf die zwei Klassen wird der aktuell aktive Kontakt ermittelt. Stimmt dieser mit dem Empfänger überein, wird die Nachricht im HTML-Format ausgegeben. Anschließend muss das chat\_messages-Objekt mithilfe der push-Option aktualisiert werden. Dadurch wird Inkonsistenz zwischen Server, der die Nachrichten in einer Datenbank speichert, und Client gewährleistet. Außerdem werden immer wieder alle Nachrichten bei der Ausgabe des Chatverlaufs nach der Aktivierung verschiedener Kontakte benötigt. Mit dem Aufruf der Funktion \texttt{updateLastMessageInContactView()} wird die Kontaktliste aktualisiert. Hierbei handelt es sich um das Preview der Nachricht. Aufgrund der Ähnlichkeit zu vorausgegangenen Methoden und Bedeutungslosigkeit für die Chatfunktionalität stellt die Funktion kein Bestandteil des Abschnittes dar. \\
+Nachfolgend soll das Senden im Vordergrund stehen. Hierfür ist die Funktion \texttt{send\_msg\_single\_chat()} vorgesehen. Diese ist aufgrund der Abhängigkeit zu einem Event an ein \ac{HTML}-Element gebunden. Bei diesem \ac{HTML}-Element handelt es sich um den \glqq Send\grqq-Button, welcher in \autoref{img:GochatUserview} ersichtlich ist. Nach dem Klick des Buttons und dem Aufrufen der Funktion werden zunächst Variablen initialisiert. Dafür wird auf \ac{HTML}-Elemente zugegriffen, welche sowohl die Nachricht aus dem Textfeld enthalten, als auch den aktiven Kontakt an wen die Nachricht gesendet werden soll.
 \begin{lstlisting}[language=Javascript,caption=Initialisierung der Variablen zum Senden einer Nachricht ,label={lst:SendFunctionInitalisation}]
 var msg = $('#input-message').val().trim();
 var to_jid = $('.contact.active').attr("id");
@@ -3042,13 +3308,307 @@ var msg_timestamp = dt.toISOString().split("T")[0] + " " + dt.toLocaleTimeString
 \end{lstlisting}
 Der Zugriff auf die \ac{HTML}-Elemente erfolgt über die jQuery-Syntax (\autoref{lst:SendFunctionInitalisation}). Außerdem wird mithilfe von vordefinierten JavaScript Funktionen der Zeitstempel in das richtige Format gebracht. Anschließend können die Variablen der Funktion \texttt{modular\_ajax(url, type, formData)} als Parameter übergeben werden (\autoref{lst:SendFunctionAjaxCall}).
 \begin{lstlisting}[language=Javascript,caption=Aufruf der Funktion \texttt{modular\_ajax(url, type, formData)} mit allen Parametern  ,label={lst:SendFunctionAjaxCall}]
-modular_ajax("/send_message", "post", {"to_jid": to_jid + "@ejabberd-server", "from_jid": user_name+"@ejabberd-server", "msg_subject": "", "msg_body": msg, "msg_type": "chat"});
+modular_ajax("/send_message", "post", {"to": to, "from": user_name, "msg_subject": "", "msg_body": msg, "msg_type": "chat"});
 \end{lstlisting}
-Die Funktion \texttt{modular\_ajax(url, type, formData)} übernimmt die Aufgabe, die Nachricht mit einem POST an den Server zu senden. Weitere Funktionalitäten innerhalb der Funktion beziehen sich auf den \ac{HTML}-Kontext. Dabei handelt es sich um das Leeren des Textfeldes oder dem Aufruf der Funktion, welche die Nachricht ausgibt. Relevant für die Chat-Funktionalität ist das Dictionary \texttt{chat\_messages}. Wie bereits an anderen Abschnitten erläutert, werden darin alle Nachrichten eines Benutzers gehalten. 
+Die Funktion \texttt{modular\_ajax()} übernimmt die Aufgabe, die Nachricht mit einem POST an den Server zu senden. Die nächsten Schritte, welche für das Senden benötigt werden, sind nicht Teil des Aufgabenbereichs des XMPP-Clients.
+Weitere Funktionalitäten von \texttt{send\_msg\_single\_chat()} beziehen sich auf den \ac{HTML}-Kontext. Dabei handelt es sich um:
+\begin{itemize}
+	\item Das Leeren des Textfeldes
+	\item Ausgabe der Nachricht im Chatfenster
+	\item Chatfenster scrollen zur Darstellung der aktuellsten Nachricht
+	\item Aufruf der Funktion \texttt{updateLastMessageInContactView()} 
+\end{itemize}
+Diese Aufgabenbereiche sind Bestandteil anderer Funktionen oder tragen zur Funktionalität nichts bei und sind daher für eine detaillierte Erklärung zu vernachlässigen. Wiederum relevant für die Chat-Funktionalität ist das \texttt{chat\_messages-Objekt}. Dieses Objekt enthält nicht nur die empfangenen Nachrichten sondern auch die von dem Nutzer selbst gesendeten Nachrichten. Dafür wird, wie im \autoref{lst:SendFunctionUpdateChatMessageObject} dargestellt, das Objekt mithilfe der Push-Methode aktualisiert.
 \begin{lstlisting}[language=Javascript,caption=Nachricht in Dictionary einfügen  ,label={lst:SendFunctionUpdateChatMessageObject}]
 chat_messages[user_name][to_jid].push({"from": user_name, "timestamp": msg_timestamp, "txt": msg, "type": "chat"});
 \end{lstlisting}
-Daher muss zum Abschluss der Funktion das Dictionary-Objekt mithilfe der \texttt{push}-Funktion um die Nachricht, welche soeben gesendet wurde, erweitert werden (\autoref{lst:SendFunctionUpdateChatMessageObject}).
+Die Nachricht wird dennoch dem Kontaktpartner als zweiten Key zugeteilt. Dadurch enthält der Kontaktpartner eine Erweiterung des Chatverlaufs. Das Array enthält als Ergänzung zur \autoref{img:ChatMessagesObjectXMPP2} auch Nachrichten, bei dem das \glqq from\grqq den Benutzer selbst darstellt.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\textwidth]{images/ChatMessagesObjectXMPP3}
+	\caption{\texttt{chat\_messages-Objekt} mit empfangenen und gesendeten Nachrichten, eigene Darstellung}
+	\label{img:ChatMessagesObjectXMPP3}
+\end{figure}
+Zur Erklärung der \autoref{img:ChatMessagesObjectXMPP3}. Der erste Key ist der angemeldete Benutzer (\glqq testuser8\grqq). Mit \glqq testuser12\grqq wird der Kontaktpartner angezeigt. Anschließend enthält der Kontaktpartner den Nachrichtenverlauf beider Nutzer. Darin sind die Änderungen aus \autoref{lst:SendFunctionUpdateChatMessageObject} ersichtlich. 
+\newpage
+
+\section{Entwicklung des Frontends für den Kafka-Client}
+\label{sec:FrontendKafka}
+Mit der Implementierung eines Chatsystem sowohl auf XMPP als auch mithilfe des Frameworks Apache Kafka ergeben sich Erweiterungen für die Präsentationsebene des Gesamtsystems. Mit dem \autoref{subsec:StrukturaufbauWebseiten} besteht Kenntnis über den Aufbau der Webseiten. Um die Benutzerfreundlichkeit nicht in den Regeln 1 und 8 aus \autoref{sec:Benutzeroberfläche} zu beeinträchtigen, wird das Frontend des Kafka-Clients im HTML-Aufbau identisch zum XMPP-Client. Kern des Abschnitts bilden die Änderungen bei den dynamischen Inhalten wie bspw. das Senden und Empfangen von Nachrichten.
+
+\subsection*{Änderungen und Ergänzungen des HTML-Aufbaus}
+\label{subsec:KafkaHTML}
+Mit der Realisierung einer REST API, wird für den Kafka-Client ein eigener Endpunkt definiert. Um den Endpunkt zu erreichen muss sich ein Benutzer am Chat-System registrieren bzw. anmelden. Der Anmeldevorgang ist mit dem Login des XMPP-Clients zu vergleichen und soll daher nur ergänzend dargestellt werden. Aus diesem Grund ist an dieser Stelle die hinzukommenden oder zu ergänzenden HTML-Dateien aus \autoref{img:HTMLDateienOrdner} aufzuzählen. Bei diesen Dateien handelt es sich um die Folgenden:
+\begin{itemize}
+	\item \texttt{login.html} mit Ergänzung
+	\item \texttt{gochat-kafka.html} als neue HTML-Datei
+\end{itemize}
+Hierbei stellt sich die Frage nach den Vorteilen einer neuen HTML-Datei, wenn die Seite doch identisch zum XMPP-Client ist. Mit den Grundinhalten aus \autoref{sec:HTMLCSSJS} besteht Kenntnis über die Funktionsweise von JavaScript. Durch die Interaktion des JS-Codes mit den HTML-Elementen müssen auf ID's oder Klassennamen der HTML-Container zugegriffen werden. Aufgrund eines neuen Verhaltens bei zahlreichen Funktionen ändern sich die Zugriffspunkte der HTML-Elemente. Teilweise werden neue Container, andere Klassennamen oder mehr Identifikationsnamen benötigt, weshalb das Ausliefern einer neuen Datei der leichtere Weg darstellt. 
+
+Mit den Änderungen innerhalb der \texttt{login.html} wird auf die Auswahl des Messaging-Systems reagiert. Bei diesen Systemen handelt es sich um XMPP mit ejabberd oder dem Framework Apache Kafka. Um die Regel 7 aus \autoref{sec:Benutzeroberfläche} zu erfüllen, wird dem Benutzer die Möglichekit geboten sich für eine Plattfrom zu entscheiden. Dieser Entscheidungsprozess findet nicht bei der Registrierung sondern beim Login statt. Resultat dieser Variation ist eine Ergänzung der \texttt{login.html} um eine Auswahlmöglichkeit. Die Auswahl wird mithilfe einer Checkbox realisiert, welche eine Ergänzung zur \autoref{img:LoginSeiteVollständig} darstellt.
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.4]{images/LoginPlatform}
+	\caption{Ergänzungen auf der Login-Seite, eigene Darstellung}
+	\label{img:LoginPlatform}
+\end{figure}
+Die Login-Seite nach der Integration der Checkbox kann der \autoref{img:LoginPlatform} entnommen werden. Bei der Abbildung ist zu beachten, dass der grüne Rahmen lediglich zur Darstellung der Ergänzungen beiträgt. Dieser ist für den Benutzer nicht ersichtlich. Die Konstruktion der Checkbox erfolgt mittels Bootstrap. Für die korrekte Verwendung von Bootstrap wird auf \autoref{sec:Bootstrap} verwiesen. Das \autoref{lst:LoginPlatfrom} spiegelt der Aufbau innerhalb der HTML-Datei wider.
+\begin{lstlisting}[language=HTML,caption=Implementierung der Checkbox für die Plattform ,label={lst:LoginPlatfrom}]
+<div class="platformBox">
+	<div class="form-check form-check-inline" id="FirstRadiobuttonBox">
+		<input class="form-check-input" id="formXmpp" value="option1" checked>
+		<label class="form-check-label" for="formXmpp">Xmpp</label>
+	</div>
+	<div class="form-check form-check-inline">
+		<input class="form-check-input" id="formKafka" value="option2">
+		<label class="form-check-label" for="formKafka">Kafka</label>
+	</div>
+</div>
+\end{lstlisting}
+Die Frage nach der Relevanz ergibt sich bei der Betrachtung der dynamischen Elemente, welche auf die im Listing dargestellten ID's referenzieren. Außerdem sind für die Usability und für die Funktionalität des Chatsystems Fehlerquellen zu beseitigen. Das \autoref{lst:LoginPlatfrom} verhindert eine möglich Fehlerquelle in Zeile 3. Aufgrund des Keywords \texttt{checked} wird dem Inputfeld ein Defaultwert mitgegeben. Dadurch ist Standardmäßig eine Checkbox markiert und ein Login ohne eine Auswahl wird verhindert. Ein demarkieren der Checkbox wird von Bootstrap verhindert. Außerdem kann bei der Konstruktion aus \autoref{lst:LoginPlatfrom}, nicht beide markiert werden. Den Radiobuttons, wie sie offiziell genannt werden, wird das Toggle-Prinzip zwischen \texttt{option1} und \texttt{option2} zugeteilt. Mithilfe dieses Konstrukts sind weniger Fehlerfälle mit JavaScript oder auf Seiten des Servers zu überprüfen. Diese Änderungen nehmen Einfluss auf die \texttt{loginjs.js} Datei, weshalb im Folgenden die Ergänzungen gegenüber dem \autoref{sec:FrontendXMPP} beleuchtet werden.\\
+Der Umfang an Ergänzungen und Änderungen ist relativ überschaubar. Aufgrund des Toggle-Prinzips und dem Beseitigen von Fehlerquellen durch die HTML-Konstruktion
+muss lediglich ein Radiobutton aus \autoref{img:LoginPlatform} überprüft werden(\autoref{lst:JSPlatfromCheck}).
+\begin{lstlisting}[language=Javascript,caption= Überprüfung der Plattform mittels JavaScript ,label={lst:JSPlatfromCheck}]
+if (document.getElementById("formXmpp").checked) {
+	radio = "xmpp"
+} else {
+	radio = "kafka"
+}
+\end{lstlisting}
+Die Variable \texttt{radio} dient nur zur temporären Speicherung des endgültigen Wertes. In der If-Bedingung wird der \glqq Xmpp\grqq-Radiobutton mittels internen Funktionen von Javascript geprüft. Das Resultat des \texttt{checked} ist dementsprechend entweder true oder false. Dadurch kann die ausgewählte Plattform ermittelt werden. Anschließend wird der Wert einer Variable in dem Dictionary \texttt{form\_data} zugewiesen(\autoref{lst:JSPlatformToServer}), um zu einem späteren Zeitpunkt die Daten mithilfe der asynchronen Datenübertragung (Ajax) an den Server zu senden. Der Sendevorgang ist bereits Bestandteil von \autoref{subsubsec:DynamischeElementeWebseiten}.
+\begin{lstlisting}[language=Javascript,caption=Ergänzung der Dateninhalte um die ausgewählte Plattform ,label={lst:JSPlatformToServer}]
+var form_data = {
+	// weitere Inhalte
+	requested_platform: radio
+}
+\end{lstlisting}
+Abschließend sind keine weiteren Ergänzungen zu vermerken.
+
+\subsection*{Implementierung der Chatfunktionalitäten für den Kafka-Client}
+\label{HTML_JS_KafkaClient}
+Mit der Erweiterung des Chatsystems um das Framework Apache Kafka sind verschiedene Clients möglich. Damit sind nicht die Funktionalitäten gemeint, sondern die Implementierungen sowohl im HTML-Konstrukt als auch in der JavaScript Datei. Daher ist im Folgenden von den Dateien aus \autoref{sec:FrontendXMPP} Abstand zu nehmen. Die Dateien, welche im Vordergrund diesen Abschnitt stehen sind:
+\begin{itemize}
+	\item \texttt{gochat-kafka.html} als HTML-Konstrukt des Kafka-Clients
+	\item \texttt{gochat\_kafkajs.js} mit den dynamischen Elementen
+\end{itemize}
+Eine detaillierte Erklärung der HTML-Datei erfolgt nicht. Grund dafür ist das identische Resultat aus \autoref{sec:FrontendXMPP}. Ausschließlich speziellen Identifikationsnamen oder Konstrukten, welche die Javascript-Datei benötigt, werden als Ausschnitte dargestellt. Mit der Implementierung des Kafka-Clients soll die Nutzererfahrung identisch zum XMPP-Client sein. Daher ist es sinnvoll, Funktionen, welche der Kafka-Client benötigt, vom XMPP-Client zu übernehmen. Dafür sind Übergabeparameter und das Funktionsprinzip zu überprüfen. Die Vorgehensweise zur Erläuterung der Unterschiede orientiert sich an dem \autoref{sec:FrontendXMPP}. In einem ersten Schritt wird beim XMPP-Client das \texttt{chat\_messages-Objekt} deklariert. Gleiches gilt für den Kafka-Client. Zur weiteren Verarbeitung werden globale Variablen benötigt die ebenfalls zum ersten Schritt gezählt werden können (\autoref{lst:JSKafkaGlobalVars}).
+\begin{lstlisting}[language=Javascript,caption=Globale Variablendekleration ,label={lst:JSKafkaGlobalVars}]
+var user_name = $('#NameOnlineAvatar').text()
+chat_messages = {}
+chat_messages[user_name] = {}
+var ownMsg
+var firstContact = true
+\end{lstlisting}
+Hierfür ist zu erwähnen, dass eine JavaScript-Datei immer mit dem Aufbau der verknüpften HTML-Datei ausgeführt wird. Das hat zur Folge, dass beim Aufruf der Kafka Webseite alle Variablen ohne einen HTML-Element deklariert bzw. initialisiert werden. Bestandteil dieser Variablen ist das \texttt{chat\_messages-Objekt} (Zeile 2), welches als Key den eigenen Benutzernamen zugewiesen bekommt (Zeile 3). Im Folgenden steht der Aufbau des \texttt{chat\_messages-Objekt} im Vordergrund. Grund hierfür ist der Unterschied zum XMPP-Client. Während beim XMPP-Client das Objekt durch die Antwort des Servers entsteht, muss beim Kafka-Client das Objekt eigenständig in die richtige Form gebracht werden. Hierbei stellt sich die Frage weshalb das Objekt die gleiche Form, wie beim XMPP-Client, benötigt. Darauf gibt es zwei relevante Antworten. Zum Einen ist der XMPP-Client funktionsfähig und vor allem der Umgang mit dem \texttt{chat\_messages-Objekt} läuft reibungslos. Außerdem ermöglicht die gleiche Form das Übertragen von Funktionen aus der gochatjs.js Datei auf die \texttt{gochat\_kafkajs.js} Datei. Anschließend stellt sich die Frage, weshalb die Problematik nicht auf die gleiche Weise, wie beim XMPP-Client, gelöst wird. Grund hierfür ist das Funktionsprinzip von Kafka. Während beim XMPP-Client die Daten vom Server aufbereitet werden, erhält der Kafka-Client alle Daten auf einmal. Außerdem erhält der Kafka-Client beim Aufrechterhalten des Streams nicht nur die neusten Nachrichten sondern immer wieder den gesamten Chatverlauf des angemeldeten Nutzers (\autoref{img:NachrichtenKafkaStream}).
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth]{images/NachrichtenKafkaStream}
+	\caption{Gesendeter Nachrichtenverlauf vom Server, eigene Darstellung}
+	\label{img:NachrichtenKafkaStream}
+\end{figure}
+Auf Seiten des Clients ist auf dieses Server-Sent Event zu reagieren. Demnach ist das nächste Ziel mithilfe der Daten das \texttt{chat\_messages-Objekt} in die bekannte Form aus \autoref{sec:FrontendXMPP} zu konstruieren.\\
+Zunächst wird eine Quelle für den Event-Stream geöffnet. Dafür wird das interne JavaScript-Interface (\texttt{EventSource}) benutzt (\autoref{lst:JSKafkaEventSource}). Dieses Objekt ermöglicht das Empfangen von Server Server-Sent Events.
+\begin{lstlisting}[language=Javascript,caption=Erstellen des Objektes mit dem entsprechenden Endpunkt ,label={lst:JSKafkaEventSource}]
+var source = new EventSource('/kafkastream/');
+\end{lstlisting}
+Das Interface bzw. das Objekt \texttt{EventSource} erlaubt mehrere Funktionsweisen. Der Beschreibung zur Folge kann eine Methode und drei Events auf das Objekt angewendet werden. Bei der Methode handelt es sich um \texttt{EventSource.close()}, welche das Schließen der Verbindung einleitet. Für den Kafka-Client spielt die Methode keine Rolle. Größerer Relevanz können den Events zugeordnet werden. Bei den Events handelt es sich um:
+\begin{itemize}
+	\item message
+	\item open
+	\item error
+\end{itemize}
+Da die Funktionen der Events \texttt{open} und \texttt{error} nicht benötigt werden, sind sie nicht Bestandteil des Kafka-Clients und Charakterisieren lediglich die Möglichkeiten der Klasse \texttt{EventSource}. \cite{w3schoolsServerSentEvent}\\
+\texttt{Message} wird verwendet um Nachrichten des Servers zu empfangen. Die Anwendung des Events kann verschieden implementiert werden. Das Resultat beider Varianten ist identisch. Daher kann auf eine Analyse verzichtet werden. Das \autoref{lst:JSKafkaEventSourceOnmessage} stellt die Implementierung des Events \texttt{message} dar. 
+\begin{lstlisting}[language=Javascript,caption=Reagieren auf eine Nachricht ,label={lst:JSKafkaEventSourceOnmessage}]
+source.onmessage = function (event) {
+	var result = event.data
+	result = result.split("data: ").join("");
+	var empfangenMsg = JSON.parse(result);
+	getMessage(empfangenMsg)    
+};
+\end{lstlisting}
+Mithilfe des Aufrufs von \texttt{onmessage} auf die \texttt{EventSource} wird eine Funktion beim Erhalt einer Nachricht ausgelöst. Innerhalb der Funktion werden Variablen mit der Nachricht des Servers initialisiert und anschließend formatiert. Am Ende der Funktion werden die Daten in Form eines JSON-Objektes der Funktion \texttt{getMessage()} übergeben. Hierbei ist zu beachten das der Stream auf einzelne Nachrichten hört. Demzufolge sendet der Server zwar alle Nachrichten auf einmal, siehe \autoref{img:NachrichtenKafkaStream}, der Kafka-Client erhält sie aber einzeln. Dadurch entsteht eine Herausforderung für den Chatverlauf. Beim Erhalt einer Nachricht kann nicht eindeutig identifiziert werden ob die Nachricht Teil des Chatverlaufs ist oder nicht. Daher wird das Prinzip angewendet, dass jedes Server-Sent Event eine Chatnachricht ist. Dadurch kann Schritt für Schritt das \texttt{chat\_messages-Objekt} konstruiert werden. Der erste Schritt ist die Initialisierung (\autoref{lst:JSKafkaGlobalVars}). Das Resultat ist in der nachfolgenden \autoref{img:Chat_messageObjectCreate} dargestellt.
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=1.5]{images/Chat_messageObjectCreate}
+	\caption{\texttt{chat\_messages-Objekt} mit Benutzername, eigene Darstellung}
+	\label{img:Chat_messageObjectCreate}
+\end{figure}
+Demnach leitet die Klasse \texttt{EventSource} und die Funktionen die Verarbeitung der Daten ein. 
+Dem Kenntnisstand zur Folge ist der Value des Benutzernamen ein weiteres Dictionary mit den Chatpartnern. Deshalb kann im nächsten Schritt die Daten nach dem Chatpartner gefiltert werden. Dafür sind mehrere Fragen zu berücksichtigen:
+\begin{itemize}
+	\item Handelt es sich um eine eigene Nachricht?
+	\item Ist der Chatpartner bereits Teil der Kontaktliste?
+	\item Handelt es sich um eine identische Nachricht?
+\end{itemize}
+Je nach Antwort muss das \texttt{chat\_messages-Objekt} anders befüllt werden. In dem ersten Schritt werden Variablen deklariert und initialisiert. Diese werden für die weitere Verarbeitung benötigt (\autoref{lst:JSKafkaGetMsgOwnMsg}). Anschließend überprüft die erste Bedingung von welchem Nutzer die Nachricht stammt. An dieser Stelle sei zu erwähnen, dass der Server Nachrichten von ungültigen Chatpartnern verhindert. Handelt es sich um eine eigene Nachricht steht im Empfänger der Kontaktpartner. Daher wird die Variable \texttt{from} mit dem Empfänger der Daten initialisiert. Außerdem wird \texttt{ownMsg} auf true gesetzt. 
+\begin{lstlisting}[language=Javascript,caption=Abfrage nach der eigenen Nachricht,label={lst:JSKafkaGetMsgOwnMsg}]
+ownMsg = false
+var from = empfangenMsg.from
+if (from == user_name) {
+	from = empfangenMsg.to
+	ownMsg = true
+}
+\end{lstlisting}
+Die Code-Zeilen sind Bestandteil der Funktion \texttt{getMessage()}, welche unter anderem die Aufgabe hat das \texttt{chat\_messages-Objekt} zu initialisieren oder mit empfangenen Nachrichten umzugehen. Einen Überblick über den Funktionsprinzip ist in \autoref{img:getMessageAblauf} dargestellt. Hierbei handelt es sich um eine Art Pseudocode. Die Abbildung enthält neben weiteren Funktionen auch die Zeilen aus \autoref{lst:JSKafkaGetMsgOwnMsg}.
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.5]{images/getMessageAblauf}
+	\caption{Ablauf von \texttt{getMessage()}, eigene Darstellung}
+	\label{img:getMessageAblauf}
+\end{figure}
+Im weiteren Verlauf werden die Aspekte der Funktion \texttt{getMessage()} behandelt. Während der Erklärung steht im ersten Schritt die Initialisierung des \texttt{chat\_messages-Objektes} im Vordergrund. Dabei ist stets zu beachten, dass die Beschreibungen Teil der \texttt{getMessage}-Funktion sind.
+
+Im Anschluss an dem \autoref{lst:JSKafkaGetMsgOwnMsg} erfolgt eine Überprüfung der Kontaktliste (\autoref{lst:JSKafkaGetMsgExisitingContact}).
+\begin{lstlisting}[language=Javascript,caption=Abfrage nach der eigenen Nachricht,label={lst:JSKafkaGetMsgExisitingContact}]
+if (!(from in chat_messages[user_name])) {
+	// Kontakt ist nicht Bestandteil der Kontakliste
+}
+\end{lstlisting}
+Dafür wird kontrolliert ob der Kontaktpartner ein Key des \texttt{chat\_messages-Objektes} ist. Nach dem Erstellen des Objektes ist grundsätzlich kein Kontaktpartner enthalten. Daher ist die If-Bedingung für das erste \ac{SSE} stets true. Innerhalb der If muss eine weitere Überprüfung stattfinden (\autoref{lst:JSKafkaGetMsgNoContact}). Grund hierfür ist die korrekte Aktualisierung des \texttt{chat\_messages-Objektes}.
+\begin{lstlisting}[language=Javascript,caption=Weitere Ausführung in Abhängigkeit des Empfängers,label={lst:JSKafkaGetMsgNoContact}]
+if(!(ownMsg)){
+	chat_messages[user_name][from]= [{"from":from,"timestamp":empfangenMsg.timestamp, "txt":empfangenMsg.msg, "type": "chat"}]
+} else {
+	chat_messages[user_name][from] = [{"from":user_name,"timestamp":empfangenMsg.timestamp, "txt":empfangenMsg.msg, "type": "chat"}]
+}
+\end{lstlisting}
+Auf den ersten Blick ist kein großer Unterschied zu erkennen. Mit \texttt{chat\_messages[user\_name][from]} wird in einem ersten Schritt der Chatpartner als Key angelegt. Gleichzeitig wird die Nachricht in einem JSON-Format, als Array, dem Key zugeordnet. Innerhalb des JSON-Formats sind die Unterschiede der beiden Varianten ersichtlich. Ist \texttt{ownMsg} true handelt es sich um eine selbst gesendete Nachricht. Daher ist im JSON-Objekt dem \texttt{\dq from\dq} der Benutzername zugeteilt. In den anderen Fällen wird der Absender dem \texttt{\dq from\dq} zugeordnet.
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=1.2]{images/Chat_messageObjectFirstInsertion}
+	\caption{\texttt{chat\_messages-Objekt} mit erstem Chatpartner, eigene Darstellung}
+	\label{img:Chat_messageObjectFirstInsertion}
+\end{figure}
+Das Ergebnis der vorausgegangenen Schritten ist in \autoref{img:Chat_messageObjectFirstInsertion} dargestellt. Demnach besitzt der Benutzer \texttt{Luki} einen Chatpartner namens \texttt{testuserkafka}. Hierbei sei zu erwähnen, dass die Nachricht eines unbekannten Kontaktes unabhängig vom Zeitstempel in der dargestellten Form eingetragen wird. Das bedeutet bei dieser Nachricht kann es sich um eine aus dem Chatverlauf handeln, oder um eine soeben gesendete. 
+Die \autoref{img:Chat_messageObjectFirstInsertion} symbolisiert die finale Variante des \texttt{chat\_messages-Objektes}. Weitere Ergänzungen werden im Zusammenhang mit den jeweiligen Funktionen dargestellt. Die Listings und das \texttt{chat\_messages-Objekt} sind unter anderem Bestandteil der Chatfunktionalität. Genauer gesagt handelt es sich um die Funktion Nachrichten zu empfangen, was das konstruieren des \texttt{chat\_messages-Objektes} innehat. Ergänzungen an der Funktion knüpfen an die vorangegangenen Listings und Abbildungen an. Demzufolge werden im Anschluss an die If-Bedingung aus \autoref{lst:JSKafkaGetMsgNoContact} zwei Funktionen aufgerufen. Bei diesen handelt es sich um die in der \autoref{tab:FunctionsForGetMessage} dargestellten.
+\begin{table}[h]
+	\centering
+	\caption{Funktionen die \texttt{getMessage()} aufruft}
+	\begin{tabular}{|p{6cm}|p{8.8cm}|}
+		\hline
+		\textbf{Funktionen} & \textbf{Funktionsbeschreibung} \\
+		\hline
+		fillInContactPeers(from, msg, ownMsg) & Eintragen des Chatpartners in die Kontaktliste\\
+		\hline
+		fill\_in\_chat\_msgs\_single\_chat\linebreak(user\_name, peer\_name) & Eintragen der Nachricht in das Chatfenster\\
+		\hline
+	\end{tabular}
+	\label{tab:FunctionsForGetMessage}
+\end{table}
+Beide Funktionen sind von dem Namen und der Beschreibung mit den Funktionen des XMPP-Clients zu vergleichen. Anders verhält es sich bei der Umsetzung. Grund hierfür ist der Unterschied beim Erhalt der Nachricht. Daher stehen im Folgenden die Unterschiede im Vordergrund. Die Ergebnisse und Ähnlichkeiten werden nicht aufgeführt und sind mit dem \autoref{sec:FrontendXMPP} zu vergleichen.\\
+Die Beschreibung der Funktion \texttt{fillInContactPeers(from, msg, ownMsg)} aus \autoref{tab:FunctionsForGetMessage} ist identisch mit dem Funktionsprinzip der Funktion beim XMPP-Client. Da beim XMPP-Client das \texttt{chat\_messages-Objekt} durch einen Request gefüllt wird, kann mit einer Iteration über das Objekt alle Chatpartner in die Kontaktliste eingetragen werden. Beim Kafka-Client muss die Entscheidung über einen Eintrag bei jedem SSE ermittelt werden. Die Realisierung der Funktion kann der \autoref{img:fillInContactPeersKafka} entnommen werden. Hierbei handelt es sich um ein Diagramm, welches mit Pseudocode das Konzept darstellt. Es ist kein klassisches UML-Diagramm, auch wenn teilweise Merkmale zu erkennen sind.
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.6]{images/fillInContactPeersKafka}
+	\caption{Funktionsstruktur von \texttt{fillInContactPeers(from, msg, ownMsg)}, eigene Darstellung}
+	\label{img:fillInContactPeersKafka}
+\end{figure}
+In einem ersten Schritt wird überprüft ob sich der Kontakt bereits in der Kontaktliste befindet (\autoref{lst:JSKafkaGetMsgFillIn}). Dafür wird über die Liste in Form eines HTML-Elements iteriert. Ist dies der Fall wird die If-Bedingung wahr und die Funktion \texttt{updatePreview()} wird aufgerufen. Die Funktion hat die Aufgabe, das Preview, in Abhängigkeit des Absenders, zu aktualisieren. Da es sich hierbei um HTML-Elemente handelt, ist sie nicht Bestandteil dieses Abschnittes.
+\begin{lstlisting}[language=Javascript,caption=Überprüfung ob der Kontakt bereits in der Liste ist,label={lst:JSKafkaGetMsgFillIn}]
+for (let i = 0; i < contacts.length; i++) {
+	if(contacts[i].getElementsByTagName("p")[0].innerText == from) {
+		updatePreview(contacts[i],msg,ownMsg)
+		return
+	} 
+}
+\end{lstlisting}
+Wurde der Kontakt gefunden kann die Funktion beendet werden. Für den Fall, dass es sich um einen neuen Kontakt handelt, muss der Kontakt der Kontaktliste hinzugefügt werden. Für das Hinzufügen eines Kontaktes, ist auf \autoref{sec:FrontendXMPP} zu verweisen.\\
+Für zwei identische Clients, muss der Kafka-Client alle Funktionen der \autoref{tab:JavaScript Aufgabendefinition für gochat.html} implementieren. Die Funktion bietet daher die Möglichkeit den ersten Kontakt zu aktivieren. Hierfür wird die Variable \texttt{firstContact} aus \autoref{lst:JSKafkaGlobalVars} benötigt. Die Variable ist von beginn an true. Nach dem ersten Durchlauf wird die Variable auf false gesetzt. Doch davor wird die Funktion \texttt{getFirstContactactive()} aufgerufen. Diese Funktion übernimmt die Aufgabe den ersten Kontakt als aktiv darzustellen. Die Funktion ist identisch zum Aktivieren des ersten Kontaktes beim XMPP-Client und wird daher nicht erläutert. Bei der zweiten Funktion \texttt{fill\_in\_chat\_msgs\_single\_chat(user\_name, peer\_name)} aus der \autoref{tab:FunctionsForGetMessage} sind keine Unterschiede zum XMPP-Client zu identifizieren. An dieser Stelle sei zu erwähnen, dass die dargestellten Funktionen je nach Bedingung innerhalb von \texttt{getMessage()} aufgerufen werden (\autoref{img:getMessageAblauf}). Anhand der Abbildung ist unter anderem zu erkennen, dass zum aktuellen Zeitpunkt der rechte Pfad der zweiten Bedingung abgehandelt ist. Um die Funktion \texttt{getMessage()} abzuschließen wird im Folgenden der linke Pfad erläutert. Darüber hinaus bleibt das \texttt{chat\_messages-Objekt} Bestandteil dieser Ausführung, da es zu Änderungen oder Erweiterungen kommen kann.\\
+Mit dem Falsch werden der Bedingung (\autoref{lst:JSKafkaGetMsgExisitingContact}) ist für die Abhandlung des linken Pfades klar, dass der Kontaktpartner bereits Teil des \texttt{chat\_messages-Objektes} ist. Aufgrund davon, dass beim Aufrechterhalten des Streams alle Nachrichten erneut gesendet werden, ergeben sich für den linken Pfad zwei Fragen. Bei diesen handelt es sich um:
+\begin{itemize}
+	\item Ist die Nachricht bereits empfangen?
+	\item Handelt es sich um eine neue Nachricht?
+\end{itemize}
+Die Funktion \texttt{checkSameChatMessages()} befasst sich mit den Fragen. Je nach Antwort ändert sich der weitere Verlauf und das \texttt{chat\_messages-Objekt} wird anders initialisiert. Dafür benötigt die Funktion 5 Parameter:
+\begin{itemize}
+	\item \texttt{user\_name} als Name des angemeldeten Nutzers
+	\item \texttt{from} als Kontaktpartner
+	\item \texttt{timestamp} Zeitstempel der Nachricht
+	\item \texttt{msg} als Textform der Nachricht	
+	\item \texttt{ownMsg} als Boolean, ob es sich um eine eigene Nachricht handelt
+\end{itemize}
+Alle Parameter sind Bestandteil der Nachricht des SSE's und werden der Funktion \texttt{getMessage()} übergeben. Deshalb können die Daten auch der nächsten Funktion weitergegeben werden. Der Ablauf der Funktion \texttt{CheckSameChatMessages()} ist in der \autoref{img:CheckSameChatMessagesAblauf} in einer Art Pseudocode dargestellt.
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.5]{images/CheckSameChatMessagesAblauf}
+	\caption{Ablauf von \texttt{CheckSameChatMessages()}, eigene Darstellung}
+	\label{img:CheckSameChatMessagesAblauf}
+\end{figure}\\
+Der erste Schritt beinhaltet die Initialisierung der Variable \texttt{findSame} mit dem Boolean false. Anschließend erfolgt, wie in der Abbildung dargestellt die Iteration über alle Nachrichten zwischen dem Benutzer und dem Kontaktpartner. Der entsprechende Code hierfür ist im \autoref{lst:JSKafkaSameMsg} dargestellt.
+\begin{lstlisting}[language=Javascript,caption=Suchen der identischen Nachricht,label={lst:JSKafkaSameMsg}]
+for (let index = 0; index < chat_messages[user_name][from].length; index++) {
+	if (((chat_messages[user_name][from][index].txt == msg) && (chat_messages[user_name][from][index].timestamp == timestamp))) {
+		findSame = true
+		break
+	}
+}
+\end{lstlisting}
+Außerdem kann dem Listing entnommen werden, dass zwei Bedingungen überprüft werden. Hierbei handelt es sich um den Text der Nachricht und den Zeitstempel. Erst wenn beide Parameter übereinstimmen, handelt es sich um die identische Nachricht. Anschließen wird die Funktion beendet. Wird keine gleiche Nachricht identifiziert wird der rechte Pfad aus \autoref{img:CheckSameChatMessagesAblauf} erfolgt. Die weitere Verarbeitung der Nachricht erfolgt in Abhängigkeit der Variable \texttt{ownMsg} (\autoref{lst:JSKafkaNoSameMsg}).
+\begin{lstlisting}[language=Javascript,caption=Weitere Verarbeitung der Nachricht,label={lst:JSKafkaNoSameMsg}]
+if (!ownMsg) {
+	chat_messages[user_name][from].push({"from": from, "timestamp": timestamp, "txt": msg, "type": "chat"});
+} else {
+	chat_messages[user_name][from].push({"from": user_name, "timestamp": timestamp, "txt": msg, "type": "chat"}); 
+}
+fillInContactPeers(from, msg, ownMsg)
+printSingleChatMessage(type, from, msg, timestamp, ownMsg)
+\end{lstlisting}
+Das Listing ist von der Funktion her nahezu identisch mit dem \autoref{lst:JSKafkaGetMsgNoContact}. Einziger Unterschied ist die Methode wie die Nachricht hinzugefügt werden. Der Grund hierfür ist, dass die push-Methode funktioniert, da der Kontaktpartner bereits als Key im Objekt vorhanden ist. Zum Zeitpunkt des \autoref{lst:JSKafkaGetMsgNoContact} war dies nicht der Fall. Daher soll die \autoref{img:Chat_messageObjectSecondInsertion} nochmals verdeutlichen wie das \texttt{chat\_messages-Objekt} aussieht, wenn eine zweite neue Nachricht mithilfe der push-Methode dem Objekt hinzugefügt wird.
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=1.0]{images/Chat_messageObjectSecondInsertion}
+	\caption{Ablauf von \texttt{CheckSameChatMessages()}, eigene Darstellung}
+	\label{img:Chat_messageObjectSecondInsertion}
+\end{figure}
+Nach dem Hinzufügen der Nachricht, werden die Funktionen \texttt{fillInContactPeers(from, msg, ownMsg)} und \texttt{printSingleChatMessage(type, from, msg, timestamp, ownMsg)} aufgerufen. Es besteht bereits Kenntnis über das Funktionsprinzip der ersten Funktion (\autoref{img:fillInContactPeersKafka}). An dieser Stelle bietet die Funktion die Möglichkeit die Preview aus der Kontaktliste zu aktualisieren. Mit der zweiten Funktion wird das Ausgeben der Nachricht auf das Chatfenster realisiert. Die Funktion ist ebenfalls Bestandteil des XMPP-Clients und kann daher im \autoref{sec:FrontendXMPP} nachgelesen werden. Damit besitzt der Kafka-Client alle Funktionen zum Empfangen von Nachrichten. Für einen vollen Funktionsumfang fehlt dem Kafka-Client noch das Senden von Nachrichten sowie das Hinzufügen neuer Kontakte. Beide Funktion besitzen Ähnlichkeiten zum XMPP-Client. Daher stehen im Folgenden die Änderungen im Vordergrund.\\
+Zuerst werden die Funktionen für das Senden von Nachrichten erörtert. Dafür werden die Funktion aus \autoref{tab:SendFunctionsKafka} benötigt.
+\begin{table}[h]
+	\centering
+	\caption{Funktionen zum Senden und anzeigen lassen von Nachrichten}
+	\begin{tabular}{|p{6cm}|p{8.8cm}|}
+		\hline
+		\textbf{Funktionen} & \textbf{Funktionsbeschreibung} \\
+		\hline
+		getSendingInformations() & Zur Initialisierung aller Variablen.\\
+		\hline
+		send\_message(sending\_data) & Die Funktion sendet die entsprechenden Daten mit einem Post-Request an den Server.\\
+		\hline
+		updateChatwindowOnSending\linebreak(msg, msg\_timestamp) & Ausgeben der Nachricht in das Chat-Fenster.\\
+		\hline
+		clearInputFieldOnSending() & Leeren der Textfelder.\\
+		\hline
+		updateChatMessageObject\linebreak(update\_data) & Aktualisieren des \texttt{chat\_messages-Objektes} \\
+		\hline
+	\end{tabular}
+	\label{tab:SendFunctionsKafka}
+\end{table}
+In einem ersten Schritt werden mittels \texttt{getSendingInformations()} die Informationen bereitgestellt. Dabei handelt es sich um Parameter, die für das \texttt{chat\_messages-Objekt}, der Ausgabe und dem Request an den Server, benötigt werden.
+\begin{lstlisting}[language=Javascript,caption=\texttt{getSendingInformations()},label={lst:JSKafkagetSendingInfo}]
+var informations = {}
+var msg = $('#input-message').val().trim();
+// Wenn msg leer => return
+var to = $('.contact.active').attr("id");
+var user_name = $('#NameOnlineAvatar').text();
+var dt = new Date();
+var msg_timestamp = dt.toISOString().split("T")[0] + " " + dt.toLocaleTimeString().substring(0,5);
+informations = {"to":to, "from":user_name, "msg_subject":"", "msg_body":msg,"msg_type":"chat", "msg_timestamp":msg_timestamp}
+return informations
+\end{lstlisting}
+Die Parameter sind im \autoref{lst:JSKafkagetSendingInfo} abgebildet. Außerdem stellt das Listing dar in welcher Form die Variablen zurückgegeben werden. Wie beim XMPP-Client werden die Funktionen aus der Tabelle erst aufgerufen, sollte der Send-Button gedrückt werden. Dafür wird eine \dq onClick\dq-Methode benötigt. Dieser Funktion ist im \autoref{lst:JSKafkagetSendButton} dargestellt. Außerdem bietet das Listing einen Überblick über die Reihenfolge der Funktionen aus \autoref{tab:SendFunctionsKafka}.
+\begin{lstlisting}[language=Javascript,caption=Verknüpfte Funktion mit dem HTML-Element,label={lst:JSKafkagetSendButton}]
+$('#send-submit-button').click(function(event){
+	var informations = getSendingInformations()
+	if(!informations){return}
+	var sending_informations = {"to":informations.to, "from":informations.from, "msg_subject":informations.msg_subject, "msg_body":informations.msg_body,"msg_type":"chat"}
+	var update_data =  {"to":informations.to,"from":informations.from, "msg_body":informations.msg_body, "msg_timestamp":informations.msg_timestamp}
+	send_message(sending_informations);
+	updateChatMessageObject(update_data, informations)
+	updateChatwindowOnSending(informations.msg_body, informations.msg_timestamp)
+	clearInputFieldOnSending()
+});
+\end{lstlisting}
+
 
 \pagebreak
 
@@ -3229,6 +3789,14 @@ Unittest und Mocks werden in der Studienarbeit verwendet, um Ergebnisse von Oper
 %addpart, sodass Anhang im Inhaltsverzeichnis ohne Buchstaben auftaucht
 \appendix
 \addpart{Anhang}
+
+\chapter{Struktur der CSS-Dateien bei Bootstrap}
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=.50\linewidth]{images/BootstrapStructer}
+	\caption{Die Datei-Struktur nach der Bootstrap Installation}
+	\label{img:BootstrapStructer}
+\end{figure}
 
 \chapter{Architektur des zu entwerfenden \ac{IMS}}
 
