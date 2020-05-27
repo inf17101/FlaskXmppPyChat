@@ -36,7 +36,7 @@ class TestValidator(unittest.TestCase):
         """
         from xmppchat.CustomValidatonError import CustomValidationError
 
-        mock_u.query.filter_by.return_value.first.return_value = User("testuser", "testuser@web.de", "hallo123")
+        mock_u.query.filter_by.return_value.first.return_value = User("testuser", "testuser@web.de", "hallo123", "topic-id1")
         with pytest.raises(CustomValidationError):
             Validator.validate_username("testuser")
 
@@ -55,7 +55,7 @@ class TestValidator(unittest.TestCase):
         """
         from xmppchat.CustomValidatonError import CustomValidationError
 
-        mock_u.query.filter_by.return_value.first.return_value = User("testuser", "testuser@web.de", "hallo123")
+        mock_u.query.filter_by.return_value.first.return_value = User("testuser", "testuser@web.de", "hallo123", "topic-id1")
         with pytest.raises(CustomValidationError):
             Validator.validate_email("testuser@web.de")
 

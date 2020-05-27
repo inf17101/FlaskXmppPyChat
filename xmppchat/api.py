@@ -1,5 +1,6 @@
 from flask import Flask, redirect, render_template, url_for, request, flash, send_from_directory, Response, jsonify, make_response
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import exc
 from flask_login import LoginManager, login_required, login_user, logout_user, current_user
 from flask_wtf.csrf import CSRFProtect
 from datetime import datetime
@@ -52,30 +53,37 @@ session_dict = {}
 def get_kafka_client():
     return KafkaClient(hosts=f'{config["apache_kafka_ip"]}:{config["apache_kafka_port"]}')
 
-def event_stream(user_id):
-    pubsub = red.pubsub()
-    global session_dict
-    stream_id = session_dict[user_id]["stream_id"]
-    pubsub.subscribe(stream_id)
-    for message in pubsub.listen():
-        yield 'data: %s\n\n' % message['data']
-
 #@login_requried
 @app.route('/stream')
 def stream():
+    def event_stream(user_id):
+        pubsub = red.pubsub()
+        global session_dict
+        stream_id = session_dict[user_id]["stream_id"]
+        pubsub.subscribe(stream_id)
+        for message in pubsub.listen():
+            yield 'data: %s\n\n' % message['data']
     return Response(event_stream(current_user.user_id), mimetype="text/event-stream", status=200)
 
 @csrf.exempt
 #@login_requried
 @app.route('/kafkastream/')
 def get_messages():
-    global session_dict
-    client = session_dict[current_user.user_id]['kafka_client_object']
+    client = get_kafka_client()
     def events(user_id):
         global session_dict
-        for i in client.topics[session_dict[user_id]['topic']].get_simple_consumer():
-            print(i.value.decode())
-            yield 'data: {0}\n\n'.format(i.value.decode())
+        consumer = client.topics[session_dict[user_id]['topic']].get_simple_consumer()
+        while True:
+            msg = consumer.consume(block=False)
+            print(msg)
+            if msg:
+                print("message:", msg.value.decode())
+                yield 'data: {0}\n\n'.format(msg.value.decode())
+            else:
+                yield ': keep alive\n\n'
+        #for i in client.topics[session_dict[user_id]['topic']].get_simple_consumer():
+            #print("message:", i.value.decode())
+            #yield 'data: {0}\n\n'.format(i.value.decode())
     return Response(events(current_user.user_id), mimetype="text/event-stream")
 
 def create_sleekxmpp_client(user, req_content):
@@ -171,10 +179,11 @@ def login():
         elif req_content.get('requested_platform') == 'kafka':
             try:
                 kafka_client = get_kafka_client()
+                kafka_producer = kafka_client.topics[user.kafka_topic_id].get_producer()
             except Exception:
                 return make_response(jsonify({'redirect_to': '/login', 'feedback': 'internal error: login not successfull.', 'category': 'danger'}), 500)
             global session_dict
-            session_dict[user.user_id] = {"kafka_client_object": kafka_client, "topic": user.kafka_topic_id, "requested_platform": "kafka"}
+            session_dict[user.user_id] = {"kafka_producer_object": kafka_producer, "topic": user.kafka_topic_id, "requested_platform": "kafka"}
             login_user(user, remember=req_content["remember"]) # if no errors log user in
             return make_response(jsonify({'redirect_to': '/gochat', 'feedback': 'login successfull.', 'category': 'success'}), 200)
         else:
@@ -253,18 +262,23 @@ def send_message():
             return make_response(jsonify({"feedback": "success", "timestamp": msg_timestamp}), 200)
 
         elif session_dict[current_user.user_id]['requested_platform'] == 'kafka':
-            kafka_client_obj = session_dict[current_user.user_id]['kafka_client_object']
-            sql = 'SELECT kafka_topic_id FROM contacts as c INNER JOIN user_auth as a ON c.peer_id= a.user_id WHERE c.user_id= :user_id AND c.peer_id IN (SELECT user_id FROM user_auth WHERE username= :peer_user);'
+            sql = 'SELECT kafka_topic_id, c.peer_id FROM contacts as c INNER JOIN user_auth as a ON c.peer_id= a.user_id WHERE c.user_id= :user_id AND c.peer_id IN (SELECT user_id FROM user_auth WHERE username= :peer_user);'
             result_proxy = db.session.execute(sql, {'user_id': current_user.user_id, 'peer_user': JSON_Data['to']})
-            peer_kafka_topic = result_proxy.fetchone()
-            if not peer_kafka_topic:
+            peer_kafka_topic, peer_id = result_proxy.fetchone()
+            if not peer_kafka_topic or not peer_id:
                 return make_response(jsonify({"feedback": "chat peer not found", "category": "danger"}), 401)
-            
-            topic = kafka_client_obj.topics[peer_kafka_topic[0]]
-            with topic.get_producer() as kafka_producer:
-                msg_timestamp = datetime.now().strftime('%Y-%m-%d %H:%M')
-                msg = {"msg": JSON_Data['msg_body'], "from": JSON_Data['from'], "timestamp": msg_timestamp, "type": "chat"}
-                kafka_producer.produce(json.dumps(msg).encode())
+
+            msg_timestamp = datetime.today().strftime('%Y-%m-%d %H:%M')
+            msg = {"msg": JSON_Data['msg_body'], "from": JSON_Data['from'], "to": JSON_Data['to'], "timestamp": msg_timestamp, "type": "chat"}
+            session_dict[current_user.user_id]['kafka_producer_object'].produce(json.dumps(msg).encode())
+
+            if peer_id in session_dict:
+                session_dict[peer_id]['kafka_producer_object'].produce(json.dumps(msg).encode())
+            else:
+                kafka_client = get_kafka_client()
+                topic = kafka_client.topics[peer_kafka_topic]
+                with topic.get_producer() as kafka_producer:
+                    kafka_producer.produce(json.dumps(msg).encode())
             return make_response(jsonify({"feedback": "success", "timestamp": msg_timestamp}), 200)
 
         return make_response(jsonify({"feedback": "wrong plattform"}), 404)
@@ -282,7 +296,7 @@ def add_contact():
         return make_response(jsonify({"feedback": "not authorized.", "category": "danger"}), 401)
 
     JSON_Data = request.get_json()
-    if not JSON_Data or not "username" in JSON_Data:
+    if not JSON_Data or not all(key in JSON_Data for key in ("username", "requested_platform")):
         return make_response(jsonify({"feedback": "invalid post data.", "category": "danger"}), 404)
 
     user_name = JSON_Data.get("username")
@@ -296,16 +310,34 @@ def add_contact():
     if result.user_id == current_user.user_id:
         return make_response(jsonify({"feedback": "invalid username. You cannot write with yourself.", "category": "danger"}), 403)
 
-    session_dict[current_user.user_id]["xmpp_object"].update_roster(f'{user_name}@{config["ejabberd_domain"]}', name=user_name)
+    if JSON_Data.get("requested_platform") == "xmpp":
+        session_dict[current_user.user_id]["xmpp_object"].update_roster(f'{user_name}@{config["ejabberd_domain"]}', name=user_name)
+
+    elif JSON_Data.get("requested_platform") == "kafka":
+        try:
+            sql = 'INSERT INTO contacts VALUES((SELECT user_id FROM user_auth WHERE username=:username),:user_id), (:user_id, (SELECT user_id FROM user_auth WHERE username=:username));'
+            db.session.execute(sql, {'user_id': current_user.user_id, 'username': user_name})
+            db.session.commit()
+        except exc.IntegrityError as e:
+            return make_response(jsonify({"feedback": "Contact relationship does already exist.", "category": "danger"}), 404)
+    
     return make_response(jsonify({"feedback": "added contact successfully.", "category": "success"}), 200)
 
 @csrf.exempt
 @app.route('/getcontact')
 def get_contact():
-    sql = 'SELECT kafka_topic_id FROM contacts as c INNER JOIN user_auth as a ON c.peer_id= a.user_id WHERE c.user_id= :user_id AND c.peer_id IN (SELECT user_id FROM user_auth WHERE username= :peer_user);'
-    result = db.session.execute(sql, {'user_id': 41, 'peer_user': 'testuser3'})
-    r = result.fetchone()
-    print(r)
+    #sql = 'SELECT kafka_topic_id FROM contacts as c INNER JOIN user_auth as a ON c.peer_id= a.user_id WHERE c.user_id= :user_id AND c.peer_id IN (SELECT user_id FROM user_auth WHERE username= :peer_user);'
+    #result = db.session.execute(sql, {'user_id': 41, 'peer_user': 'testuser3'})
+    #r = result.fetchone()
+    #print(r)
+    #sql = 'SELECT COUNT(*) FROM contacts as c INNER JOIN user_auth as a ON c.peer_id=a.user_id WHERE c.user_id= :user_id AND c.peer_id IN (SELECT user_id FROM user_auth WHERE username= :username) OR c.user_id IN (SELECT user_id FROM user_auth WHERE username= :username)  AND c.peer_id= :user_id;'
+    #result = db.session.execute(sql, {'user_id': current_user.user_id, 'username': "testuserkafka"})
+    #r = result.fetchone()
+    #print(r)
+    try:
+        sql = 'INSERT INTO contacts VALUES((SELECT user_id FROM user_auth WHERE username=:username),:user_id), (:user_id, (SELECT user_id FROM user_auth WHERE username=:username));'
+        db.session.execute(sql, {'user_id': 35, 'username': "testuser8"})
+        db.session.commit()
+    except exc.IntegrityError as e:
+        return str(e)
     return "Successfully!"
-
-

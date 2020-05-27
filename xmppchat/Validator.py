@@ -29,4 +29,10 @@ class Validator:
 
     @staticmethod
     def contains_invalid_characters(string, search=re.compile(r"^[a-zA-Z][a-zA-Z0-9]+$").search):
+        """
+            validate if username contains invalid characters
+            string: string to search
+            search: regex definition for valid username
+            Return: False if string is valid, otherwise True
+        """
         return not bool(search(string))

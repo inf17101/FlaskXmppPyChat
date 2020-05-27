@@ -36,9 +36,9 @@ class TestFlaskApplication(unittest.TestCase):
         """
             test successfull login and responses
         """
-        mock_u.query.filter_by.return_value.first.return_value = User("testuser", "testuser@web.de", "hallo123")
+        mock_u.query.filter_by.return_value.first.return_value = User("testuser", "testuser@web.de", "hallo123", "topic-id1")
         with app.test_request_context("/login"):
-            response = self.tester.post('/login', data=json.dumps(dict(username="testuser", password="hallo123", remember=False)), content_type="application/json")
+            response = self.tester.post('/login', data=json.dumps(dict(username="testuser", password="hallo123", remember=False, requested_platform="xmpp")), content_type="application/json")
             resp_data = json.loads(response.data)
             self.assertEqual(response.status_code, 200)
             if "feedback" in resp_data:
@@ -52,7 +52,7 @@ class TestFlaskApplication(unittest.TestCase):
         """
         mock_u.query.filter_by.return_value.first.return_value = None
         with app.test_request_context("/login"):
-            response = self.tester.post('/login', data=json.dumps(dict(username="testuser", password="hallo123", remember=False)), content_type="application/json")
+            response = self.tester.post('/login', data=json.dumps(dict(username="testuser", password="hallo123", remember=False, requested_platform="xmpp")), content_type="application/json")
             resp_data = json.loads(response.data)
             self.assertEqual(response.status_code, 401)
             if "feedback" in resp_data:
@@ -67,9 +67,9 @@ class TestFlaskApplication(unittest.TestCase):
         with app.test_request_context("/login"):
             response = self.tester.post('/login', data=json.dumps(dict(wrongkey1="testuser", wrongkey2="hallo123", wrongkey3=False)), content_type="application/json")
             resp_data = json.loads(response.data)
-            self.assertEqual(response.status_code, 401)
+            self.assertEqual(response.status_code, 404)
             if "feedback" in resp_data:
-                self.assertEqual(resp_data["feedback"], "invalid login credentials.")
+                self.assertEqual(resp_data["feedback"], "invalid data format.")
 
 if __name__ == "__main__":
     unittest.main()

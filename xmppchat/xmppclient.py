@@ -1,6 +1,6 @@
 from sleekxmpp import ClientXMPP
 from xmppchat.api import red
-import logging, ssl
+import ssl
 from datetime import datetime
 
 
@@ -33,7 +33,13 @@ class EchoBot(ClientXMPP):
         if msg['type'] in ('normal', 'chat'):
             from_jid = str(msg['from']).split('/')[0]
             msg_timestamp = datetime.now().strftime('%Y-%m-%d %H:%M')
+            print("####### nachricht in channel: ", self.custom_stream_id, " gesendet.")
             red.publish(self.custom_stream_id, "data: { \"msg\": \"%s\",\"from\": \"%s\",\"timestamp\": \"%s\",\"type\": \"%s\"}\n\n" % (msg['body'], from_jid, msg_timestamp, msg['type']))
 
     def push_message(self, to_jid, msg, subject, msg_type):
-        self.send_message(mto=to_jid, mbody=msg, mtype=msg_type, msubject=subject)
+        try:
+            self.send_message(mto=to_jid, mbody=msg, mtype=msg_type, msubject=subject)
+        except Exception as e:
+            print(str(e))
+            raise e
+

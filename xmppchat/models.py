@@ -91,15 +91,15 @@ class Archiv(db.Model):
     @staticmethod
     def get_chat_history(username):
         POSITION_XML = 1
-        chat_rosters = Archiv.query.filter_by(username=username).group_by("bare_peer").all()
-        chat_rosters_bare_peers = [roster.bare_peer for roster in chat_rosters]
+        chat_rosters_bare_peers = Archiv.query.with_entities(Archiv.bare_peer).filter_by(username=username).group_by("bare_peer").all()
+        #chat_rosters_bare_peers = [roster.bare_peer for roster in chat_rosters]
         chat_msgs = {}
         for bare_peer in chat_rosters_bare_peers:
             list_peer_msgs = []
-            results = Archiv.query.with_entities(Archiv.txt, Archiv.xml, Archiv.created_at, Archiv.kind).filter_by(username=username).filter_by(bare_peer=bare_peer).all()
+            results = Archiv.query.with_entities(Archiv.txt, Archiv.xml, Archiv.created_at, Archiv.kind).filter_by(username=username).filter_by(bare_peer=bare_peer[0]).all()
             for item in results:
                 match = re.findall(regex, item[POSITION_XML])
                 list_peer_msgs.append({"txt": item[0], "timestamp": item[2].strftime('%Y-%m-%d %H:%M:%S'), "type": item[3], "from": match[0]})
             list_peer_msgs_sorted = list(sorted(list_peer_msgs, key=lambda k: k["timestamp"]))
-            chat_msgs[bare_peer.split('@')[0]] = list_peer_msgs_sorted
+            chat_msgs[bare_peer[0].split('@')[0]] = list_peer_msgs_sorted
         return chat_msgs
