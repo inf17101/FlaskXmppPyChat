@@ -2702,7 +2702,73 @@ def stream():
 
 Verbindet sich ein Client auf die \acs{URI} \texttt{http://193.196.53.24/stream}, führt die Flask Applikation die Methode \texttt{stream} aus. Die Methode \texttt{Respone} des Flask-Moduls ruft für jeden Benutzer die Methode \texttt{event\_stream} auf, die Daten für das Server-Sent-Event produziert. Genau wie in \autoref{lst:flaskPykafkaSSE}, sorgt die Operation \texttt{current\_user.user\_id} dafür, dass sich das Argument der Methode \texttt{event\_stream} je nach Benutzer unterscheidet. Die Benutzer-ID wird dafür verwendet, um für jeden Benutzer die Channel-ID aus dem Session-Dictionary auszulesen. In \autoref{lst:flaskSleekxmppSSE} ist die Channel-ID \glqq stream\_id\grqq genannt. Anschließend werden über den Subscribe-Mechanismus die Nachrichten aus dem Channel gelesen und der Generator produziert die Nachrichten in den Event-Stream. Der Client erhält die Nachrichten über den Event-Stream.
 
-Mit Server-Sent-Events werden die Nachrichten automatisch dem Client übermitteln. Wird die Verbindung unterbrochen, verbindet sich der Client-Code automatisch erneut mit dem Server-Sent-Event. Die Lösung macht den Empfang von Nachrichten direkt am Client oder in einem Web Frontend möglich.
+Mit Server-Sent-Events werden die Nachrichten automatisch dem Client übermittelt. Wird die Verbindung unterbrochen, verbindet sich der Client-Code automatisch erneut mit dem Server-Sent-Event. Die Lösung macht den Empfang von Nachrichten direkt am Client oder in einem Web Frontend möglich.
+
+\subsubsection*{Hinzufügen von Benutzern als Kontakte}
+
+Dieser Abschnitt befasst sich mit der Implementierung einer Funktion, die es Benutzern ermöglicht, andere Benutzer als Kontakt hinzuzufügen. Die Funktionalität in einem \acs{IMS} ist wichtig, weil sonst keine Kommunikation mit Benutzern stattfinden kann. Ein Benutzer soll einen Kontakt selbstständig hinzufügen kennen, wenn er den Benutzernamen des zukünftigen Chatpartners kennt.
+
+Ein Benutzer kann einen anderen Benutzer zu seinen Kontakten hinzufügen, wenn sein Client eine \acs{HTTP}-Post Anfrage an die \acs{API}-Route \texttt{http://193.196.53.24/add\_contact} sendet.
+
+Im Anhang in \autoref{img:umlAddContactStudienarbeit} ist die Anwendungslogik in einem \acs{UML}-Aktivitätsdiagramm dargestellt. Die \acs{API} führt die darin dargestellten Abläufe durch, wenn ein Client die \acs{API} beauftragt, einen Kontakt hinzuzufügen. Im ersten Schritt wird überprüft, ob der Benutzer am \acs{IMS} angemeldet ist. Falls das nicht der Fall ist, sendet die \acs{API} dem Client eine Fehlermeldung im Datenaustauschformat \acs{JSON}. Falls der Benutzer angemeldet ist, überprüft die \acs{API}, ob die im \acs{HTTP}-Payload vorhandenen Daten valide sind. Der Name des Benutzers, der als Kontakt hinzugefügt werden soll, und die benutzte Plattform müssen im \acs{JSON}-Payload enthalten sein. Die \acs{API} überprüft, ob der Benutzername aus dem Payload in der Datenbank existiert und sendet dem Client, falls das nicht der Fall ist, eine Fehlermeldung. Zusätzlich wird sichergestellt, dass ein Benutzer sich nicht selbst als Chatpartner hinzufügen kann. Sind die Daten valide, entscheidet die \acs{API} anhand des Wertes im Payload, für welche Plattform der Benutzer hinzugefügt werden soll. Zum Beispiel kann ein Benutzer, der für die Plattform ejabberd angemeldet ist, einen anderen Benutzer als Kontakt nur in seine Kontaktliste der ejabberd-Plattform hinzufügen, aber nicht für die Plattform Kafka. Umgekehrt wenn er an der Plattform Kafka angemeldet ist, kann er nur Kontakte für die Plattform Kafka hinzufügen, aber nicht für ejabberd. Der Mehrwert ist, dass so die Entwicklung weniger aufwendig ist. Anschließend wird der Kontakt für die entsprechende Plattform hinzugefügt und die Benutzer können sich gegenseitig Nachrichten schreiben.
+
+Beim Hinzufügen eines Kontakts auf der Plattform ejabberd, benutzt die \acs{API} den Sleekxmpp-Client von Python. Hierfür verwendet dieser das \acs{XMPP}-Protokoll, um den ejabberd-Server die Änderung in seiner Kontaktliste mitzuteilen. Der Kontakt kann über die Methode \texttt{update\_roster} des Moduls Sleekxmpp hinzugefügt werden.
+
+\autoref{lst:sleekxmppUpdateContacts} zeigt den Ausschnitt des Codes der \acs{API}-Route, der die Kontaktliste über den Sleekxmpp-Client aktualisiert.
+
+\begin{lstlisting}[language=python, caption={Code für das Hinzufügen eines Kontakts über \acs{XMPP}}, label={lst:sleekxmppUpdateContacts}]
+# error handling code
+if JSON_Data.get("requested_platform") == "xmpp":
+    session_dict[current_user.user_id]["xmpp_object"].update_roster(f'{user_name}@{config["ejabberd_domain"]}', name=user_name)
+    # send successfull message or handle errors
+\end{lstlisting}
+
+In \texttt{JSON\_Data} befinden sich die Daten des \acs{JSON}-Payloads vom Client. Ist \texttt{requested\_platform} im Payload auf \texttt{xmpp} gesetzt, wird der neue Chatpartner über den Sleekxmpp-Client zur Kontaktliste des Benutzers hinzugefügt. Die Methode wird über das Sleekxmpp-Objekt des Benutzers aus dem Session-Dictionary aufgerufen. Denn das Sleekxmpp-Objekt verwaltet über den ejabberd-Server die Kontaktliste des Benutzers. Die Methode erhält als Argumente die Jabber-ID und den Namen des Benutzers, der hinzugefügt werden soll. Zum Schluss sendet die \acs{API} ein \acs{JSON}-Objekt an den Client zurück, das den Ausgang der Operation enthält.
+
+\textbf{Bemerkung:} Mit dem Modul Sleekxmpp lässt sich nur die eigene Kontaktliste aktualisieren. Umgekehrt hat der neu hinzugefügte Kontakt nicht den Benutzer, der ihn hinzugefügt hat, in seiner Kontaktliste. Eine Möglichkeit die Kontaktliste des anderen Benutzers mit zu aktualisieren ist mit der \acs{XMPP}-Erweiterung \texttt{XEP-0321} möglich. Für mehr Informationen siehe \cite{xep0321remoteRosterMgmt}. Die Erweiterung wird allerdings nicht von Sleekxmpp unterstützt. Auch ist es nicht möglich, das Sleekxmpp des anderen Benutzers aus dem Session-Dictionary direkt zu benutzen, um seine Kontaktliste ebenfalls zu aktualisieren. Der Benutzer muss nicht am System angemeldet sein und deshalb kein Sleekxmpp-Objekt des Benutzers im Session-Dictionary vorhanden sein. Auch kann kein Objekt neu erzeugt werden, denn dafür ist ein Passwort notwendig. Das Passwort ist aber im \acs{IMS} nicht im Klartext gespeichert.
+
+Eine Lösung ist, das Hinzufügen des anderen Benutzers zu ignorieren. Durch den Chatverlauf kann der andere Benutzer ihm immer antworten und vergangene Nachrichten sehen. Diese Lösung wird in der Studienarbeit verwendet.
+
+Um einen Kontakt für die Plattform Kafka hinzuzufügen, wird die \autoref{tab:tableContacts} benötigt, in der die Kontakte von Benutzern der Apache Kafka Plattform gespeichert werden. Fügt ein Benutzer einen Kontakt hinzu, muss die \acs{API} zwei Zeilen in die Tabelle aus \autoref{tab:tableContacts} eintragen.
+
+\autoref{tab:tableAddContactKafka} zeigt ein Beispiel, wenn Benutzer mit der ID 41 den Benutzer mit der ID 32 als Kontakt hinzufügt.
+
+\begin{table}[h]
+\centering
+\caption{Eintrag in die Tabelle contacts für das Hinzufügen eines Kontakts der Plattform Apache Kafka}
+\begin{tabular}{|l|l|}
+\hline
+\textbf{user\_id} &  \textbf{peer\_id} \\
+\hline
+... & ... \\
+\hline
+41 & 32 \\
+\hline
+32 & 41 \\
+\hline
+... & ... \\
+\hline
+\end{tabular}
+\label{tab:tableAddContactKafka}
+\end{table}
+
+Dieser Mechanismus stellt sicher, dass sich beide Benutzer gegenseitig als Kontakt hinzufügen und keine Fehler entstehen, wenn ein Benutzer dem Anderen eine Nachricht sendet.
+
+In \autoref{lst:kafkaUpdateContacts} ist ein Ausschnitts des Codes der \acs{API}-Route dargestellt, der den Benutzer als Kontakt für die Plattform Apache Kafka hinzufügt. Das Listing lässt sich als Fortsetzung von \autoref{lst:sleekxmppUpdateContacts} betrachten.
+
+\begin{lstlisting}[language=python, caption={Code für das Hinzufügen eines Kontakts der Plattform Kafka}, label={lst:kafkaUpdateContacts}]
+# error handling code
+# Fortsetzung von Listing 5.53.
+elif JSON_Data.get("requested_platform") == "kafka":
+    sql = # SQL-Befehl für das Hinzufügen in die Datenbank als String
+    db.session.execute(sql, {'user_id': current_user.user_id, 'username': user_name})
+    db.session.commit()
+    # send successfull message or handle errors
+\end{lstlisting}
+
+Der SQL-Befehl wird in einer Variablen als Zeichensatz vorbereitet. Die Methode \texttt{execute} fügt die Einträge des Dictionary in das SQL-Statement ein. Die Operation \texttt{current\_user.user\_id} gibt die Benutzer-ID des Benutzers zurück, der am \acs{IMS} angemeldet ist und die \acs{API}-Route aufruft. Anhand der Benutzer-ID des Aufrufers und dem Namen des Benutzers, den der Aufrufer als Kontakt hinzufügen möchte, fügt die Methode \texttt{execute} die beiden Zeilen in die Tabelle der Datenbank ein (siehe \autoref{tab:tableAddContactKafka}).
+
+Der Mehrwert für die Entwicklung des \acs{IMS} ist, dass Benutzer Kontakte hinzufügen können und die Chatfunktionalitäten um weitere typische Funktionen eines \acs{IMS} erweitert werden.
 
 \pagebreak
 
@@ -3907,6 +3973,17 @@ class Archiv(db.Model):
 	\includegraphics[width=.7\textwidth]{images/umlSendMessage}
 	\caption{\acs{UML}-Aktivitätsdiagramm: Ablauf des Nachrichtenversands, eigene Darstellung}
 	\label{img:umlActivitySendMessage}
+\end{figure}
+
+\pagebreak
+
+\section{Ablauf der Funktion für das Hinzufügen eines Benutzers}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=.7\textwidth]{images/umlAddContactStudienarbeit}
+	\caption{\acs{UML}-Aktivitätsdiagramm: Ablauf der Funktion für das Hinzufügen eines Kontaktes, eigene Darstellung}
+	\label{img:umlAddContactStudienarbeit}
 \end{figure}
 
 \pagebreak
