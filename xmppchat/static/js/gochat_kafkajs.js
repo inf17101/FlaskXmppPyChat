@@ -1,4 +1,4 @@
-//#region Variables and other attributes without container 
+//#region Variables and other attributes without HTML container 
 var user_name = $('#NameOnlineAvatar').text()
 chat_messages = {}
 chat_messages[user_name] = {}
@@ -30,7 +30,8 @@ function getMessage (empfangenMsg) {
         from = empfangenMsg.to
         ownMsg = true
     }
-    if ((chat_messages[user_name][from] == undefined)) {
+    if (!(from in chat_messages[user_name])) {
+        //checkNewContact(from, empfangenMsg.type)
         // Den Contact gibt es noch nicht
         if(!(ownMsg)){
             console.log(`Der Kontaktpartner ${from} wurde noch ned gefunden`)
@@ -119,6 +120,14 @@ function updatePreview(contact, msg, ownMsg) {
         return
     }
     contact.getElementsByTagName("p")[1].innerHTML = msg    
+}
+function checkNewContact(from, msg_type) {
+    if(!(msg_type == "roster_agreement_required"))
+    {
+        return;
+    }
+    $("#acceptContactModal").modal("show")
+    $('#acceptContact').append(`<p>${from}</p><p>Hey I want to be your friend</p>`);
 }
 //#endregion
 //#endregion
@@ -217,6 +226,7 @@ function firstactiveContact(li) {
     var contactImageSrc = li.getElementsByTagName('img')[0].src
     $(".contact-profile").children()[1].innerHTML = name;
     $(".contact-profile").children()[0].src = contactImageSrc;
+    document.getElementById("send-submit-button").disabled = false; 
 }
 //#endregion
 
@@ -231,7 +241,7 @@ function updateLastMessageInContactView(user_name, peer_name, update_id, message
   var li_contact = $('#' + update_id).html(`
   <div class="wrap">
             <span class="contact-status online"></span>
-            <img src="/static/img/usericon2.png}" alt="Avatar">
+            <img src="/static/img/usericon2.png" alt="Avatar">
             <div class="meta">
               <p class="name">${update_id}</p>
               <p class="preview">${message_string}</p>
@@ -377,3 +387,187 @@ $(document).ready(function(){
       };
 //#endregion
 //#endregion
+
+//#region Add new Contact DESCRIPTION:
+/*
+      Functions to add a new contact. We need a request. We have to check that the name is valid.accordion
+      Functions: 
+        Modal-Functions, checkletters(name, letters, checkexisting(name), checkOwnName(name), requestToServer (contactName), addContactToList(name, preview_message)
+    
+*/
+//#region Functions:
+// Schließen des Kontakt-Hinzufügen Fensters
+$('#closeModalButton').click(function(){
+    $('#addContactInput').val("");
+    $('#addContactInput').removeClass('is-invalid');
+    var error_item = document.getElementById("addContactInput-invalid");
+    error_item.innerText = "";
+});
+
+$("#addContactButton").click(function(){
+    var addContactName = $("#addContactInput").val().trim();
+    $("#addContactInput").val("")
+    var lettercheck, contactexists, ownName
+    var valid = true
+    var letters = /^[a-z]+[0-9]*$/;
+
+    lettercheck = checkletters(addContactName, letters)
+    contactexists = checkexisting(addContactName)
+    ownName = checkOwnName(addContactName)
+    
+    if (lettercheck && contactexists && ownName) {
+        requestToServer (addContactName)
+    }
+}); 
+
+function checkletters(name, letters){
+    if(!name.match(letters))
+    {
+        $('#addContactInput').addClass('is-invalid');
+        var error_item = document.getElementById("addContactInput-invalid");
+        error_item.innerText = "username contains invalid characters. Try again!";
+        return false;
+    }
+    return true
+}
+
+function checkexisting(name){
+    if(name in chat_messages[$('#NameOnlineAvatar').text()])
+    {
+        $('#addContactInput').addClass('is-invalid');
+        var error_item = document.getElementById("addContactInput-invalid");
+        error_item.innerText = "username does already exist in your contacts list.";
+        return false;
+    }
+    return true
+}
+
+function checkOwnName(name){
+    if(name == $('#NameOnlineAvatar').text())
+    {
+        $('#addContactInput').addClass('is-invalid');
+        var error_item = document.getElementById("addContactInput-invalid");
+        error_item.innerText = "you cannot write with yourself. Try again!";
+        return false;
+    }
+    return true
+}
+
+function requestToServer (contactName){
+    var post_data = {"username": contactName, "requested_platform":"kafka"};
+    $.ajax({
+    url: "/add_contact", 
+    type: "post",
+    data: JSON.stringify(post_data),
+    processData: false,
+    dataType: "json",
+    contentType: "application/json",
+    success: function(response_data){
+        addContactToList(contactName, "");
+        chat_messages[$('#NameOnlineAvatar').text()][contactName] = [];
+        console.log(chat_messages)
+        $("#staticBackdrop").modal('hide');
+        sendNewContact(contactName)
+        document.getElementById("send-submit-button").disabled = false;     
+    },
+    error: function(error_data){
+        console.log(error_data.responseJSON);
+        $('#addContactInput').addClass('is-invalid');
+        var error_item = document.getElementById("addContactInput-invalid");
+        error_item.innerText = error_data.responseJSON.feedback;
+        }
+    });
+}
+
+function addContactToList(name, preview_message)
+{
+    var contact_ul = $('#contacts_list');
+    contact_ul.append(`
+    <li class="contact" id="${name}">
+          <div class="wrap">
+            <span class="contact-status online"></span>
+            <img src="/static/img/usericon2.png" alt="Avatar">
+            <div class="meta">
+              <p class="name">${name}</p>
+              <p class="preview">${preview_message}</p>
+            </div>
+          </div>
+        </li>`);
+    li_list = contact_ul.children()
+    lastContact = li_list[contact_ul.children().length -1]
+    $(".contact.active").removeClass('active');
+    $(lastContact).addClass("active")
+    firstactiveContact(lastContact)
+}
+
+function sendNewContact(contactName){
+    var sending_informations = {"to":contactName, "from":user_name, "msg_subject":"", "msg_body":"Now You are my friend!!","msg_type":"chat"}
+    var dt = new Date();
+    var msg_timestamp = dt.toISOString().split("T")[0] + " " + dt.toLocaleTimeString().substring(0,5);
+    send_message(sending_informations)
+    chat_messages[user_name][contactName].push({"from": user_name, "timestamp": msg_timestamp, "txt": sending_informations.msg_body, "type": "chat"});
+    updateLastMessageInContactView(user_name, user_name, contactName, sending_informations.msg_body)
+}
+//#endregion
+//#endregion
+
+//#region Emoji
+$(document).ready( function() {
+$("#input-message").emojioneArea({ events: { keydown: function (editor, event) { 
+    var length = this.getText().length;
+    if (length >= 250 && event.which != 8) 
+    { 
+        event.preventDefault(); 
+        document.getElementById("send-submit-button").disabled = true; 
+        document.getElementById("alertFormaxlength").style.display = "block"
+        }
+    if (length < 250) 
+    {
+        document.getElementById("alertFormaxlength").style.display = "none"
+        document.getElementById("send-submit-button").disabled = false; 
+    }
+} }} );
+});
+//#endregion
+
+//#region Link to Privacy Policy
+//PrivacyPolicy
+$("#PrivacyPolicy").click(function() {
+    window.location.href = "/privacy_policy";
+});  
+//#endregion
+
+//#region Contactprofile
+//Profile
+$("#profileDd").click(function() {
+    var user_name = $('#NameOnlineAvatar').text()
+    var chatpartner = $(".contact-profile").children()[1].innerHTML
+    if(chatpartner == "No Contact"){
+      return
+    }
+    $("#ContactProfileModal").modal("show")
+    var timestamp = chat_messages[user_name][chatpartner][0].timestamp
+    var messageCounter = chat_messages[user_name][chatpartner].length
+    $('#ContactProfileLabel').append(`<p>${chatpartner}</p>`);
+    $('#ContactProfile').append(`
+      <p>Statistics:</p>
+      <div class="d-flex justify-content-center">
+        <p>Kontakt hinzugefügt am: ${timestamp}<br>
+        Anzahl an Nachrichten : ${messageCounter}</p>
+      </div
+      `);
+  });
+  //Profile
+  $("#closeContactProfileButton").click(function() {
+    document.getElementById("ContactProfile").innerText = ""
+    document.getElementById("ContactProfileLabel").innerText = ""
+  });
+//#endregion
+
+//#region disable Send-Button
+$(document).ready( function() {
+    document.getElementById("send-submit-button").disabled = true; 
+});
+//#endregion
+
+
