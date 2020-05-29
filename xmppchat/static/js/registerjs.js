@@ -4,7 +4,7 @@ $('#register-form-button').click(function(event){
     var url = form.prop('action');
     var type = form.prop('method');
     var form_data = {
-        username: document.getElementById("username").value.toLowerCase(),
+        username: document.getElementById("username").value,
         eMail: document.getElementById("eMail").value,
         password: document.getElementById("password").value,
         confirmPassword: document.getElementById("confirmPassword").value
@@ -51,6 +51,8 @@ function removePreviousErrorMsgs()
     $("#eMail-invalid").text("")
     $("#password-invalid").text("")
     $("#confirmPassword-invalid").text("")
+    $("#datenschutzContainer").css("background-color", "")
+    $("#privacyPolicy-invalid").css("display", "none")
 }
 
 
@@ -66,22 +68,38 @@ function formIsValid(form_data)
     var emailError = validateEmail(form_data.eMail, "eMail")
     var passwdError = validatePassword(form_data.password, "password")
     var confirmPasswdError = validateConfirm(form_data.password, form_data.confirmPassword, "confirmPassword")
+    var privacyPolicy = validatePrivacyPolicy("privacyPolicy")
     //console.log(emailError && passwdError && confirmPasswdError)
-    return usernameError && emailError && passwdError && confirmPasswdError
+    return usernameError && emailError && passwdError && confirmPasswdError && privacyPolicy
 }
 
 function validateUsername(username, id_key){
-    var re = /^[A-Za-z]+[0-9]*$/;
+    var re = /^[a-z]+[0-9]*$/;
     if(!username.match(re))
     {
         var item = document.getElementById(id_key)
         item.className += " is-invalid"
         var error_item = document.getElementById(id_key+"-invalid")
-        error_item.innerText = "Invalid username. The username have to start with a letter. Please try again."
+        error_item.innerText = "Invalid username. The username have to start with letter (lower case). Please try again."
         return false
     }
     return true
 }
+
+// New function
+function validatePrivacyPolicy(id_key){
+    if(!document.getElementById(id_key).checked)
+    {
+        $("#datenschutzContainer").css("background-color", "rgb(255, 229, 204)")
+        var item = document.getElementById(id_key)
+        item.className += " is-invalid"
+        var error_item = document.getElementById(id_key+"-invalid")
+        error_item.innerText = "You have to accept the privacy policy"
+        $("#privacyPolicy-invalid").css("display", "flex")
+        return false
+    }
+    return true
+}    
 
 function validateEmail(email, id_key) {
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
