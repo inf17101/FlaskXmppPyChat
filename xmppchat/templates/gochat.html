@@ -2,7 +2,13 @@
 {% block title %}Go Chat!{% endblock %}
 {%block content%}
 
+
 <style>
+
+  .input-group .emojionearea .form-control{
+    width: max-content;
+  }
+
   #containerMain { 
     margin-top: 50pt!important;
     height: 90vh;
@@ -69,9 +75,13 @@
   .chat .chat-history .you-message {
     background: #CCDBDC;
     color:#003366;
+    max-width: 50%;
+    overflow-wrap: anywhere;
   }
   .chat .chat-history .me-message {
     background: #3f79af;
+    max-width: 50%;
+    overflow-wrap: anywhere;
   }
   .chat .chat-history .me-message:after {
     border-color: #3f79af transparent;
@@ -173,9 +183,12 @@
     color: #3f79af;
   }
   .input-group {
-    padding: 0% 3% 0% 3%;
+    padding: 0% 0% 0% 1%;
     position: absolute;
     bottom: 0;
+    max-width: 98%;
+    flex-wrap: nowrap;
+    word-break: break-all;
   }
   #send-submit-button {
     color: #3f79af;
@@ -644,6 +657,8 @@
     -o-transition: 1s all ease;
     -webkit-transition: 1s all ease;
     transition: 1s all ease;
+    height: 22px;
+    overflow-y: hidden;
   }
   #containerMain #sidepanel #contacts ul li.contact .wrap .meta .preview span {
     position: initial;
@@ -794,9 +809,11 @@
     width: -webkit-fill-available;
   }
   }
+
   .input-group>.custom-select:not(:first-child), .input-group>.form-control:not(:first-child) {
-    width: fit-content;
+    max-width: inherit;
   }
+
 
   .modal-header {
     color:#3f79af;
@@ -810,13 +827,40 @@
     border-radius: 0%;
     border-color: #007bff;
   }
+  
 
   /* Aenderung */
   .emojionearea .emojionearea-editor {
     height: -webkit-fill-available;
   }
   
+
+  
+  #alertFormaxlength {
+    display: none;
+    bottom: 13px;
+    position: fixed;
+    padding: 0 0 0 0;
+  }
+
+  .loader {
+        border: 16px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 16px solid #3498db;
+        width: 120px;
+        height: 120px;
+        -webkit-animation: spin 2s linear infinite; /* Safari */
+        animation: spin 2s linear infinite;
+    }
+
+  @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+  
 </style>
+
 
 <div id="containerMain" class="row">
   <div id="sidepanel">
@@ -824,7 +868,9 @@
       <div class="wrap">
         <img id="Userstatus" src="{{url_for('static', filename='img/usericon2.png')}}" class="online" alt="Avatar">
         <p id="NameOnlineAvatar">{{username}}</p>
+        <!-- Menue for Single/Group
         <i class="fa fa-chevron-down expand-button" aria-hidden="true"></i>
+        -->
         <div id="status-options">
           <ul>
             <li id="status-online" class="active"><span class="status-circle"></span> <p>Online</p></li>
@@ -833,13 +879,14 @@
             <li id="status-offline"><span class="status-circle"></span> <p>Offline</p></li>
           </ul>
         </div>
-        <!-- Test -->
+        <!-- Single/Group-Button
         <div id="single_groupchat_options">
           <div class = "chat_change_wrapper">
             <button type="button" class="Single-Chat">Single-Chat</button>
             <button type="button" class="Group-Chat-Button" style="float:right;">Group-Chat</button>
           </div>
         </div>
+        -->
       </div>
     </div>
     <div id="search">
@@ -855,9 +902,8 @@
     </div>
     <div id="bottom-bar">
       <button id="addcontact" data-toggle="modal" data-target="#staticBackdrop"><i class="fa fa-user-plus fa-fw" aria-hidden="true"></i> <span>Add contact</span></button>
-      <button id="settings"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> <span>Settings</span></button>
+      <button id="PrivacyPolicy"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> <span>Privacy Policy</span></button>
     </div>
-     <!-- Modal -->
      <div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -880,9 +926,26 @@
         </div>
       </div>
     </div>  
-  <!-- Modal Ende -->  
   </div>
   <div id="content-window" class="col">
+     <!-- Modal -->
+     <div class="modal fade" id="ContactProfileModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="ContactProfileLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="ContactProfileLabel"></h5>
+          </div>
+          <div class="modal-body">
+            <div id="ContactProfile"> 
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" id="closeContactProfileButton" class="btn btn-outline-secondary" data-dismiss="modal">close</button>
+          </div>
+        </div>
+      </div>
+    </div>  
+  <!-- Modal Ende -->
     <div class="contact-profile">
       <img src="{{url_for('static', filename='img/usericon2.png')}}" alt="Avatar">
       <p>No Contact</p>
@@ -891,13 +954,14 @@
           <i class="fa fa-bars fa-lg"></i>
         </a>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-          <a class="dropdown-item" href="#">Profile</a>
-          <a class="dropdown-item" href="#">Privacy</a>
-          <a class="dropdown-item" href="#">more...</a>
+          <div id="profileDd" class="dropdown-item" >Profile</div>
         </div>
       </div>
     </div>
-    <div id="messages-container" class="scrollable-messages chat">   
+    <div id="messages-container" class="scrollable-messages chat">
+    <div id="loaderContentbox" class="d-flex justify-content-center" style="display: none!important;">
+      <div class="loader"></div>
+    </div>   
     <div class="chat-history">
       <div id="form-response" class="mb-3"></div>
       <ul id="chat-list" class="chat-ul">
@@ -910,9 +974,11 @@
     </div>
     <div id="input-group-content"class="input-group">
       <textarea id="input-message" class="form-control" placeholder="Enter your message..." maxlength="250" aria-label="Recipient's username" aria-describedby="send-submit-button"></textarea>
-      <div class="input-group-append">
-        <button class="btn btn-outline-primary" type="button" id="send-submit-button">Send</button>
-        
+      <div class="input-group-append"></div>
+        <div id="alertFormaxlength" class="alert alert-danger" role="alert">
+          You can only write 250 letters!
+        </div>
+          <button class="btn btn-outline-primary" type="button" id="send-submit-button">Send</button>
       </div>
     </div>
     
@@ -928,693 +994,7 @@
 
 {%block scripts%}
 
-<script>
- $(document).ready( function() {
-    $("#input-message").emojioneArea({ events: { keypress: function (editor, event) { 
-      var length = this.getText().length; 
-      if (length >= 250) 
-      { 
-        event.preventDefault(); 
-        document.getElementById("alertFormaxlength").style.display = "block"
-      }
-    }, keydown: function (editor, event){
-      var length = this.getText().length;
-      if (length <= 250) {
-        document.getElementById("alertFormaxlength").style.display = "none"
-      }
-
-    } }} );
-  });
-
-  // to set first contact acitve after login
-  $(document).ready( function() {
-    $("#input-group-content").attr("style", "display:none;");
-    var stopIntervall 
-    stopIntervall = setInterval(function() {
-      console.log("intervall")
-      checkExistingofElement(stopIntervall)
-    }, 1000);
-  });
-
-  // to Check if one contact is exisiting
-  function checkExistingofElement(stopIntervall){
-    $('#contacts_list').each(function(){
-        if($(this).children().length > 0){
-          filterFirstContact()
-          console.log("stopIntervall")
-          clearInterval(stopIntervall);
-        }
-    });
-  }
-
-  // To find first Contact to user them for function "set first contact active"
-  function filterFirstContact(){
-    var ul_tag, li
-    $(".contact.active").removeClass('active');
-    ul_tag = document.getElementById('contacts_list');
-    li = ul_tag.getElementsByTagName("li")[0];
-    $(li).addClass("active")
-    firstactiveContact(li);  
-  }
-
-  // To make the mainWindow to the active contact
-  function firstactiveContact(li) {
-  var name = li.getElementsByTagName('p')[0].innerHTML
-  var contactImageSrc = li.getElementsByTagName('img')[0].src
-  $(".contact-profile").children()[1].innerHTML = name;
-  $(".contact-profile").children()[0].src = contactImageSrc;
-  $("#input-group-content").attr("style", "display:;");
-  
-
-  var peer_name = $(".contact-profile").children()[1].innerHTML
-  fill_in_chat_msgs_single_chat($('#NameOnlineAvatar').text(), peer_name);
-}
-
-  // to clear inout by closeButton
-  $('#closeModalButton').click(function(){
-    $('#addContactInput').val("");
-    $('#addContactInput').removeClass('is-invalid');
-    var error_item = document.getElementById("addContactInput-invalid");
-    error_item.innerText = "";
-  });
-
-  // function of inout Button to add contacts
-  $("#addContactButton").click(function(){
-    var addContactName = $("#addContactInput").val().trim();
-    $("#addContactInput").val("")
-
-    var letters = /^[A-Za-z]+[0-9]*$/;
-
-    if(!addContactName.match(letters)) //check name
-    {
-      $('#addContactInput').addClass('is-invalid');
-      var error_item = document.getElementById("addContactInput-invalid");
-      error_item.innerText = "username contains invalid characters. Try again!";
-      return false;
-    }
-
-    if(addContactName in chat_messages[$('#NameOnlineAvatar').text()])
-    {
-      $('#addContactInput').addClass('is-invalid');
-      var error_item = document.getElementById("addContactInput-invalid");
-      error_item.innerText = "username does already exist in your contacts list.";
-      return false;
-    }
-
-    if(addContactName == $('#NameOnlineAvatar').text())
-    {
-      $('#addContactInput').addClass('is-invalid');
-      var error_item = document.getElementById("addContactInput-invalid");
-      error_item.innerText = "you cannot write with yourself. Try again!";
-      return false;
-    }
-
-      // post request etc.
-      var post_data = {"username": addContactName};
-    $.ajax({url: "/add_contact", type: "post",
-    data: JSON.stringify(post_data),
-    processData: false,
-    dataType: "json",
-    contentType: "application/json",
-    success: function(response_data){
-      $("#staticBackdrop").modal('hide');
-      chat_messages[$('#NameOnlineAvatar').text()][addContactName] = [];
-      addContactToList(addContactName, ""); 
-    },
-    error: function(error_data){
-      console.log(error_data.responseJSON);
-      $('#addContactInput').addClass('is-invalid');
-      var error_item = document.getElementById("addContactInput-invalid");
-      error_item.innerText = error_data.responseJSON.feedback;
-      }
-    });
-      return true;
-  });
-  
-
-
-  // Aenderung Ende
-
-function addContactToList(name, preview_message)
-{
-  var li_list, lastContact;
-  var contact_ul = $('#contacts_list');
-      contact_ul.append(`
-    <li class="contact" id="${name}">
-          <div class="wrap">
-            <span class="contact-status online"></span>
-            <img src="{{url_for('static', filename='img/usericon2.png')}}" alt="Avatar">
-            <div class="meta">
-              <p class="name">${name}</p>
-              <p class="preview">${preview_message}</p>
-            </div>
-          </div>
-        </li>`);
-  li_list = contact_ul.children()
-  lastContact = li_list[contact_ul.children().length -1]
-  $(".contact.active").removeClass('active');
-  $(lastContact).addClass("active")
-  firstactiveContact(lastContact)
-}
-
-
-</script>
-
-
-<script>
-
-  var chat_messages = {};
-
-  pull_chat_hisotry($('#NameOnlineAvatar').text());
-
-//begin event stream for chat messages
-  var source = new EventSource('/stream');
-  source.onmessage = function (event) {
-       var result = event.data
-       console.log(result)
-      if ($.trim(result) != "1")
-      {
-        result = result.split("data: ").join("");
-        var json_obj = JSON.parse(result);
-        console.log(json_obj);
-        printSingleChatMessage(json_obj);
-      }
-       
-  };
-
-function fillInContactPeers()
-{
-  var contact_ul = $("#contacts_list");
-  var user_name = $('#NameOnlineAvatar').text();
-  for (const peer of Object.keys(chat_messages[user_name]))
-  {
-    var position_last_message_object = chat_messages[user_name][peer].length - 1;
-    var last_message_dict = chat_messages[user_name][peer][position_last_message_object];
-    var message_string = last_message_dict.txt;
-    if (last_message_dict.from == user_name)
-    {
-      message_string = "<span>You:</span> " + message_string;
-    }
-    
-    contact_ul.append(`
-    <li class="contact" id="${peer}">
-          <div class="wrap">
-            <span class="contact-status online"></span>
-            <img src="{{url_for('static', filename='img/usericon2.png')}}" alt="Avatar">
-            <div class="meta">
-              <p class="name">${peer}</p>
-              <p class="preview">${message_string}</p>
-            </div>
-          </div>
-        </li>`);
-  }
-}
-
-function updateLastMessageInContactView(user_name, peer_name, update_id, message_string)
-{
-  if (user_name == peer_name)
-  {
-    message_string = "<span>You:</span> " + message_string;
-    console.log("iam here");
-  }
-  var li_contact = $('#' + update_id).html(`
-  <div class="wrap">
-            <span class="contact-status online"></span>
-            <img src="{{url_for('static', filename='img/usericon2.png')}}" alt="Avatar">
-            <div class="meta">
-              <p class="name">${update_id}</p>
-              <p class="preview">${message_string}</p>
-            </div>
-          </div>
-  `);
-}
-
-  function printSingleChatMessage(JSON_DATA)
-  {
-    var from_jid = JSON_DATA.from.split("@")[0];
-    var msg_timestamp = JSON_DATA.timestamp;
-    var msg = JSON_DATA.msg;
-    var msg_type = JSON_DATA.type;
-    var user_name = $('#NameOnlineAvatar').text(); 
-    if (!(msg_type == "chat" || msg_type == "normal"))
-    {
-      return;
-    }
-
-    if($('.contact.active').attr("id") == from_jid) //print msg only if contact tap of from_jid is active
-    {
-        $('#chat-list').append(`<li class="clearfix">
-          <div class="message-data align-right">
-            <span class="message-data-name">${from_jid}</span> <i class="fa fa-circle me"></i>
-          </div>
-          <div class="message me-message float-right">${msg}
-            <div class="timestamp">
-              <p>${msg_timestamp}</p>
-            </div>
-          </div></li>`);
-        var objDiv = document.getElementById("messages-container");
-        objDiv.scrollTop = objDiv.scrollHeight;
-    }
-    
-    //update chat_msgs object
-    chat_messages[user_name][from_jid].push({"from": from_jid, "timestamp": msg_timestamp, "txt": msg, "type": "chat"});
-
-    updateLastMessageInContactView(user_name, from_jid, from_jid, msg);
-
-  }
-
-function fill_in_chat_msgs_single_chat(user_name, peer_name)
-{
-  $('#chat-list').empty();
-  for (var i=0; i<chat_messages[user_name][peer_name].length; i++ )
-  {
-    var msg_timestamp = chat_messages[user_name][peer_name][i].timestamp;
-    msg_timestamp = msg_timestamp.substring(0, msg_timestamp.length-3);
-    if (chat_messages[user_name][peer_name][i].from == user_name)
-    {
-        $('#chat-list').append(`
-        <li><div class="message-float-left">
-              <div class="message-data">
-                <span class="message-data-name"><i class="fa fa-circle you"></i>You</span>
-              </div>
-              <div class="message you-message">${chat_messages[user_name][peer_name][i].txt}
-                <div class="timestamp-left">
-                  <p>${msg_timestamp}</p>
-                </div></div></div></li>
-        `);
-    }
-    else if(chat_messages[user_name][peer_name][i].from == peer_name)
-    {
-      $('#chat-list').append(`
-      <li class="clearfix">
-        <div class="message-data align-right">
-          <span class="message-data-name">${peer_name}</span> <i class="fa fa-circle me"></i>
-        </div>
-        <div class="message me-message float-right">${chat_messages[user_name][peer_name][i].txt}
-          <div class="timestamp">
-            <p>${msg_timestamp}</p>
-          </div>
-        </div></li>
-        `);
-    }
-
-    var objDiv = document.getElementById("messages-container");
-    objDiv.scrollTop = objDiv.scrollHeight;
-  }
-}
-
-function pull_chat_hisotry(username)
-{
-  var URL = "/get_chathistory";
-  const post_data = {"username": username};
-  $.ajax({url: URL, type: "post",
-    data: JSON.stringify(post_data),
-    processData: false,
-    dataType: "json",
-    contentType: "application/json",
-    success: function(response_data){
-      chat_messages = response_data;
-      fillInContactPeers();
-  },
-    error: function(error_data){
-      console.log(error_data.responseJSON);
-    }
-  });
-}
-
-  function modular_ajax(url, type, formData) {
-    // Most simple modular AJAX building block
-    $.ajax({
-        url: url,
-        type: type,
-        data: JSON.stringify(formData),
-        processData: false,
-        dataType: "json",
-        contentType: "application/json",
-        error: function(data) {//console.log("error. see details below.");
-            data = data.responseJSON
-            printMessageWithCategory("Upps!", data.feedback, data.category);
-        },
-    });
-};
-
-$('#send-submit-button').click(function(event){
-    send_msg_single_chat();
-});
-
-function send_msg_single_chat()
-{
-  //Aenderung
-  var msg = $('#input-message').val().trim();
-  if (msg == "") {
-    return;
-  }
-  console.log(msg)
-  //msg =  msg.replace(/(?:\r\n|\r|\n)/g, ' ');
-  console.log(msg)
-  //Aenderung Ende
-  var to_jid = $('.contact.active').attr("id");
-  var user_name = $('#NameOnlineAvatar').text();
-  var dt = new Date();
-  var msg_timestamp = dt.toISOString().split("T")[0] + " " + dt.toLocaleTimeString().substring(0,5); // replace all . with - in date and concate with time hours:min
-  if(!to_jid in Object.keys(chat_messages[user_name]))
-  {
-    throw new Error("to_jid is not a valid recipient.");
-  }
-  modular_ajax("/send_message", "post", {"to_jid": to_jid + "@ejabberd-server", "from_jid": user_name+"@ejabberd-server", "msg_subject": "", "msg_body": msg, "msg_type": "chat"});
-  //Aenderung
-  print_msg = msg.replace(/(?:\r\n|\r|\n)/g, '<br>');
-  //Aenderung Ende
-  $('#chat-list').append(`<li><div class="message-float-left">
-              <div class="message-data">
-                <span class="message-data-name"><i class="fa fa-circle you"></i>You</span>
-              </div>
-              <div class="message you-message">${print_msg}
-                <div class="timestamp-left">
-                  <p>${msg_timestamp}</p>
-                </div></div></div></li>`);
-
-  $('#input-message').val("");
-  //Aenderung
-  $('.emojionearea-editor').text(''); 
-  //Aenderung Ende
-
-  var objDiv = document.getElementById("messages-container");
-  objDiv.scrollTop = objDiv.scrollHeight;
-
-  //update chat_msgs object
-  chat_messages[user_name][to_jid].push({"from": user_name, "timestamp": msg_timestamp, "txt": msg, "type": "chat"});
-
-  updateLastMessageInContactView(user_name, user_name, to_jid, msg);
-}
-
-// Userstatus on click to get status-options active
-$("#Userstatus").click(function() {
-  if ($("#profile").hasClass("single_groupchat_options")) {
-    $("#profile").toggleClass("single_groupchat_options");
-	  $("#contacts").toggleClass("single_groupchat_options");
-  }
-	$("#status-options").toggleClass("active");
-});
-
-
-
-// Function to react on dynamic changes of classes
-$(document).ready( function () {
-  // Change active contact by click
-  $( document). on('click', ".contact" ,function() {
-    // Clear Search-field by click on a contact
-    if (($("#filterContacts").val().length != 0)) {
-      document.getElementById('filterContacts').value = '';
-      clearfilter();
-    }
-    $(".contact.active").removeClass('active');
-    $(this).toggleClass('contact');
-    $(this).toggleClass('contact active');
-    var name = this.getElementsByTagName('p')[0].innerHTML
-    var contactImageSrc = this.getElementsByTagName('img')[0].src
-    $(".contact-profile").children()[1].innerHTML = name;
-    $(".contact-profile").children()[0].src = contactImageSrc;
-
-    var peer_name = $(".contact-profile").children()[1].innerHTML
-    fill_in_chat_msgs_single_chat($('#NameOnlineAvatar').text(), peer_name);
-
-   });
-  
-  // Get Group-contacts 
-  $( document). on('click', ".Group-Chat-Button" ,function() {
-    if ($('#contacts').hasClass("SingleContacts")) {
-    $("#contacts").empty();
-    $('#contacts').toggleClass("SingleContacts");
-    $("#contacts").toggleClass("GroupContacts");
-    change_button();
-    $("#contacts").append(`<ul id='contacts_list'>
-          <li class="contact">
-            <div class="wrap">
-              <span class="contact-status online"></span>
-              <img src="{{url_for('static', filename='img/usericon2.png')}}" alt="Avatar">
-              <div class="meta">
-                <p class="name">Group name</p>
-                <p class="preview">Musterman: You just got LITT up, Mike.</p>
-              </div>
-            </div>
-          </li>
-          <li class="contact active">
-            <div class="wrap">
-              <span class="contact-status busy"></span>
-              <img src="{{url_for('static', filename='img/usericon2.png')}}" alt="Avatar">
-              <div class="meta">
-                <p id ="name" class="name">Die Bedebberten</p>
-                <p class="preview">Peter: Wrong. You take the gun, or you pull out a bigger one. Or, you call their bluff. Or, you do any one of a hundred and forty six other things.</p>
-              </div>
-            </div>
-          </li>
-          </ul>`)
-  }
-  });
-
-  // Get Single-contacts
-  $(document). on('click', ".Single-Chat" ,function() {
-    if( $('#contacts').hasClass("GroupContacts")) {
-      $("#contacts").empty();
-      $('#contacts').toggleClass("GroupContacts");
-      $('#contacts').toggleClass("SingleContacts");
-      change_button();
-      fillInContactPeers()
-      /*
-      $("#contacts").append(`<ul id='contacts_list'>
-          <li class="contact">
-            <div class="wrap">
-              <span class="contact-status online"></span>
-              <img src="{{url_for('static', filename='img/usericon2.png')}}" alt="Avatar">
-              <div class="meta">
-                <p class="name">Louis Litt</p>
-                <p class="preview">You just got LITT up, Mike.</p>
-              </div>
-            </div>
-          </li>
-          <li class="contact active">
-            <div class="wrap">
-              <span class="contact-status busy"></span>
-              <img src="{{url_for('static', filename='img/usericon2.png')}}" alt="Avatar">
-              <div class="meta">
-                <p id ="name" class="name">Harvey Specter</p>
-                <p class="preview">Wrong. You take the gun, or you pull out a bigger one. Or, you call their bluff. Or, you do any one of a hundred and forty six other things.</p>
-              </div>
-            </div>
-          </li>
-          <li class="contact">
-            <div class="wrap">
-              <span class="contact-status away"></span>
-              <img src="{{url_for('static', filename='img/usericonWoman.png')}}" alt="Avatar">
-              <div class="meta">
-                <p class="name">Rachel Zane</p>
-                <p class="preview">I was thinking that we could have chicken tonight, sounds good?</p>
-              </div>
-            </div>
-          </li>
-          <li class="contact">
-            <div class="wrap">
-              <span class="contact-status online"></span>
-              <img src="{{url_for('static', filename='img/usericon2.png')}}" alt="Avatar">
-              <div class="meta">
-                <p class="name">Donna Paulsen</p>
-                <p class="preview">Mike, I know everything! I'm Donna..</p>
-              </div>
-            </div>
-          </li>
-          <li class="contact">
-            <div class="wrap">
-              <span class="contact-status busy"></span>
-              <img src="{{url_for('static', filename='img/usericon2.png')}}" alt="Avatar">
-              <div class="meta">
-                <p class="name">Jessica Pearson</p>
-                <p class="preview">Have you finished the draft on the Hinsenburg deal?</p>
-              </div>
-            </div>
-          </li>
-          <li class="contact">
-            <div class="wrap">
-              <span class="contact-status"></span>
-              <img src="{{url_for('static', filename='img/usericon2.png')}}" alt="Avatar">
-              <div class="meta">
-                <p class="name">Harold Gunderson</p>
-                <p class="preview">Thanks Mike! :)</p>
-              </div>
-            </div>
-          </li>
-          <li class="contact">
-            <div class="wrap">
-              <span class="contact-status"></span>
-              <img src="{{url_for('static', filename='img/usericon2.png')}}" alt="Avatar">
-              <div class="meta">
-                <p class="name">Daniel Hardman</p>
-                <p class="preview">We'll meet again, Mike. Tell Jessica I said 'Hi'.</p>
-              </div>
-            </div>
-          </li>
-          <li class="contact">
-            <div class="wrap">
-              <span class="contact-status busy"></span>
-              <img src="{{url_for('static', filename='img/usericon2.png')}}" alt="Avatar">
-              <div class="meta">
-                <p class="name">Katrina Bennett</p>
-                <p class="preview">I've sent you the files for the Garrett trial.</p>
-              </div>
-            </div>
-          </li>
-          <li class="contact">
-            <div class="wrap">
-              <span class="contact-status"></span>
-              <img src="{{url_for('static', filename='img/usericon2.png')}}" alt="Avatar">
-              <div class="meta">
-                <p class="name">Charles Forstman</p>
-                <p class="preview">Mike, this isn't over.</p>
-              </div>
-            </div>
-          </li>
-          <li class="contact">
-            <div class="wrap">
-              <span class="contact-status"></span>
-              <img src="{{url_for('static', filename='img/usericon2.png')}}" alt="Avatar">
-              <div class="meta">
-                <p class="name">Jonathan Sidwell</p>
-                <p class="preview"><span>You:</span> That's bullshit. This deal is solid.</p>
-              </div>
-            </div>
-          </li>
-          <li class="contact">
-            <div class="wrap">
-              <span class="contact-status"></span>
-              <img src="{{url_for('static', filename='img/usericon2.png')}}" alt="Avatar">
-              <div class="meta">
-                <p class="name">Lukas Priester</p>
-                <p class="preview"><span>You:</span> That's bullshit. This deal is solid.</p>
-              </div>
-            </div>
-          </li>
-          <li class="contact">
-            <div class="wrap">
-              <span class="contact-status"></span>
-              <img src="{{url_for('static', filename='img/usericon2.png')}}" alt="Avatar">
-              <div class="meta">
-                <p class="name">Oliver Klapper</p>
-                <p class="preview"><span>You:</span> That's bullshit. This deal is solid.</p>
-              </div>
-            </div>
-          </li>
-        </ul>`)*/
-    }
-  });
-
-});
-
-
-
-// Informations by click on arrows
-$(".expand-button").click(function() {
-  if ($("#status-options").hasClass("active")) {
-    $("#status-options").removeClass("active");
-    setTimeout(() => {
-      $("#profile").toggleClass("single_groupchat_options");
-	    $("#contacts").toggleClass("single_groupchat_options");
-    }, 200);
-  } else {
-  $("#profile").toggleClass("single_groupchat_options");
-  $("#contacts").toggleClass("single_groupchat_options");
-  }
-  if ($("#contacts").hasClass("single_groupchat_options")) {
-    $("#contacts").css("height","calc(100% - 274px)");
-  } else {
-    setTimeout(() => {
-    $("#contacts").css("height","calc(100% - 177px)");
-    }, 120);
-  }
-});
-
-// status and close dorpdown on click
-$("#status-options ul li").click(function() {
-	$("#Userstatus").removeClass();
-	$("#status-online").removeClass("active");
-	$("#status-away").removeClass("active");
-	$("#status-busy").removeClass("active");
-	$("#status-offline").removeClass("active");
-	$(this).addClass("active");
-	
-	if($("#status-online").hasClass("active")) {
-		$("#Userstatus").addClass("online");
-	} else if ($("#status-away").hasClass("active")) {
-		$("#Userstatus").addClass("away");
-	} else if ($("#status-busy").hasClass("active")) {
-		$("#Userstatus").addClass("busy");
-	} else if ($("#status-offline").hasClass("active")) {
-		$("#Userstatus").addClass("offline");
-	} else {
-		$("#Userstatus").removeClass();
-	};
-	
-	$("#status-options").removeClass("active");
-});
-
-// Filter for contacts
-$(document).ready(function(){
-  $("#filterContacts").on("keyup", function() {
-    var filtervalue, ul_tag, li, index;
-    filtervalue = $(this).val().toLowerCase();
-    ul_tag = document.getElementById('contacts_list');
-    li = ul_tag.getElementsByTagName("li");
-    for (index = 0; index < li.length; index++) {
-      contactname = li[index].getElementsByTagName("p")[0].innerHTML;
-      if (contactname.toLowerCase().indexOf(filtervalue) > -1) {
-        li[index].style.display = "";
-      } else {
-        li[index].style.display = "none";
-      }
-    }
-  });
-});
-
-//Clear Filter
-function clearfilter()  {
-    var ul_tag, li, index;
-    ul_tag = document.getElementById('contacts_list');
-    li = ul_tag.getElementsByTagName("li");
-    for (index = 0; index < li.length; index++) {
-        li[index].style.display = "";
-      }
-    };
-
-//Change Button
-function change_button() {
-  if ($('#contacts').hasClass("SingleContacts")) {
-    $('#Change_Chat-Buttons button').removeClass("Single-Chat");
-    $("#Change_Chat-Buttons button").addClass("Group-Chat-Button");
-    $("#Change_Chat-Buttons button").html("Group");
-  } else if ($('#contacts').hasClass("GroupContacts")) {
-    $('#Change_Chat-Buttons button').removeClass("Group-Chat-Button");
-    $("#Change_Chat-Buttons button").addClass("Single-Chat");
-    $("#Change_Chat-Buttons button").html("Single");
-  }
-  
-}
-
-//Function to recognize changes of the screensize
-(function () {
-    var width = screen.width,
-        height = screen.height;
-    setInterval(function () {
-        if (screen.width !== width || screen.height !== height) {
-            width = screen.width;
-            if (width <= 735) {
-              change_button();
-            }
-            height = screen.height;
-            $("#profile").removeClass("single_groupchat_options");
-	          $("#contacts").removeClass("single_groupchat_options");
-        }
-    }, 50);
-}());
-
+<script src="{{ url_for('static',filename='js/gochatjs.js') }}">
 </script>
 {% endblock %}
 

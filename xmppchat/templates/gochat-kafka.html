@@ -827,18 +827,39 @@
     border-color: #007bff;
   }
 
+  #acceptContact p {
+    color: black;
+    margin-bottom: 0rem;
+  }
+
   /* Aenderung */
   .emojionearea .emojionearea-editor {
     height: -webkit-fill-available;
   }
   
 
+  
   #alertFormaxlength {
     display: none;
-    bottom: 0;
+    bottom: 13px;
     position: fixed;
     padding: 0 0 0 0;
   }
+
+  .loader {
+        border: 16px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 16px solid #3498db;
+        width: 120px;
+        height: 120px;
+        -webkit-animation: spin 2s linear infinite; /* Safari */
+        animation: spin 2s linear infinite;
+    }
+
+  @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
 
   
 </style>
@@ -880,12 +901,35 @@
     </div>
     -->
     <div id="contacts" class="SingleContacts">
+      <!-- HTML for Accept Contact
+      <div class="modal fade" id="acceptContactModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="acceptContactLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="acceptContactLabel">You have a Message</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div id="acceptContact">
+                
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" id="declineModalButton" class="btn btn-outline-secondary" data-dismiss="modal">decline</button>
+              <button type="button" id="acceptContactButton" class="btn btn-outline-primary">accept contact</button>
+            </div>
+          </div>
+        </div>
+      </div>  
+    -->
       <ul id="contacts_list">
       </ul>
     </div>
     <div id="bottom-bar">
       <button id="addcontact" data-toggle="modal" data-target="#staticBackdrop"><i class="fa fa-user-plus fa-fw" aria-hidden="true"></i> <span>Add contact</span></button>
-      <button id="settings"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> <span>Settings</span></button>
+      <button id="PrivacyPolicy"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> <span>Privacy Policy</span></button>
     </div>
      <div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
@@ -911,6 +955,24 @@
     </div>  
   </div>
   <div id="content-window" class="col">
+     <!-- Modal -->
+     <div class="modal fade" id="ContactProfileModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="ContactProfileLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="ContactProfileLabel"></h5>
+          </div>
+          <div class="modal-body">
+            <div id="ContactProfile"> 
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" id="closeContactProfileButton" class="btn btn-outline-secondary" data-dismiss="modal">close</button>
+          </div>
+        </div>
+      </div>
+    </div>  
+  <!-- Modal Ende -->
     <div class="contact-profile">
       <img src="{{url_for('static', filename='img/usericon2.png')}}" alt="Avatar">
       <p>No Contact</p>
@@ -919,13 +981,14 @@
           <i class="fa fa-bars fa-lg"></i>
         </a>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-          <a class="dropdown-item" href="#">Profile</a>
-          <a class="dropdown-item" href="#">Privacy</a>
-          <a class="dropdown-item" href="#">more...</a>
+          <div id="profileDd" class="dropdown-item" >Profile</div>
         </div>
       </div>
     </div>
     <div id="messages-container" class="scrollable-messages chat">   
+    <div id="loaderContentbox" class="d-flex justify-content-center" style="display: none!important;">
+      <div class="loader"></div>
+    </div>
     <div class="chat-history">
       <div id="form-response" class="mb-3"></div>
       <ul id="chat-list" class="chat-ul">
@@ -939,9 +1002,11 @@
     </div>
     <div id="input-group-content"class="input-group">
       <textarea id="input-message" class="form-control" placeholder="Enter your message..." maxlength="250" aria-label="Recipient's username" aria-describedby="send-submit-button"></textarea>
-      <div class="input-group-append">
-        <button class="btn btn-outline-primary" type="button" id="send-submit-button">Send</button>
-        
+      <div class="input-group-append"></div>
+        <div id="alertFormaxlength" class="alert alert-danger" role="alert">
+          You can only write 250 letters!
+        </div>
+          <button class="btn btn-outline-primary" type="button" id="send-submit-button">Send</button>
       </div>
     </div>
     
