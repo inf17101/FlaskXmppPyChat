@@ -3653,7 +3653,7 @@ In einem ersten Schritt werden mittels \texttt{getSendingInformations()} die Inf
 \begin{lstlisting}[language=Javascript,caption=\texttt{getSendingInformations()},label={lst:JSKafkagetSendingInfo}]
 var informations = {}
 var msg = $('#input-message').val().trim();
-// Wenn msg leer => return
+// Wenn msg leer => return false
 var to = $('.contact.active').attr("id");
 var user_name = $('#NameOnlineAvatar').text();
 var dt = new Date();
@@ -3661,7 +3661,7 @@ var msg_timestamp = dt.toISOString().split("T")[0] + " " + dt.toLocaleTimeString
 informations = {"to":to, "from":user_name, "msg_subject":"", "msg_body":msg,"msg_type":"chat", "msg_timestamp":msg_timestamp}
 return informations
 \end{lstlisting}
-Die Parameter sind im \autoref{lst:JSKafkagetSendingInfo} abgebildet. Außerdem stellt das Listing dar in welcher Form die Variablen zurückgegeben werden. Wie beim XMPP-Client werden die Funktionen aus der Tabelle erst aufgerufen, sollte der Send-Button gedrückt werden. Dafür wird eine \dq onClick\dq-Methode benötigt. Dieser Funktion ist im \autoref{lst:JSKafkagetSendButton} dargestellt. Außerdem bietet das Listing einen Überblick über die Reihenfolge der Funktionen aus \autoref{tab:SendFunctionsKafka}.
+Die Parameter sind im \autoref{lst:JSKafkagetSendingInfo} abgebildet. Außerdem stellt das Listing dar, in welcher Form die Variablen zurückgegeben werden. Wie beim XMPP-Client werden die Funktionen aus der Tabelle erst aufgerufen, sollte der Send-Button gedrückt werden. Dafür wird eine \dq onClick\dq-Methode benötigt. Diese Funktion ist im \autoref{lst:JSKafkagetSendButton} dargestellt. Außerdem bietet das Listing einen Überblick über die Reihenfolge der Funktionen aus der \autoref{tab:SendFunctionsKafka}.
 \begin{lstlisting}[language=Javascript,caption=Verknüpfte Funktion mit dem HTML-Element,label={lst:JSKafkagetSendButton}]
 $('#send-submit-button').click(function(event){
 	var informations = getSendingInformations()
@@ -3674,7 +3674,46 @@ $('#send-submit-button').click(function(event){
 	clearInputFieldOnSending()
 });
 \end{lstlisting}
-
+Die Variable \texttt{informations} wird mit dem Returnwert der Funktion \texttt{getSendingInformations()} initialisiert. In Zeile 3 erfolgt eine Überprüfung der Daten, welche ein Abbruch der Funktion als Resultat hat, sollte die Nachricht leer sein. Anschließend werden alle Daten je nach Gebrauch neuen Variablen zugeordnet. Diese Variablen werden in einem weiteren Schritt den entsprechenden Funktionen übergeben. Beispielsweise erfolgt der Request an den Server ohne den Zeitstempel der Nachricht. Für den Eintrag im \texttt{chat\_messages-Objekt} wird er wiederum benötigt. Bei der zweiten Funktion, welche nach dem Klick, aufgerufen wird, handelt es sich um die \texttt{send\_message()}-Methode. Diese Methode ist mit der Sendefunktion aus \autoref{sec:FrontendXMPP} zu vergleichen. Das Konzept des Sendvorgangs unterscheidet sich nicht zwischen Kafka- und XMPP-Client. Daher lässt sich für die weiteren Funktionen auf den \autoref{sec:FrontendXMPP} verweisen. Bei den Funktionen handelt es sich um:
+\begin{itemize}
+	\item \texttt{send\_message()}
+	\item \texttt{updateChatMessageObject()}
+	\item \texttt{updateLastMessageInContactView()}
+	\item \texttt{updateChatwindowOnSending()}
+	\item \texttt{clearInputFieldOnSending()}
+\end{itemize}
+Der einzige Unterschied ist der Aufbau der JavaScript-Datei. Während bei der \texttt{gochatjs.js} Datei die Aufgaben innerhalb einer großen Funktion abgehandelt werden, sind sie bei der \texttt{gochat\_kafkajs.js} Datei in einzelne Funktionen ausgelagert. Die meisten Code-Zeilen der aufgelisteten Funktionen sind Bestandteil der \texttt{send\_msg\_single\_chat()}-Methode des XMPP-Clients. Im Anschluss an die Sende-Funktion steht das Hinzufügen von Kontakten im Vordergrund.\\
+Aufgrund der Regel 1 und 8 aus \autoref{sec:Benutzeroberfläche} wird auch beim Hinzufügen eines neuen Kontaktes das gleiche Konzept wie beim XMPP-Client verfolgt. Daher ist auf \autoref{sec:FrontendXMPP} zu verweisen. Bestandteile der Ausführung innerhalb des Abschnittes waren:
+\begin{itemize}
+	\item Darstellung aus Sicht des Nutzers
+	\item Validierung des Namens
+	\item Pre-Request Überprüfungen
+	\item Kontakt der Kontaktliste hinzufügen
+\end{itemize}
+In einem späteren Schritt wurde auf beiden Plattformen eine weitere Funktion implementiert. Daher ist an dieser Stelle die Ergänzung zu erörtern. Dabei sei zu vermerken, dass die Funktionalität in einer ähnlichen Variante beim XMPP-Client implementiert ist. Für die Erweiterung kann \autoref{img:AddNewContactAblauf} betrachtet werden.
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.53]{images/AddNewContactAblauf}
+	\caption{Ablauf des Konzeptes zum Hinzufpgen eines neuen Kontaktes, eigene Darstellung}
+	\label{img:AddNewContactAblauf}
+\end{figure}\\
+Die Abbildung stellt den gesamten Prozess der Funktion zum Hinzufügen eines neuen Kontaktes dar und kann als Ergänzung zum \autoref{sec:FrontendXMPP} angesehen werden. Die blauen Rahmen symbolisieren die Funktionen, welche bereits bei der Umsetzung des XMPP-Clients beschrieben wurden. Diese sind in Textform oder als Pseudocode dargestellt. Die Funktionen sind in einem ersten Schritt in den Kafka-Client zu implementieren. Die Erweiterung beider Clients besitzt einen grünen Rahmen und ist in der \autoref{img:AddNewContactAblauf} dargestellt. Hierbei handelt es sich um die Funktion \texttt{SendNewContact()}. Die Funktionalität wird ausschließlich am Kafka-Client erörtert.\\
+Wie der \autoref{img:AddNewContactAblauf} zu entnehmen ist, wird die Funktion nur aufgerufen, sollte der Request an den Server erfolgreich sein. Das bedeutet, der eingegebene Name ist bereits als Nutzer am Instant-Messaging System angemeldet. Übergeben wird der Funktion den Namen der Nutzers, der Hinzugefügt werden soll. Der Funktionsaufbau von \texttt{sendNewContact()} ist im \autoref{lst:JSKafkasendNewContact} abgebildet.
+\begin{lstlisting}[language=Javascript,caption=Funktionsaufbau von \texttt{sendNewContact()},label={lst:JSKafkasendNewContact}]
+function sendNewContact(contactName){
+	// Variablen mit Daten initialisieren
+	send_message(sending_informations)
+	chat_messages[user_name][contactName].push({"from": user_name, "timestamp": msg_timestamp, "txt": sending_informations.msg_body, "type": "chat"});
+	updateLastMessageInContactView(user_name, user_name, contactName, sending_informations.msg_body)
+}
+\end{lstlisting}
+Die Funktion verfolgt das Ziel dem neuen Kontakt eine Nachricht zu schicken. Dadurch wird dem neuen Benutzer direkt signalisiert wer ihn hinzugefügt hat. Dafür ist es irrelevant ob der Chatpartner am System angemeldet ist oder nicht. Für das Prinzip kann auf bereits implementierte Funktionen zurückgegriffen werden. Bei diesen handelt es sich um:
+\begin{itemize}
+	\item \texttt{send\_message()} mit dem Post-Request an den Server
+	\item \texttt{updateLastMessageInContactView()} zum aktualisieren der Preview
+\end{itemize}
+Zu Beachten ist die Initialisierung des \texttt{chat\_messages-Objektes} mit dem neuen Kontakt als Key (\autoref{lst:JSKafkasendNewContact}, Zeile 4).\\
+Mit Abschluss der \texttt{sendNewContact()}-Methode besitzt der Kafka-Client die gleichen Möglichkeiten, wie der XMPP-Client. Egal für welche Plattform sich der Benutzer entscheidet, die Funktionalitäten des Frontends unterscheiden sich nicht in der Ausführung sondern ausschließlich in der Implementierung.
 
 \pagebreak
 
