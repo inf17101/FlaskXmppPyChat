@@ -13,13 +13,14 @@
   }
   
   .nav-link:hover {
-    font-size: 110%;
+    font-size: 100%;
     color: #3f79af;
   }
 
 </style>
 
 <head>
+  {% block links%}
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -30,24 +31,30 @@
 
   <!-- Emoji -->
   <link rel="stylesheet" href="{{ url_for('static', filename='css//emojionearea.min.css') }}">
-  <script
-    src="https://code.jquery.com/jquery-3.4.1.min.js"
-    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-    crossorigin="anonymous">
-  </script>
+  
+  <script src="{{ url_for('static',filename='js/jquery-3.4.1.min.js') }}"></script>
+
+  <script src="{{ url_for('static',filename='js/jquery.textcomplete.js') }}"></script>
+  <script src="{{ url_for('static',filename='js/emojione.min.js') }}"></script>
   <script src="{{ url_for('static',filename='js/emojionearea.min.js') }}"></script>
 
   <title>XMPP-ChatClient | {% block title %}{% endblock %}</title>
-  {% block links%}
+  
   {% endblock %}
 </head>
 
 <body>
 <nav class="navbar navbar-expand-lg fixed-top">
-  <i class="fa fa-comment fa-lg" style="color: white;"></i> <a class="navbar-brand ml-2" style="color: white!important;">XMPP-WebChat</a>
+  <i class="fa fa-comment fa-lg" style="color: white;"></i>
+  {% if current_user.is_authenticated %}
+  <a href="/gochat" class="navbar-brand ml-2" style="color: white!important;">XMPP-WebChat</a>
+  {% else %}
+  <a href="/login" class="navbar-brand ml-2" style="color: white!important;">XMPP-WebChat</a>
+  {% endif %} 
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
+  {% if current_user.is_authenticated %}
   <div class="collapse navbar-collapse mr-auto" id="navbarNav">
     <ul class="navbar-nav">
       {% for navname, item in navs.items() %}
@@ -63,7 +70,6 @@
       {% endfor %}
     </ul>
   </div>
-  {% if current_user.is_authenticated %}
   <a href="/logout"><i class="fa fa-sign-in fa-2x" style="color: white;"></i></a>
   {% endif %}
 </nav>
