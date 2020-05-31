@@ -189,11 +189,10 @@ frame=None,
 \begin{spacing}{1.5}
 \begin{tabbing}
 mmmmmmmmmmmmmmmmmmmmmmmmmm \= \kill
-\textbf{Bearbeitungszeitraum} \> 01.10.2019 - 01.05.2020\\
+\textbf{Bearbeitungszeitraum} \> 01.10.2019 - 08.06.2020\\
 \textbf{Matrikelnummer, Kurs} \> 7288057, 4191693 \\
 \textbf{Kurs} \> TINF17IN\\
 \textbf{Betreuer der Hochschule} \> Alfred Becker\\
-\textbf{Gutachter der Hochschule} \> Alfred Becker\\
 \end{tabbing}
 \end{spacing}
 %Seitennummerierung ausschalten
@@ -204,35 +203,31 @@ mmmmmmmmmmmmmmmmmmmmmmmmmm \= \kill
 
 \bigskip
 
-Ich versichere hiermit, dass ich meine Bachelorarbeit (bzw. Studien- und Projektarbeit) mit dem Thema:
-
-\smallskip
-
-%% eigentlich hier \titel verwenden statt duplicated titel, aber umbruch erzwingt
-%% doppeltes ausschreiben des titels
-\texttt{Entwicklung eines Instant-Messaging-Systems mit Python}
-
-\smallskip
-
-selbstständig verfasst und keine anderen als die angegebenen Quellen und Hilfsmittel benutzt habe.
+Wir erklären hiermit ehrenwörtlich:
 
 \bigskip
 
-Ich versichere zudem, dass die eingereichte elektronische Fassung mit der gedruckten Fassung übereinstimmt.*
+\begin{itemize}
+\item[1.] dass wir unsere Studienarbeit mit dem Thema \texttt{Entwicklung eines Instant-Messaging-Systems mit Python} ohne fremde Hilfe angefertigt haben.
+\item[2.] dass die Übernahme wörtlicher Zitate aus der Literatur, sowie die Verwendung von Gedanken anderer Autoren an den entsprechenden Stellen innerhalb der Arbeit gekennzeichnet sind.
+\item[3.] dass diese Studienarbeit bei keiner anderen Prüfung eingereicht wurde.
+\end{itemize}
+
+Wir sind uns bewusst, dass eine falsche Erklärung rechtliche Folgen haben kann.
 
 \bigskip
 
 \begin{small}
 
-* falls beide Fassungen gefordert sind
-
-\bigskip
-
 \bigskip
 
 \noindent\begin{tabular}{ll}
 \makebox[2.5in]{\hrulefill} & \makebox[2.5in]{\hrulefill}\\
-Ort, Datum & Unterschrift
+Ort, Datum & Lukas Priester \\
+\\
+\\
+\makebox[2.5in]{\hrulefill} & \makebox[2.5in]{\hrulefill}\\
+Ort, Datum & Oliver Klapper
 \end{tabular}
 \end{small}
 
@@ -373,26 +368,27 @@ Ort, Datum & Unterschrift
 %% header and footer settings
 \pagestyle{fancyheadlines}
 
-\chapter{Einleitung}
+\chapter{Bedeutung von Instant-Messaging-Systemen}
 \label{chap:Einleitung}
 
-Social Media (deutsche Übersetzung: \glqq soziale Medien\grqq{}) ist ein aktuelles und wichtiges gesellschaftliches Thema. Die vielfältigen und breitgefächerten Nutzungsmöglichkeiten beeinflussen das Privat- und das Berufsleben \cite{gabriel2017social}. Gabriel und Röhrs definieren Social Media in \cite{gabriel2017social} als die Verwendung digitaler Medien unter Einsatz computergeschützter Technologien, das heißt, von Hardware- und Softwaresystemen. Sie definieren den Nutzen von Social Media darin, dass Menschen Informationen suchen, erstellen, verteilen und austauschen können. Es gibt eine große Anzahl an unterschiedlichen Definitionen von Social Media. Nach Liu Yinyuan ist Social Media längst wichtiger Bestandteil des Unternehmensmarketings in Deutschland. In seinem Werk \glqq Social Media in China\grqq{} \cite{liu2016social} beschreibt er, dass in Unternehmen nicht mehr über die grundsätzliche Frage debattiert wird, ob Social Media für das Unternehmensmarketing eingesetzt werden soll, sondern wo und wie der Einsatz zielgerichtet erfolgen kann. Heutige Unternehmen sind gekennzeichnet von computergestützten Anwendungssystemen, die in allen Funktionsbereichen zur Planung, Steuerung und Kontrolle der Geschäftsprozesse und zu ihrer Verwaltung eingesetzt werden. Sie setzen dieses System in der B2B-Kommunikation (Business-To-Business-Kommunikation) ein. Immer wichtiger werden \textbf{\ac{IMS}}, wie zum Beispiel Whatsapp, Telegram, iMessage und Jabber, die dazu dienen intern Informationen schnell im Unternehmen zu verbreiten, hoch verfügbar zu machen und um Geschäftsprozesse standortunabhängig steuern zu können \cite{gabriel2017social}. Zusätzlich werden \textbf{Instant Messaging Systeme} auch zur externen Kommunikation benutzt. Nach Gabriel und Röhrs ist es möglich, dass mehrere Unternehmen mit Hilfe von innovativen Kommunikationstechniken zur Erreichung eines gemeinsamen Ziels besser kooperieren können. Außerdem ist die schnelle und direkte Kontaktaufnahme von Kunden über ein Messaging System zum Support eines Unternehmens eine einfache und schnelle Möglichkeit, Fragen zum Produkt ohne langes Warten in der Hotline zu stellen. Nach \cite{b2bmehner} werden Nachrichten von \textbf{Instant Message Systemen} im Gegensatz zu einer E-Mail in Echtzeit übertragen und dem Empfänger direkt zugestellt. Laut einer Statistik von \textbf{statista} benutzen 1,5 Milliarden Nutzer in Deutschland pro WhatsApp pro Monat \cite{statistaIMS}. Der Anteil der Nutzer von Whatsapp in Deutschland beträgt 75 Prozent an der Gesamtbevölkerung \cite{statistaIMS}. Die Statistik zeigt, dass \textbf{Instant Messaging Systeme} eine Möglichkeit in der Zukunft darstellen Kunden direkter anzusprechen oder Support zu gewährleisten. Zusätzlich zu Nachrichtendiensten werden künstliche Intelligenzen und Algorithmen benötigt, die Nutzer unterstützen oder gesammelte Daten von Benutzern charakterisieren oder interpretieren können. Algorithmen werden verwendet, um zum Beispiel die emotionale Befindlichkeit anhand eines Text einzuordnen, um Suizid-Gedanken frühzeitig zu erkennen \cite{stasytisIME}. Ein weiteres Anwendungsszenario sind Text-to-Speech (deutsche Übersetzung: Text-zu-Sprache) Funktionalitäten, bei denen gesprochene Worte des Nutzers durch Algorithmen in Text umgewandelt werden, sodass ein Nutzer die Nachricht nicht mehr aktiv eintippen muss. Eine wichtige Teilaufgabe ist die Recherche und das Versehen von datenschutzrechtlichen Aspekten, die bei der Datenspeicherung und der Implementierung von \textbf{Instant Messaging Systemen} bestehen.
+Social Media (deutsche Übersetzung: \glqq soziale Medien\grqq{}) ist ein aktuelles und wichtiges gesellschaftliches Thema. Die vielfältigen und breitgefächerten Nutzungsmöglichkeiten beeinflussen das Privat- und das Berufsleben \cite{gabriel2017social}. Gabriel und Röhrs definieren Social Media in \cite{gabriel2017social} als die Verwendung digitaler Medien unter Einsatz computergeschützter Technologien, das heißt, von Hardware- und Softwaresystemen. Sie definieren den Nutzen von Social Media darin, dass Menschen Informationen suchen, erstellen, verteilen und austauschen können. Es gibt eine große Anzahl an unterschiedlichen Definitionen von Social Media. Nach Liu Yinyuan ist Social Media längst wichtiger Bestandteil des Unternehmensmarketings in Deutschland. In seinem Werk \glqq Social Media in China\grqq{} \cite{liu2016social} beschreibt er, dass in Unternehmen nicht mehr über die grundsätzliche Frage debattiert wird, ob Social Media für das Unternehmensmarketing eingesetzt werden soll, sondern wo und wie der Einsatz zielgerichtet erfolgen kann. Heutige Unternehmen sind gekennzeichnet von computergestützten Anwendungssystemen, die in allen Funktionsbereichen zur Planung, Steuerung und Kontrolle der Geschäftsprozesse und zu ihrer Verwaltung eingesetzt werden. Sie setzen dieses System in der B2B-Kommunikation (Business-To-Business-Kommunikation) ein. Immer wichtiger werden \ac{IMS}, wie zum Beispiel Whatsapp, Telegram, iMessage und Jabber, die dazu dienen intern Informationen schnell im Unternehmen zu verbreiten, hoch verfügbar zu machen und um Geschäftsprozesse standortunabhängig steuern zu können \cite{gabriel2017social}. Zusätzlich werden Instant Messaging Systeme auch zur externen Kommunikation benutzt. Nach Gabriel und Röhrs ist es möglich, dass mehrere Unternehmen mit Hilfe von innovativen Kommunikationstechniken zur Erreichung eines gemeinsamen Ziels besser kooperieren können. Außerdem ist die schnelle und direkte Kontaktaufnahme von Kunden über ein Messaging System zum Support eines Unternehmens eine einfache und schnelle Möglichkeit, Fragen zum Produkt ohne langes Warten in der Hotline zu stellen. Nach \cite{b2bmehner} werden Nachrichten von Instant-Messaging-Systemen im Gegensatz zu einer E-Mail in Echtzeit übertragen und dem Empfänger direkt zugestellt. Laut einer Statistik von statista benutzen 1,5 Milliarden Nutzer in Deutschland WhatsApp pro Monat \cite{statistaIMS}. Der Anteil der Nutzer von Whatsapp in Deutschland beträgt 75 Prozent an der Gesamtbevölkerung \cite{statistaIMS}. Aus der Statistik  lässt sich folgern, dass Instant-Messaging-Systeme eine Möglichkeit darstellen, Kunden direkter anzusprechen oder Support zu gewährleisten. Eine wichtige Herausforderung von Instant-Messaging-Systemen ist die Einhaltung des Datenschutzes.
 
 \section{Aufgabenstellung}
 \label{sec:Aufgabenstellung}
 
-Die konkrete Aufgabe ist es, einen Chatserver auf Basis des \textbf{\ac{XMPP}} in Betrieb zu nehmen über den sich mehrere Chat-Clients authentifizieren und verschlüsselt Nachrichten austauschen können. Durch eine gründliche Recherche soll eruiert werden, welcher Chatserver sich hierfür eignet und warum dieser Chatserver für das Projekt verwendet wird. Der Nachrichtenaustausch soll Ende-zu-Ende verschlüsselt erfolgen. Eine wichtige Teilaufgabe ist, dass die Software Gruppenchats verschlüsselt unterstützt. Eine Zustellung der Nachrichten in Echtzeit soll implementiert werden. Benutzer sollen Nachrichten über eine Web-Oberfläche eingeben und empfangen können. Es soll ein Prototyp eines Machine Learning Algorithmus der Kategorie \textbf{\ac{NLP}} implementiert werden und in die Web-Oberlfäche integriert werden. Eine wichtige Aufgabe ist, dass das gesamte Chatsystem datenschutzfreundlich implementiert und programmiert wird.
+In dieser Arbeit soll gezeigt werden, dass ein Instant-Messaging-System mit der Programmiersprache Python umgesetzt werden kann. Dabei soll diskutiert werden, welche Art von grafischer Oberfläche sich eignet, um dem Benutzer Chatfunktionalitäten bereitzustellen. Die Arbeit beschäftigt sich mit den Echtzeitplattformen Apache Kafka und Ejabberd, welcher das Protokoll \acs{XMPP} verwendet. Die beiden Plattformen sollen benutzt werden, um mit Hilfe von Python ein Chatsystem zu implementieren. Grundlegende Funktionalitäten, wie das Versenden und Empfangen von Nachrichten sollen mit Hilfe von beiden Plattformen und Python implementiert werden. Zusätzlich sollen die beiden Plattformen hinsichtlich ihrer Echtzeitfähigkeit untersucht und verglichen werden. Es soll geprüft werden, ob die Implementierung eines \acs{IMS} mit Apache Kafka in der Programmiersprache Python einfacher ist als über das klassische \acs{XMPP}-Protokoll.
 
 \section{Ziele der Arbeit}
 \label{sec:Ziele}
 
-Die Ziele der Arbeit sind es, eine geeignete Netzwerkumgebung und einen lauffähigen Chatserver auf Basis von \ac{XMPP} in Betrieb zu nehmen. Es sollen tiefe Kenntnisse und Erfahrungen mit dem Umgang des \ac{XMPP} Protokolls gesammelt werden und sich mit dem Aufbau des Nachrichtenprotokolls auseinandergesetzt werden. Außerdem sollen sich mit der Arbeitsweise und den Grundlagen von \textbf{Instant Messaging Systemen} und der Nachrichtenübertragung in Echtzeit vertraut gemacht werden. Es soll ein funktionsfähiger Prototyp einer WebUI entstehen, der einen \ac{MUC} unterstützt und über den Chatserver Nachrichten verschlüsselt versendet und empfängt. Durch Recherche und praktische Entwicklungen soll das Fachwissen in der Programmiersprache \textbf{Python} vertieft werden. Zusätzlich sollen Fähigkeiten im Bereich \textbf{Machine Learning} erlernt werden und ein lauffähiger Prototyp eines \ac{NLP}-Models in die Weboberfläche integriert werden. Das letzte Ziel beinhaltet, Kenntnisse im Bereich des Datenschutzes bei Chatapplikationen zu erarbeiten und den Chatserver datenschutzfreundlich zu konfigurieren.
+Neben der Umsetzung eines \acs{IMS}, wie in \autoref{sec:Aufgabenstellung} beschreiben, ist das Ziel der Arbeit die Grundlagen eines Instant-Messaging-Systems zu verstehen zu können. Zusätzlich soll über das Protokoll \acs{XMPP} recherchiert werden und dessen Funktionsweise dargestellt werden. Wichtig ist es außerdem, die Funktionsweise und die Grundlagen von den Echtzeitplattformen Ejabberd und Apache Kafka zu verstehen. Die beiden Plattformen sollen mit Hilfe der Programmiersprache Python in das \acs{IMS} integriert werden. Hierfür sind geeignete Python Module durch Recherche zu finden und die Funktionsweise vorzustellen. Ein weiteres wichtiges Ziel ist es, die Umsetzungsschritte und die Lösungen für Problemstellungen, die sich während der Implementierung ergeben, zu beschreiben. Das wichtigste Ziel ist, einen Prototypen des \acs{IMS} zu entwickeln, der grundlegende Chatfunktionalitäten über beide Echtzeitplattformen bereitstellt. Ferner soll durch Recherche und praktischen Entwicklungen das Fachwissen in der Programmiersprache Python vertieft werden. Neben der Recherche von technischen Aspekten, soll sich auch mit den datenschutzrechtlichen Grundlagen von Instant-Messaging-Systemen auseinander gesetzt und beschrieben werden. Das \acs{IMS} soll sich gemäß der Richtlinien des Datenschutzes verhalten.
 
 \section{Stand der Technik}
 \label{sec:StandDerTechnik}
 
-\textbf{Instant Messaging Systeme} existieren in der heutigen Form seit Ende der 1990er Jahre, ausgehend von einer Öffnung des Internets für einen größeren Nutzerkreis außerhalb von Forschungsinstitutionen. Das erste \ac{IMS} ist \textbf{\ac{ICQ}} der Firma Mirabilis, welches Benutzern ermöglicht, in einer grafischen Oberfläche Nachrichten untereinander oder in Chatrooms auszutauschen \cite{ICQ}. Die Systeme werden in unterschiedlichen Ausprägungen stets weiterentwickelt. Es kommen zur grundlegenden Funktion des Nachrichtenaustauschs weitere Features, wie Dateiübertragung, \textbf{\ac{VoIP}}, Video over IP, \textbf{Ende-zu-Ende-Verschlüsselung} oder Sprachnachrichten hinzu \cite{gross2007}. 
-Weitere typische Funktionen sind die Möglichkeit des Logins mit Passwort und die Angabe der Verfügbarkeit oder die Übermittlung seines Standorts an andere Benutzer. Die Ansprüche an Funktionalitäten von Chatsystemen und der Echtzeitübertragung wachsen stetig weiter und es ist zu erwarten, dass in den kommenden Jahren der Fortschritt die Echtzeitübertragung und die Funktionalitäten von \textbf{Instant-Messaging-Systeme} verbessern wird. Um einen Beitrag zur Steigerung der Präsenz und der Funktionalitäten zu leisten, soll ein Chatsystem gebaut werden, dass den Anforderungen bisheriger Chatsysteme entspricht. Das Chatsystem soll die Datenschutzbestimmung erfüllen und Benutzerdaten nur speichern, wenn das für die Bereitstellung des Dienstes nötig ist.\cite{anastasiaIMS}
+Instant-Messaging-Systeme existieren in der heutigen Form seit Ende der 1990er Jahre, ausgehend von einer Öffnung des Internets für einen größeren Nutzerkreis außerhalb von Forschungsinstitutionen. Das erste \ac{IMS} ist \ac{ICQ} der Firma Mirabilis, welches Benutzern ermöglicht, in einer grafischen Oberfläche Nachrichten untereinander oder in Chatrooms auszutauschen \cite{ICQ}. Die Systeme werden in unterschiedlichen Ausprägungen stets weiterentwickelt. Es kommen zur grundlegenden Funktion des Nachrichtenaustauschs weitere Features, wie Dateiübertragung, \ac{VoIP}, Video over IP, Ende-zu-Ende-Verschlüsselung oder Sprachnachrichten hinzu \cite{gross2007}. 
+Weitere typische Funktionen sind die Möglichkeit des Logins mit Passwort und die Angabe der Verfügbarkeit oder die Übermittlung seines Standorts an andere Benutzer. Die Ansprüche an Funktionalitäten von Chatsystemen und der Echtzeitübertragung wachsen stetig weiter und es ist zu erwarten, dass in den kommenden Jahren der Fortschritt die Echtzeitübertragung und die Funktionalitäten von Instant-Messaging-Systeme verbessern wird. Um einen Beitrag zur Steigerung der Präsenz und der Funktionalitäten zu leisten, soll ein Chatsystem gebaut werden, dass den Anforderungen bisheriger Chatsysteme entspricht. Das Chatsystem soll die Datenschutzbestimmung erfüllen und Benutzerdaten nur speichern, wenn das für die Bereitstellung des Dienstes nötig ist.\cite{anastasiaIMS}
+
 \newpage
 
 \chapter{Datenschutzrechtliche Aspekte}
@@ -411,20 +407,20 @@ Weitere typische Funktionen sind die Möglichkeit des Logins mit Passwort und di
 \section{Funktionsweise von Instant-Messaging-Systemen}
 \label{sec:IMSFunktion}
 
-Verschiedene \ac{IMS} besitzen ähnliche Funktionsweisen. Möchte ein Benutzer einen \ac{IMS} nutzen, muss dieser eine bestimmte Software installieren. Diese Software wird als \textbf{Instant-Messaging-Client (IM-Client} bezeichnet. Der Benutzer muss sich an einem Authentifikationsserver registrieren. Es wird ein Benutzerprofil angelegt, welches aus aus einem Benutzernamen (User ID) und einem Passwort (Pre-Shared-Key) besteht. Diese Daten werden beim Login des Benutzers vom \ac{IMS} abgefragt. Ein Benutzerprofil kann weitere personenbezogenen Daten bestehen, wie zum Beispiel, Wohnort, Geschlecht und Geburtsdatum. Die Anzahl der Server für die Authentifizierung und der Bereitstellung des Dienstes variiert je nach der Anforderung an Verfügbarkeit und Anzahl der zu erwartenden Nutzer des \ac{IMS}. Die horizontale Skalierung von Servern und Diensten unterliegt allein dem Betreiber dieser Systeme, häufig finden sich jedoch Cluster-Systeme mit intelligenter Lastverteilung (Load-Balancing). \autoref{img:StrukturIMS} zeigt den allgemeinen Aufbau eines \ac{IMS}. In der Abbildung wird eine horizontale oder vertikale Skalierung des \ac{IMS} vernachlässigt. Der Authentifikationsserver symbolisiert einen oder mehrere Server.\cite{anastasiaIMS}
+Verschiedene \ac{IMS} besitzen ähnliche Funktionsweisen. Möchte ein Benutzer einen \ac{IMS} nutzen, muss dieser eine bestimmte Software installieren. Diese Software wird als Instant-Messaging-Client (IM-Client bezeichnet. Der Benutzer muss sich an einem Authentifikationsserver registrieren. Es wird ein Benutzerprofil angelegt, welches aus aus einem Benutzernamen (User ID) und einem Passwort (Pre-Shared-Key) besteht. Diese Daten werden beim Login des Benutzers vom \ac{IMS} abgefragt. Ein Benutzerprofil kann weitere personenbezogenen Daten bestehen, wie zum Beispiel, Wohnort, Geschlecht und Geburtsdatum. Die Anzahl der Server für die Authentifizierung und der Bereitstellung des Dienstes variiert je nach der Anforderung an Verfügbarkeit und Anzahl der zu erwartenden Nutzer des \ac{IMS}. Die horizontale Skalierung von Servern und Diensten unterliegt allein dem Betreiber dieser Systeme, häufig finden sich jedoch Cluster-Systeme mit intelligenter Lastverteilung (Load-Balancing). \autoref{img:StrukturIMS} zeigt den allgemeinen Aufbau eines \ac{IMS}. In der Abbildung wird eine horizontale oder vertikale Skalierung des \ac{IMS} vernachlässigt. Der Authentifikationsserver symbolisiert einen oder mehrere Server.\cite{anastasiaIMS}
 
 \begin{figure}[h]
 	\centering
 	\includegraphics{images/GrundlegendeStrukturIMS}
-	\caption{Allgemeine Struktur eines Instant-Messaging-Systems}
+	\caption{Allgemeine Struktur eines Instant-Messaging-Systems \cite{anastasiaIMS}}
 	\label{img:StrukturIMS}
 \end{figure}
 
-Hat sich der Benutzer mit seinen Login-Daten erfolgreich gegenüber dem Authentifikationsserver authentifiziert, kann er andere, bereits registrierte, Benutzer kontaktieren. Die Verbindungsinformationen wie zum Beispiel IP-Adresse, die dem Client lokal zugewiesene Portnummer und die Kontaktliste (Freunde des Benutzers) werden an den Präsenzserver übermittelt. Dieser ist abhängig von der Implementierungsform ein Teil des \textbf{IM-Servers} oder ein eigenständiger Server. Der Präsenzserver überprüft, welche Benutzer aus der Kontaktliste verfügbar und angemeldet sind. Der Server sendet dem Benutzer die Ergebnisse der Statusüberprüfung zurück. Ist einer der gewünschten Benutzer \glqq online\grqq (verfügbar) kann durch die Auswahl der entsprechenden Kennung eine Verbindung aufgebaut werden und der Nachrichtenaustausch kann beginnen. Das ist möglich, weil der Server dem Sender die IP-Adresse und die Ziel-Portnummer des Kommunikationspartners übermittelt. Die Nachrichten werden direkt zwischen den Clients übertragen oder über den Server zwischen den Kommunikationspartnern übermittelt. Die Art der Übertragung ist von System zu System je nach Realisierung unterschiedlich. Der Kommunikationspfad ist abhängig von der Architektur und dem verwendeten Protokoll. Eine Nachricht kann zentral über den Server vermittelt werden (vgl. \autoref{img:StrukturIMS}-indirekte Nachricht) oder nach dem Peer-to-Peer-Prinzip (vgl. \autoref{img:StrukturIMS}-direkte Nachricht) erfolgen. 
+Hat sich der Benutzer mit seinen Login-Daten erfolgreich gegenüber dem Authentifikationsserver authentifiziert, kann er andere, bereits registrierte, Benutzer kontaktieren. Die Verbindungsinformationen wie zum Beispiel IP-Adresse, die dem Client lokal zugewiesene Portnummer und die Kontaktliste (Freunde des Benutzers) werden an den Präsenzserver übermittelt. Dieser ist abhängig von der Implementierungsform ein Teil des IM-Servers oder ein eigenständiger Server. Der Präsenzserver überprüft, welche Benutzer aus der Kontaktliste verfügbar und angemeldet sind. Der Server sendet dem Benutzer die Ergebnisse der Statusüberprüfung zurück. Ist einer der gewünschten Benutzer \glqq online\grqq (verfügbar) kann durch die Auswahl der entsprechenden Kennung eine Verbindung aufgebaut werden und der Nachrichtenaustausch kann beginnen. Das ist möglich, weil der Server dem Sender die IP-Adresse und die Ziel-Portnummer des Kommunikationspartners übermittelt. Die Nachrichten werden direkt zwischen den Clients übertragen oder über den Server zwischen den Kommunikationspartnern übermittelt. Die Art der Übertragung ist von System zu System je nach Realisierung unterschiedlich. Der Kommunikationspfad ist abhängig von der Architektur und dem verwendeten Protokoll. Eine Nachricht kann zentral über den Server vermittelt werden (vgl. \autoref{img:StrukturIMS}-indirekte Nachricht) oder nach dem Peer-to-Peer-Prinzip (vgl. \autoref{img:StrukturIMS}-direkte Nachricht) erfolgen. 
 
 \section{XMPP-Extensible Messaging and Presence Protocol}
 \label{sec:XMPP}
-\ac{XMPP} bedeutet \textbf{Extensible Messaging and Presence Protocol}. Wird dieses ins Deutsche übersetzt, so entsteht die Bedeutung eines erweiterbares Nachrichten- und Anwesenheitsprotokoll. Eine Definition die \ac{XMPP} sehr gut beschreibt. \ac{XMPP} basiert auf \ac{XML}, welches eine Markup Sprache darstellt. Das Ziel von \ac{XMPP} war ein Protokoll für das Instant Messaging zu entwickeln. Laut dem RFC6120 lässt sich mittels \ac{XMPP} Daten zwischen zwei oder mehreren Netzwerkeinheiten nahezu in Echtzeit austauschen, welches als Vorteil für Sofortnachrichten bezeichnet werden kann. Diesbezüglich nutzt es das Internet und erlaubt den Usern Sofortnachrichten an andere Anwender innerhalb des Internets zu schicken. \ac{XMPP} lässt sich in viele verschiedene Funktionen aufteilen, weshalb der grundlegende Zweck ein anderes Ziel verfolgt. Im einfachsten Sinne ist die Idee von \ac{XMPP} den Austausch von kleinen Teilen strukturierter Daten (\glqq \ac{XML} stanzas\grqq) zwischen einem oder mehreren Netzwerkteilnehmern zu ermöglichen. Primär wird \ac{XMPP} mithilfe einer Client-Server-Architektur implementiert, bei der sich ein Client mit einem Server verbindet, um mit anderen Teilnehmern Daten auszutauschen. Anderseits kann es als Protokoll auch zwischen Servern fungieren. Daraus resultiert der Vorteil nahezu unabhängig von Betriebssystemen und Browsern zu sein. Wird die Client-Server-Architektur implementiert, so ist in der Regel der Ablauf definiert durch folgende Schritte: \cite{RFC6120} 
+\ac{XMPP} bedeutet Extensible Messaging and Presence Protocol. Wird dieses ins Deutsche übersetzt, so entsteht die Bedeutung eines erweiterbares Nachrichten- und Anwesenheitsprotokoll. Eine Definition die \ac{XMPP} sehr gut beschreibt. \ac{XMPP} basiert auf \ac{XML}, welches eine Markup Sprache darstellt. Das Ziel von \ac{XMPP} war ein Protokoll für das Instant Messaging zu entwickeln. Laut dem RFC6120 lässt sich mittels \ac{XMPP} Daten zwischen zwei oder mehreren Netzwerkeinheiten nahezu in Echtzeit austauschen, welches als Vorteil für Sofortnachrichten bezeichnet werden kann. Diesbezüglich nutzt es das Internet und erlaubt den Usern Sofortnachrichten an andere Anwender innerhalb des Internets zu schicken. \ac{XMPP} lässt sich in viele verschiedene Funktionen aufteilen, weshalb der grundlegende Zweck ein anderes Ziel verfolgt. Im einfachsten Sinne ist die Idee von \ac{XMPP} den Austausch von kleinen Teilen strukturierter Daten (\glqq \ac{XML} stanzas\grqq) zwischen einem oder mehreren Netzwerkteilnehmern zu ermöglichen. Primär wird \ac{XMPP} mithilfe einer Client-Server-Architektur implementiert, bei der sich ein Client mit einem Server verbindet, um mit anderen Teilnehmern Daten auszutauschen. Anderseits kann es als Protokoll auch zwischen Servern fungieren. Daraus resultiert der Vorteil nahezu unabhängig von Betriebssystemen und Browsern zu sein. Wird die Client-Server-Architektur implementiert, so ist in der Regel der Ablauf definiert durch folgende Schritte: \cite{RFC6120} 
 \begin{enumerate}
 	\item Bestimmen der IP-Adresse und des Ports zu dem sich verbunden werden soll 
 	\item Eine \ac{TCP} Verbindung öffnen/aufbauen
@@ -459,8 +455,6 @@ Für den Austausch von Daten gibt es zwei elementare Konzepte. Zum einen die \ac
 \label{sec:Datenbank}
 Für den Aufbau eines Chatsystems ist ein Datenbanksystem notwendig. Die Datenbank wird benötigt, weil Informationen und Parameter für die Authentifizierung des Benutzers gespeichert werden müssen. Außerdem ist die interne Datenbank Mnesia eines Ejabberd-Chatservers nicht für den Mehrbenutzer-Betrieb ausgelegt. Mnesia ist in der Sprache Erlang entwickelt. Sie besitzt eine weiche Echtzeitfähigkeit und ist auf Geschwindigkeit optimiert \cite{MnesiaDoc}. Die verfügbare Speicherkapazität von maximal 2 Gigabyte für den Betrieb ist nicht ausreichend für ein Mehrbenutzer-System \cite{ejabberdDoc}. Ein Mehrbenutzer-Betrieb eines ejabberd-Servers benötigt eine Datenbank, in der Nachrichtenverläufe, Kontakte jedes Benutzers und weitere Parameter gespeichert werden können.
 
-\pagebreak
-
 Eine Datenbank beinhaltet eine Sammlung von mehreren Daten, die sich aufeinander beziehen können, und von einem \ac{DBMS} verwaltet werden. Kernkomponente für den Zugriff ist die einheitliche logische Schnittstelle zum \ac{DBMS}. Der Zugriff kann mit dem weitverbreiteten Standard \ac{SQL}, welches im allgemeinen Sinn eine Programmiersprache darstellt, erfolgen. Dafür wird der Datenbank über \ac{SQL} nur mitgeteilt welche Daten benötigt werden. Ein Datenbanksystem muss bestimmte Eigenschaften besitzen, um den Zweck Daten zu speichern und sie wieder abzufragen, zu erfüllen.
 
 \smallskip
@@ -476,10 +470,6 @@ Eine Datenbank beinhaltet eine Sammlung von mehreren Daten, die sich aufeinander
 
 Es gibt verschiedene Datenbankmodelle, nach denen eine Datenbankstruktur definiert wird. Die Datenbankmodelle unterteilen sich in relationale, objektorientierte, hierarchische und netzwerkartige sowie in moderne Datenbanken. Für die Projektarbeit wird ein relationales Datenbankmodell verwendet und deshalb dieses Modell genauer vertieft. Dementsprechend sind wichtige Schlüsselbegriffe zu definieren. Eine Tabelle wird ebenfalls als Relation bezeichnet. Eine Zeile der Relation heißt Tupel, die Spalten Attribute. Die Kardinalität entspricht der Anzahl von Tupeln und der Grad bezieht sich auf die Anzahl der Attribute. Ein wesentliche Bestandteil einer relationalen Datenbank ist der Primärschlüssel, welcher zwingend erforderlich ist und eindeutig sein muss. Der Schlüsselbegriff Gebiet bezieht sich auf ein Definitionsbereich eines Attributes, welches alle gültigen Werte für dieses Attribut umfasst. \cite{Schicker2017}
 
-\newpage
-
-\smallskip
-
 \textbf{Beispiel einer Relation:}
 
 \smallskip
@@ -492,7 +482,7 @@ Es gibt verschiedene Datenbankmodelle, nach denen eine Datenbankstruktur definie
 \end{figure}
 
 Eine relationale Datenbank ist definiert als eine Datenbank mit einer Ansammlung von zeitlich variierenden, normalisierten Relationen mit passenden Graden.
-\textbf{MySQL} ist eines der weltweit verbreitetsten relationalen Datenbanksysteme, weil sie als Open-Source-Software und als kommerzielle Enterprise-Version verfügbar ist. MySQL wird von allen gängigen Betriebssystemen wie Linux oder Windows unterstützt. Entwickelt wird MySQL von der Oracle Cooperation. Die MySQL-Datenbanken sind relational und orientieren sich an den oben genannten Schlüsselbegriffen, die eine relationale Datenbank definieren. Die MySQL-Datenbank ist in der Software eine Client-Server-Architektur, die aus einem Multi-Threading-Server besteht. Dadurch werden verschiedene Backends, Clientprogramme und Verwaltungswerkzeuge parallel unterstützt.\cite{MysqlDoc}
+MySQL ist eines der weltweit verbreitetsten relationalen Datenbanksysteme, weil sie als Open-Source-Software und als kommerzielle Enterprise-Version verfügbar ist. MySQL wird von allen gängigen Betriebssystemen wie Linux oder Windows unterstützt. Entwickelt wird MySQL von der Oracle Cooperation. Die MySQL-Datenbanken sind relational und orientieren sich an den oben genannten Schlüsselbegriffen, die eine relationale Datenbank definieren. Die MySQL-Datenbank ist in der Software eine Client-Server-Architektur, die aus einem Multi-Threading-Server besteht. Dadurch werden verschiedene Backends, Clientprogramme und Verwaltungswerkzeuge parallel unterstützt.\cite{MysqlDoc}
 \newpage
 
 \section{Grafische Benutzeroberfläche}
@@ -512,21 +502,21 @@ Im Rahmen der GUI-Programmierung müssen mehrere Aspekte berücksichtigt werden 
 \end{enumerate}
 Im Folgenden wird kurz auf die 8 Regeln eingegangen.
 
-Der erste Punkt, \textbf{Strebe nach Konsistenz}, befasst sich bspw. mit dem Erscheinungsbild einer Seite. Die Seite sollte dem Aspekt zur Folge die Elemente, wie einen Button, immer an der gleichen Stelle positionieren.
+Der erste Punkt, Strebe nach Konsistenz, befasst sich bspw. mit dem Erscheinungsbild einer Seite. Die Seite sollte dem Aspekt zur Folge die Elemente, wie einen Button, immer an der gleichen Stelle positionieren.
 
-Der nächste Punkt, \textbf{Sorge für universelle Bedienbarkeit}, beinhaltet Anforderungen an Bedienelementen. Somit sollte jeder Nutzer die Bedienung, Kürzel usw. ohne Einschränkungen verstehen können.
+Der nächste Punkt, Sorge für universelle Bedienbarkeit, beinhaltet Anforderungen an Bedienelementen. Somit sollte jeder Nutzer die Bedienung und Kürzel ohne Einschränkungen verstehen können.
 
-Ein Nutzer verlangt nach ausreichendem Feedback, die vor allem informativ und in vielen Fällen auch hilfreich sind. Ein Fakt der im dritten Punkt, \textbf{Biete informative Rückmeldung}, behandelt wird.
+Ein Nutzer verlangt nach ausreichendem Feedback, die vor allem informativ und in vielen Fällen auch hilfreich sind. Ein Fakt der im dritten Punkt, Biete informative Rückmeldung, behandelt wird.
 
-Der vierte Gesichtspunkt, \textbf{Entwerfe abgeschlossene Dialoge}, umfasst die Führung eines Nutzers, bspw. durch eine Verkaufsprozess. Zu jedem Zeitpunkt soll der Nutzer wissen, in welchem Prozess er sich befindet.
+Der vierte Gesichtspunkt, Entwerfe abgeschlossene Dialoge, umfasst die Führung eines Nutzers, zum Beispiel durch einen Verkaufsprozess. Zu jedem Zeitpunkt soll der Nutzer wissen, in welchem Prozess er sich befindet.
 
-Um die Bedürfnisse der Nutzer gerecht zu werden, muss wie in Punkt fünf, \textbf{Biete einfache Fehlerbehandlung}, definiert, die Fehler mit nützlichen Informationen für den Nutzer ausgestattet werden. Außerdem muss ein Ausweg in den normalen Programmablauf gewährleistet sein.
+Um die Bedürfnisse der Nutzer gerecht zu werden, muss wie in Punkt fünf, Biete einfache Fehlerbehandlung, definiert, die Fehler mit nützlichen Informationen für den Nutzer ausgestattet werden. Außerdem muss ein Ausweg in den normalen Programmablauf gewährleistet sein.
 
-Ein Nutzer soll mit Punkt sechs, \textbf{Lass die Einfache Umkehrung von Aktionen zu}, die Möglichkeit haben kleine Ereignisse rückgängig zu machen.
+Ein Nutzer soll mit Punkt sechs, Lass die Einfache Umkehrung von Aktionen zu, die Möglichkeit haben kleine Ereignisse rückgängig zu machen.
 
-Der siebte Gesichtspunkt, \textbf{Vermittle ein Gefühl der Kontrolle}, beinhaltet die Aktion und Reaktion. Demnach soll die Software auf eine Aktion des Nutzers reagieren und nicht andersrum. 
+Der siebte Gesichtspunkt, Vermittle ein Gefühl der Kontrolle, beinhaltet die Aktion und Reaktion. Demnach soll die Software auf eine Aktion des Nutzers reagieren und nicht andersrum. 
 
-Der letzte Punkt, \textbf{Entlaste das Kurzzeitgedächtnis}, soll gewährleisten, dass die \ac{GUI} schlicht und einfach gehalten wird. Ein Nutzer sollte sich keine große Anzahl an Informationen merken müssen um einen Aktion auszuführen.
+Der letzte Punkt, Entlaste das Kurzzeitgedächtnis, soll gewährleisten, dass die \ac{GUI} schlicht und einfach gehalten wird. Ein Nutzer sollte sich keine große Anzahl an Informationen merken müssen um einen Aktion auszuführen.
 \cite{UI8Regeln2019}
 
 Mit Betrachtung dieser 8 goldenen Regeln kann die grafische Benutzeroberfläche bei der Ausführung erfolgreich umgesetzt werden.
@@ -589,7 +579,7 @@ Für die Eigenschaften bietet sich mit der dritten Version von \ac{CSS} (\ac{CSS
 	\caption{Ma"seinheiten innerhalb der Webentwicklung, \cite{buhler2017html5}} 
 	\label{img:CSSmasseinheiten}
 \end{figure}
-\ac{CSS} verwendet die Selektoren und wendet auf diesen die definierten Eigenschaften an. Nebenbei bietet \ac{CSS} die Möglichkeit an, ein Layout zu erstellen. Dafür ist das sogenannte Boxmodell ausschlaggebend. Dieser ist definiert, die Elemente als eine Box mit Eigenschaften zu betrachten. Demnach gibt es in dem Zusammenhang vielerlei Möglichkeiten eine Box an die richtige Position, sowie mit der richtigen Größe abzubilden. Die Boxen können mit absoluten Werten definiert werden. Mit relativen Werten, welche Prozentwerte enthalten, können die Boxen sich in Abhängigkeit des Browserfensters ändern. Mit \ac{CSS}3 gibt es ebenso die Möglichkeiten flexible Boxen zu verwenden. Dadurch werden die Boxen unabhängig von der Position und Anordnung spalten- oder zeilenweise an den zur Verfügung gestellten Platz angeordnet. Bei der Betrachtung des Layouts spielt genauso das Endgerät eine Rolle. In dem Zusammenhang können \textbf{Media Queries} zum Einsatz kommen. Diese bieten die Option, Eigenschaften eines Selektors entsprechend der angegebenen Pixel zu ändern.
+\ac{CSS} verwendet die Selektoren und wendet auf diesen die definierten Eigenschaften an. Nebenbei bietet \ac{CSS} die Möglichkeit an, ein Layout zu erstellen. Dafür ist das sogenannte Boxmodell ausschlaggebend. Dieser ist definiert, die Elemente als eine Box mit Eigenschaften zu betrachten. Demnach gibt es in dem Zusammenhang vielerlei Möglichkeiten eine Box an die richtige Position, sowie mit der richtigen Größe abzubilden. Die Boxen können mit absoluten Werten definiert werden. Mit relativen Werten, welche Prozentwerte enthalten, können die Boxen sich in Abhängigkeit des Browserfensters ändern. Mit \ac{CSS}3 gibt es ebenso die Möglichkeiten flexible Boxen zu verwenden. Dadurch werden die Boxen unabhängig von der Position und Anordnung spalten- oder zeilenweise an den zur Verfügung gestellten Platz angeordnet. Bei der Betrachtung des Layouts spielt genauso das Endgerät eine Rolle. In dem Zusammenhang können Media Queries zum Einsatz kommen. Diese bieten die Option, Eigenschaften eines Selektors entsprechend der angegebenen Pixel zu ändern.
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=2.8]{images/MediaQbsp}
@@ -607,14 +597,14 @@ document.write("Your Login was succesful");
 </script>
 </div>
 \end{lstlisting}
-Das Beispiel bildet ein simpler Fall von JavaScript ab. Der Code erzeugt lediglich ein Text in der HTML-Klasse. Eine der beliebtesten Verwendungen von JavaScript sind Fenster, die zur Benachrichtigung oder Warnung benutzt werden. In Verbindung mit Event-Handler, die auf bestimmte Ereignisse reagieren, kann so, je nach Anwendung, Fenster oder andere Elemente erzeugt werden. Ein Beispiel für so ein Event-Handler wäre das \glqq onclick\grqq. Dadurch lässt sich JavaScript-Code erst ausführen wenn bspw. auf ein Button oder anderes \ac{HTML}-Element geklickt wird. Neben Fenstern gibt es zahlreiche weitere Verwendungsmöglichkeiten, wie zum Beispiel Formulare, Textfelder, Checkboxen usw. Eine besondere Variante von JavaScript ist \textbf{\ac{Ajax}}, welches ein weiteres wichtiges Feature mit in die Webentwicklung einbringt. \ac{Ajax} kommt vor allem zum Einsatz, wenn es um Elemente geht die nicht durch eine Aktualisierung des Browser ausgelöst werden sollen. \ac{Ajax} ermöglicht in so einem Fall die dynamische Anfrage. Die nachfolgende \autoref{img:/AjaxUseCase} erklärt das Funktionsprinzip von \ac{Ajax} detailliert.
+Das Beispiel bildet ein simpler Fall von JavaScript ab. Der Code erzeugt lediglich ein Text in der HTML-Klasse. Eine der beliebtesten Verwendungen von JavaScript sind Fenster, die zur Benachrichtigung oder Warnung benutzt werden. In Verbindung mit Event-Handler, die auf bestimmte Ereignisse reagieren, kann so, je nach Anwendung, Fenster oder andere Elemente erzeugt werden. Ein Beispiel für so ein Event-Handler wäre das \glqq onclick\grqq. Dadurch lässt sich JavaScript-Code erst ausführen wenn bspw. auf ein Button oder anderes \ac{HTML}-Element geklickt wird. Neben Fenstern gibt es zahlreiche weitere Verwendungsmöglichkeiten, wie zum Beispiel Formulare, Textfelder, Checkboxen usw. Eine besondere Variante von JavaScript ist \ac{Ajax}, welches ein weiteres wichtiges Feature mit in die Webentwicklung einbringt. \ac{Ajax} kommt vor allem zum Einsatz, wenn es um Elemente geht die nicht durch eine Aktualisierung des Browser ausgelöst werden sollen. \ac{Ajax} ermöglicht in so einem Fall die dynamische Anfrage. Die nachfolgende \autoref{img:/AjaxUseCase} erklärt das Funktionsprinzip von \ac{Ajax} detailliert.
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=1.0]{images/AjaxUseCase}
 	\caption{Anwendungsfall von Ajax, \cite{buhler2018webtechnologien}} 
 	\label{img:/AjaxUseCase}
 \end{figure}
-Während ein User ein Textfeld beschreibt wird im Hintergrund, mithilfe des JavaScript-Objektes XMLHttpRequest, eine Anfrage an den Webserver gesendet. Dieser kann mit ersten Teilergebnissen antworten und so dem User bspw. eine Autovervollständigung anbieten. \ac{Ajax} ist in dem Fall keine neue Technologie sondert verwendet JavaScript anders, um mit dem Webserver im Hintergrund zu kommunizieren. In diesem Fall ist die Autovervollständigung lediglich ein einfaches Beispiel um die Funktion von \ac{Ajax} zu verstehen. Darüber hinaus gibt es weitaus mehr Anwendungsfälle von \ac{Ajax}. Bei aufwändigen Webseiten kommt ein weiteres Element zur Webentwicklung hinzu, das die Umsetzung erleichtern soll. Dabei handelt es sich um Frameworks. Wie es für \ac{CSS} und \ac{HTML} Bootstrap als Framework gibt, so gibt es auch im Zusammenhang mit JavaScript eine Vielzahl an Frameworks. Eines der beliebtesten Frameworks ist \textbf{jQuery}. Mit jQuery wird das Programmieren von JavaScript unterstützt. Außerdem ist der Zugriff auf HTML-Elemente bekannt durch die Varianten des Selektors bei \ac{CSS}. Der Zugriff auf ein Element erfolgt in jQuery über \$(\dq \#bereich1\dq) oder \$(\dq .farbe1\dq). Der Standardaufbau, welcher in dem folgenden \autoref{lst:jQueryExample} dargestellt ist, zeigt eine Merkmal auf das zu achten ist.
+Während ein User ein Textfeld beschreibt wird im Hintergrund, mithilfe des JavaScript-Objektes XMLHttpRequest, eine Anfrage an den Webserver gesendet. Dieser kann mit ersten Teilergebnissen antworten und so dem User bspw. eine Autovervollständigung anbieten. \ac{Ajax} ist in dem Fall keine neue Technologie sondert verwendet JavaScript anders, um mit dem Webserver im Hintergrund zu kommunizieren. In diesem Fall ist die Autovervollständigung lediglich ein einfaches Beispiel um die Funktion von \ac{Ajax} zu verstehen. Darüber hinaus gibt es weitaus mehr Anwendungsfälle von \ac{Ajax}. Bei aufwändigen Webseiten kommt ein weiteres Element zur Webentwicklung hinzu, das die Umsetzung erleichtern soll. Dabei handelt es sich um Frameworks. Wie es für \ac{CSS} und \ac{HTML} Bootstrap als Framework gibt, so gibt es auch im Zusammenhang mit JavaScript eine Vielzahl an Frameworks. Eines der beliebtesten Frameworks ist jQuery. Mit jQuery wird das Programmieren von JavaScript unterstützt. Außerdem ist der Zugriff auf HTML-Elemente bekannt durch die Varianten des Selektors bei \ac{CSS}. Der Zugriff auf ein Element erfolgt in jQuery über \$(\dq \#bereich1\dq) oder \$(\dq .farbe1\dq). Der Standardaufbau, welcher in dem folgenden \autoref{lst:jQueryExample} dargestellt ist, zeigt eine Merkmal auf das zu achten ist.
 \begin{lstlisting}[language=HTML,caption=Example Listing of jQuery,label={lst:jQueryExample}]
 <script> $(document).ready(function(){
 /* Hier der jQuery-Code */ });
@@ -623,7 +613,7 @@ Während ein User ein Textfeld beschreibt wird im Hintergrund, mithilfe des Java
 Mit \texttt{\$(document).ready} werden grundsätzlich erste Probleme, die auftreten können verhindert. Demnach könnte ohne diese Funktion auf Elemente zugegriffen werden, welche noch nicht vollständig geladen sind. Das ready verhindert diese Problematik und wartet mit der Ausführung bis die Webseite komplett geladen ist. Die Problematik tritt sowohl bei jQuery als auch bei JavaScript auf. JQuery besitzt zahlreiche Plugins die bei der Webentwicklung verwendet werden können. JavaScript bildetet ein fundamentaler Baustein, der mithilfe zahlreicher Möglichkeiten und Frameworks für jede Anwendung Optionen bereitstellt, um dynamische Änderungen oder Interaktionen in die Webanwendung zu integrieren.\cite{buhler2018webtechnologien}
 \pagebreak
 
-\section{HTML und CSS-Entwicklung mithilfe von Bootstrap}
+\section{HTML und CSS-Entwicklung mit Hilfe von Bootstrap}
 \label{sec:Bootstrap}
 Im \autoref{sec:HTMLCSSJS} taucht der Begriff Bootstrap erstmalig auf. Herrn Krause zur Folge handelt es sich bei Bootstrap um ein \ac{CSS} Framework. In diesem Zusammenhang stellt sich die Frage, wieso der Titel des Abschnitts \ac{HTML} mit einbringt. Eine Frage welche im Verlauf des Abschnitts behandelt wird. Außerdem wird heutzutage ein Webauftritt durch zahlreiche Frameworks und Tools unterstützt, was die Relevanz des Abschnitts erklärt. Im Folgenden steht die Verwendung von Bootstrap und die hilfreichen Komponente, welche bei einer Webapplikation benutzt werden können, im Vordergrund. Hierbei handelt sich um zwei Komponenten deren Implementierung dargestellt werden. Weitere Kompontenten sind nicht Bestandteil der Ausführung, da sie aufgrund der Ähnlichkeit abgeleitet werden können. 
 
@@ -640,7 +630,7 @@ Für die Integration gibt es mehrerer Möglichkeiten. Die wohl am häufigsten em
 
 \subsection*{Wichtige Komponten und ihre Implementierung mithilfe Bootstrap}
 \label{BootstrapComponents}
-Mit dem Ziel Projekte bzw. Programme unabhängig von Betriebssystemen zu entwickeln, schieben sich die Webapplikationen immer mehr in den Vordergrund. Mithilfe von Bootstrap kann der Webauftritt komfortabel unterstützt werden. In diesem Abschnitt werden wichtige Komponenten und wie sie anzuwenden sind erörtert. Dadurch wird ein Basiswissen für Projekte welche als Webapplikation realisiert wird vermittelt. Aufgrund der Vielzahl an von Bootstrap angebotenen Möglichkeiten, werden ausschließlich die am häufigsten verwendeten Komponenten erläutert.
+Mit dem Ziel Projekte bzw. Programme unabhängig von Betriebssystemen zu entwickeln, schieben sich die Webapplikationen immer mehr in den Vordergrund. Mit Hilfe von Bootstrap kann der Webauftritt komfortabel unterstützt werden. In diesem Abschnitt werden wichtige Komponenten und wie sie anzuwenden sind erörtert. Dadurch wird ein Basiswissen für Projekte welche als Webapplikation realisiert wird vermittelt. Aufgrund der Vielzahl an von Bootstrap angebotenen Möglichkeiten, werden ausschließlich die am häufigsten verwendeten Komponenten erläutert.
 
 \textbf{Buttons}\\
 Mit Bootstrap als CSS-Framework sind Komponenten wie Buttons in verschiedenen Formen bereits verfügbar. Das nachfolgende Listing (\autoref{lst:IncludeBootstrapButton}) bildet ab, wie ein vorgefertigter Button in eine HTML-Datei implementiert werden kann.
@@ -682,7 +672,7 @@ Das Listing symbolisiert nicht nur das Formular sondern reflektiert die Verschac
 	\item Text innerhalb der HTML-Elemente
 	\item Identifikationsnamen
 \end{itemize}
-Die Erkenntnis dieser Aufzählung zeigt, wie schlicht Bootstrap verwendet werden kann. Anderseits zeigt es wie aufwendig ein Formular auch mithilfe Bootstrap ist. Hier sei nochmals zu erwähnen, dass Bootstrap ausschließlich bei der Gestaltung unterstützt. Daher kann sind die HTML-Inhalte eigenständig zu implementieren. Dennoch kann mithilfe von Bootstrap ein Formular gestalterisch schnell umgesetzt werden. Das Resultat des Listings stellt die \autoref{img:BootstrapForm} dar. \cite{bootstrapOnline}
+Die Erkenntnis dieser Aufzählung zeigt, wie schlicht Bootstrap verwendet werden kann. Anderseits zeigt es wie aufwendig ein Formular auch mithilfe Bootstrap ist. Hier sei nochmals zu erwähnen, dass Bootstrap ausschließlich bei der Gestaltung unterstützt. Daher kann sind die HTML-Inhalte eigenständig zu implementieren. Dennoch kann mit Hilfe von Bootstrap ein Formular gestalterisch schnell umgesetzt werden. Das Resultat des Listings stellt die \autoref{img:BootstrapForm} dar. \cite{bootstrapOnline}
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=1.0]{images/BootstrapForm}
@@ -710,7 +700,7 @@ Die Programmiersprache ist für jedes Projekt frei wählbar. Neben Vorteilen und
 Bei der Umsetzung einer grafischen Benutzeroberfläche müssen Regeln bezüglich der Usability (\autoref{sec:Benutzeroberfläche}) und die Eigenschaften der Programmiersprache beachtet werden. Mit Python als Programmiersprache kommen mehrere Module, welche für die grafische Benutzeroberfläche benutzt werden können, einher. Für diese Module ist vorab die Plattform zu wählen. Dabei geht es um die Diskussion, auf welche Plattform sich eine Chatapplikation mit Bezug zu den Nutzern besser realisieren lässt.
 
 Die \ac{GUI}-Programmierung bei Python unterscheidet sich im Konzept nicht allzu sehr von anderen Programmiersprachen. Neben Schaltflächen stehen auch Fenster oder Menüs als Komponenten zur Verfügung. Angeordnet können diese in sogenannten Container. Für eine geeignete Anwenderschnittstelle müssen die Komponenten in die Container integriert werden. Hinzukommt ein äußerer Container, auch als Frame bezeichnet, ein Layout-Manager und eine Implementierung damit Aktionen durch Komponenten ausgelöst werden können. Wie im \autoref{sec:Benutzeroberfläche} erläutert, folgt eine \ac{GUI} mehreren Regeln. Demnach gibt es für die Programmierung einer grafischen Benutzeroberfläche vielerlei Möglichkeiten. In Python werden \ac{GUI} Frameworks angeboten, die eine Programmierung erleichtern sollen. Diese Frameworks können sich in der Art und der Verwendung unterscheiden. Außerdem sind Frameworks plattformabhängig. Damit ist eine Verwendung als Desktop- oder Webapplikation gemeint. Daher ist in der ersten Phase eine Plattform, anhand der Anforderungen an die Chatapplikation, zu evaluieren.\cite{Steyer2018} \\
-Die nachfolgende \autoref{tab:EntscheidungsmatrixFrameworkart} spiegelt die Ergebnisse eines Vergleichs zwischen den Tool-Frameworks und den Web-Frameworks von Python wider. Die Kriterien orientieren sich am Projekt und werden nachfolgend erläutert. Die \textbf{Nutzerfreundlichkeit} beinhaltet die Frage nach der Verständlichkeit. Dabei geht es darum, wie verständlich eine GUI mithilfe des Tools aufgebaut werden kann. Außerdem beinhaltet das Kriterium auch die Möglichkeiten des Tools, auf die Nutzerfreundlichkeit einzugehen. Die \textbf{Schwierigkeit} orientiert sich an der Implementierung. Dafür wird betrachtet wie leicht, schnell und komfortabel die Frameworkart in das Gesamtsystem integriert werden kann. Unabhängig von der Schwierigkeit geht es bei der \textbf{Umsetzbarkeit} um die Mittel, welche für eine Umsetzung benötigt werden, sowie auch um den Aufwand bei der Umsetzung. Die \textbf{Kompatibilität} umfasst die Unabhängigkeit von Betriebssystemen, Browsern usw. Ein Standardkriterium für eine grafische Oberfläche ist das \textbf{Design}. Demnach geht es um die Möglichkeiten ein gutes Erscheinungsbild der Oberfläche mit dem entsprechenden Framework umzusetzen. Das letzte Kriterium, \textbf{Verwendungszweck}, bildet die Verbindung zum Projekt. Dafür wird analysiert, wie die Frameworkart zum Zweck des Projektes passt. Die Gewichtung der Kriterien innerhalb der \autoref{tab:EntscheidungsmatrixFrameworkart} sind der \autoref{tab:GewichtungFrameworkart} des Anhangs zu entnehmen.
+Die nachfolgende \autoref{tab:EntscheidungsmatrixFrameworkart} spiegelt die Ergebnisse eines Vergleichs zwischen den Tool-Frameworks und den Web-Frameworks von Python wider. Die Kriterien orientieren sich am Projekt und werden nachfolgend erläutert. Die Nutzerfreundlichkeit beinhaltet die Frage nach der Verständlichkeit. Dabei geht es darum, wie verständlich eine GUI mithilfe des Tools aufgebaut werden kann. Außerdem beinhaltet das Kriterium auch die Möglichkeiten des Tools, auf die Nutzerfreundlichkeit einzugehen. Die Schwierigkeit orientiert sich an der Implementierung. Dafür wird betrachtet wie leicht, schnell und komfortabel die Frameworkart in das Gesamtsystem integriert werden kann. Unabhängig von der Schwierigkeit geht es bei der Umsetzbarkeit um die Mittel, welche für eine Umsetzung benötigt werden, sowie auch um den Aufwand bei der Umsetzung. Die Kompatibilität umfasst die Unabhängigkeit von Betriebssystemen, Browsern und weitere Aspekte. Ein Standardkriterium für eine grafische Oberfläche ist das Design. Demnach geht es um die Möglichkeiten ein gutes Erscheinungsbild der Oberfläche mit dem entsprechenden Framework umzusetzen. Das letzte Kriterium, Verwendungszweck, bildet die Verbindung zum Projekt. Dafür wird analysiert, wie die Frameworkart zum Zweck des Projektes passt. Die Gewichtung der Kriterien innerhalb der \autoref{tab:EntscheidungsmatrixFrameworkart} sind der \autoref{tab:GewichtungFrameworkart} des Anhangs zu entnehmen.
 \renewcommand{\arraystretch}{2}
 \begin{table}[h]
 	\centering
@@ -736,7 +726,7 @@ Die nachfolgende \autoref{tab:EntscheidungsmatrixFrameworkart} spiegelt die Erge
 	\label{tab:EntscheidungsmatrixFrameworkart}
 \end{table} \\
 Die \autoref{tab:EntscheidungsmatrixFrameworkart} bildet eine Hilfestellung zur Entscheidung einer passenden Frameworkart für das Projekt. Die Bewertung der Tools entsprechend der Kriterien folgt dem Benotungsschema der akademischen Bildung. Demnach ist eine 1 sehr gut und eine 6 ungenügend. Im Kriterium Nutzerfreundlichkeit schließen beide Frameworks mit der gleichen Note ab, da die Nutzerfreundlichkeit abhängig vom Designstil ist und bei beiden Frameworks umgesetzt werden kann. Die Schwierigkeit, wie das Kriterium in der Einführung definiert wurde, bekommt beim Web-Framework eine bessere Bewertung. Grund hierfür ist, dass für das Web-Framework überwiegend keine aufwändigen Module in Python benötigt werden. Die Gestaltung erfolgt nämlich über \ac{HTML} und \ac{CSS}, welche dann mit einem schlichten Modul verknüpft bzw. aufgerufen werden können. Aufgrund von Vorkenntnissen sowohl in \ac{HTML} als auch in \ac{CSS} wird die Schwierigkeit für das Web-Framework besser bewertet. Bei der Umsetzbarkeit steht das Tool-Framework aufgrund der Verwendung eines gesamten Moduls besser da. Ein Web-Framework bringt \ac{HTML}, \ac{CSS}, \ac{JS} und das Modul mit was ein größeren Umfang bedeutet. Vor allem muss der Programmierer mit allen Elementen umgehen können, weshalb eine Umsetzung schwieriger sein könnte. In der Kompatibilität wird das Web-Framework aufgrund der Unabhängigkeit bezüglich des Betriebssystems besser bewertet. Außerdem kann eine ausgelieferte \ac{HTML}-Seite von nahezu allen Browsern gelesen werden. Eine Möglichkeit die Lösung auf mobilen Endgeräten zu benutzen ist ebenfalls enthalten. Im Design unterscheiden sich die Frameworkarten nicht. Beide bieten vielerlei Möglichkeiten auf gestalterische Details einzugehen. Aufgrund des Projektes, einen Chat über \ac{XMPP} und ejabberd zu realisieren wird schon hauptsächlich das Internet genutzt. Dadurch bietet es sich an, den Server eine \ac{HTML}-Seite ausliefern zulassen. Aus diesem Grund wird das Web-Framework im Rahmen dieses Kriteriums besser bewertet. Anhand der Gesamtwertungszahl entsprechend der Benotung und der Gewichtung sind beide Frameworks zu empfehlen, dennoch schließt das Web-Framework besser ab, weshalb im weiteren Verlauf ein Web-Framework zum Einsatz kommen soll. \cite{FrameworkOverview} \cite{WebFramework}\\ 
-Mit diesem Ergebnis müssen die verschiedenen Möglichkeiten eine Web-Framework in Bezug auf Python analysiert und bewertet werden. Auch in diesem Fall liefert eine Entscheidungsmatrix ein aufschlussreiches Ergebnis. Die Definition der selben Bewertungskriterien sind der Einführung der \autoref{tab:EntscheidungsmatrixFrameworkart} zu entnehmen. Weitere Kriterien wie Umfang und Komplexität werden in die Betrachtung miteinbezogen. Der \textbf{Umfang} spiegelt die Möglichkeiten und Größe im Aufbau des Tools wider. Die \textbf{Komplexität} befasst sich mit dem Aufwand einer Implementierung sowie auch die Hilfestellungen durch geeignete Dokumentationen. Das Bewertungsschema orientiert sich ebenfalls an der \autoref{tab:EntscheidungsmatrixFrameworkart}. Außerdem sind die Werte der Gewichtung bezogen auf das jeweilige Kriterium in der \autoref{tab:GewichtungWebFramework} im Anhang dargestellt.
+Mit diesem Ergebnis müssen die verschiedenen Möglichkeiten eine Web-Framework in Bezug auf Python analysiert und bewertet werden. Auch in diesem Fall liefert eine Entscheidungsmatrix ein aufschlussreiches Ergebnis. Die Definition der selben Bewertungskriterien sind der Einführung der \autoref{tab:EntscheidungsmatrixFrameworkart} zu entnehmen. Weitere Kriterien wie Umfang und Komplexität werden in die Betrachtung miteinbezogen. Der Umfang spiegelt die Möglichkeiten und Größe im Aufbau des Tools wider. Die Komplexität befasst sich mit dem Aufwand einer Implementierung sowie auch die Hilfestellungen durch geeignete Dokumentationen. Das Bewertungsschema orientiert sich ebenfalls an der \autoref{tab:EntscheidungsmatrixFrameworkart}. Außerdem sind die Werte der Gewichtung bezogen auf das jeweilige Kriterium in der \autoref{tab:GewichtungWebFramework} im Anhang dargestellt.
 \begin{table}[h]
 	\centering
 	\caption{Entscheidungsmatrix eines Web-Frameworks}
@@ -768,7 +758,7 @@ Die Gesamtwertungszahl, welches der \autoref{tab:EntscheidungsmatrixWebFramework
 \label{subsec:Flask}
 Wie unter \autoref{subsec:GuiPython} beschrieben, wird im Rahmen der Studienarbeit Flask verwendet. Es wird von mehreren Quellen und der offiziellen Dokumentation als Microframework betitelt. Grund hierfür ist der Aufbau von Flask. Bei der Definition des Begriffs \glqq micro\grqq{} ist nicht das Resultat zu betrachten. Mit Flask als Framework muss nicht die gesamte Web-Anwendung in einer Datei dargestellt werden. Hierbei handelt es sich eher um einen simplen Kern, welcher der Ausgangspunkt und das Ziel von Flask darstellt. Ausgehend von dem simplen Kern besitzt Flask die Möglichkeit in der Größe zu skalieren. Daher kann, bezogen auf die Grundstruktur von Flask, dem Begriff Framework das \glqq micro\grqq{} vorangestellt werden.\cite{FlaskDoc}\\
 Auch Autoren, wie K. Relan mit seinem Werk über Flask und RESTAPIs, schmälern nicht die Funktionalität von Flask, sondern loben die simple Struktur mit der Erweiterbarkeit. Dadurch haben sie die Möglichkeit der Anwendung ihre eigene Konfiguration zuzuteilen und mit Erweiterungen leicht zu skalieren. \cite{FlaskRESTAPIsRelan}\\
-Flask verknüpft die Entwicklung einer Web-Anwendung mit Python, weshalb das Framework eine Schnittstelle zum Webserver bildet. Bekannt ist Flask durch die Eigenschaft schnell und leicht eine minimale Anwendung zu implementieren und diese bei Bedarf in der Größe zu skalieren. Für die Verwendung von Flask sind zwei Bibliotheken wichtig. Bei diesen handelt es sich zum Einen um die \ac{WSGI}-Bibliothek Werkzeug und der Template-Bibliothek Jinja2. Module die standardmäßig von Flask verwendet werden. Flask bildet das Bindeglied zwischen den Modulen und erlaubt es bspw. mithilfe von \textbf{Routen} an bestimmten Endpunkten Funktionen, Aktionen oder ähnliches auszuführen. Ein Beispiel hierfür, wäre das ausliefern einer \ac{HTML}-Datei, welches im \autoref{lst:FlaskMinApp} dargestellt wird.
+Flask verknüpft die Entwicklung einer Web-Anwendung mit Python, weshalb das Framework eine Schnittstelle zum Webserver bildet. Bekannt ist Flask durch die Eigenschaft schnell und leicht eine minimale Anwendung zu implementieren und diese bei Bedarf in der Größe zu skalieren. Für die Verwendung von Flask sind zwei Bibliotheken wichtig. Bei diesen handelt es sich zum Einen um die \ac{WSGI}-Bibliothek Werkzeug und der Template-Bibliothek Jinja2. Module die standardmäßig von Flask verwendet werden. Flask bildet das Bindeglied zwischen den Modulen und erlaubt es bspw. mithilfe von Routen an bestimmten Endpunkten Funktionen, Aktionen oder ähnliches auszuführen. Ein Beispiel hierfür, wäre das ausliefern einer \ac{HTML}-Datei, welches im \autoref{lst:FlaskMinApp} dargestellt wird.
 \begin{lstlisting}[language=Python,caption=Example Listing of Flask Python,label={lst:FlaskMinApp}]
 from flask import Flask
 app = Flask(__name__)
@@ -793,14 +783,14 @@ In dem Fall kann es sein die Flask-Applikation wurde noch nicht gestartet oder l
 \end{figure}
 In dem Fall kommt eine 404 mit der Bemerkung, dass die URL nicht gefunden wurde, zurück (\autoref{img:FlaskWebseiteNichtErreichabr}). Bei der letzten Möglichkeit handelt es sich um eine korrekte URL. Im Fall des Beispieles wäre die Adresse: \texttt{http://127.0.0.1:8000/home} eine im \autoref{lst:FlaskMinApp} dargestellte Route. Durch den Aufruf der URL wird die definierte Funktion ausgeführt. Bei dem Beispiel wird eine HTML-Datei ausgeliefert.
 Nun besitzt Flask vielerlei Möglichkeiten um Anfrage (POST, GET, usw.) zu differenzieren. Diese zählen nicht zur Grundfunktionalität von Flask und sind daher nicht Bestandteil dieses Abschnittes. Der nächste Vorteil von Flask beinhaltet die Möglichkeit einen Webserver im Entwicklungsmodus zu starten und aktuelle Code-Zeilen zu testen.
-Flask ist also nicht zuständig für die Gestaltung der grafischen Oberfläche sondern benutzt sogenannte \textbf{Templates} in Form von HTML-Datei, die eine Webseite aufbauen. Für eine dynamische Webanwendung und den gestalterischen Aspekten sind statische Dateien, wie z.B. \ac{CSS}, notwendig. Aus diesem Grund benötigt Flask eine vorgegebene Ordnerstruktur, welche der nachfolgenden \autoref{img:TreeFlaskOrdnerstrukt} entnommen werden kann. Diese Struktur hilft um das Fehlerpotential, ausgelöst durch Zugriffe auf falsche Dateien, zu vermindern.
+Flask ist also nicht zuständig für die Gestaltung der grafischen Oberfläche sondern benutzt sogenannte Templates in Form von HTML-Datei, die eine Webseite aufbauen. Für eine dynamische Webanwendung und den gestalterischen Aspekten sind statische Dateien, wie z.B. \ac{CSS}, notwendig. Aus diesem Grund benötigt Flask eine vorgegebene Ordnerstruktur, welche der nachfolgenden \autoref{img:TreeFlaskOrdnerstrukt} entnommen werden kann. Diese Struktur hilft um das Fehlerpotential, ausgelöst durch Zugriffe auf falsche Dateien, zu vermindern.
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=\textwidth]{images/TreeFlaskOrdnerstrukt}
 	\caption{Ordnerstruktur unter Flask, eigene Darstellung}
 	\label{img:TreeFlaskOrdnerstrukt}
 \end{figure}
-Für die grafische Benutzeroberfläche würden diese Elemente ausreichen um eine simple Webseite aufzubauen, mit den \ac{HTML}- und \ac{CSS}-Dateien zu verknüpfen, über eine Route die Seite zu rendern und letztendlich, über den von Flask gestellten Webserver, zu testen. Dennoch bietet Flask mehr Möglichkeiten auch im Zusammenhang des Projektes. Zum Beispiel kann in Flask mit redirects, sessions, cookies, Datenbanken und vieles mehr gearbeitet werden. Bei der Anbindung bzw. Kommunikation mit einer \textbf{Datenbank} schreibt Flask als Modul nicht die Art der Datenbank vor. Dadurch gibt es die Möglichkeit bspw. eine MySQL, PostgreSQL, SQLite oder andere Datenbanken zu verwenden. In diesem Zusammenhang bietet Flask das Modul Flask-SQLAlchemy. Das Paket gilt als \ac{ORM}, und bietet die Möglichkeit high-level Operationen in Datenbank-Kommandos zu übersetzen. Ein Beispiel für die Verwendung des Moduls ist im folgenden \autoref{lst:SQLAlchemyMinApp} dargestellt.
+Für die grafische Benutzeroberfläche würden diese Elemente ausreichen um eine simple Webseite aufzubauen, mit den \ac{HTML}- und \ac{CSS}-Dateien zu verknüpfen, über eine Route die Seite zu rendern und letztendlich, über den von Flask gestellten Webserver, zu testen. Dennoch bietet Flask mehr Möglichkeiten auch im Zusammenhang des Projektes. Zum Beispiel kann in Flask mit redirects, sessions, cookies, Datenbanken und vieles mehr gearbeitet werden. Bei der Anbindung bzw. Kommunikation mit einer Datenbank schreibt Flask als Modul nicht die Art der Datenbank vor. Dadurch gibt es die Möglichkeit bspw. eine MySQL, PostgreSQL, SQLite oder andere Datenbanken zu verwenden. In diesem Zusammenhang bietet Flask das Modul Flask-SQLAlchemy. Das Paket gilt als \ac{ORM}, und bietet die Möglichkeit high-level Operationen in Datenbank-Kommandos zu übersetzen. Ein Beispiel für die Verwendung des Moduls ist im folgenden \autoref{lst:SQLAlchemyMinApp} dargestellt.
 \begin{lstlisting}[language=Python,caption=Example Listing of Flask-SQLAlchemy,label={lst:SQLAlchemyMinApp}]
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
@@ -1007,7 +997,7 @@ $ sudo apt install mysql-server
 $ sudo mysql_secure_installation
 \end{lstlisting}
 
-Die Datenbankinstallation ist erfolgreich, wenn der Verbindungsversuch mit dem root User des Betriebssystems erfolgreich verläuft. Der Befehl \textbf{sudo mysql -uroot} startet einen Verbindungsversuch.
+Die Datenbankinstallation ist erfolgreich, wenn der Verbindungsversuch mit dem root User des Betriebssystems erfolgreich verläuft. Der Befehl \texttt{sudo mysql -uroot} startet einen Verbindungsversuch.
 
 Das relationale Datenbankschema das ejabberd benötigt, kann auf github heruntergeladen werden. Der erste Befehl lädt die SQL-Datei, in der das Datenbankschema definiert ist herunter. Der zweite Befehl erstellt in der Datenbank einen Benutzer \glqq ejabberd\grqq mit einem Passwort. Der Befehl in Zeile 3 schränkt die Zugriffsrechte des Benutzers auf die Datenbank \glqq ejabberd\grqq ein, die in Zeile 4 Listings erstellt wird. Der letzte Befehl spielt das Datenbankschema in die Datenbank \glqq ejabberd\grqq ein.
 
@@ -1096,7 +1086,7 @@ $ sudo systemctl status ejabberd
 
 Liefert die Statusabfrage (Befehl 3) keine Fehler, muss im nächsten Schritt ein Benutzer angelegt werden, der die nötigen Rechte besitzt, sich in das webbasierte Administrationsportal einzuloggen. Im Auslieferungszustand ist in der \ac{ACL} des ejabberd-Servers der Zugriff für die Administration auf den Benutzer \texttt{admin} beschränkt.\cite{ejabberdMGMT}
 
-Alle anders genannten Benutzer können sich mit ihrem Passwort im Administrationsportal einloggen, sie können aber keine Konfigurationen lesen oder verändern. Dieses Verhalten wurde durch einen Selbstversuch festgestellt. Über das in erlang programmierte Skript kann ejabberd verwaltet werden. Der Benutzer \textbf{admin} wird mit folgendem Befehl angelegt:\cite{ejabberdMGMT}
+Alle anders genannten Benutzer können sich mit ihrem Passwort im Administrationsportal einloggen, sie können aber keine Konfigurationen lesen oder verändern. Dieses Verhalten wurde durch einen Selbstversuch festgestellt. Über das in erlang programmierte Skript kann ejabberd verwaltet werden. Der Benutzer admin wird mit folgendem Befehl angelegt:\cite{ejabberdMGMT}
 
 \bigskip
 
@@ -1609,7 +1599,7 @@ Jeder Consumer kann zu einer Consumer Gruppe gehören. Eine Consumer Gruppe kann
 \section{Installation von Apache Kafka}
 \label{sec:InstallationKafka}
 
-Die nachfolgende Anleitung bezieht sich auf die Installation eines Kafka-Systems. Die Installationsanleitung beschreibt alle notwendigen Schritte, um einen Server mit der \textbf{Kafka Version 2.4.0} in Betrieb zu nehmen. Die Anleitung beschreibt nicht, wie ein Cluster-System, welches einen Verbund mehrerer Kafka Broker darstellt, in Betrieb genommen werden kann. Ziel ist es, eine einfache Installation aufzuzeigen und Kafka als Service auf einem Server bereitzustellen ohne, dass für die Ausführung der Kafka-Instanz ein Benutzer angemeldet sein muss. Die Informationen und Befehle sind aus der Kafka-Dokumentation \cite{kafkaDoc} zu entnehmen.
+Die nachfolgende Anleitung bezieht sich auf die Installation eines Kafka-Systems. Die Installationsanleitung beschreibt alle notwendigen Schritte, um einen Server mit der Kafka Version 2.4.0 in Betrieb zu nehmen. Die Anleitung beschreibt nicht, wie ein Cluster-System, welches einen Verbund mehrerer Kafka Broker darstellt, in Betrieb genommen werden kann. Ziel ist es, eine einfache Installation aufzuzeigen und Kafka als Service auf einem Server bereitzustellen ohne, dass für die Ausführung der Kafka-Instanz ein Benutzer angemeldet sein muss. Die Informationen und Befehle sind aus der Kafka-Dokumentation \cite{kafkaDoc} zu entnehmen.
 
 \bigskip
 
@@ -1643,7 +1633,7 @@ Anschließend muss sich mit dem neu erstellten Benutzer eingeloggt werden (Komma
 \subsubsection*{Schritt 2: Installation der benötigten Komponenten}
 
 
-Als nächstes muss das komprimmierte Kafka-Binary heruntergeladen werden. Hierzu kann das \textbf{curl}-Kommandozeilentool verwendet werden, um das Binary direkt aus dem Internet herunterzuladen und im Home-Verzeichnis des kafka-Benutzers gespeichert werden.
+Als nächstes muss das komprimmierte Kafka-Binary heruntergeladen werden. Hierzu kann das \texttt{curl}-Kommandozeilentool verwendet werden, um das Binary direkt aus dem Internet herunterzuladen und im Home-Verzeichnis des kafka-Benutzers gespeichert werden.
 
 \smallskip
 
@@ -1682,11 +1672,11 @@ $ nano ~/kafka/config/server.properties
 
 Fügen Sie diese Einstellung in der Datei hinzu:
 
-\textbf{delete.topic.enable = true}
+\texttt{delete.topic.enable = true}
 
 Speichern Sie anschließend die Datei und beenden Sie den Editor.
 
-Kafka benötigt \textbf{Zookeeper}, um erfolgreich starten zu können. Zookeeper ist automatisch nach der Installation aus Schritt 2 vollständig vorhanden und befindet sich ebenfalls im erstellten \glqq kafka\grqq -Verzeichnis. Testen Sie mit folgenden Kommandos, ob Zookeeper und Kafka erfolgreich starten. Starten Sie zuerst Zookeeper, warten Sie 30 Sekunden, öffnen Sie eine zweite CLI auf dem System und starten Sie anschließend Kafka. Wird kein Fehler geworfen, waren alle Schritte bisher erfolgreich verlaufen und Kafka ist betriebsbereit.
+Kafka benötigt Zookeeper, um erfolgreich starten zu können. Zookeeper ist automatisch nach der Installation aus Schritt 2 vollständig vorhanden und befindet sich ebenfalls im erstellten \glqq kafka\grqq -Verzeichnis. Testen Sie mit folgenden Kommandos, ob Zookeeper und Kafka erfolgreich starten. Starten Sie zuerst Zookeeper, warten Sie 30 Sekunden, öffnen Sie eine zweite CLI auf dem System und starten Sie anschließend Kafka. Wird kein Fehler geworfen, waren alle Schritte bisher erfolgreich verlaufen und Kafka ist betriebsbereit.
 
 \smallskip
 
@@ -1930,7 +1920,7 @@ if xmpp_client.connect('10.10.8.10', 5222):
     xmpp_client.disconnect(wait=True)
 \end{lstlisting}
 
-Zuerst wird eine Instanz der Klasse \textbf{EchoBot} erzeugt. Anschließend wird eine Liste mit benötigten \acs{XMPP}-Stanzas initialisiert. Zum Beispiel ermöglicht die \acs{XMPP}-Stanza XEP-0030 eine Service Discovery. Ein Client kann also verfügbare Dienste auf dem \acs{XMPP}-Server abfragen. XEP-0004 ruft Informationen über Datenformate und Datenaustausch vom Server ab. Genaue Details über XEP-Stanzas finden sich im offiziellen \acs{XMPP}-Definite Guide \cite{definiteGuideXMPP}. Die Stanzas werden anschließend in einer Schleife am \acs{XMPP}-Client registriert. Mit der Methode \texttt{connect} verbindet sich sleekxmpp unter Angabe von IP-Adresse und Port mit dem Server.  In der Dokumentation finden sich ausschließlich Beispiele, in denen die Methode \texttt{xmpp\_client.process(block=True)} aufgerufen wird. Das sleekxmpp-Objekt wartet dadurch auf eingehende Nachrichten. Die Konsequenz daraus ist, dass der sequentielle Programmablauf unterbrochen wurde, weil der Haupt-Thread blockiert. Mit dem  Code-Konstrukt aus der Dokumentation ist es nicht möglich in einem Programm auf eingehende Nachrichten zu warten und nebenbei eine Nachricht zu versenden. Ein Problem, das später fatal wäre, für die Umsetzung des \acs{IMS}. Die Lösung ist, wie in \autoref{lst:sleekxmppExampleUseEchoBot} dargestellt, die Methode \texttt{process(block=True)} in einem eigenen Thread ausführen zu lassen. Dadurch kann eine Nachricht versendet werden, während auf eintreffende Nachrichten gewartet werden kann. Trifft eine Nachricht ein, wird kurz zur Callback-Methode gesprungen und diese ausgeführt.\cite{pythonSleekxmpp}
+Zuerst wird eine Instanz der Klasse \texttt{EchoBot} erzeugt. Anschließend wird eine Liste mit benötigten \acs{XMPP}-Stanzas initialisiert. Zum Beispiel ermöglicht die \acs{XMPP}-Stanza XEP-0030 eine Service Discovery. Ein Client kann also verfügbare Dienste auf dem \acs{XMPP}-Server abfragen. XEP-0004 ruft Informationen über Datenformate und Datenaustausch vom Server ab. Genaue Details über XEP-Stanzas finden sich im offiziellen \acs{XMPP}-Definite Guide \cite{definiteGuideXMPP}. Die Stanzas werden anschließend in einer Schleife am \acs{XMPP}-Client registriert. Mit der Methode \texttt{connect} verbindet sich sleekxmpp unter Angabe von IP-Adresse und Port mit dem Server.  In der Dokumentation finden sich ausschließlich Beispiele, in denen die Methode \texttt{xmpp\_client.process(block=True)} aufgerufen wird. Das sleekxmpp-Objekt wartet dadurch auf eingehende Nachrichten. Die Konsequenz daraus ist, dass der sequentielle Programmablauf unterbrochen wurde, weil der Haupt-Thread blockiert. Mit dem  Code-Konstrukt aus der Dokumentation ist es nicht möglich in einem Programm auf eingehende Nachrichten zu warten und nebenbei eine Nachricht zu versenden. Ein Problem, das später fatal wäre, für die Umsetzung des \acs{IMS}. Die Lösung ist, wie in \autoref{lst:sleekxmppExampleUseEchoBot} dargestellt, die Methode \texttt{process(block=True)} in einem eigenen Thread ausführen zu lassen. Dadurch kann eine Nachricht versendet werden, während auf eintreffende Nachrichten gewartet werden kann. Trifft eine Nachricht ein, wird kurz zur Callback-Methode gesprungen und diese ausgeführt.\cite{pythonSleekxmpp}
 
 \section{Python Module für Apache Kafka Client}
 \label{sec:KafkaModul}
@@ -1997,10 +1987,10 @@ Für die Studienarbeit werden beide Python Module eingesetzt und sich für die I
 
 \pagebreak
 
-\section{Umsetzung der Entwicklung einer \acs{REST} \acs{API}}
+\chapter{Umsetzung der Entwicklung einer \acs{REST} \acs{API}}
 \label{subsec:Backend}
 
-Ausgangspunkt dieses Abschnitts ist das Ergebnis der in \autoref{sec:Architektur} definierten Architektur. Dieses Kapitel befasst sich mit der Entwicklung der \acs{REST} \acs{API}. Es zeigt wichtige Aspekte und Ideen der Umsetzung mittels des Microframeworks Python Flask auf. Zu Beginn werden Anforderungen an die \acs{REST} \acs{API} und anschließend die genaue Umsetzung und der Programm-Code erläutert.
+Ausgangspunkt dieses Kapitels ist das Ergebnis der in \autoref{sec:Architektur} definierten Architektur. Dieses Kapitel befasst sich mit der Entwicklung der \acs{REST} \acs{API}. Es zeigt wichtige Aspekte und Ideen der Umsetzung mittels des Microframeworks Python Flask auf. Zu Beginn werden Anforderungen an die \acs{REST} \acs{API} und anschließend die genaue Umsetzung und der Programm-Code erläutert.
 
 \subsubsection*{Anforderungen an die \acs{REST} \acs{API}:}
 
@@ -2017,11 +2007,9 @@ Ausgangspunkt dieses Abschnitts ist das Ergebnis der in \autoref{sec:Architektur
 
 %TODO Flask einfuehren und wie Datenbankzugriffe mit SQLAlchemy funktionieren erklaeren
 
-\subsubsection*{Verbergen von Konfigurationsparametern der Flask Applikation}
+\section{Verbergen von Konfigurationsparametern der Flask Applikation}
 
 Laut einer Statistik der Universität Maryland \cite{securityStatisticWebSites} werden Computer mit Internetzugriff alle 39 Sekunden von Hackern angegriffen. Die Statistik bestätigt, dass aufgrund dem hohen Risiko eines Angriffs, keine Leichtsinnigkeit bei der Implementierung vorhanden sein darf. Schon durch kleine Schwachstellen ist es Angreifern möglich, sensible Zugangsdaten abzugreifen und die Kontrolle über Systeme zu übernehmen. Aus diesem Grund sollten Zugangsdaten nicht direkt in Klartext im Programm-Code stehen. Die benötigten Zugangsdaten für ejabberd, Apache Kafka und den beiden MySQL-Datenbanken werden deshalb in einer separaten Datei im Datenaustauschformat \acs{JSON} abgespeichert. Die Flask Applikation soll beim Start alle Parameter auslesen und dynamisch verwenden. Auf diese Weise bleiben sensible Zugangsdaten geschützt, weil der Zugriff auf die separate Datei über das Betriebssystem auf wenige Benutzer beschränkt wird.
-
-\pagebreak
 
 \autoref{img:configJSON-Datei} zeigt die Datei mit beispielhaften Zugangsdaten. Die Datei enthält alle wichtigen Informationen, wie IP-Adressen, Portnummern und alle Zugangsdaten für Apache Kafka, ejabberd und den beiden Datenbanken. Die Zugangsdaten für die Datenbank sind bereits im \acs{URI}-Format von SQLAlchemy eingetragen, sodass diese nicht erst durch zusätzlichen Programm-Code in das richtige Format gebracht werden müssen.
 
@@ -2036,8 +2024,6 @@ Die Zugangsdaten sind in der Datei im Datenformat \ac{JSON} gespeichert, welches
 
 \autoref{lst:readConfigFile} zeigt einen Ausschnitt aus dem Code der Flask Applikation und wie die Konfigurationsparameter eingelesen werden können.
 
-\bigskip
-
 \begin{lstlisting}[language=python, caption={Auslesen der Konfigurationsparameter aus einer Datei}, label={lst:readConfigFile}]
 with open("/home/xmppweb/config.json") as config_file:
     config = json.load(config_file)
@@ -2045,13 +2031,12 @@ with open("/home/xmppweb/config.json") as config_file:
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = config.get('SQLALCHEMY_DATABASE_URI')
 app.config['SQLALCHEMY_BINDS'] = {
-    "ejabberd_database": config.get('SQL_EJABBERD_DATABASE_URI')
-}
+    "ejabberd_database": config.get('SQL_EJABBERD_DATABASE_URI') }
 \end{lstlisting}
 
 Mit dem Python Modul \texttt{json} und dessen Methode \texttt{load} können die Daten aus der Datei \texttt{config.json} importiert werden \cite{pythonJSONapi}. Die \texttt{load} Methode akzeptiert ein File-Objekt (hier \texttt{config\_file} genannt), der für das Einlesen einer Datei benötigt wird. Detaillierte Informationen über File-Objekte in Python 3 finden sich in der Dokumentation \cite{usageFileDeskr}. Gemäß der Konvertierungstabelle aus der Dokumentation \cite{pythonJSONapi} wird der Inhalt der Textdatei in das Datenformat Dictionary deserialisiert. Ein Dictionary in Python ist ein assoziatives Datenfeld und basiert ähnlich zu \ac{JSON} auf ein Key-Value-Prinzip. Über einen eindeutigen Key (deutsch Schlüssel) kann auf einem Value (deutsch Wert) zugegriffen werden. Das Dictionary aus \autoref{lst:readConfigFile} enthält die Konfigurationsparameter. Über die \texttt{get} Methode kann durch Angabe des Keys auf den Value zugegriffen werden. Für mehr Informationen über die Datenstruktur Dictionary, siehe \cite{pythonDictionaries}. So können die \acs{URI}s der beiden Datenbanken in die Konfiguration der Flask Applikation eingetragen werden.  Die Verwendung und der Zugriff auf die Konfigurationsparameter des Dictionaries wird in weiteren Listings benötigt. So kann zum Beispiel die IP-Adresse von Apache Kafka oder der ejabberd-Instanz dynamisch während der Laufzeit eingebunden werden, ohne dass diese direkt im Programm-Code sichtbar ist.
 
-\subsubsection*{SQLAlchemy Schema für die Benutzerauthentifizierung}
+\section{SQLAlchemy Schema für die Benutzerauthentifizierung}
 
 Für die Benutzerauthentifizierung und Registrierung von Benutzern am \acs{IMS} wird nach \autoref{img:logischeTopologieIMS} eine MySQL-Datenbank verwendet. Die MySQL-Datenbank läuft direkt als Dienst auf dem Server der Flask Applikation, um die Netzwerklatenz für Datenbankzugriffe möglichst gering zu halten. In der Tabelle \texttt{user\_auth} der Datenbank befinden sich alle Daten über die Benutzer. Weil alle Funktionalitäten des \acs{IMS} über die \acs{REST} \acs{API} koordiniert werden, muss ein SQLAlchemy Schema für den Zugriff auf die Tabelle erstellt werden. \autoref{lst:classUser} im Anhang definiert ein SQLAlchemy Schema für die Tabelle \texttt{user\_auth} und in \autoref{tab:descriptionUserClass} sind alle Spalten der Tabelle beschrieben. SQLAlchemy sorgt dafür, dass ein Entwickler im Programm-Code mit einem Objekt interagieren kann anstatt Tabellen mit SQL-Statements zu verändern. Die Attribute des SQLAlchemy Schemas entsprechen dabei den Spalten einer Tabelle. Durch das Schema ist SQLAlchemy die Struktur und die Daten, die in der Tabelle gesammelt werden sollen, bekannt. Alle Datenbankzugriffe und Netzwerkzugriffe abstrahiert SQLAlchmey für den Entwickler. Die Interaktion mit der Datenbank wird einfacher und die Flexibilität erhöht.
 
@@ -2083,8 +2068,6 @@ Damit ein Objekt der Klasse erzeugt werden kann, welches eine Identität der Tab
 
 Dem Konstruktor müssen alle Informationen über einen Benutzer übergeben werden. Die Beschreibung der einzelnen Daten einer Benutzer Entität befindet sich im Anhang in \autoref{tab:descriptionUserClass}. Der Konstruktor weißt beim Aufruf alle übergebenen Parameter den Attributen zu und erstellt das Objekt. Um zu verhindern, dass ein Passwort in Klartext oder eine falsche \texttt{jabber\_id} im User-Objekt gespeichert sein kann, formatiert der Konstruktor während der Initialisierung die Werte selbst. Mit Hilfe der \texttt{format}-Funktion kann ein Zeichensatz in eine benutzerdefinierte Form gebracht werden. Anwendungsbeispiele und Details befinden sich in \cite{pythonFormat}. Auf diese Weise wird die Jabber ID automatisch erzeugt. Sie ergibt sich durch Konkatenation aus Benutzername und der Jabber Domain. Die Konkatenation ergibt sich durch Anwenden der \texttt{format}-Funktion. Der formatierte Zeichensatz wird dann dem Attribut \texttt{jabber\_id} zugewiesen. Zum Beispiel ergibt sich aus dem Benutzernamen \texttt{testuser} und der Jabber ID \texttt{@ejabberd-server} die Jabber ID \texttt{testuser@ejabberd-server}. Das Passwort wird durch Aufruf der privaten Methode \texttt{set\_password} über eine Hashfunktion \footnote{Eine Hashfunktion H, enthält eine Eingabe des Alphabets beliebiger Länge (etwa ein Password) und erzeugt daraus einen Hashwert h fester Länge n = |h|, etwa ‘24988892bfc53b18b6d0fcc6ccbb9b59’.\cite{wendzel2018}} in einen Hashwert umgewandelt. \autoref{lst:UserMethodPasswordHash} zeigt die Implementierung dieser Methode.
 
-\pagebreak
-
 \begin{lstlisting}[language=python, caption={Methode zur Berechnung des Password Hashes}, label={lst:UserMethodPasswordHash}]
 def set_password(self, password, method="sha384"):
     if not type(password) == str:
@@ -2105,7 +2088,7 @@ def verify_password(self, password):
 
 Die Methode \texttt{check\_password\_hash} berechnet dabei zuerst den Hashwert des in Klartext übergebenen Passworts. Anschließend überprüft es, ob der berechnete Hashwert mit dem übergebenen Hashwert übereinstimmt. Auf diese Weise kann ein User-Objekt, dass von der Datenbank über SQLAlchemy zurückgegeben wird, eine Methode anbieten, die sofort überprüfen kann, ob ein Passwort mit dem Passwort des Benutzers aus der Datenbank übereinstimmt. Der Rückgabeparameter ist vom Typ Boolean und ist True, falls die Hashwerte und damit die Passwörter übereinstimmen, ansonsten False.
 
-\subsubsection*{Umsetzung der Logins eines Benutzers}
+\section{Umsetzung der Logins eines Benutzers}
 
 Die Klasse \texttt{User} wurde so modifiziert, dass sie Login Funktionalitäten unterstützt. Bevor die Methoden des \texttt{flask\_login} Moduls verwendet werden können, muss ein Flask-, SQLAlchemy- und Login-Manager-Objekt in der Flask Applikation instanziiert werden. (siehe \autoref{lst:flaskPrepareLogin}).
 
@@ -2152,7 +2135,7 @@ Der Decorator \texttt{@login\_required} verhindert, dass ein Client die \acs{API
 
 \pagebreak
 
-\subsubsection*{Umsetzung der Registrierung von Benutzern}
+\section{Umsetzung der Registrierung von Benutzern}
 
 Für die Umsetzung wird folgende \acs{API}-Route definiert, unter der die Benutzerregistrierung möglich ist:
 
@@ -2227,7 +2210,7 @@ def register():
 
 Der \acs{JSON}-Payload ist bereits deserialisiert und befindet sich im Dictionary \texttt{req\_content}. In diesem Dictionary sind Informationen wie Benutzername, Passwort, E-Mail-Adresse und weitere enthalten, die zum Anlegen des Benutzers benötigt werden. Im Dictionary \texttt{config} sind alle Zugangsdaten der Konfigurationsdatei. Der Code beinhaltet alle drei notwendigen Registrierungsschritte. Zuerst wird ein Objekt der Klasse \texttt{UserManagement} erzeugt und mit Hilfe dieser Klasse der Benutzer auf der ejabberd-Plattform angelegt. Mit Hilfe des Return Codes dieser Operation, kann im Falle eines Fehlers weitere Registrierungsschritte verhindert werden. Die Methode dann wird vorzeitig verlassen und eine Antwort an den Client gesendet. Anschließend wird eine 36-stellige Topic ID mit dem Python Modul \texttt{uuid} zufällig erzeugt. Die Topic ID wird für das Anlegen eines Benutzers auf der Kafka-Plattform benötigt. Kafka kann keine Benutzer verwalten, jedoch Topics, welche Nachrichten speichern. Ein Topic wird einem Benutzer zugeordnet. So besitzt jeder Benutzer seinen eigenen Chatkanal und andere Benutzer empfangen keine Nachrichten von diesem Benutzer. Das Python Modul \texttt{kafka-python} \cite{pythonKafka} beinhaltet eine Klasse \texttt{KafkaAdminClient} mit dem ein neues Topic auf einer Kafka-Instanz angelegt werden kann. Nach \autoref{img:ArchitekturIMS} kann die Flask Applikation eine Verbindung über das Netzwerk zur Kafka Plattform herstellen. Als Server erwartet der Konstruktor des \texttt{KafkaAdminClient} die IP-Adresse der Kafka-Instanz. Anschließend kann über die Methode \texttt{create\_topics} ein neues Topic angelegt werden. Sie erwartet eine Liste mit \texttt{NewTopic}-Objekte als Argument, welche ebenfalls das Python Modul \texttt{kafka-python} bereitstellt. Das Modul wirft eine Exception, falls ein Topic bereits vorhanden ist oder eine Verbindung nicht möglich ist (Fehlerbehandlung nicht dargestellt). Als letzten Registrierungsschritt muss der Benutzer zur Datenbank auf der Flask-Instanz hinzugefügt werden, denn diese vermeidet die Benutzer-Accounts des \ac{IMS} für die Webapplikation. Dazu wird ein Objekt des SQLAlchemy-Schemas \texttt{User} angelegt und über SQLALchemy Operationen in die Datenbank eingefügt. Treten Fehler bei Registrierungsschritten auf, sorgt die Fehlerbehandlung dafür, dass Schritte rückgängig gemacht werden oder nachfolgende Registrierungsschritte nicht mehr ausgeführt werden. Der Datenbestand bleibt konsistent.
 
-\subsubsection*{Globales Dictionary für die Umsetzung von Chatfunktionalitäten}
+\section{Globales Dictionary für die Umsetzung von Chatfunktionalitäten}
 
 Für das Senden und Empfangen von Nachrichten werden die in \autoref{sec:SleekxmppModul} und \autoref{sec:KafkaModul} vorgestellten Python Module verwendet. Es stellt sich jedoch die Frage, wie die Objekte der Module für jeden Benutzer isoliert verwendet werden können. Die Methode, die aufgerufen wird, wenn ein Client auf eine bestimmte \acs{API}-Route zugreift, hat einen lokalen Namensraum. Alle Objekte und Variablen werden nach verlassen der Methode gelöscht. Die Probleme, bereits beim Login von Benutzern entstehen, zeigt \autoref{lst:flaskProblemLocalNamespace}. Der Codeumfang des \autoref{lst:flaskProblemLocalNamespace} ist auf die Darstellung der resultierende Probleme reduziert. Die sich daraus ergebenen Probleme können analog auf die Verwendung des Moduls für die Apache Kafka Plattform übertragen werden.
 
@@ -2282,7 +2265,7 @@ Ein weiterer Vorteil ist, dass auf die Daten in dem verschachtelten Dictionary s
 
 Das Session-Dictionary ist in \autoref{img:sessionDict} nicht vollständig abgebildet. In dieser Arbeit wird das Dictionary um weitere Daten erweitert, wenn das für die Funktionen des \acs{IMS} notwendig ist.
 
-\subsubsection*{Beschreibung der \acs{API}-Route des Logins}
+\section{Beschreibung der \acs{API}-Route des Logins}
 
 Für einen Login am \ac{IMS} wird folgende \acs{API}-Route definiert:
 
@@ -2327,7 +2310,7 @@ Meldet sich der Client für die Plattform Kafka an, wird mit Hilfe des Python Mo
 
 \pagebreak
 
-\subsubsection*{Laden des Chatverlaufs bei Benutzung der \acs{XMPP}-basierten Plattform}
+\section{Laden des Chatverlaufs bei Benutzung der \acs{XMPP}-basierten Plattform}
 
 Die \acs{API} muss einem Client den Nachrichtenverlauf übermitteln können. Der Client kann den Nachrichtenverlauf über die \acs{URI} \texttt{193.196.53.24/get\_messages} erhalten.  Die Nachrichten werden bei der \acs{XMPP}-basierten Plattform von ejabberd direkt in seiner MySQL-Datenbank gespeichert.
 
@@ -2420,7 +2403,7 @@ Der Mehrwert des vorgestellten Algorithmus ist, das ein Client den Chatverlauf i
 
 \pagebreak
 
-\subsubsection*{Umsetzung des Senden von Nachrichten in der \acs{API}}
+\section{Umsetzung des Senden von Nachrichten in der \acs{API}}
 
 Die \acs{REST} \acs{API} versendet Nachrichten entweder an ejabberd oder Apache Kafka,je nachdem welche Plattform ein Benutzer verwendet. Der Client muss hierfür mit der Basisoperation \acs{HTTP} POST einen Auftrag an die \acs{URI} \texttt{http://193.196.53.24/send\_message} senden.
 
@@ -2433,7 +2416,7 @@ Die \acs{REST} \acs{API} versendet Nachrichten entweder an ejabberd oder Apache 
 	\label{img:requestExampleSendMessages}
 \end{figure}
 
-Die \acs{API} benötigt alle Angaben, um eine Nachricht versenden zu können. Der Paremeter from verweist auf den Benutzer, welcher die Nachricht absendet, der Parameter to auf den Benutzer, an welchen die Nachricht versendet werden soll. In \textbf{msg\_body} steht die Nachricht und in \texttt{msg\_subject} der Betreff der Nachricht. Dieser kann, wie in \autoref{img:requestExampleSendMessages} dargestellt, auch leer sein. Er wird nur für den Versand einer Nachricht mit dem \acs{XMPP}-Client benötigt, aber nicht für die Kommunikation mit Apache Kafka. Falls in der Zukunft auch ein Gruppenchat realisiert wird, kann \texttt{msg\_type} dazu verwendet werden, den Typ der Nachricht zu einzuordnen.
+Die \acs{API} benötigt alle Angaben, um eine Nachricht versenden zu können. Der Paremeter from verweist auf den Benutzer, welcher die Nachricht absendet, der Parameter to auf den Benutzer, an welchen die Nachricht versendet werden soll. In \texttt{msg\_body} steht die Nachricht und in \texttt{msg\_subject} der Betreff der Nachricht. Dieser kann, wie in \autoref{img:requestExampleSendMessages} dargestellt, auch leer sein. Er wird nur für den Versand einer Nachricht mit dem \acs{XMPP}-Client benötigt, aber nicht für die Kommunikation mit Apache Kafka. Falls in der Zukunft auch ein Gruppenchat realisiert wird, kann \texttt{msg\_type} dazu verwendet werden, den Typ der Nachricht zu einzuordnen.
 
 Im Anhang in \autoref{img:umlActivitySendMessage} ist die Anwendungslogik in einem \acs{UML}-Aktivitätsdiagramm dargestellt. Sendet ein Client eine \acs{HTTP} POST Anfrage, wird zuerst überprüft, ob der Benutzer des Clients bereits im \acs{IMS} eingeloggt ist. Falls nein, sendet die \acs{API} dem Client eine Benachrichtigung im \acs{JSON}-Format. Falls Einträge im \acs{JSON}-Payload der POST Anfrage fehlen oder invalide sind, sendet die \acs{API} dem Client ebenfalls entsprechende Benachrichtigungen. Ein Nachrichtenversand ist nur möglich, wenn der Benutzers des Clients eingeloggt ist und die Parameter im Payload gültig sind. Danach unterscheidet die \acs{API} anhand des Parameters \texttt{requested\_platform} für welche Plattform der Benutzer angemeldet ist und sendet die Nachricht mit dem entsprechenden Python Client - entweder mit dem sleekxmpp-Client oder über den pykafka-Client. Treten Fehler auf, wenn eine Nachricht versendet wird, informiert die \acs{API} den Client über eine Nachricht im \acs{JSON}-Format.
 
@@ -2531,7 +2514,7 @@ Die Vorgehensweise funktioniert nur, wenn Sender und Empfänger gleichzeitig onl
 
 \textbf{Bemerkung:} \texttt{json.dumps(msg).encode()} konvertiert das Dictionary \texttt{msg} in einen Byte-Code. So kann ein \acs{JSON}-Objekt in ein Topic produziert werden.
 
-\subsubsection*{Umsetzung der Zustellung von empfangenen Nachrichten an den Client}
+\section{Umsetzung der Zustellung von empfangenen Nachrichten an den Client}
 
 Die \acs{REST} \acs{API} kommuniziert mit Apache Kafka oder mit ejabberd über bestimmte Python Module. Es stellt sich jedoch die Frage, wie die Nachricht dem Client des \acs{IMS} übermittelt wird. Empfängt die \acs{API} eine Nachricht, muss sie die Nachricht direkt dem Client oder zum Web-Frontend weiterleiten ohne, dass der Client ständig nach neuen Nachrichten am Flask-Server anfragen muss. Dieser Mechanismus wird als Server Push bezeichnet. Bei einem Server Push \cite{sseVSwebsockets} hält ein Client die Verbindung zum Server dauerhaft offen. Der Server schickt den Client über diese Verbindung automatisch Informationen ohne, dass der Client explizit beim Server anfragen muss. Dieser Mechanismus wird für die Umsetzung in der Studienarbeit benötigt, weil ansonsten der Informationsfluss unterbrochen ist und keine Echtzeitübertragung von Nachrichten möglich ist. Der Client müsste ohne diesen Mechanismus nach einer Zeitspanne t beim Server anfragen, ob neue Nachrichten vorhanden sind. Falls ja, überträgt der Server die neuen Nachrichten und der Client verarbeitet diese. Ein \acs{IMS} besitzt jedoch eine gewisse Echtzeitfähigkeit, weshalb dieser Ansatz zu verwerfen ist.
 
@@ -2704,7 +2687,7 @@ Verbindet sich ein Client auf die \acs{URI} \texttt{http://193.196.53.24/stream}
 
 Mit Server-Sent-Events werden die Nachrichten automatisch dem Client übermittelt. Wird die Verbindung unterbrochen, verbindet sich der Client-Code automatisch erneut mit dem Server-Sent-Event. Die Lösung macht den Empfang von Nachrichten direkt am Client oder in einem Web Frontend möglich.
 
-\subsubsection*{Hinzufügen von Benutzern als Kontakte}
+\section{Hinzufügen von Benutzern als Kontakte}
 
 Dieser Abschnitt befasst sich mit der Implementierung einer Funktion, die es Benutzern ermöglicht, andere Benutzer als Kontakt hinzuzufügen. Die Funktionalität in einem \acs{IMS} ist wichtig, weil sonst keine Kommunikation mit Benutzern stattfinden kann. Ein Benutzer soll einen Kontakt selbstständig hinzufügen kennen, wenn er den Benutzernamen des zukünftigen Chatpartners kennt.
 
@@ -2772,13 +2755,13 @@ Der Mehrwert für die Entwicklung des \acs{IMS} ist, dass Benutzer Kontakte hinz
 
 \pagebreak
 
-\section{Entwicklung des Frontends für den XMPP-Client}
+\chapter{Entwicklung des Frontends für den XMPP-Client}
 \label{sec:FrontendXMPP}
 Einleitend geht der \autoref{subsec:GuiPython} auf die Möglichkeiten einer grafischen Benutzeroberfläche mit Python ein. Mit dem Resultat der Entscheidungsmatrizen aus \autoref{tab:EntscheidungsmatrixFrameworkart} und \autoref{tab:EntscheidungsmatrixWebFramework} erfolgt die Umsetzung mithilfe der in \autoref{sec:HTMLCSSJS} erläuterten Werkzeuge einer Webentwicklung. In diesem Zusammenhang werden im Folgenden alle relevanten HTML- und JavaScript-Dateien analysiert und detailliert erläutert. 
 
 Vorab ist der Begriff des XMPP-Clients zu definieren. Mit der Entwicklung eines Chatsystem auf Basis von XMPP wird das Ziel verfolgt ejabberd als Messaging-System und XMPP als Kommunikationssprache zu nutzen. Dafür wird sowohl ein Server als auch ein Client benötigt. Mit der Projektumsetzung auf der Web-Plattform kann der Client verschieden definiert werden. Nach Günter Pomaska kann der Client sowohl die Hardware, als auch die Software darstellen.\cite{pomaska2012webseiten}. Demnach handelt es sich bei dem XMPP-Client um die Software bzw. den Browser welcher über XMPP mit dem Server kommuniziert.
 
-\subsection*{Das Prinzip der Webseiten-Programmierung}
+\section{Das Prinzip der Webseiten-Programmierung}
 \label{WebsiteProgramming}
 Bei der Entwicklung eines Frontends für eine Web-Applikation sind wichtige Bestandteile zu beachten. Diese bilden den Kern des Unterabschnitts. Wie der Einführung zu entnehmen ist bilden die Werkzeuge aus \autoref{sec:HTMLCSSJS} den Kern der Webseiten-Programmierung. Diese werden nach Günter Pomaska als \glqq Sprachen im Web\grqq bezeichnet. Zu den Sprachen kommt die Webseite als weiteres Bestandteil hinzu. Für die Entwicklung des Frontends ist die Kenntnis über das Ausliefern von Webseiten relevant. Dafür kann die \autoref{img:WebseiteAnforderung} betrachtet werden.
 \begin{figure}[h]
@@ -2787,10 +2770,10 @@ Bei der Entwicklung eines Frontends für eine Web-Applikation sind wichtige Best
 	\caption{Das Anfordern einer Webseite eine Clients, \cite{pomaska2012webseiten}}
 	\label{img:WebseiteAnforderung}
 \end{figure}
-Mithilfe einer URL kann der Client eine Webseite vom Web-Server anfordern. Nach der Datenübertragung wird die Seite vom Browser dargestellt. Bezogen auf dieses Funktionsprinzip können die Inhalte nicht ohne eine erneute Anforderung verändert werden. Daher werden HTML-Dokumente als statische Dateien bezeichnet. Wird eine clientseitige Dynamik mithilfe von Javascript und dem \ac{DOM} integriert, können die Webinhalte clientseitig ohne Neuanforderung verändert werden. Eine Variante, welche heutzutage fester Bestandteil der Webseiten-Programmierung ist. \cite{pomaska2012webseiten}
+Mithilfe einer URL kann der Client eine Webseite vom Web-Server anfordern. Nach der Datenübertragung wird die Seite vom Browser dargestellt. Bezogen auf dieses Funktionsprinzip können die Inhalte nicht ohne eine erneute Anforderung verändert werden. Daher werden HTML-Dokumente als statische Dateien bezeichnet. Wird eine client-seitige Dynamik mithilfe von Javascript und dem \ac{DOM} integriert, können die Webinhalte client-seitig ohne Neuanforderung verändert werden. Eine Variante, welche heutzutage fester Bestandteil der Webseiten-Programmierung ist. \cite{pomaska2012webseiten}
 Bei der Implementierung dynamischer Elemente, wie der Formularüberprüfung auf Seiten des Clients, kann die Verknüpfung zu den Prinzipien hergestellt werden. Außerdem tritt das Konstrukt aus \autoref{img:WebseiteAnforderung} in mehreren Bereichen der Client-Entwicklung auf.
 
-\subsection*{Organisation und Aufbau des Frontends}
+\section{Organisation und Aufbau des Frontends}
 \label{AufbauFrontendXMPP}
 Für die Entwicklung eines Web-Frontends bildet eine Rahmenstruktur die Basis. Hierbei handelt es sich um den Webauftritt durch die Verknüpfung mehrerer HTML-Dateien.\cite{buhler2017html5}
 Um auf den \ac{HTML}-Aufbau der Webseiten einzugehen ist das Verständnis über die Struktur und die Verknüpfung der Einzelseiten relevant. Für diese Verknüpfungen können die nachfolgenden Abbildungen betrachtet werden.
@@ -2807,9 +2790,9 @@ Um auf den \ac{HTML}-Aufbau der Webseiten einzugehen ist das Verständnis über 
 		\label{img:DateinAufrufbaum}
 	\end{minipage}
 \end{figure}
-\autoref{img:HTMLDateienOrdner} zeigt welche HTML-Dateien für die Applikation bzw. für den XMPP-Client relevant sind und wo diese in der Ordnerstruktur zu finden sind. Die Ordnerstruktur hängt mit der Verwendung von Flask zusammen und orientiert sich an dem \autoref{subsec:Flask}. Die zweite \autoref{img:DateinAufrufbaum} zeigt wie die Seiten sich gegenseitig benötigen. Hierbei handelt es sich nicht um Referenzen innerhalb des Source-Codes, sondern um die Aufrufstruktur für den Nutzer. Mit der \textbf{index.html}, dargestellt in kursiver Schrift, wird angedeutet, dass kein Nutzer diese Seite ausgeliefert bekommt. Dieses \ac{HTML}-Dokument dient lediglich als Basis. Die weiteren Dateien erben den Inhalt der index.html, was die UML-Notation andeuten soll. Auf der zweiten Ebene hat der Nutzer die Möglichkeit zwischen den Dateien, welche hinter einem API-Endpunkt liegen, zu wechseln, je nach Verwendung. Mit dem Verständnis über die Beziehungen der Dateien wird im Folgenden auf den \ac{HTML}-Aufbau der einzelnen HTML-Dokumenten eingegangen.
+\autoref{img:HTMLDateienOrdner} zeigt welche HTML-Dateien für die Applikation bzw. für den XMPP-Client relevant sind und wo diese in der Ordnerstruktur zu finden sind. Die Ordnerstruktur hängt mit der Verwendung von Flask zusammen und orientiert sich an dem \autoref{subsec:Flask}. Die zweite \autoref{img:DateinAufrufbaum} zeigt wie die Seiten sich gegenseitig benötigen. Hierbei handelt es sich nicht um Referenzen innerhalb des Source-Codes, sondern um die Aufrufstruktur für den Nutzer. Mit der \texttt{index.html}, dargestellt in kursiver Schrift, wird angedeutet, dass kein Nutzer diese Seite ausgeliefert bekommt. Dieses \ac{HTML}-Dokument dient lediglich als Basis. Die weiteren Dateien erben den Inhalt der index.html, was die UML-Notation andeuten soll. Auf der zweiten Ebene hat der Nutzer die Möglichkeit zwischen den Dateien, welche hinter einem API-Endpunkt liegen, zu wechseln, je nach Verwendung. Mit dem Verständnis über die Beziehungen der Dateien wird im Folgenden auf den \ac{HTML}-Aufbau der einzelnen HTML-Dokumenten eingegangen.
 
-\subsection*{Vererbung von Webseiten mithilfe von Flask}
+\section{Vererbung von Webseiten mithilfe von Flask}
 \label{subsec:TemplateInheritance}
 Flask als microframework bietet zahlreiche Möglichkeiten. Aus \autoref{subsec:Flask} ist bekannt, dass Flask mehrere Komponenten beinhaltet. Eines kann als Jinja identifiziert werden, welches unter anderem als Template-Bibliothek bezeichnet wird. Wie dem vorherigen Abschnitt zu entnehmen ist, handelt es sich bei dem Konzept des Frontends um die Vererbung von HTML-Elementen. Ein Konzept, welche durch Jinja ermöglicht wird.
 
@@ -2848,11 +2831,11 @@ Das hinzugewonnen Feature ist die Unterteilung des Base Templates in Blöcke. Di
 	Welcome on my awesome homepage.
 {% endblock %}
 \end{lstlisting}
-Um die Blöcke mit Inhalt zu füllen replizieren die Kindseiten den Blocknamen. Anschließend können die HTML-Tags und Attribute definiert werden. Im Folgenden liegt das Augenmerk auf Zeile 4 des Listings. Wird der Block von einem Kindelement mit Inhalt befüllt, würden die Blockinhalte des Elternelements überschrieben werden. Um dieses Vorgehen zu verhindern kann mithilfe von \texttt{\{\{ super() \}\}} die Blockinhalte des Base Templates übernommen werden. Dieses Prinzip der Vererbung finden Verwendung bei der Entwicklung der index.html. \cite{FlaskTempInherDoc}
+Um die Blöcke mit Inhalt zu füllen replizieren die Kindseiten den Blocknamen. Anschließend können die HTML-Tags und Attribute definiert werden. Im Folgenden liegt das Augenmerk auf Zeile 4 von \autoref{lst:ChildTemplate}. Wird der Block von einem Kindelement mit Inhalt befüllt, würden die Blockinhalte des Elternelements überschrieben werden. Um dieses Vorgehen zu verhindern kann mithilfe von \texttt{\{\{ super() \}\}} die Blockinhalte des Base Templates übernommen werden. Dieses Prinzip der Vererbung finden Verwendung bei der Entwicklung der index.html. \cite{FlaskTempInherDoc}
 
-\subsection*{Strukturaufbau der Webseiten}
+\section{Strukturaufbau der Webseiten}
 \label{subsec:StrukturaufbauWebseiten}
-Aus dem aktuellen Kenntnisstand geht hervor, dass ein Webauftritt durch mehrere Werkzeuge realisiert werden kann. Mit der Implementierung und Erörterung des Strukturaufbaus wird das HTML-Grundgerüst gebildet. Daher sind die Einzelseiten aus \autoref{img:HTMLDateienOrdner} mit den HTML-Elementen der Kern des Abschnittes. Zur Vereinfachung der Darstellung wird auf ausführlichen HTML-Code verzichtet. Ausschließlich wichtige Bestandteile für die Webseite und ihrer Funktion als Teil des XMPP-Clients werden dargestellt. Bei diesen handelt es sich um:
+Aus dem aktuellen Kenntnisstand geht hervor, dass ein Webauftritt durch mehrere Werkzeuge realisiert werden kann. Mit der Implementierung und Erörterung des Strukturaufbaus wird das HTML-Grundgerüst gebildet. Daher sind die einzelnen Seiten aus \autoref{img:HTMLDateienOrdner} mit den HTML-Elementen der Kern des Abschnittes. Zur Vereinfachung der Darstellung wird auf ausführlichen HTML-Code verzichtet. Ausschließlich wichtige Bestandteile für die Webseite und ihrer Funktion als Teil des XMPP-Clients werden dargestellt. Bei diesen handelt es sich um:
 \begin{itemize}
 	\item HTML-Tags, welche für den Webauftritt benötigt werden
 	\item Klassennamen
@@ -2861,7 +2844,7 @@ Aus dem aktuellen Kenntnisstand geht hervor, dass ein Webauftritt durch mehrere 
 \end{itemize}
 Die Erläuterung des HTML-Codes erfolgt mithilfe von Abbildungen. Ein HTML-Tag bildet demnach eine Box mit schwarzen Rahmen. Dadurch können Verschachtelungen als innere Elemente der äußeren Box dargestellt werden. Füllt sich im Verlauf eine HTML-Box, so werden unrelevante Boxen grau abgebildet.
 
-Eine Struktur als Rahmen der Webseite basiert grundlegend auf die Verwendung von \ac{HTML}. Für die Webseite bedeutet dies, dass die Struktur aus div-Boxen und anderen \ac{HTML}-Elementen besteht. Die div-Box kann den Tags, welche in \autoref{sec:HTMLCSSJS} erläutert wurden, zugeordnet werden. Dies erweitert den Umfang der \ac{HTML}-Tags aus \autoref{sec:HTMLCSSJS} um eine weitere Variante. Grundsätzlich basiert ein Webauftritt auf einer index.html Datei, welche als Ausgangspunkt für den ersten Aufruf eines Nutzers dient. Bezogen auf die Struktur gibt es bei der Web-Entwicklung lediglich Vorschläge wie eine Umsetzung erfolgen kann, dennoch ist das Konzept nach eigenen Anforderungen zu definieren. Demnach kann eine Webseite komplett in der \textbf{index.html} Datei ausgeliefert werden, oder für jede Route, die der Nutzer adressieren kann, wird eine neue \ac{HTML}-Datei ausgeliefert. Im Rahmen der Studienarbeit wird das zweite Konzept verfolgt, weshalb die index.html Datei lediglich als Basis für eine einheitliche Struktur dient. Dieses Konzept ist in der \autoref{img:DateinAufrufbaum} dargestellt und im \autoref{subsec:TemplateInheritance} beschrieben. Außerdem ist daraus ersichtlich, dass die index.html nicht direkt ausgeliefert wird. Wie die nachfolgende \autoref{img:index-struktur} zeigt, bildet der nav-Tag das Konstrukt, welches der Hauptbestandteil der index-Seite und damit dem Base Template darstellt.
+Eine Struktur als Rahmen der Webseite basiert grundlegend auf die Verwendung von \ac{HTML}. Für die Webseite bedeutet dies, dass die Struktur aus div-Boxen und anderen \ac{HTML}-Elementen besteht. Die div-Box kann den Tags, welche in \autoref{sec:HTMLCSSJS} erläutert wurden, zugeordnet werden. Dies erweitert den Umfang der \ac{HTML}-Tags aus \autoref{sec:HTMLCSSJS} um eine weitere Variante. Grundsätzlich basiert ein Webauftritt auf einer index.html Datei, welche als Ausgangspunkt für den ersten Aufruf eines Nutzers dient. Bezogen auf die Struktur gibt es bei der Web-Entwicklung lediglich Vorschläge wie eine Umsetzung erfolgen kann, dennoch ist das Konzept nach eigenen Anforderungen zu definieren. Demnach kann eine Webseite komplett in der \texttt{index.html} Datei ausgeliefert werden, oder für jede Route, die der Nutzer adressieren kann, wird eine neue \ac{HTML}-Datei ausgeliefert. Im Rahmen der Studienarbeit wird das zweite Konzept verfolgt, weshalb die index.html Datei lediglich als Basis für eine einheitliche Struktur dient. Dieses Konzept ist in der \autoref{img:DateinAufrufbaum} dargestellt und im \autoref{subsec:TemplateInheritance} beschrieben. Außerdem ist daraus ersichtlich, dass die index.html nicht direkt ausgeliefert wird. Wie die nachfolgende \autoref{img:index-struktur} zeigt, bildet der nav-Tag das Konstrukt, welches der Hauptbestandteil der index-Seite und damit dem Base Template darstellt.
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=\linewidth]{images/indexbody}
@@ -2875,14 +2858,18 @@ Der nav-Tag wird unter der Verwendung einer Navigationsleiste in HTML5 benutzt. 
 	\caption{Erweiterung der Navigationsleiste um weitere HTML-Elemente, eigene Darstellung}
 	\label{img:index-strukturInhalt}
 \end{figure}\\
-Die Erweiterungen beinhalten zwei i-Tags, welche Icons darstellen bzw. hervorheben sollen. Interessant an diesen Tags ist der Klassenname. Aufgrund der Verwendung von Bootstrap können spezielle Klassennamen angewendet werden, um auf Styles zu referenzieren. Das Gleiche gilt für Icons. Nur besteht dadurch eine Referenz auf die \textbf{fontawesome.min.css} Datei aus \autoref{img:BootstrapStructer}. Der a-Tag definiert eine Referenz in Form eines Hyperlinks, welcher zu einer angegebenen Seite verzweigen kann. Grundidee ist hierbei die Verzweigung des Logos auf die index-Seite bzw. auf die Webseite, die der Nutzer als home-Seite betrachten soll. Die div-Box als letztes Element der Index-Seite beinhaltet weitere Elemente, die keine Relevanz für den Strukturaufbau der Webseite darstellen. Diesem Element sind überwiegend weitere Links und Textfelder zugeordnet, wie es der \autoref{img:Navbar} zu entnehmen ist. Den \ac{HTML}-Elementen kann mithilfe von \ac{CSS} gestalterische Aspekte verliehen werden. Diese Aufgabe kann das unter \autoref{sec:Bootstrap} vorgestellte Framework namens Bootstrap übernehmen. Mit kleinen Ergänzungen zur den vorgefertigten CSS-Elementen von Bootstrap stellt die \autoref{img:Navbar} die vollständige index-Seite dar, welche ausschließlich zur Vererbung dient. 
+Die Erweiterungen beinhalten zwei i-Tags, welche Icons darstellen bzw. hervorheben sollen. Interessant an diesen Tags ist der Klassenname. Aufgrund der Verwendung von Bootstrap können spezielle Klassennamen angewendet werden, um auf Styles zu referenzieren. Das Gleiche gilt für Icons. Nur besteht dadurch eine Referenz auf die \texttt{fontawesome.min.css} Datei aus \autoref{img:BootstrapStructer}. Der a-Tag definiert eine Referenz in Form eines Hyperlinks, welcher zu einer angegebenen Seite verzweigen kann. Grundidee ist hierbei die Verzweigung des Logos auf die index-Seite bzw. auf die Webseite, die der Nutzer als home-Seite betrachten soll. Die div-Box als letztes Element der Index-Seite beinhaltet weitere Elemente, die keine Relevanz für den Strukturaufbau der Webseite darstellen. Diesem Element sind überwiegend weitere Links und Textfelder zugeordnet, wie es der \autoref{img:Navbar} zu entnehmen ist. Den \ac{HTML}-Elementen kann mithilfe von \ac{CSS} gestalterische Aspekte verliehen werden. Diese Aufgabe kann das unter \autoref{sec:Bootstrap} vorgestellte Framework namens Bootstrap übernehmen. Mit kleinen Ergänzungen zur den vorgefertigten CSS-Elementen von Bootstrap stellt die \autoref{img:Navbar} die vollständige index-Seite dar, welche ausschließlich zur Vererbung dient. 
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=\linewidth]{images/indexHTML&CSS}
 	\caption{Webbrowserdarstellung der Index-Seite, eigene Darstellung}
 	\label{img:Navbar}
 \end{figure}\\
-Aufbauend auf der Index-Seite können alle weiteren Webseiten die Navigationsleiste über die index.html Datei erben, wie es das Konzept aus \autoref{img:DateinAufrufbaum} darstellt. Hierfür wird die Vorgehensweise aus \autoref{subsec:TemplateInheritance} verwendet. Dadurch kann eine durchgängige Struktur beibehalten werden. Die Index-Seite bildet daher keine Möglichkeit durch einen Nutzer direkt adressiert zu werden. Die erste Anlaufstelle eines unangemeldeten Nutzers wird durch die Login-Seite abgebildet. Unabhängig von der Navigationsleiste bietet die \textbf{login.html} Datei ein Formular für den Anmeldevorgang. Mithilfe von Bootstrap wird die Basis-Struktur durch div-Boxen und Klassennamen definiert, wie sie der folgenden \autoref{img:BasisStrukturLogin} zu entnehmen sind.
+Aufbauend auf der Index-Seite können alle weiteren Webseiten die Navigationsleiste über die index.html Datei erben, wie es das Konzept aus \autoref{img:DateinAufrufbaum} darstellt. Hierfür wird die Vorgehensweise aus \autoref{subsec:TemplateInheritance} verwendet. Dadurch kann eine durchgängige Struktur beibehalten werden. Die Index-Seite bildet daher keine Möglichkeit durch einen Nutzer direkt adressiert zu werden. Die erste Anlaufstelle eines unangemeldeten Nutzers wird durch die Login-Seite abgebildet. Unabhängig von der Navigationsleiste bietet die \texttt{login.html} Datei ein Formular für den Anmeldevorgang.
+
+\pagebreak
+
+Mit Hilfe von Bootstrap wird die Basis-Struktur durch div-Boxen und Klassennamen definiert, wie sie der folgenden \autoref{img:BasisStrukturLogin} zu entnehmen sind.
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=\linewidth]{images/loginBasisStruktur}
@@ -2896,14 +2883,18 @@ Basierend auf diesem Aufbau bildet die Klasse \texttt{d-flex justify-content-cen
 	\caption{Integration des Formular-Tags in die Login-Basisstruktur, eigene Darstellung}
 	\label{img:BasisStrukturLoginUnd Formular}
 \end{figure}\\
-Die Design-Elemente werden über der Bootstrap-Datei dem Formular mitgegeben. Der strukturelle Aufbau der Login-Seite ist damit vollendet. Für das Formular werden dem form-Container Textfelder, Buttons und ähnliches hinzugefügt, welche das Formular gestalterisch vervollständigen. Diese Elemente sind in der \autoref{img:LoginSeiteVollständig} dargestellt. Außerdem bildet die \autoref{img:LoginSeiteVollständig} die vollständige Login-Seite ab, wobei dieser Webseite eine weitere div-Box zugeteilt werden kann, welche für die Struktur keine Relevanz darstellt und daher nicht aufgeführt ist.
+Die Design-Elemente werden über der Bootstrap-Datei dem Formular mitgegeben. Der strukturelle Aufbau der Login-Seite ist damit vollendet. Für das Formular werden dem form-Container Textfelder, Buttons und ähnliches hinzugefügt, welche das Formular gestalterisch vervollständigen.
+
+\pagebreak
+
+Diese Elemente sind in der \autoref{img:LoginSeiteVollständig} dargestellt. Außerdem bildet die \autoref{img:LoginSeiteVollständig} die vollständige Login-Seite ab, wobei dieser Webseite eine weitere div-Box zugeteilt werden kann, welche für die Struktur keine Relevanz darstellt und daher nicht aufgeführt ist.
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=\linewidth]{images/loginSeiteFertig}
 	\caption{Vollständige Login-Seite, eigene Darstellung}
 	\label{img:LoginSeiteVollständig}
 \end{figure}
-Aufgrund der Ähnlichkeit der \textbf{Registrierungs-Seite} zur Login-Seite erfolgt dafür keine detaillierte Erläuterung sondern lediglich die Darstellung der strukturierten Webseite mit den HTML-Inhalten und der Designdarstellung dieses Endpunktes. Einziges unterscheidendes Merkmal zur Login-Seite sind die HTML-Elemente innerhalb des Formulars, welche sich vor allem in der Anzahl unterscheiden. Die folgende \autoref{img:RegisterSeiteVollständig} zeigt sowohl die Struktur als auch die Darstellung für den Nutzer.
+Aufgrund der Ähnlichkeit der Registrierungs-Seite zur Login-Seite erfolgt dafür keine detaillierte Erläuterung sondern lediglich die Darstellung der strukturierten Webseite mit den HTML-Inhalten und der Designdarstellung dieses Endpunktes. Einziges unterscheidendes Merkmal zur Login-Seite sind die HTML-Elemente innerhalb des Formulars, welche sich vor allem in der Anzahl unterscheiden. Die folgende \autoref{img:RegisterSeiteVollständig} zeigt sowohl die Struktur als auch die Darstellung für den Nutzer.
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=\linewidth]{images/RegisterPage2}
@@ -2911,7 +2902,7 @@ Aufgrund der Ähnlichkeit der \textbf{Registrierungs-Seite} zur Login-Seite erfo
 	\label{img:RegisterSeiteVollständig}
 \end{figure}
 Aus der \autoref{img:RegisterSeiteVollständig} sind die erwähnten Unterschiede nicht zu entnehmen, da Sie keinen Einfluss auf die Grundstruktur der Registrierungsseite haben. Ausschließlich bei der Darstellung tieferer Verschachtelungen würden die Unterschiede erkennbar werden.\\ 
-Die Hauptseite des Web-Clients wird dem Nutzer durch die \textbf{gochat.html} Datei ausgeliefert. Wie der \autoref{img:DateinAufrufbaum} zu entnehmen ist, kann der Nutzer die Seite von der login.html Seite erreichen. Dabei handelte es sich um einen normalen Anmeldevorgang, der ausschließlich nach einer Registrierung erfolgen kann. Die gochat.html Datei beinhaltet den Aufbau des Chats sowie zahlreiche weitere Funktionen welche dem Nutzer nur angeboten werden wenn er angemeldet ist. Ein Securityaspekt, welcher im Backend geregelt wird und kein Bestandteil der HTML-Dokumente ist. Die gochat.html Datei gliedert sich in mehrere HTML-Tags bzw. in mehrere div-Boxen, auf die im einzelnen detaillierter eingegangen wird. Dafür stellt die erste \autoref{img:BasisStruktur1Gochat} eine Art erste Ebene dar, welche die einzelnen Elemente voneinander abgrenzt und eine Struktur für die Teilbereiche bildet.
+Die Hauptseite des Web-Clients wird dem Nutzer durch die \texttt{gochat.html} Datei ausgeliefert. Wie der \autoref{img:DateinAufrufbaum} zu entnehmen ist, kann der Nutzer die Seite von der login.html Seite erreichen. Dabei handelte es sich um einen normalen Anmeldevorgang, der ausschließlich nach einer Registrierung erfolgen kann. Die gochat.html Datei beinhaltet den Aufbau des Chats sowie zahlreiche weitere Funktionen welche dem Nutzer nur angeboten werden wenn er angemeldet ist. Ein Securityaspekt, welcher im Backend geregelt wird und kein Bestandteil der HTML-Dokumente ist. Die gochat.html Datei gliedert sich in mehrere HTML-Tags bzw. in mehrere div-Boxen, auf die im einzelnen detaillierter eingegangen wird. Dafür stellt die erste \autoref{img:BasisStruktur1Gochat} eine Art erste Ebene dar, welche die einzelnen Elemente voneinander abgrenzt und eine Struktur für die Teilbereiche bildet.
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=\linewidth]{images/BasisStruktur1Gochat}
@@ -2943,7 +2934,11 @@ Zur Integration in die gochat.html wird für jeden Bestandteil einen eigener Con
 \end{figure}
 Die eigenständigen Container bietet die Möglichkeit die Elemente getrennt voneinander zu gestalten. Außerdem kann dadurch den Elementen im weiteren Verlauf dynamische Aspekte zugeteilt werden. Damit steht die Struktur des Sidepanels. Den einzelnen Containern können weitere HTML-Elemente zugeordnet werden. Das hat eine tiefere Verschachtelung zur Folge, welche nicht nähers erläutert wird. Lediglich Elemente, die der Nutzer sehen kann sollen kurz dargestellt werden. Für den Container mit der id \texttt{profile} bedeutet das, ein img-Tag für das Profilbild und ein p-Tag für den Namen des Nutzers.
 Der \texttt{search}-Box kann ein Inputfield zugeordnet werden, welches dem Nutzer die Möglichkeit bietet Texte einzugeben. \cite{bootstrapOnline}\\
-Dem Container, unterhalb der search-Box, kann eine größere Relevanz zugeordnet werden. Grund hierfür ist die Verbindung des Containers mit den Projektanforderungen. Die div-Box mit der Id \texttt{contacts} enthält die Chatpartner des angemeldeten Nutzers. Wie die einzelnen Kontakte in den Container integriert werden können, kann der nachfolgenden \autoref{img:SidepanelContacts} entnommen werden. 
+Dem Container, unterhalb der search-Box, kann eine größere Relevanz zugeordnet werden. Grund hierfür ist die Verbindung des Containers mit den Projektanforderungen. Die div-Box mit der Id \texttt{contacts} enthält die Chatpartner des angemeldeten Nutzers.
+
+\pagebreak
+
+Wie die einzelnen Kontakte in den Container integriert werden können, kann der nachfolgenden \autoref{img:SidepanelContacts} entnommen werden. 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.55]{images/SidepanelContacts}
@@ -2982,11 +2977,11 @@ Das Hauptmerkmal der Klasse \texttt{input-group} ist das Textfeld und der Button
 \end{figure}
 Mit der fertigen Struktur von gochat.html sind alle Webseiten, die der Webserver ausliefert, im Detail erörtert. Das Erscheinungsbild, wie es bspw. in \autoref{img:GochatUserview} dargestellt ist entsteht hauptsächlich unter der Verwendung von \ac{CSS}. Diese Details werden aufgrund der Redundanzen und der Ähnlichkeit zu den Beispielen aus \autoref{sec:HTMLCSSJS} nicht nähers erläutert und können dem Source-Code entnommen werden. Eine größere Relevanz spielen die dynamischen Elemente, welche das Nutzerverhalten direkt beeinflussen können. Aus diesem Grund wird der JavaScript Code mit Bezug zur jeweiligen HTML-Datei detaillierter erläutert.
 
-\subsection*{Integration dynamischer Elemente in die Webseiten}
+\section{Integration dynamischer Elemente in die Webseiten}
 \label{subsubsec:DynamischeElementeWebseiten}
 Der XMPP-Client bzw. die Webseiten benötigen für eine korrekte Ausführung JavaScript. Dadurch können Vorteile genutzt werden, welche Bestandteil im \autoref{sec:HTMLCSSJS} sind. Im Falle des XMPP-Clients bietet JavaScript die Möglichkeit HTML-Elemente zur Laufzeit zu verändern. Eine Veränderung der Styles ist ebenso möglich. Wie JavaScript in den einzelnen Webseiten verwendet wird und was für ein Nutzen es bietet, soll nachfolgende erläutert werden. Die Vorgehensweise orientiert sich an dem vorherigen Abschnitt. Grund hierfür ist die Auswirkung eines JavaScript-Codes auf ein einzelnes \ac{HTML}-Dokument, weshalb die jeweilige Datei mit dem entsprechenden Codesnippet im Vordergrund steht.
 
-Den Anfang stellt die \textbf{index.html} Datei dar. Da die Seite nicht direkt adressiert wird, benötigt die Datei als Basisseite keine dynamischen Elemente. Aufgrund des Konzeptes der Vererbung, aus \autoref{subsec:TemplateInheritance}, können statische Dateien, welche sowohl von Bootstrap als auch von anderen Frameworks benötigt werden, in dem Header mitangegeben werden. 
+Den Anfang stellt die \texttt{index.html} Datei dar. Da die Seite nicht direkt adressiert wird, benötigt die Datei als Basisseite keine dynamischen Elemente. Aufgrund des Konzeptes der Vererbung, aus \autoref{subsec:TemplateInheritance}, können statische Dateien, welche sowohl von Bootstrap als auch von anderen Frameworks benötigt werden, in dem Header mitangegeben werden. 
 \begin{lstlisting}[language=HTML,caption=Listing der eingebundenen JS-Dateien im Header der index.html,label={lst:HeaderWithJS}]
 <head>
 <script src="{{url_for('static',filename='js/jquery-3.4.1.min.js')}}"></script>
@@ -2995,7 +2990,7 @@ Den Anfang stellt die \textbf{index.html} Datei dar. Da die Seite nicht direkt a
 </head>
 \end{lstlisting}
 Das \autoref{lst:HeaderWithJS} stellt dar, welche statische Dateien, die lokal auf dem Server liegen, über den relativen Pfad eingebunden werden. Dabei handelt es sich lediglich um ein Ausschnitt ausgewählter Dateien, die in direkter Beziehung zur ihrem Framework liegen. Während jQuery und Bootstrap eindeutig zu identifizieren sind, handelt es sich bei \texttt{emojionearea.min.js} um eine JavaScript-Datei, welche die Realisierung von Emojis ermöglicht. Eine detaillierte Erklärung der \ac{JS}-Dateien, welche als Framework fungieren, sind nicht Bestandteil der Studienarbeit.\\
-Mit der \textbf{Login-Seite} entstehen die ersten dynamischen Elemente, welche in der JavaScript-Datei namens \texttt{loginjs.js} implementiert sind. Für einen Überblick sind die Aufgabenbereiche, die mithilfe von \ac{JS} gelöst werden können, zu definieren.
+Mit der \texttt{Login-Seite} entstehen die ersten dynamischen Elemente, welche in der JavaScript-Datei namens \texttt{loginjs.js} implementiert sind. Für einen Überblick sind die Aufgabenbereiche, die mithilfe von \ac{JS} gelöst werden können, zu definieren.
 \begin{itemize}
 	\item Überprüfen des Loginformulars auf eine Eingabe
 	\item Überprüfen der Logindaten auf Korrektheit
@@ -3050,7 +3045,7 @@ Zur Vollständigkeit der JavaScript Datei gibt es lediglich noch Funktionen, die
 	\caption{Überprüfungsvarianten der Login-Seite aus Nutzersicht, eigene Darstellung}
 	\label{img:LoginUeberpruefungsVarianten}
 \end{figure}
-Die \autoref{img:LoginUeberpruefungsVarianten} besteht aus 3 Einzelbilder von denen die zwei linken Bilder Ergebnisse der Funktion \texttt{checkformIsFilled(form\_data)} darstellen. Das dritte Bild entsteht wiederum erst nach dem Datenaustausch mit dem Server. Der entsprechende Code kann dem \autoref{lst:LoginDataSend} Zeile 11 und 12 entnommen werden. Wie schon bei dem Strukturaufbau, gibt es auch bei den dynamischen Elementen kaum Unterschiede zwischen der Login-Seite und der \textbf{Registrierung-Seite}.
+Die \autoref{img:LoginUeberpruefungsVarianten} besteht aus 3 Einzelbilder von denen die zwei linken Bilder Ergebnisse der Funktion \texttt{checkformIsFilled(form\_data)} darstellen. Das dritte Bild entsteht wiederum erst nach dem Datenaustausch mit dem Server. Der entsprechende Code kann dem \autoref{lst:LoginDataSend} Zeile 11 und 12 entnommen werden. Wie schon bei dem Strukturaufbau, gibt es auch bei den dynamischen Elementen kaum Unterschiede zwischen der Login-Seite und der \texttt{Registrierung-Seite}.
 Bei den Unterschieden und Ergänzungen handelt es sich um:
 \begin{itemize}
 	\item Erweiterung der Textfelder
@@ -3066,19 +3061,22 @@ var item = document.getElementById(id_key)
 item.className += " is-invalid"
 var error_item = document.getElementById(id_key+"-invalid")
 error_item.innerText= "Invalid e-mail address. Please try again."
-return false
-}
+return false }
 return true };
 \end{lstlisting}
 Zu beachten ist die Variable \texttt{re}, welche eine regular expression darstellen soll. Aufgrund der Anzahl an Zeichen, ist die Variable nicht aufgeführt und kann dem Source-Code entnommen werden. Die E-Mail wird in Form der Variable \texttt{email} der test-Funktion, die auf der regular expression ausgeführt wird, mitgegeben. Dadurch wird überprüft ob die E-Mail in Form des Strings alle typischen Merkmale aufweist. Ist dies nicht der Fall, so wird für dem Benutzer eine Nachricht generiert, die als \ac{HTML}-Text dargestellt wird. Diese Art der Validierung steht symbolisch für die weiteren Funktionen, weshalb eine detaillierte Erläuterung aller Funktion nicht durchgeführt wird. Weitere Funktionen, welche nicht für die Funktionsfähigkeit zuständig sind, wie bspw. das Löschen der Benachrichtigungen oder das Leeren der Textfelder werden nicht detailliert erklärt und sind dem Source-Code zu entnehmen. Die Validierungsfunktionen, sowie die Textnachrichten an den Nutzer, sind in der nachfolgenden \autoref{img:RegisterUeberpruefenJS} dargestellt.
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=0.58]{images/RegisterUeberpruefenJS}
+	\includegraphics[scale=0.8]{images/RegisterUeberpruefenJS}
 	\caption{Überprüfung der Registrierungs-Seite aus Nutzersicht, eigene Darstellung}
 	\label{img:RegisterUeberpruefenJS}
 \end{figure}\\
-Den größten Umfang an dynamischen Elementen besitzt die als Hauptseite spezifizierte \textbf{gochat.html} Datei. Wie bei den anderen HTML-Dokumenten wurden auch für die Hauptseite der JavaScript-Code strikt von dem HTML-Code getrennt. Die dynamischen Elemente sind in der \texttt{gochatjs.js} Datei definiert. Ansonsten sind keine weiteren äußeren Unterschiede zu den anderen JavaScript-Dateien zu nennen. 
-Aufgrund der Menge an \ac{JS}-Code werden lediglich für den Chat relevante Funktionen detailliert erläutert. Um die Funktionen, welche mithilfe von JS-Code umgesetzt werden können, zu erläutern, muss ihr jeweiliger Aufgabenbereich definiert werden. Dafür kann zur Orientierung \autoref{img:GochatUserview} betrachtet werden. Die Abbildung verknüpft die Möglichkeiten des Nutzers, mit Funktionen, die umgesetzt werden müssen. Die nachfolgende \autoref{tab:JavaScript Aufgabendefinition für gochat.html} bildet die Funktionen von gochat.html ab. Dabei sind die meisten Funktionen der \autoref{img:GochatUserview} zu entnehmen. Weitere Funktionen ergeben sich bei der Umsetzung und sind für den Nutzer nicht ersichtlich.
+Den größten Umfang an dynamischen Elementen besitzt die als Hauptseite spezifizierte \texttt{gochat.html} Datei. Wie bei den anderen HTML-Dokumenten wurden auch für die Hauptseite der JavaScript-Code strikt von dem HTML-Code getrennt. Die dynamischen Elemente sind in der \texttt{gochatjs.js} Datei definiert. Ansonsten sind keine weiteren äußeren Unterschiede zu den anderen JavaScript-Dateien zu nennen. 
+Aufgrund der Menge an \ac{JS}-Code werden lediglich für den Chat relevante Funktionen detailliert erläutert. Um die Funktionen, welche mithilfe von JS-Code umgesetzt werden können, zu erläutern, muss ihr jeweiliger Aufgabenbereich definiert werden. Dafür kann zur Orientierung \autoref{img:GochatUserview} betrachtet werden. Die Abbildung verknüpft die Möglichkeiten des Nutzers, mit Funktionen, die umgesetzt werden müssen.
+
+\pagebreak
+
+Die nachfolgende \autoref{tab:JavaScript Aufgabendefinition für gochat.html} bildet die Funktionen von gochat.html ab. Dabei sind die meisten Funktionen der \autoref{img:GochatUserview} zu entnehmen. Weitere Funktionen ergeben sich bei der Umsetzung und sind für den Nutzer nicht ersichtlich.
 \begin{table}[h]
 	\centering
 	\caption{Aufgabendefinition von der Chat-Seite}
@@ -3107,6 +3105,9 @@ Aufgrund der Menge an \ac{JS}-Code werden lediglich für den Chat relevante Funk
 \end{table}
 Um die Funktionen voneinander abzugrenzen wird in der letzten Spalte angegeben, ob die Funktion Auswirkung auf den Chat hat oder ob die Umsetzung überwiegend die Benutzerfreundlichkeit unterstützt. Infolgedessen stehen die Funktionen, welche für den Chat benötigt werden, in dem Vordergrund und werden detaillierter erläutert.
 Was der Tabelle nicht zu entnehmen ist, sind Variablen die zu Beginn der JavaScript-Datei global initialisiert werden. Aufgrund der Abhängigkeit zahlreicher Funktionen zu dieser Variable, wird in einem ersten Schritt die Variable \texttt{chat\_messages} detailliert erläutert.\\
+
+\pagebreak
+
 Die globale Variable wird entsprechend des nachfolgenden Listings unabhängig von einem HTML-Elemente initialisiert.
 \begin{lstlisting}[language=Javascript,caption=Initialisierung des chatmessages Objekt,label={lst:ChatMessagesObject}]
 var chat_messages = {};
@@ -3133,7 +3134,7 @@ Ersichtlich ist dies in der \autoref{img:ChatMessagesObjectXMPP2}. Der Chatverla
 	\item type zur Identifierung des Nachrichtentyps
 \end{itemize}
 Im weiteren Verlauf werden die Funktionen der \autoref{tab:JavaScript Aufgabendefinition für gochat.html} erläutert. Wie das chat\_messages-Objekt für die Funktionen relevant ist, ist Bestandteil der Erläuterung.\\
-Die erste Funktion handelt von der \textbf{Kontaktliste}, da die weiteren Funktionen sich auf Kontakte oder ähnliches beziehen. Für jede Funktion können Aufgaben definiert werden, welche abzudecken sind. Im Falle der Kontaktliste handelt es sich um folgende Aufgaben:
+Die erste Funktion handelt von der Kontaktliste, da die weiteren Funktionen sich auf Kontakte oder ähnliches beziehen. Für jede Funktion können Aufgaben definiert werden, welche abzudecken sind. Im Falle der Kontaktliste handelt es sich um folgende Aufgaben:
 \begin{itemize}
 	\item Anzeigen aller Kontakte des angemeldeten Nutzers.
 	\item Neue Kontakte der Kontaktliste hinzufügen.
@@ -3159,13 +3160,15 @@ if (last_message_dict.from == user_name)
 }
 \end{lstlisting}
 Dafür wird mittels \texttt{Object.keys(chat\_messages[user\_name])} auf die Kontakte des angemeldeten Nutzers zugegriffen. Mithilfe der Variablen \texttt{position\_last\_message\_object} wird aus dem Objekt die Position der letzten Nachricht, bei dem sowohl der angemeldete User (\texttt{user\_name}) als auch der Kontaktpartner (\texttt{peer}) übereinstimmt, gefiltert. Dadurch lässt sich in Zeile 4 die Eigenschaften der letzten Nachricht in Form eines Zugriffs auf ein Dictionary ermitteln. Mit der If-Bedingung wird überprüft ob die Nachricht gesendet oder empfangen wurde. Danach erfolgt lediglich das Einbinden der Elemente in den \ac{HTML}-Content, wie er in der \autoref{img:Sidepanel} dargestellt ist.\\
-Mit der vervollständigten Kontaktliste kann die nächste Funktion erläutert werden. Dabei handelts es sich um die \textbf{Aktivierung des Kontaktes}. Diese Möglichkeit gehört zur Chat-Funktionalität und der Usability. Das liegt daran, dass der Nutzer eine Übersicht bekommt welcher Kontakt gerade ausgewählt ist. Außerdem wird der aktive Kontakt benötigt um ihm im Chatfenster anzuzeigen damit der angemeldete Benutzer mit diesem Kontakt schreiben kann. Daher wird der Funktion beide Aspekte zugeordnet. Für die Aktivierung der Kontakte innerhalb der Kontaktliste müssen zwei Ausgangssituation betrachtet werden. Zum Einen soll nach dem Login stets der erste Kontakt aktiviert werden. In allen anderen Fällen erfolgt die Aktivierung über einen Klick auf den entsprechenden Kontakt.\\
-Für die Umsetzung sind mögliche Fehlerquellen zu verhindern. Eine der häufigsten Fehlerquellen bei \ac{JS} ist der Zugriff auf ein Objekt, welches noch nicht vollständigen geladen wurde. JavaScript bzw. jQuery bietet hierfür durch eine \texttt{ready}-Funktion, welche auf das \ac{DOM} angewendet wird, Abhilfe.
+Mit der vervollständigten Kontaktliste kann die nächste Funktion erläutert werden. Dabei handelts es sich um die Aktivierung des Kontaktes. Diese Möglichkeit gehört zur Chat-Funktionalität und der Usability. Das liegt daran, dass der Nutzer eine Übersicht bekommt welcher Kontakt gerade ausgewählt ist. Außerdem wird der aktive Kontakt benötigt um ihm im Chatfenster anzuzeigen damit der angemeldete Benutzer mit diesem Kontakt schreiben kann. Daher wird der Funktion beide Aspekte zugeordnet. Für die Aktivierung der Kontakte innerhalb der Kontaktliste müssen zwei Ausgangssituation betrachtet werden. Zum Einen soll nach dem Login stets der erste Kontakt aktiviert werden. In allen anderen Fällen erfolgt die Aktivierung über einen Klick auf den entsprechenden Kontakt.\\
+Für die Umsetzung sind mögliche Fehlerquellen zu verhindern. Eine der häufigsten Fehlerquellen bei \ac{JS} ist der Zugriff auf ein Objekt, welches noch nicht vollständigen geladen wurde. JavaScript bzw. jQuery bietet hierfür durch eine \texttt{ready}-Funktion, welche auf das \ac{DOM} angewendet wird, Abhilfe. Das \glqq Ready\grqq, wie es im \autoref{lst:jQueryReadyFunction} dargestellt ist, bildet das Event.
+
 \begin{lstlisting}[language=Javascript,caption= Ready() Funktion von jQuery,label={lst:jQueryReadyFunction}]
 $(document).ready(function(){
 $("contacts").addClass("exampleClass") });
 \end{lstlisting}
-Das \glqq Ready\grqq, wie es im \autoref{lst:jQueryReadyFunction} dargestellt ist, bildet das Event. Dieses spezielle Event lässt sich wiederum nur auf das aktuelle \glqq document\grqq{} anwenden. In diesem speziellen Fall wird das Event erst ausgelöst wenn das \ac{DOM} vollständig geladen hat. Wird nun auf \ac{HTML}-Elemente zugegriffen, ist es sinnvoll die Funktion nach Auslösen des Events aufzurufen bzw. zu implementieren. \cite{w3schoolsJQueryReady}\\
+
+Dieses spezielle Event lässt sich wiederum nur auf das aktuelle \glqq document\grqq{} anwenden. In diesem speziellen Fall wird das Event erst ausgelöst wenn das \ac{DOM} vollständig geladen hat. Wird nun auf \ac{HTML}-Elemente zugegriffen, ist es sinnvoll die Funktion nach Auslösen des Events aufzurufen bzw. zu implementieren. \cite{w3schoolsJQueryReady}\\
 Das \ac{DOM} lässt sich als eine Repräsentation eines HTML- oder XML-Dokumentes definieren. Demnach besitzt das DOM alle strukturellen HTML-Elemente der Webseite und ist wie in der \autoref{img:HTMLDOM} dargestellt aufgebaut.\cite{w3schoolsDOM}
 \begin{figure}[h]
 	\centering
@@ -3209,7 +3212,11 @@ $(this).toggleClass('contact');
 $(this).toggleClass('contact active');
 \end{lstlisting}
 Außerdem steht die Funktion im Zusammenhang mit der \glqq Kontakt suchen\grqq{} Funktion, welche nicht detailliert erläutert wird, da es sich dabei um eine Funktion für die Benutzerfreundlichkeit handelt.\\
-Bei einer weiteren Funktion, welche für die Chat-Funktionalität relevant ist, handelt es sich um das \textbf{Hinzufügen von Kontakten}. Der Nutzer kann die Funktion benutzen indem er einen Button unterhalb des Sidepanels, wie es in \autoref{img:GochatUserview} dargestellt ist, anklickt. Diese Anwendung durch den Benutzer schließt schon auf die Umsetzung der Funktion mit JavaScript, wobei dem Nutzer mithilfe von Bootstrap und \ac{HTML} vorab ein weiteres Fenster, wie es in der \autoref{img:AddContactWindow} dargestellt ist, angezeigt wird. Hierbei handelt es sich um eine Bootstrap-Komponente namens \texttt{modal}. Wie Bootstrap-Komponente implementiert werden ist Bestandteil von \autoref{sec:Bootstrap}. 
+Bei einer weiteren Funktion, welche für die Chat-Funktionalität relevant ist, handelt es sich um das Hinzufügen von Kontakten. Der Nutzer kann die Funktion benutzen indem er einen Button unterhalb des Sidepanels, wie es in \autoref{img:GochatUserview} dargestellt ist, anklickt.
+
+\pagebreak
+
+Diese Anwendung durch den Benutzer schließt schon auf die Umsetzung der Funktion mit JavaScript, wobei dem Nutzer mit Hilfe von Bootstrap und \ac{HTML} vorab ein weiteres Fenster, wie es in der \autoref{img:AddContactWindow} dargestellt ist, angezeigt wird. Hierbei handelt es sich um eine Bootstrap-Komponente namens \texttt{modal}. Wie Bootstrap-Komponente implementiert werden ist Bestandteil von \autoref{sec:Bootstrap}. 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=1.0]{images/AddContactWindow}
@@ -3221,6 +3228,8 @@ Mit dem Modal besitzt der Nutzer die Möglichkeit einen Kontakt in das Textfeld 
 $("#addContactButton").click(function(){}
 \end{lstlisting}
 Diese Funktion kann, wie schon beim Anmeldeformular, vor dem Senden der Daten an den Server, eine Überprüfung der Eingabe ermöglichen. Dafür wird eine regular Expression definiert, die nur Benutzernamen zulässt, welche mit einem Buchstaben anfangen und keine Sonderzeichen enthalten.
+
+Das \autoref{lst:AddContactClickInputCheck} stellt die Überprüfung dar und gibt im Fehlerfall eine Rückmeldung an den Benutzer.
 \begin{lstlisting}[language=Javascript,caption=Überprüfung der Eingabe mittels eines regulären Ausdrucks,label={lst:AddContactClickInputCheck}]
 var letters = /^[A-Za-z]+[0-9]*$/;
 if(!addContactName.match(letters))
@@ -3229,7 +3238,10 @@ if(!addContactName.match(letters))
 	return false;
 }
 \end{lstlisting}
-Das \autoref{lst:AddContactClickInputCheck} stellt die Überprüfung dar und gibt im Fehlerfall eine Rückmeldung an den Benutzer. Eine weitere Fehlerquellen ist die Eingabe seines eigenen Namens (\autoref{lst:AddContactClickInputCheckOwnName}).
+
+\pagebreak
+
+Eine weitere Fehlerquellen ist die Eingabe seines eigenen Namens (\autoref{lst:AddContactClickInputCheckOwnName}).
 \begin{lstlisting}[language=Javascript,caption=Überprüfung der Eingabe auf eigenen Namen,label={lst:AddContactClickInputCheckOwnName}]
 if(addContactName == $('#NameOnlineAvatar').text())
 {
@@ -3285,6 +3297,9 @@ Bei Betrachtung der \autoref{tab:JavaScript Aufgabendefinition für gochat.html}
 	\end{tabular}
 	\label{tab:FunctionsForMessagesJS}
 \end{table}
+
+\pagebreak
+
 Damit Funktionen zum Zeitpunkt eines Logins des Nutzers auf die Nachrichten zugreifen können, wird im JavaScript die Funktion \texttt{pull\_chat\_hisotry(username)} unabhängig von den \ac{HTML}-Elementen aufgerufen (\autoref{lst:FunctioncallAndVariable}).
 \begin{lstlisting}[language=Javascript,caption=Aufruf der Funktion \texttt{pull\_chat\_hisotry(username)},label={lst:FunctioncallAndVariable}]
 pull_chat_hisotry($('#NameOnlineAvatar').text());
@@ -3365,6 +3380,8 @@ function printSingleChatMessage(JSON_DATA)
 \end{lstlisting}
 Die Funktion erlaubt das Ausgeben von empfangenen Nachrichten. Dafür ist relevant welcher Kontakt aktiv und im Hauptfenster dargestellt ist. Diese Überprüfung erfolgt mit der If-Bedingung. Durch den Zugriff auf die zwei Klassen wird der aktuell aktive Kontakt ermittelt. Stimmt dieser mit dem Empfänger überein, wird die Nachricht im HTML-Format ausgegeben. Anschließend muss das chat\_messages-Objekt mithilfe der push-Option aktualisiert werden. Dadurch wird Inkonsistenz zwischen Server, der die Nachrichten in einer Datenbank speichert, und Client gewährleistet. Außerdem werden immer wieder alle Nachrichten bei der Ausgabe des Chatverlaufs nach der Aktivierung verschiedener Kontakte benötigt. Mit dem Aufruf der Funktion \texttt{updateLastMessageInContactView()} wird die Kontaktliste aktualisiert. Hierbei handelt es sich um das Preview der Nachricht. Aufgrund der Ähnlichkeit zu vorausgegangenen Methoden und Bedeutungslosigkeit für die Chatfunktionalität stellt die Funktion kein Bestandteil des Abschnittes dar. \\
 Nachfolgend soll das Senden im Vordergrund stehen. Hierfür ist die Funktion \texttt{send\_msg\_single\_chat()} vorgesehen. Diese ist aufgrund der Abhängigkeit zu einem Event an ein \ac{HTML}-Element gebunden. Bei diesem \ac{HTML}-Element handelt es sich um den \glqq Send\grqq-Button, welcher in \autoref{img:GochatUserview} ersichtlich ist. Nach dem Klick des Buttons und dem Aufrufen der Funktion werden zunächst Variablen initialisiert. Dafür wird auf \ac{HTML}-Elemente zugegriffen, welche sowohl die Nachricht aus dem Textfeld enthalten, als auch den aktiven Kontakt an wen die Nachricht gesendet werden soll.
+
+Der Zugriff auf die \ac{HTML}-Elemente erfolgt über die jQuery-Syntax (\autoref{lst:SendFunctionInitalisation}).
 \begin{lstlisting}[language=Javascript,caption=Initialisierung der Variablen zum Senden einer Nachricht ,label={lst:SendFunctionInitalisation}]
 var msg = $('#input-message').val().trim();
 var to_jid = $('.contact.active').attr("id");
@@ -3372,7 +3389,8 @@ var user_name = $('#NameOnlineAvatar').text();
 var dt = new Date();
 var msg_timestamp = dt.toISOString().split("T")[0] + " " + dt.toLocaleTimeString().substring(0,5); 
 \end{lstlisting}
-Der Zugriff auf die \ac{HTML}-Elemente erfolgt über die jQuery-Syntax (\autoref{lst:SendFunctionInitalisation}). Außerdem wird mithilfe von vordefinierten JavaScript Funktionen der Zeitstempel in das richtige Format gebracht. Anschließend können die Variablen der Funktion \texttt{modular\_ajax(url, type, formData)} als Parameter übergeben werden (\autoref{lst:SendFunctionAjaxCall}).
+
+Außerdem wird mithilfe von vordefinierten JavaScript Funktionen der Zeitstempel in das richtige Format gebracht. Anschließend können die Variablen der Funktion \texttt{modular\_ajax(url, type, formData)} als Parameter übergeben werden (\autoref{lst:SendFunctionAjaxCall}).
 \begin{lstlisting}[language=Javascript,caption=Aufruf der Funktion \texttt{modular\_ajax(url, type, formData)} mit allen Parametern  ,label={lst:SendFunctionAjaxCall}]
 modular_ajax("/send_message", "post", {"to": to, "from": user_name, "msg_subject": "", "msg_body": msg, "msg_type": "chat"});
 \end{lstlisting}
@@ -3398,11 +3416,11 @@ Die Nachricht wird dennoch dem Kontaktpartner als zweiten Key zugeteilt. Dadurch
 Zur Erklärung der \autoref{img:ChatMessagesObjectXMPP3}. Der erste Key ist der angemeldete Benutzer (\glqq testuser8\grqq). Mit \glqq testuser12\grqq wird der Kontaktpartner angezeigt. Anschließend enthält der Kontaktpartner den Nachrichtenverlauf beider Nutzer. Darin sind die Änderungen aus \autoref{lst:SendFunctionUpdateChatMessageObject} ersichtlich. 
 \newpage
 
-\section{Entwicklung des Frontends für den Kafka-Client}
+\chapter{Entwicklung des Frontends für den Kafka-Client}
 \label{sec:FrontendKafka}
 Mit der Implementierung eines Chatsystem sowohl auf XMPP als auch mithilfe des Frameworks Apache Kafka ergeben sich Erweiterungen für die Präsentationsebene des Gesamtsystems. Mit dem \autoref{subsec:StrukturaufbauWebseiten} besteht Kenntnis über den Aufbau der Webseiten. Um die Benutzerfreundlichkeit nicht in den Regeln 1 und 8 aus \autoref{sec:Benutzeroberfläche} zu beeinträchtigen, wird das Frontend des Kafka-Clients im HTML-Aufbau identisch zum XMPP-Client. Kern des Abschnitts bilden die Änderungen bei den dynamischen Inhalten wie bspw. das Senden und Empfangen von Nachrichten.
 
-\subsection*{Änderungen und Ergänzungen des HTML-Aufbaus}
+\section{Änderungen und Ergänzungen des HTML-Aufbaus}
 \label{subsec:KafkaHTML}
 Mit der Realisierung einer REST API, wird für den Kafka-Client ein eigener Endpunkt definiert. Um den Endpunkt zu erreichen muss sich ein Benutzer am Chat-System registrieren bzw. anmelden. Der Anmeldevorgang ist mit dem Login des XMPP-Clients zu vergleichen und soll daher nur ergänzend dargestellt werden. Aus diesem Grund ist an dieser Stelle die hinzukommenden oder zu ergänzenden HTML-Dateien aus \autoref{img:HTMLDateienOrdner} aufzuzählen. Bei diesen Dateien handelt es sich um die Folgenden:
 \begin{itemize}
@@ -3450,7 +3468,7 @@ var form_data = {
 \end{lstlisting}
 Abschließend sind keine weiteren Ergänzungen zu vermerken.
 
-\subsection*{Implementierung der Chatfunktionalitäten für den Kafka-Client}
+\section{Implementierung der Chatfunktionalitäten für den Kafka-Client}
 \label{HTML_JS_KafkaClient}
 Mit der Erweiterung des Chatsystems um das Framework Apache Kafka sind verschiedene Clients möglich. Damit sind nicht die Funktionalitäten gemeint, sondern die Implementierungen sowohl im HTML-Konstrukt als auch in der JavaScript Datei. Daher ist im Folgenden von den Dateien aus \autoref{sec:FrontendXMPP} Abstand zu nehmen. Die Dateien, welche im Vordergrund diesen Abschnitt stehen sind:
 \begin{itemize}
@@ -3513,8 +3531,7 @@ ownMsg = false
 var from = empfangenMsg.from
 if (from == user_name) {
 	from = empfangenMsg.to
-	ownMsg = true
-}
+	ownMsg = true }
 \end{lstlisting}
 Die Code-Zeilen sind Bestandteil der Funktion \texttt{getMessage()}, welche unter anderem die Aufgabe hat das \texttt{chat\_messages-Objekt} zu initialisieren oder mit empfangenen Nachrichten umzugehen. Einen Überblick über den Funktionsprinzip ist in \autoref{img:getMessageAblauf} dargestellt. Hierbei handelt es sich um eine Art Pseudocode. Die Abbildung enthält neben weiteren Funktionen auch die Zeilen aus \autoref{lst:JSKafkaGetMsgOwnMsg}.
 \begin{figure}[h]
@@ -3594,7 +3611,11 @@ Die Funktion \texttt{checkSameChatMessages()} befasst sich mit den Fragen. Je na
 	\item \texttt{msg} als Textform der Nachricht	
 	\item \texttt{ownMsg} als Boolean, ob es sich um eine eigene Nachricht handelt
 \end{itemize}
-Alle Parameter sind Bestandteil der Nachricht des SSE's und werden der Funktion \texttt{getMessage()} übergeben. Deshalb können die Daten auch der nächsten Funktion weitergegeben werden. Der Ablauf der Funktion \texttt{CheckSameChatMessages()} ist in der \autoref{img:CheckSameChatMessagesAblauf} in einer Art Pseudocode dargestellt.
+Alle Parameter sind Bestandteil der Nachricht des SSE's und werden der Funktion \texttt{getMessage()} übergeben. Deshalb können die Daten auch der nächsten Funktion weitergegeben werden.
+
+\pagebreak
+
+Der Ablauf der Funktion \texttt{CheckSameChatMessages()} ist in der \autoref{img:CheckSameChatMessagesAblauf} in einer Art Pseudocode dargestellt.
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.5]{images/CheckSameChatMessagesAblauf}
@@ -3627,8 +3648,12 @@ Das Listing ist von der Funktion her nahezu identisch mit dem \autoref{lst:JSKaf
 	\caption{Ablauf von \texttt{CheckSameChatMessages()}, eigene Darstellung}
 	\label{img:Chat_messageObjectSecondInsertion}
 \end{figure}
-Nach dem Hinzufügen der Nachricht, werden die Funktionen \texttt{fillInContactPeers(from, msg, ownMsg)} und \texttt{printSingleChatMessage(type, from, msg, timestamp, ownMsg)} aufgerufen. Es besteht bereits Kenntnis über das Funktionsprinzip der ersten Funktion (\autoref{img:fillInContactPeersKafka}). An dieser Stelle bietet die Funktion die Möglichkeit die Preview aus der Kontaktliste zu aktualisieren. Mit der zweiten Funktion wird das Ausgeben der Nachricht auf das Chatfenster realisiert. Die Funktion ist ebenfalls Bestandteil des XMPP-Clients und kann daher im \autoref{sec:FrontendXMPP} nachgelesen werden. Damit besitzt der Kafka-Client alle Funktionen zum Empfangen von Nachrichten. Für einen vollen Funktionsumfang fehlt dem Kafka-Client noch das Senden von Nachrichten sowie das Hinzufügen neuer Kontakte. Beide Funktion besitzen Ähnlichkeiten zum XMPP-Client. Daher stehen im Folgenden die Änderungen im Vordergrund.\\
+Nach dem Hinzufügen der Nachricht, werden die Funktionen \texttt{fillInContactPeers(from, msg, ownMsg)} und \texttt{printSingleChatMessage(type, from, msg, timestamp, ownMsg)} aufgerufen. Es besteht bereits Kenntnis über das Funktionsprinzip der ersten Funktion (\autoref{img:fillInContactPeersKafka}). An dieser Stelle bietet die Funktion die Möglichkeit die Preview aus der Kontaktliste zu aktualisieren. Mit der zweiten Funktion wird das Ausgeben der Nachricht auf das Chatfenster realisiert. Die Funktion ist ebenfalls Bestandteil des XMPP-Clients und kann daher im \autoref{sec:FrontendXMPP} nachgelesen werden. Damit besitzt der Kafka-Client alle Funktionen zum Empfangen von Nachrichten. Für einen vollen Funktionsumfang fehlt dem Kafka-Client noch das Senden von Nachrichten sowie das Hinzufügen neuer Kontakte. Beide Funktion besitzen Ähnlichkeiten zum XMPP-Client. Daher stehen im Folgenden die Änderungen im Vordergrund.
+
+\pagebreak
+
 Zuerst werden die Funktionen für das Senden von Nachrichten erörtert. Dafür werden die Funktion aus \autoref{tab:SendFunctionsKafka} benötigt.
+
 \begin{table}[h]
 	\centering
 	\caption{Funktionen zum Senden und anzeigen lassen von Nachrichten}
@@ -3649,7 +3674,8 @@ Zuerst werden die Funktionen für das Senden von Nachrichten erörtert. Dafür w
 	\end{tabular}
 	\label{tab:SendFunctionsKafka}
 \end{table}
-In einem ersten Schritt werden mittels \texttt{getSendingInformations()} die Informationen bereitgestellt. Dabei handelt es sich um Parameter, die für das \texttt{chat\_messages-Objekt}, der Ausgabe und dem Request an den Server, benötigt werden.
+
+Im Schritt werden mittels \texttt{getSendingInformations()} die Informationen bereitgestellt. Dabei handelt es sich um Parameter, die für das \texttt{chat\_messages-Objekt}, der Ausgabe und dem Request an den Server, benötigt werden.
 \begin{lstlisting}[language=Javascript,caption=\texttt{getSendingInformations()},label={lst:JSKafkagetSendingInfo}]
 var informations = {}
 var msg = $('#input-message').val().trim();
@@ -3717,7 +3743,7 @@ Mit Abschluss der \texttt{sendNewContact()}-Methode besitzt der Kafka-Client die
 
 \pagebreak
 
-\section{Grundlagen von Softwaretests}
+\chapter{Grundlagen von Softwaretests}
 \label{sec:GrundlagenSoftwaretests}
 %%TODO: einbauen von mehrwert von terminalserver
 Die Entwicklung eines Softwareprodukts ist stets aufwendig und fehlerbehaftet. Es gibt verschiedene potentieller Fehler, die eine Software aufweisen kann. Für die Entwicklung des \acs{IMS} ist es wichtig, die Grundlagen von Softwaretests zu kennen, um Fehler im Code zu vermeiden. Es ist erforderlich sich mit Fehlerarten auseinanderzusetzen und zu verstehen, welche Fehler durch Tests entdeckt werden können.
@@ -3756,19 +3782,15 @@ Nach der Auslieferung von Software können Fehler immer noch entdeckt werden, zu
 
 \smallskip
 
-\textbf{\glqq Durch Testen kann man stets nur die Anwesenheit, nie aber die Abwesenheit von Fehlern beweisen.\grqq} (vgl. Dijkstra E. W. - The Humble Programmer, ACM Turing Lecture 1972)
+\glqq Durch Testen kann man stets nur die Anwesenheit, nie aber die Abwesenheit von Fehlern beweisen.\grqq (vgl. Dijkstra E. W. - The Humble Programmer, ACM Turing Lecture 1972)
 
 \smallskip
 
 Diese These bestätigt Witte F. in \cite{witte2019testmanagement}. Testaktivitäten schlagen fehl und erzeugen Fehler. Nach \cite{witte2019testmanagement} ist das Risiko, dass noch unentdeckte Fehler im Testobjekt vorhanden sind geringer, je höher die Testabdeckung ist. Testen zeigt nicht, dass die Software fehlerfrei ist, selbst wenn keine Fehler nachgewiesen werden. Testen ist kein mathematischer Beweis. Softwaretests beziehen sich immer auf die Betrachtung von Stichproben, es werden nicht alle möglichen Eingabeparameter und deren Kombinationen mit allen möglichen Vorbedingungen getestet, sondern diejenigen, die am ehesten praxisrelevant sind. Der Testaufwand richtet sich dabei nach Priorität und Risiko. Der Aufwand ist dabei immer mit
 dem Nutzen abzugleichen.
 
-\smallskip
-
 Eine Software vollständig zu testen ist somit unmöglich. Ein Test dient zur Feststellung, ob ein Programm, wie in der Spezifikation festgehalten,
 funktioniert, aber er dient nicht dazu, um alle möglichen Fehler ausschließen zu können.
-
-\smallskip
 
 In dieser Arbeit ist es wichtig, eine geeignete Testart zu finden, um Tests ohne großen Aufwand durchführen zu können.
 
@@ -3776,14 +3798,16 @@ Tests eines komplexen Software-Systems lassen sich in verschiedene Testarten ein
 
 \subsubsection*{Testarten:}
 
+Die häufigsten Testarten lassen sich in vier Bereiche aufteilen - Integrationstests, Unittests, Systemtests und Abnahmetests, siehe \autoref{img:Testarten}.
+
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=6cm]{images/Testarten.png}
+	\includegraphics[width=4.5cm]{images/Testarten.png}
 	\caption{Übersicht über Testarten, eigene Darstellung}
 	\label{img:Testarten}
 \end{figure}
 
-Die häufigsten Testarten lassen sich in vier Bereiche aufteilen - Integrationstests, Unittests, Systemtests und Abnahmetests, siehe \autoref{img:Testarten}. \textbf{Integrationstests} sind abgestimmte Reihen von mehreren Tests, die dazu dienen, verschiedene voneinander abhängige Komponenten eines komplexen Systems im Zusammenspiel miteinander zu prüfen. Für den Integrationstest erstellt man nun Testszenarien, die das Zusammenwirken der beiden betroffenen Komponenten zeigen. Die Anzahl der Integrationsstufen richtet sich nach der Komplexität der Software. \textbf{Systemtests} werden durchgeführt, um die gesamte Software gegen die gesamten Anforderungen des Kunden zu testen. Das beinhaltet alle funktionalen Anforderungen und nicht funktionalen Anforderungen, wie zum Beispiel Qualität oder Bedienbarkeit. Weil Systemtests die gesamte Software testen, sind diese zum Zeitpunkt der Fertigstellung der Software durchzuführen. Idealerweise wird die Produktivumgebung des Kunden zuerst nachgestellt und die Software mit Live-Szenarien aus dem Produktivbetrieb getestet. Ein \textbf{Abnahmetest}, \textbf{Verfahrenstest}, \textbf{Akzeptanztest} oder auch \textbf{User Acceptance Test} ist ein Test der ausgelieferten Software durch den Kunden und/oder Auftraggeber. Der Test wird oft mit Kopien von echten Daten in der Produktionsumgebung des Kunden durchgeführt. Diese Testart hat nicht das Ziel Fehler zu entdecken, sondern das der Kunde Vertrauen in das Endprodukt gewinnt. Fehler sollten schon durch andere Testarten entdeckt worden und behoben sein. Zum Beispiel durch \textbf{Unittests}, welche kleine Abschnitte des Codes testen.\cite{witte2019testmanagement}
+Integrationstests sind abgestimmte Reihen von mehreren Tests, die dazu dienen, verschiedene voneinander abhängige Komponenten eines komplexen Systems im Zusammenspiel miteinander zu prüfen. Für den Integrationstest erstellt man nun Testszenarien, die das Zusammenwirken der beiden betroffenen Komponenten zeigen. Die Anzahl der Integrationsstufen richtet sich nach der Komplexität der Software. Systemtests werden durchgeführt, um die gesamte Software gegen die gesamten Anforderungen des Kunden zu testen. Das beinhaltet alle funktionalen Anforderungen und nicht funktionalen Anforderungen, wie zum Beispiel Qualität oder Bedienbarkeit. Weil Systemtests die gesamte Software testen, sind diese zum Zeitpunkt der Fertigstellung der Software durchzuführen. Idealerweise wird die Produktivumgebung des Kunden zuerst nachgestellt und die Software mit Live-Szenarien aus dem Produktivbetrieb getestet. Ein Abnahmetest, Verfahrenstest, Akzeptanztest oder auch User Acceptance Test ist ein Test der ausgelieferten Software durch den Kunden und/oder Auftraggeber. Der Test wird oft mit Kopien von echten Daten in der Produktionsumgebung des Kunden durchgeführt. Diese Testart hat nicht das Ziel Fehler zu entdecken, sondern das der Kunde Vertrauen in das Endprodukt gewinnt. Fehler sollten schon durch andere Testarten entdeckt worden und behoben sein. Zum Beispiel durch Unittests, welche kleine Abschnitte des Codes testen.\cite{witte2019testmanagement}
 
 \smallskip
 
@@ -3791,10 +3815,10 @@ Eine wichtige Anforderung an Tests ist, dass diese schnell und effizient ablaufe
 
 Zusätzlich werden Systemtests von fertiggestellten Teilen während der Entwicklung in einer Testumgebung durchgeführt. Das dient dazu, um das Zusammenwirken einzelner Teile und die Performanz des Systems selbst austesten zu können.
 
-\subsection{Unittests}
+\section{Unittests}
 \label{Unittests}
 
-Unittests eignen sich dafür, sie bei jedem Entwicklungsstand einzusetzen. Diese Art von Tests werden in der Softwareentwicklung durchgeführt, um kleine, funktionale Einzelteile (\textbf{Units}) zu testen. Ein \textbf{Unit} kann dabei ein kleiner Codeabschnitt sein oder eine Methode einer Klasse sein. Weil Algorithmen auf Modulebene meist nur eine begrenzte Komplexität aufweisen und über klar definierte Schnittstellen aktiviert werden, können sie mit relativ wenigen Testfällen ziemlich umfassend getestet werden.\cite{witte2019testmanagement, hubertz2016softwaretests}
+Unittests eignen sich dafür, sie bei jedem Entwicklungsstand einzusetzen. Diese Art von Tests werden in der Softwareentwicklung durchgeführt, um kleine, funktionale Einzelteile (Units) zu testen. Ein Unit kann dabei ein kleiner Codeabschnitt sein oder eine Methode einer Klasse sein. Weil Algorithmen auf Modulebene meist nur eine begrenzte Komplexität aufweisen und über klar definierte Schnittstellen aktiviert werden, können sie mit relativ wenigen Testfällen ziemlich umfassend getestet werden.\cite{witte2019testmanagement, hubertz2016softwaretests}
 
 Ein Unittest ruft eine definierte Funktion mit vorgegebenen Parametern auf und vergleicht das erzielte Ergebnis mit der vorgegebenen
 Erwartung. Als Testfall (test case) wird eine Testeinheit bezeichnet, die eine bestimmte Antwort zu einem gegebenen Satz an Eingabewerten prüft.\cite{hubertz2016softwaretests}
@@ -3820,7 +3844,7 @@ Ein Testfall hat nach Hubertz drei mögliche Ergebnisse \cite{hubertz2016softwar
 
 Entgegen der Annahme ist im Beispiel in \autoref{img:TestfallAllgemein} der Benutzername nicht gültig. Entweder ist die Erwartung des Entwicklers unpassend oder die beiden Backslashes sind in einem Benutzernamen als Zeichen valide und der Algorithmus der Methode ist fehlerhaft. Der Mehrwert von Unittests ist, dass sie auf kleine Abschnitte mit geringem Aufwand angewendet werden können. Sie helfen, Schwächen der Codeabschnitte aufzudecken und die Entwickler müssen die Codeabschnitte reflektieren. Das verringert Fehleranfälligkeit und erhöht die Korrektheit der gesamten Software.\cite{hubertz2016softwaretests}
 
-In Python lassen sich Unittests mit dem Modul \textbf{unittest} umsetzen. Eine Klasse definiert einen Testfall. Die Klasse erbt von der Basisklasse \texttt{unittest.TestCase} des Moduls. Die Klasse kann mehrere Methoden enthalten, die jeweils einen Test darstellen.\cite{hubertz2016softwaretests}
+In Python lassen sich Unittests mit dem Modul unittest umsetzen. Eine Klasse definiert einen Testfall. Die Klasse erbt von der Basisklasse \texttt{unittest.TestCase} des Moduls. Die Klasse kann mehrere Methoden enthalten, die jeweils einen Test darstellen.\cite{hubertz2016softwaretests}
 
 \pagebreak
 
@@ -3840,7 +3864,7 @@ class TestUsername(unittest.TestCase):
 Die Methode \texttt{setUp} richtet eine Testvorrichtung ein \cite{hubertz2016softwaretests}.
 Als Testvorrichtung (test fixture) wird eine Umgebung bezeichnet, die einen oder mehrere Tests vor- und nachbereitet \cite{hubertz2016softwaretests}. Eine Methode der Klasse stellt einen Test, dar. Vor jedem Test wird die Methode \texttt{setUp} ausgeführt, die in diesem Beispiel einen Benutzernamen anlegt. Mit Testvorrichtungen lassen sich komplizierte Eingabeparameter einmalig vorbereiten und in Tests verwenden. Mit Hilfe der Methode \texttt{assertFalse} aus dem Modul \texttt{unittest} wird untersucht, ob das Resultat \texttt{false} ist. Assert-Methoden wie diese, definieren durch ihren Aufruf bereits den erwarteten Wert. Weitere Assert-Methoden sind detailliert in \cite{hubertz2016softwaretests} erklärt. Der Unittest zeigt in der Kommandozeile nach der Ausführung an, welches Ergebnis der Testfall hat.
 
-\subsection{Mocktests für das vortäuschen falscher Tatsachen}
+\section{Mocktests für das Vortäuschen falscher Tatsachen}
 
 Manchmal ist es nicht möglich, Methoden und Funktionen so zu testen, wie sie in der normalen Nutzung gebraucht werden. Ein Beispiel ist ein Datenbankzugriff in einem Codeabschnitt. Ein Test der Funktion benötigt das Netzwerk oder aufwendige Operationen, um auf die Datenbank zuzugreifen. Das verlangsamt den Unittest. Ferner wird bei einer Schreiboperation der Datenbestand der Produktiv- oder Testumgebung verändert. Ein Unittest dessen Ausführung lange dauert oder den Datenbestand inkonsistent macht, ist grundsätzlich zu vermeiden. Aus diesem Grund setzen Entwickler Mocks ein, um Ergebniswerte für solche Art von Operationen vorzutäuschen. Erst dann ist der Test mit den Anforderungen an Unittests durchführbar.\cite{hubertz2016softwaretests}
 
@@ -3872,7 +3896,7 @@ Der Unittest überprüft, ob die Methode das erwartete Ergebnis liefert, wenn mi
 
 \pagebreak
 
-Unittest und Mocks werden in der Studienarbeit verwendet, um Ergebnisse von Operationen auf Datenbanken oder Netzwerke zu simulieren. Mocks ermöglichen es, aufwendige Operationen, wie \acs{API}-Routen der Flask Applikation zu testen. Das ist für die Studienarbeit wichtig, um Anforderungen an Funktion und an die Qualität des Codes zu erfüllen. Tests helfen Fehlfunktionen nachvollziehen zu können und diese im \acs{IMS} zu minimieren. Die Software wird durch das Testen zunehmend fehlertoleranter.
+Unittests und Mocka werden in der Studienarbeit verwendet, um Ergebnisse von Operationen auf Datenbanken oder Netzwerke zu simulieren. Mocks ermöglichen es, aufwendige Operationen, wie \acs{API}-Routen der Flask Applikation zu testen. Das ist für die Studienarbeit wichtig, um Anforderungen an Funktion und an die Qualität des Codes zu erfüllen. Tests helfen Fehlfunktionen nachvollziehen zu können und diese im \acs{IMS} zu minimieren. Die Software wird durch das Testen zunehmend fehlertoleranter.
 
 \pagebreak
 
