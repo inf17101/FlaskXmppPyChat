@@ -12,6 +12,8 @@ class Validator:
         Return: None
         Raise: CustomValidationError - Exception
         """
+        if not user_name:
+            raise CustomValidationError("Please use a different username.")
         user = User.query.filter_by(username=user_name).first()
         if user:
             raise CustomValidationError("Please use a different username.")
@@ -23,6 +25,9 @@ class Validator:
         Return: None
         Raise: CustomValidationError - Exception
         """
+        if not e_mail:
+            raise CustomValidationError("Please use a different e-mail address.")
+        
         user = User.query.filter_by(email=e_mail).first()
         if user:
             raise CustomValidationError("Please use a different e-mail address.")
@@ -35,4 +40,6 @@ class Validator:
             search: regex definition for valid username
             Return: False if string is valid, otherwise True
         """
+        if string is None:
+            return True
         return not bool(search(string))
