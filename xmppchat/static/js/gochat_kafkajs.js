@@ -85,7 +85,6 @@ function fillInContactPeers(from, msg, ownMsg)
         contact_ul.append(`
             <li class="contact" id="${from}">
                 <div class="wrap">
-                    <span class="contact-status online"></span>
                     <img src="/static/img/usericon2.png" alt="Avatar">
                     <div class="meta">
                     <p class="name">${from}</p>
@@ -98,7 +97,6 @@ function fillInContactPeers(from, msg, ownMsg)
         contact_ul.append(`
             <li class="contact" id="${from}">
                 <div class="wrap">
-                    <span class="contact-status online"></span>
                     <img src="/static/img/usericon2.png" alt="Avatar">
                     <div class="meta">
                     <p class="name">${from}</p>
@@ -240,7 +238,6 @@ function updateLastMessageInContactView(user_name, peer_name, update_id, message
   message_string = message_string.slice(0,50)
   var li_contact = $('#' + update_id).html(`
   <div class="wrap">
-            <span class="contact-status online"></span>
             <img src="/static/img/usericon2.png" alt="Avatar">
             <div class="meta">
               <p class="name">${update_id}</p>
@@ -485,7 +482,6 @@ function addContactToList(name, preview_message)
     contact_ul.append(`
     <li class="contact" id="${name}">
           <div class="wrap">
-            <span class="contact-status online"></span>
             <img src="/static/img/usericon2.png" alt="Avatar">
             <div class="meta">
               <p class="name">${name}</p>
@@ -507,6 +503,7 @@ function sendNewContact(contactName){
     send_message(sending_informations)
     chat_messages[user_name][contactName].push({"from": user_name, "timestamp": msg_timestamp, "txt": sending_informations.msg_body, "type": "chat"});
     updateLastMessageInContactView(user_name, user_name, contactName, sending_informations.msg_body)
+    fill_in_chat_msgs_single_chat(user_name, contactName)
 }
 //#endregion
 //#endregion
