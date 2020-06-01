@@ -285,6 +285,32 @@ Ort, Datum & Oliver Klapper
 \newpage
 \pagenumbering{Roman}
 
+%authorenverzeichnis
+\addcontentsline{toc}{chapter}{Authorenübersicht}
+\chapter*{Autorenübersicht}
+\renewcommand{\arraystretch}{1.5}
+\begin{table}[h]
+	\centering
+	\begin{tabular*}{\linewidth}{lll@{\extracolsep{\fill}}}
+		\textbf{Kapitelnr.} & \textbf{Kapitel} & \textbf{Autor} \\
+		\hline
+		1 & Bedeutung von Instant-Messaging Systemen & Oliver K. \\
+		2 & Datenschutzrechtliche Aspekte & \\
+		3 & Anforderungen & Oliver K. \\
+		4 & Theoretische Grundlagen & Oliver K., Lukas P. \\
+		5 & Umsetzung und Implementierung & Oliver K., Lukas P.\\
+		6 & Umsetzung der Entwicklung einer REST API & Oliver K.\\
+		7 & Entwicklung der Frontends für den XMPP-Client & Lukas P.\\
+		8 & Entwicklung der Frontends für den Kafka-Client & Lukas P.\\
+		9 & Grundlagen von Softwaretest & Oliver K.\\
+		10 & Ergebnis & \\
+		11 & Fazit & \\
+	\end{tabular*}
+	\label{tab:autorenuebersicht}
+\end{table}
+
+\pagebreak
+
 
 %abkürzungsverzeichnis
 \cleardoublepage
@@ -2778,14 +2804,14 @@ Bei der Implementierung dynamischer Elemente, wie der Formularüberprüfung auf 
 Für die Entwicklung eines Web-Frontends bildet eine Rahmenstruktur die Basis. Hierbei handelt es sich um den Webauftritt durch die Verknüpfung mehrerer HTML-Dateien.\cite{buhler2017html5}
 Um auf den \ac{HTML}-Aufbau der Webseiten einzugehen ist das Verständnis über die Struktur und die Verknüpfung der Einzelseiten relevant. Für diese Verknüpfungen können die nachfolgenden Abbildungen betrachtet werden.
 \begin{figure}[h]
-	\begin{minipage}[c]{.4\textwidth}
-		\includegraphics[width=\textwidth]{images/HTMLDateienOrdner}
+	\begin{minipage}[c]{.38\textwidth}
+		\includegraphics[scale=0.45]{images/HTMLDateienOrdner}
 		\caption{HTML-Dateien, eigene Darstellung}
 		\label{img:HTMLDateienOrdner}
 	\end{minipage}
 	\hspace{0.05\linewidth}% Abstand zwischen Bilder
-	\begin{minipage}[c]{.4\textwidth}
-		\includegraphics[scale=0.7]{images/HTMLDateienAufrufbaum}
+	\begin{minipage}[c]{.5\textwidth}
+		\includegraphics[scale=0.5]{images/HTMLDateienAufrufbaum}
 		\caption{Interaktionen zwischen den Dateien, eigene Darstellung}
 		\label{img:DateinAufrufbaum}
 	\end{minipage}
@@ -2796,7 +2822,7 @@ Um auf den \ac{HTML}-Aufbau der Webseiten einzugehen ist das Verständnis über 
 \label{subsec:TemplateInheritance}
 Flask als microframework bietet zahlreiche Möglichkeiten. Aus \autoref{subsec:Flask} ist bekannt, dass Flask mehrere Komponenten beinhaltet. Eines kann als Jinja identifiziert werden, welches unter anderem als Template-Bibliothek bezeichnet wird. Wie dem vorherigen Abschnitt zu entnehmen ist, handelt es sich bei dem Konzept des Frontends um die Vererbung von HTML-Elementen. Ein Konzept, welche durch Jinja ermöglicht wird.
 
-Die offizielle Seite von Flask bezeichnet das Vererben von HTML-Vorlagen als mächtigstes Tool von Jinja. Die Vererbung erlaubt das Konstruieren eines Rahmens für den gesamten Webauftritt. Um dieses Prinzip zu verwenden werden mindestens 2 HTML-Seiten benötigt. In einem ersten Schritt wird das sogenannte \glqq Base Template\grqq definiert. Diese Seite verkörpert den Rahmen, wobei es alle Elemente, welche dauerhaft benötigt werden, implementiert. Ein Beispiel für die Grundseite ist im \autoref{lst:BaseTemplate} dargestellt.
+Die offizielle Seite von Flask bezeichnet das Vererben von HTML-Vorlagen als mächtigstes Tool von Jinja. Die Vererbung erlaubt das Konstruieren eines Rahmens für den gesamten Webauftritt. Um dieses Prinzip zu verwenden werden mindestens 2 HTML-Seiten benötigt. In einem ersten Schritt wird das sogenannte \glqq Base Template\grqq\ definiert. Diese Seite verkörpert den Rahmen, wobei es alle Elemente, welche dauerhaft benötigt werden, implementiert. Ein Beispiel für die Grundseite ist im \autoref{lst:BaseTemplate} dargestellt.
 \begin{lstlisting}[language=HTML,caption=Beispiel einer Grundseite für das Vererbungsprinzip,label={lst:BaseTemplate}]
 <!doctype html>
 <html>
@@ -2940,13 +2966,22 @@ Dem Container, unterhalb der search-Box, kann eine größere Relevanz zugeordnet
 
 Wie die einzelnen Kontakte in den Container integriert werden können, kann der nachfolgenden \autoref{img:SidepanelContacts} entnommen werden. 
 \begin{figure}[h]
-	\centering
-	\includegraphics[scale=0.55]{images/SidepanelContacts}
-	\caption{Darstellung der Kontakte als HTML-Elemente, eigene Darstellung}
-	\label{img:SidepanelContacts}
+	\begin{minipage}[c]{.48\textwidth}
+		\centering
+		\includegraphics[scale=0.52]{images/SidepanelContacts}
+		\caption{Darstellung der Kontakte als HTML-Elemente, eigene Darstellung}
+		\label{img:SidepanelContacts}
+	\end{minipage}
+	\hspace{0.055\linewidth}% Abstand zwischen Bilder
+	\begin{minipage}[c]{.43\textwidth}
+		\centering
+		\includegraphics[scale=0.35]{images/KontaktlisteUserview}
+		\caption{Darstellung der Kontakte (User View), eigene Darstellung}
+		\label{img:KontaktlisteUserview}
+	\end{minipage}
 \end{figure}
 Hierfür kommen die Listen-Elemente von HTML5 zum Einsatz. Das \texttt{ul} definiert die Liste und steht für eine \textit{unordered list}. Kindelemente des \texttt{ul}-Tags sind die \texttt{li}-Tags. Diese definieren ein Listeneintrag.
-Übertragen auf die Funktion handelt es sich bei dem \texttt{ul-Tag} um die Initialisierung einer Liste von Kontakten. Entsprechend symbolisieren die li-Container einen einzelnen Kontakt. Standardmäßig werden Listen unter HTML5 mit Bullets markiert. Diese Eigenschaft kann mithilfe von CSS verhindert werden. Die Klassennamen nehmen Bezug zur den dynamischen und gestalterischen Inhalten. Aus diesem Grund unterscheidet sich ein Klassenname von den anderen. Das Resultat davon, ist die Gestaltung eines einzelnen Kontaktes. Dadurch kann dem Benutzer ein Kontakt als \glqq aktiv\grqq bzw. ausgewählt dargestellt werden. Die Darstellung aus Sicht des Benutzers ist in \autoref{img:GochatUserview} ersichtlich. \cite{w3schoolsUlTag}\\
+Übertragen auf die Funktion handelt es sich bei dem \texttt{ul-Tag} um die Initialisierung einer Liste von Kontakten. Entsprechend symbolisieren die li-Container einen einzelnen Kontakt. Standardmäßig werden Listen unter HTML5 mit Bullets markiert. Diese Eigenschaft kann mithilfe von CSS verhindert werden. Die Klassennamen nehmen Bezug zur den dynamischen und gestalterischen Inhalten. Aus diesem Grund unterscheidet sich ein Klassenname von den anderen. Das Resultat davon, ist die Gestaltung eines einzelnen Kontaktes. Dadurch kann dem Benutzer ein Kontakt als \glqq aktiv\grqq bzw. \glqq ausgewählt\grqq dargestellt werden. Die Darstellung aus Sicht des Benutzers ist in \autoref{img:KontaktlisteUserview} ersichtlich. \cite{w3schoolsUlTag}\\
 Mit der Umsetzung der zusätzlichen Optionen wird der \texttt{bottom-bar} zwei Buttons zugeteilt, welche diese Optionen bereitstellen sollen. Für die div-Box mit der id \texttt{content-window} ist die Vorgehensweise identisch, um alle Aufgabenbereiche, aus den Anforderungen, in der grafischen Benutzeroberfläche abzudecken. Diesem Container müssen daher folgende Bestandteile zugeordnet werden.
 \begin{itemize}
 	\item Profilanzeige des Chatpartners
@@ -2956,14 +2991,14 @@ Mit der Umsetzung der zusätzlichen Optionen wird der \texttt{bottom-bar} zwei B
 In Abhängigkeit dieser definierten Bestandteile wird jedem ein Container zugeteilt, der die Aufgaben innehalten soll.
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=\linewidth]{images/BasisStruktur1GochatContentWindow}
+	\includegraphics[scale=0.63]{images/BasisStruktur1GochatContentWindow}
 	\caption{Erweiterung des Containers \textit{content-window} um die aufgezählten Bestandteile, eigene Darstellung}
 	\label{img:Content-window}
 \end{figure}
 Der Klasse \texttt{contact-profil} sind die gleichen HTML-Elemente wie der div-Box \texttt{profile} untergeordnet. Ergänzend dazu ist dem Kontaktprofil des Chatpartners ein Dropdownmenü zugeteilt, welches weitere Optionen bereitstellen soll. Für die Struktur von gochat.html wird dieses Element nicht benötigt. Außerdem ist das Dropdownmenü überwiegend ein CSS-Element, weshalb es kein wichtiger Aspekt in der Struktur darstellt. Der Container mit der Id \texttt{messages-container} bildet lediglich einen Rahmen um die Nachrichten des Chats, weshalb der Container keine besonderen Attribute hat. Dem Container werden ausschließlich weiteren HTML-Elemente zugeteilt. Die Nachrichten entstehen zur Laufzeit und sind daher nur in der Gestaltung zu erläutern. Dafür ist die \autoref{img:ContentWindowChatMessages} zu beachten. Der Abbildung zur Folge hat der Nachrichten-Container eine weitere div-Box sowie Listen-Elemente gekennzeichnet mit dem \texttt{ul} und \texttt{li}-Tag. Übertragen auf die Darstellung der Nachrichten aus \autoref{img:GochatUserview} bilden die Listeneintrag eine einzelne Nachricht. Die Nachrichten werden entsprechend der unterschiedlichen Klassennamen identifiziert. Der \texttt{li}-Tag mit der Klasse \texttt{clearfix} symbolisiert die empfangenen Nachrichten.
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=0.5]{images/ContentWindowChatMessages}
+	\includegraphics[scale=0.6]{images/ContentWindowChatMessages}
 	\caption{HTML-Ansicht der Nachrichten, eigene Darstellung}
 	\label{img:ContentWindowChatMessages}
 \end{figure}
@@ -2971,7 +3006,7 @@ Demzufolge steht der leere li-Tag für die gesendeten Nachrichten. Für die deta
 Das Hauptmerkmal der Klasse \texttt{input-group} ist das Textfeld und der Button, welches es innehat. Dadurch wird dem Nutzer gewährleistet seine Nachrichten einzugeben und über ein Button zu senden. Weitere HTML-Elemente spielen in der Struktur keine Rolle und sind daher nicht weiters aufgeführt. Alle Elemente, welche die Struktur der gochat.html Datei beschreiben sind in der \autoref{img:Content-window} aufgeführt. Unter der Verwendung von Bootstrap und eigenen Styles zeigt die \autoref{img:GochatUserview} die Hauptseite aus der Sicht des Benutzers.
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=1.2]{images/GochatUserAnsicht}
+	\includegraphics[scale=0.4]{images/GochatUserAnsicht}
 	\caption{gochat.html aus Sicht des Nutzers, eigene Darstellung}
 	\label{img:GochatUserview}
 \end{figure}
@@ -3675,7 +3710,7 @@ Zuerst werden die Funktionen für das Senden von Nachrichten erörtert. Dafür w
 	\label{tab:SendFunctionsKafka}
 \end{table}
 
-Im Schritt werden mittels \texttt{getSendingInformations()} die Informationen bereitgestellt. Dabei handelt es sich um Parameter, die für das \texttt{chat\_messages-Objekt}, der Ausgabe und dem Request an den Server, benötigt werden.
+Im ersten Schritt werden mittels \texttt{getSendingInformations()} die Informationen bereitgestellt. Dabei handelt es sich um Parameter, die für das \texttt{chat\_messages-Objekt}, der Ausgabe und dem Request an den Server, benötigt werden.
 \begin{lstlisting}[language=Javascript,caption=\texttt{getSendingInformations()},label={lst:JSKafkagetSendingInfo}]
 var informations = {}
 var msg = $('#input-message').val().trim();
