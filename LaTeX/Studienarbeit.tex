@@ -297,14 +297,21 @@ Ort, Datum & Oliver Klapper
 		1 & Bedeutung von Instant-Messaging Systemen & Oliver K. \\
 		2 & Datenschutzrechtliche Aspekte & \\
 		3 & Anforderungen & Oliver K. \\
-		4 & Theoretische Grundlagen & Oliver K., Lukas P. \\
-		5 & Umsetzung und Implementierung & Oliver K., Lukas P.\\
-		6 & Umsetzung der Entwicklung einer REST API & Oliver K.\\
-		7 & Entwicklung der Frontends für den XMPP-Client & Lukas P.\\
-		8 & Entwicklung der Frontends für den Kafka-Client & Lukas P.\\
-		9 & Grundlagen von Softwaretest & Oliver K.\\
-		10 & Ergebnis & \\
-		11 & Fazit & \\
+		4 & Theoretische Grundlagen & Lukas P. \\
+		5 & Diskussion über die Art der Benutzeroberfläche & Lukas P.\\
+		6 & Verprobung eines Einsatzes von Kafka und &\\
+		&Ejabberd in einem Messaging System & Oliver K.\\
+		7 & Aufbau und Entwurf der Architektur des Chatsystems & Oliver K.\\
+		8 & Ejabberd als moderner Chatserver & Oliver K.\\
+		9 & Apache Kafka für moderne Echtzeitübertragung & Oliver K.\\
+		10 & Einführung in Python Module für ejabberd und &\\
+		& Apache Kafka & Oliver K.\\
+		11 & Umsetzung der Entwicklung einer REST API & Oliver K.\\
+		12 & Entwicklung der Frontends für den XMPP-Client & Lukas P.\\
+		13 & Entwicklung der Frontends für den Kafka-Client & Lukas P.\\
+		14 & Grundlagen von Softwaretest & Oliver K.\\
+		15 & Ergebnis & \\
+		16 & Fazit & \\
 	\end{tabular*}
 	\label{tab:autorenuebersicht}
 \end{table}
@@ -505,7 +512,7 @@ Eine Datenbank beinhaltet eine Sammlung von mehreren Daten, die sich aufeinander
 	\item Ausfallsicherheit
 \end{itemize}
 
-Es gibt verschiedene Datenbankmodelle, nach denen eine Datenbankstruktur definiert wird. Die Datenbankmodelle unterteilen sich in relationale, objektorientierte, hierarchische und netzwerkartige sowie in moderne Datenbanken. Für die Projektarbeit wird ein relationales Datenbankmodell verwendet und deshalb dieses Modell genauer vertieft. Dementsprechend sind wichtige Schlüsselbegriffe zu definieren. Eine Tabelle wird ebenfalls als Relation bezeichnet. Eine Zeile der Relation heißt Tupel, die Spalten Attribute. Die Kardinalität entspricht der Anzahl von Tupeln und der Grad bezieht sich auf die Anzahl der Attribute. Ein wesentliche Bestandteil einer relationalen Datenbank ist der Primärschlüssel, welcher zwingend erforderlich ist und eindeutig sein muss. Der Schlüsselbegriff Gebiet bezieht sich auf ein Definitionsbereich eines Attributes, welches alle gültigen Werte für dieses Attribut umfasst. \cite{Schicker2017}
+Es gibt verschiedene Datenbankmodelle, nach denen eine Datenbankstruktur definiert wird. Die Datenbankmodelle unterteilen sich in relationale, objektorientierte, hierarchische und netzwerkartige sowie in moderne Datenbanken. Für die Projektarbeit wird ein relationales Datenbankmodell verwendet und deshalb dieses Modell genauer vertieft. Dementsprechend sind wichtige Schlüsselbegriffe zu definieren. Eine Tabelle wird ebenfalls als Relation bezeichnet(\autoref{img:RelationDB_Begriffe}). Eine Zeile der Relation heißt Tupel, die Spalten Attribute. Die Kardinalität entspricht der Anzahl von Tupeln und der Grad bezieht sich auf die Anzahl der Attribute. Ein wesentliche Bestandteil einer relationalen Datenbank ist der Primärschlüssel, welcher zwingend erforderlich ist und eindeutig sein muss. Der Schlüsselbegriff Gebiet bezieht sich auf ein Definitionsbereich eines Attributes, welches alle gültigen Werte für dieses Attribut umfasst. \cite{Schicker2017}
 
 \textbf{Beispiel einer Relation:}
 
@@ -3005,8 +3012,8 @@ Wie die einzelnen Kontakte in den Container integriert werden können, kann der 
 		\caption{Darstellung der Kontakte als HTML-Elemente, eigene Darstellung}
 		\label{img:SidepanelContacts}
 	\end{minipage}
-	\hspace{0.055\linewidth}% Abstand zwischen Bilder
-	\begin{minipage}[c]{.43\textwidth}
+	\hspace{0.04\linewidth}% Abstand zwischen Bilder
+	\begin{minipage}[c]{.45\textwidth}
 		\centering
 		\includegraphics[scale=0.35]{images/KontaktlisteUserview}
 		\caption{Darstellung der Kontakte (User View), eigene Darstellung}
@@ -3024,14 +3031,14 @@ Mit der Umsetzung der zusätzlichen Optionen wird der \texttt{bottom-bar} zwei B
 In Abhängigkeit dieser definierten Bestandteile wird jedem ein Container zugeteilt, der die Aufgaben innehalten soll.
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=0.63]{images/BasisStruktur1GochatContentWindow}
+	\includegraphics[scale=0.60]{images/BasisStruktur1GochatContentWindow}
 	\caption{Erweiterung des Containers \textit{content-window} um die aufgezählten Bestandteile, eigene Darstellung}
 	\label{img:Content-window}
 \end{figure}
 Der Klasse \texttt{contact-profil} sind die gleichen HTML-Elemente wie der div-Box \texttt{profile} untergeordnet. Ergänzend dazu ist dem Kontaktprofil des Chatpartners ein Dropdownmenü zugeteilt, welches weitere Optionen bereitstellen soll. Für die Struktur von gochat.html wird dieses Element nicht benötigt. Außerdem ist das Dropdownmenü überwiegend ein CSS-Element, weshalb es kein wichtiger Aspekt in der Struktur darstellt. Der Container mit der Id \texttt{messages-container} bildet lediglich einen Rahmen um die Nachrichten des Chats, weshalb der Container keine besonderen Attribute hat. Dem Container werden ausschließlich weiteren HTML-Elemente zugeteilt. Die Nachrichten entstehen zur Laufzeit und sind daher nur in der Gestaltung zu erläutern. Dafür ist die \autoref{img:ContentWindowChatMessages} zu beachten. Der Abbildung zur Folge hat der Nachrichten-Container eine weitere div-Box sowie Listen-Elemente gekennzeichnet mit dem \texttt{ul} und \texttt{li}-Tag. Übertragen auf die Darstellung der Nachrichten aus \autoref{img:GochatUserview} bilden die Listeneintrag eine einzelne Nachricht. Die Nachrichten werden entsprechend der unterschiedlichen Klassennamen identifiziert. Der \texttt{li}-Tag mit der Klasse \texttt{clearfix} symbolisiert die empfangenen Nachrichten.
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=0.6]{images/ContentWindowChatMessages}
+	\includegraphics[scale=0.45]{images/ContentWindowChatMessages}
 	\caption{HTML-Ansicht der Nachrichten, eigene Darstellung}
 	\label{img:ContentWindowChatMessages}
 \end{figure}
@@ -3044,6 +3051,7 @@ Das Hauptmerkmal der Klasse \texttt{input-group} ist das Textfeld und der Button
 	\label{img:GochatUserview}
 \end{figure}
 Mit der fertigen Struktur von gochat.html sind alle Webseiten, die der Webserver ausliefert, im Detail erörtert. Das Erscheinungsbild, wie es bspw. in \autoref{img:GochatUserview} dargestellt ist entsteht hauptsächlich unter der Verwendung von \ac{CSS}. Diese Details werden aufgrund der Redundanzen und der Ähnlichkeit zu den Beispielen aus \autoref{sec:HTMLCSSJS} nicht nähers erläutert und können dem Source-Code entnommen werden. Eine größere Relevanz spielen die dynamischen Elemente, welche das Nutzerverhalten direkt beeinflussen können. Aus diesem Grund wird der JavaScript Code mit Bezug zur jeweiligen HTML-Datei detaillierter erläutert.
+\pagebreak
 
 \section{Integration dynamischer Elemente in die Webseiten}
 \label{subsubsec:DynamischeElementeWebseiten}
