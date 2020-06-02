@@ -409,11 +409,13 @@ In dieser Arbeit soll gezeigt werden, dass ein Instant-Messaging-System mit der 
 
 Neben der Umsetzung eines \acs{IMS}, wie in \autoref{sec:Aufgabenstellung} beschreiben, ist das Ziel der Arbeit die Grundlagen eines Instant-Messaging-Systems zu verstehen zu können. Zusätzlich soll über das Protokoll \acs{XMPP} recherchiert werden und dessen Funktionsweise dargestellt werden. Wichtig ist es außerdem, die Funktionsweise und die Grundlagen von den Echtzeitplattformen Ejabberd und Apache Kafka zu verstehen. Die beiden Plattformen sollen mit Hilfe der Programmiersprache Python in das \acs{IMS} integriert werden. Hierfür sind geeignete Python Module durch Recherche zu finden und die Funktionsweise vorzustellen. Ein weiteres wichtiges Ziel ist es, die Umsetzungsschritte und die Lösungen für Problemstellungen, die sich während der Implementierung ergeben, zu beschreiben. Das wichtigste Ziel ist, einen Prototypen des \acs{IMS} zu entwickeln, der grundlegende Chatfunktionalitäten über beide Echtzeitplattformen bereitstellt. Ferner soll durch Recherche und praktischen Entwicklungen das Fachwissen in der Programmiersprache Python vertieft werden. Neben der Recherche von technischen Aspekten, soll sich auch mit den datenschutzrechtlichen Grundlagen von Instant-Messaging-Systemen auseinander gesetzt und beschrieben werden. Das \acs{IMS} soll sich gemäß der Richtlinien des Datenschutzes verhalten.
 
+\pagebreak
+
 \section{Stand der Technik}
 \label{sec:StandDerTechnik}
 
 Instant-Messaging-Systeme existieren in der heutigen Form seit Ende der 1990er Jahre, ausgehend von einer Öffnung des Internets für einen größeren Nutzerkreis außerhalb von Forschungsinstitutionen. Das erste \ac{IMS} ist \ac{ICQ} der Firma Mirabilis, welches Benutzern ermöglicht, in einer grafischen Oberfläche Nachrichten untereinander oder in Chatrooms auszutauschen \cite{ICQ}. Die Systeme werden in unterschiedlichen Ausprägungen stets weiterentwickelt. Es kommen zur grundlegenden Funktion des Nachrichtenaustauschs weitere Features, wie Dateiübertragung, \ac{VoIP}, Video over IP, Ende-zu-Ende-Verschlüsselung oder Sprachnachrichten hinzu \cite{gross2007}. 
-Weitere typische Funktionen sind die Möglichkeit des Logins mit Passwort und die Angabe der Verfügbarkeit oder die Übermittlung seines Standorts an andere Benutzer. Die Ansprüche an Funktionalitäten von Chatsystemen und der Echtzeitübertragung wachsen stetig weiter und es ist zu erwarten, dass in den kommenden Jahren der Fortschritt die Echtzeitübertragung und die Funktionalitäten von Instant-Messaging-Systeme verbessern wird. Um einen Beitrag zur Steigerung der Präsenz und der Funktionalitäten zu leisten, soll ein Chatsystem gebaut werden, dass den Anforderungen bisheriger Chatsysteme entspricht. Das Chatsystem soll die Datenschutzbestimmung erfüllen und Benutzerdaten nur speichern, wenn das für die Bereitstellung des Dienstes nötig ist.\cite{anastasiaIMS}
+Weitere typische Funktionen sind die Möglichkeit des Logins mit Passwort und die Angabe der Verfügbarkeit oder die Übermittlung seines Standorts an andere Benutzer. Die Ansprüche an Funktionalitäten von Chatsystemen und der Echtzeitübertragung wachsen stetig weiter und es ist zu erwarten, dass in den kommenden Jahren der Fortschritt die Echtzeitübertragung und die Funktionalitäten von Instant-Messaging-Systeme verbessern wird. Um einen Beitrag zur Steigerung der Präsenz und der Funktionalitäten zu leisten, soll ein Chatsystem gebaut werden, dass einige ausgewählte Anforderungen an gängige Chatsysteme erfüllt.\cite{anastasiaIMS}
 
 \newpage
 
@@ -430,19 +432,21 @@ Weitere typische Funktionen sind die Möglichkeit des Logins mit Passwort und di
 \chapter{Theoretische Grundlagen}
 \label{chap:Theorie}
 
+Dieses Kapitel beschreibt Grundlagen verschiedener technischer Aspekte, die für die Umsetzung benötigt werden müssen. Ein Verständnis dieser Grundlagen ist wichtig, um ein \acs{IMS} umsetzen zu können.
+
 \section{Funktionsweise von Instant-Messaging-Systemen}
 \label{sec:IMSFunktion}
 
-Verschiedene \ac{IMS} besitzen ähnliche Funktionsweisen. Möchte ein Benutzer einen \ac{IMS} nutzen, muss dieser eine bestimmte Software installieren. Diese Software wird als Instant-Messaging-Client (IM-Client bezeichnet. Der Benutzer muss sich an einem Authentifikationsserver registrieren. Es wird ein Benutzerprofil angelegt, welches aus aus einem Benutzernamen (User ID) und einem Passwort (Pre-Shared-Key) besteht. Diese Daten werden beim Login des Benutzers vom \ac{IMS} abgefragt. Ein Benutzerprofil kann weitere personenbezogenen Daten bestehen, wie zum Beispiel, Wohnort, Geschlecht und Geburtsdatum. Die Anzahl der Server für die Authentifizierung und der Bereitstellung des Dienstes variiert je nach der Anforderung an Verfügbarkeit und Anzahl der zu erwartenden Nutzer des \ac{IMS}. Die horizontale Skalierung von Servern und Diensten unterliegt allein dem Betreiber dieser Systeme, häufig finden sich jedoch Cluster-Systeme mit intelligenter Lastverteilung (Load-Balancing). \autoref{img:StrukturIMS} zeigt den allgemeinen Aufbau eines \ac{IMS}. In der Abbildung wird eine horizontale oder vertikale Skalierung des \ac{IMS} vernachlässigt. Der Authentifikationsserver symbolisiert einen oder mehrere Server.\cite{anastasiaIMS}
+Verschiedene \ac{IMS} besitzen ähnliche Funktionsweisen. Möchte ein Benutzer einen \ac{IMS} nutzen, muss dieser eine bestimmte Software installieren. Diese Software wird als Instant-Messaging-Client (IM-Client bezeichnet. Der Benutzer muss sich an einem Authentifikationsserver registrieren. Es wird ein Benutzerprofil angelegt, welches aus aus einem Benutzernamen (User ID) und einem Passwort (Pre-Shared-Key) besteht. Diese Daten werden beim Login des Benutzers vom \ac{IMS} abgefragt. Ein Benutzerprofil kann weitere personenbezogenen Daten bestehen, wie zum Beispiel, Wohnort, Geschlecht und Geburtsdatum. Die Anzahl der Server für die Authentifizierung und der Bereitstellung des Dienstes variiert je nach der Anforderung an Verfügbarkeit und Anzahl der zu erwartenden Nutzer des \ac{IMS}. Die horizontale Skalierung von Servern und Diensten unterliegt allein dem Betreiber dieser Systeme, häufig finden sich jedoch Cluster-Systeme mit intelligenter Lastverteilung (Load-Balancing). \autoref{img:StrukturIMS} zeigt den allgemeinen Aufbau eines \ac{IMS}.\cite{anastasiaIMS}
 
 \begin{figure}[h]
 	\centering
-	\includegraphics{images/GrundlegendeStrukturIMS}
+	\includegraphics[width=.65\textwidth]{images/GrundlegendeStrukturIMS}
 	\caption{Allgemeine Struktur eines Instant-Messaging-Systems \cite{anastasiaIMS}}
 	\label{img:StrukturIMS}
 \end{figure}
 
-Hat sich der Benutzer mit seinen Login-Daten erfolgreich gegenüber dem Authentifikationsserver authentifiziert, kann er andere, bereits registrierte, Benutzer kontaktieren. Die Verbindungsinformationen wie zum Beispiel IP-Adresse, die dem Client lokal zugewiesene Portnummer und die Kontaktliste (Freunde des Benutzers) werden an den Präsenzserver übermittelt. Dieser ist abhängig von der Implementierungsform ein Teil des IM-Servers oder ein eigenständiger Server. Der Präsenzserver überprüft, welche Benutzer aus der Kontaktliste verfügbar und angemeldet sind. Der Server sendet dem Benutzer die Ergebnisse der Statusüberprüfung zurück. Ist einer der gewünschten Benutzer \glqq online\grqq (verfügbar) kann durch die Auswahl der entsprechenden Kennung eine Verbindung aufgebaut werden und der Nachrichtenaustausch kann beginnen. Das ist möglich, weil der Server dem Sender die IP-Adresse und die Ziel-Portnummer des Kommunikationspartners übermittelt. Die Nachrichten werden direkt zwischen den Clients übertragen oder über den Server zwischen den Kommunikationspartnern übermittelt. Die Art der Übertragung ist von System zu System je nach Realisierung unterschiedlich. Der Kommunikationspfad ist abhängig von der Architektur und dem verwendeten Protokoll. Eine Nachricht kann zentral über den Server vermittelt werden (vgl. \autoref{img:StrukturIMS}-indirekte Nachricht) oder nach dem Peer-to-Peer-Prinzip (vgl. \autoref{img:StrukturIMS}-direkte Nachricht) erfolgen. 
+In der Abbildung wird eine horizontale oder vertikale Skalierung des \ac{IMS} vernachlässigt. Der Authentifikationsserver symbolisiert einen oder mehrere Server. Hat sich der Benutzer mit seinen Login-Daten erfolgreich gegenüber dem Authentifikationsserver authentifiziert, kann er andere, bereits registrierte, Benutzer kontaktieren. Die Verbindungsinformationen wie zum Beispiel IP-Adresse, die dem Client lokal zugewiesene Portnummer und die Kontaktliste (Freunde des Benutzers) werden an den Präsenzserver übermittelt. Dieser ist abhängig von der Implementierungsform ein Teil des IM-Servers oder ein eigenständiger Server. Der Präsenzserver überprüft, welche Benutzer aus der Kontaktliste verfügbar und angemeldet sind. Der Server sendet dem Benutzer die Ergebnisse der Statusüberprüfung zurück. Ist einer der gewünschten Benutzer \glqq online\grqq (verfügbar) kann durch die Auswahl der entsprechenden Kennung eine Verbindung aufgebaut werden und der Nachrichtenaustausch kann beginnen. Das ist möglich, weil der Server dem Sender die IP-Adresse und die Ziel-Portnummer des Kommunikationspartners übermittelt. Die Nachrichten werden direkt zwischen den Clients übertragen oder über den Server zwischen den Kommunikationspartnern übermittelt. Die Art der Übertragung ist von System zu System je nach Realisierung unterschiedlich. Der Kommunikationspfad ist abhängig von der Architektur und dem verwendeten Protokoll. Eine Nachricht kann zentral über den Server vermittelt werden (siehe \autoref{img:StrukturIMS}-indirekte Nachricht) oder nach dem Peer-to-Peer-Prinzip (siehe \autoref{img:StrukturIMS}-direkte Nachricht) erfolgen. 
 
 \section{XMPP-Extensible Messaging and Presence Protocol}
 \label{sec:XMPP}
@@ -458,6 +462,9 @@ Hat sich der Benutzer mit seinen Login-Daten erfolgreich gegenüber dem Authenti
 	\item Schließen des \ac{XML} streams
 	\item Schließen der \ac{TCP} Verbindung
 \end{enumerate}
+
+\pagebreak
+
 Die folgende \autoref{img:XMPPcommunication} zeigt den Start einer Kommunikation, wie im genannten Ablauf dargestellt, über \ac{XMPP} und den \ac{XML}-streams.
 
 \begin{figure}[h]
@@ -466,16 +473,20 @@ Die folgende \autoref{img:XMPPcommunication} zeigt den Start einer Kommunikation
 	\caption{Kommunikationsaufbau des \ac{XMPP}-Protokolls}
 	\label{img:XMPPcommunication}
 \end{figure} 
-\newpage
-Für den Austausch von Daten gibt es zwei elementare Konzepte. Zum einen die \ac{XML}-Streams und die \ac{XML}-Stanzas. Diese zwei Konzepte werden definiert um das Verständnis des Datenaustauschs, wie es im obigen Ablauf definiert ist, zu erlangen. Bei dem Austausch der Daten mittels \ac{XML} streams wird von einem Container zwischen den Teilnehmern gesprochen. Der \ac{XML} stream ist durch den \glqq stream header\grqq (z.B. \ac{XML} <stream>) und dem Ende des streams, dargestellt durch \ac{XML} </streams>, eindeutig definiert. Die Anzahl der austauschbaren \ac{XML} Elemente ist unbegrenzt und durch die Lebensdauer des streams definiert. Das \ac{XML} stanza wird nun als diskrete semantische Einheit strukturierter Daten, das von einem Teilnehmer zu einem anderen über den \ac{XML} stream gesendet wird bezeichnet. Das \ac{XML} stanza ist ein direktes Kind-Element des streams. Ein stanza kann wiederum selbst Kind-Elemente enthalten, das den \ac{XML} stream definiert. Im Kern fungiert der \ac{XML} stream wie eine Hülle um alle \ac{XML} stanzas, die während einer Session versendet werden. Ein Aufbau kann wie in der folgenden \autoref{img:StrukturXMLstream} repräsentiert werden. \cite{RFC6120Sec4}
+
+Für den Austausch von Daten gibt es zwei elementare Konzepte. Zum einen die \ac{XML}-Streams und die \ac{XML}-Stanzas. Diese zwei Konzepte werden definiert um das Verständnis des Datenaustauschs, wie es im obigen Ablauf definiert ist, zu erlangen. Bei dem Austausch der Daten mittels \ac{XML} streams wird von einem Container zwischen den Teilnehmern gesprochen. Der \ac{XML} stream ist durch den \glqq stream header\grqq (z.B. \ac{XML} <stream>) und dem Ende des streams, dargestellt durch \ac{XML} </streams>, eindeutig definiert. Die Anzahl der austauschbaren \ac{XML} Elemente ist unbegrenzt und durch die Lebensdauer des streams definiert. Das \ac{XML} stanza wird nun als diskrete semantische Einheit strukturierter Daten, das von einem Teilnehmer zu einem anderen über den \ac{XML} stream gesendet wird bezeichnet. Das \ac{XML} stanza ist ein direktes Kind-Element des streams. Ein stanza kann wiederum selbst Kind-Elemente enthalten, das den \ac{XML} stream definiert. Im Kern fungiert der \ac{XML} stream wie eine Hülle um alle \ac{XML} stanzas, die während einer Session versendet werden.
+
+\pagebreak
+
+Ein Aufbau kann wie in der folgenden \autoref{img:StrukturXMLstream} repräsentiert werden. \cite{RFC6120Sec4}
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=1.2]{images/XML_Stream}
 	\caption{Allgemeine Struktur eines XML streams}
 	\label{img:StrukturXMLstream}
 \end{figure}
-\newpage
 
+\pagebreak
 
 \section{Grundlagen von Datenbanken}
 \label{sec:Datenbank}
@@ -707,11 +718,8 @@ Die Erkenntnis dieser Aufzählung zeigt, wie schlicht Bootstrap verwendet werden
 \end{figure}
 \pagebreak
 
-\chapter{Umsetzung und Implementierung}
-\label{chap:Umsetzung}
-
-\section{Diskussion über die Art der Benutzeroberfläche}
-\label{sec:DiskussionGUI}
+\chapter{Diskussion über die Art der Benutzeroberfläche}
+\label{chap:DiskussionGUI}
 
 Mit den theoretischen Inhalten aus \autoref{sec:Benutzeroberfläche} besteht Kenntnis über die Kernregeln einer grafischen Benutzeroberfläche. Um diese Regeln umzusetzen, sind vorab mehrere Aspekte, welche nachfolgend aufgeführt sind, zu beachten.
 \begin{itemize}
@@ -721,12 +729,17 @@ Mit den theoretischen Inhalten aus \autoref{sec:Benutzeroberfläche} besteht Ken
 \end{itemize}
 Die Programmiersprache ist für jedes Projekt frei wählbar. Neben Vorteilen und Erfahrungen spielen persönliche Interessen ein großer Faktor bei der Wahl der Programmiersprache. Mit der Entscheidung über die Programmiersprache kann indirekt die Basis für eine grafische Benutzeroberfläche gelegt werden, je nachdem ob Backend und Frontend in der gleichen Programmiersprache sind. Aus diesen und weiteren Gründen wird in diesem Kapitel die Möglichkeiten einer grafischen Benutzeroberfläche mit der gewählten Sprache Python erörtert. Dabei spielt die Plattform ebenfalls eine wichtige Rolle. Diese definiert, wie und worauf der Benutzer das Programm nutzen kann. Welche Plattformen in Verbindung mit Python zur Verfügung stehen und welche, bezogen auf die Projektanforderungen, verwendet werden können, wird in den folgenden Abschnitten erörtert. Im Falle einer Entscheidung ist der Aufwand, in Form der Zeitspanne, ein wichtiges Kriterium, welches zu Diskussion beiträgt. Dieses Kriterium, bildet die Möglichkeit die Projektumsetzung mit den Projektanforderungen zu vergleichen. Bei der grafische Benutzeroberfläche nimmt das Kriterium Einfluss auf die Wahl eines Frameworks.
 
-\subsection{GUI-Programmierung mit Python}
-\label{subsec:GuiPython}
+\section{GUI-Programmierung mit Python}
+\label{sec:GuiPython}
+
 Bei der Umsetzung einer grafischen Benutzeroberfläche müssen Regeln bezüglich der Usability (\autoref{sec:Benutzeroberfläche}) und die Eigenschaften der Programmiersprache beachtet werden. Mit Python als Programmiersprache kommen mehrere Module, welche für die grafische Benutzeroberfläche benutzt werden können, einher. Für diese Module ist vorab die Plattform zu wählen. Dabei geht es um die Diskussion, auf welche Plattform sich eine Chatapplikation mit Bezug zu den Nutzern besser realisieren lässt.
 
-Die \ac{GUI}-Programmierung bei Python unterscheidet sich im Konzept nicht allzu sehr von anderen Programmiersprachen. Neben Schaltflächen stehen auch Fenster oder Menüs als Komponenten zur Verfügung. Angeordnet können diese in sogenannten Container. Für eine geeignete Anwenderschnittstelle müssen die Komponenten in die Container integriert werden. Hinzukommt ein äußerer Container, auch als Frame bezeichnet, ein Layout-Manager und eine Implementierung damit Aktionen durch Komponenten ausgelöst werden können. Wie im \autoref{sec:Benutzeroberfläche} erläutert, folgt eine \ac{GUI} mehreren Regeln. Demnach gibt es für die Programmierung einer grafischen Benutzeroberfläche vielerlei Möglichkeiten. In Python werden \ac{GUI} Frameworks angeboten, die eine Programmierung erleichtern sollen. Diese Frameworks können sich in der Art und der Verwendung unterscheiden. Außerdem sind Frameworks plattformabhängig. Damit ist eine Verwendung als Desktop- oder Webapplikation gemeint. Daher ist in der ersten Phase eine Plattform, anhand der Anforderungen an die Chatapplikation, zu evaluieren.\cite{Steyer2018} \\
-Die nachfolgende \autoref{tab:EntscheidungsmatrixFrameworkart} spiegelt die Ergebnisse eines Vergleichs zwischen den Tool-Frameworks und den Web-Frameworks von Python wider. Die Kriterien orientieren sich am Projekt und werden nachfolgend erläutert. Die Nutzerfreundlichkeit beinhaltet die Frage nach der Verständlichkeit. Dabei geht es darum, wie verständlich eine GUI mithilfe des Tools aufgebaut werden kann. Außerdem beinhaltet das Kriterium auch die Möglichkeiten des Tools, auf die Nutzerfreundlichkeit einzugehen. Die Schwierigkeit orientiert sich an der Implementierung. Dafür wird betrachtet wie leicht, schnell und komfortabel die Frameworkart in das Gesamtsystem integriert werden kann. Unabhängig von der Schwierigkeit geht es bei der Umsetzbarkeit um die Mittel, welche für eine Umsetzung benötigt werden, sowie auch um den Aufwand bei der Umsetzung. Die Kompatibilität umfasst die Unabhängigkeit von Betriebssystemen, Browsern und weitere Aspekte. Ein Standardkriterium für eine grafische Oberfläche ist das Design. Demnach geht es um die Möglichkeiten ein gutes Erscheinungsbild der Oberfläche mit dem entsprechenden Framework umzusetzen. Das letzte Kriterium, Verwendungszweck, bildet die Verbindung zum Projekt. Dafür wird analysiert, wie die Frameworkart zum Zweck des Projektes passt. Die Gewichtung der Kriterien innerhalb der \autoref{tab:EntscheidungsmatrixFrameworkart} sind der \autoref{tab:GewichtungFrameworkart} des Anhangs zu entnehmen.
+Die \ac{GUI}-Programmierung bei Python unterscheidet sich im Konzept nicht allzu sehr von anderen Programmiersprachen. Neben Schaltflächen stehen auch Fenster oder Menüs als Komponenten zur Verfügung. Angeordnet können diese in sogenannten Container. Für eine geeignete Anwenderschnittstelle müssen die Komponenten in die Container integriert werden. Hinzukommt ein äußerer Container, auch als Frame bezeichnet, ein Layout-Manager und eine Implementierung damit Aktionen durch Komponenten ausgelöst werden können. Wie im \autoref{sec:Benutzeroberfläche} erläutert, folgt eine \ac{GUI} mehreren Regeln. Demnach gibt es für die Programmierung einer grafischen Benutzeroberfläche vielerlei Möglichkeiten. In Python werden \ac{GUI} Frameworks angeboten, die eine Programmierung erleichtern sollen. Diese Frameworks können sich in der Art und der Verwendung unterscheiden. Außerdem sind Frameworks plattformabhängig. Damit ist eine Verwendung als Desktop- oder Webapplikation gemeint. Daher ist in der ersten Phase eine Plattform, anhand der Anforderungen an die Chatapplikation, zu evaluieren.\cite{Steyer2018}
+
+\pagebreak
+
+\autoref{tab:EntscheidungsmatrixFrameworkart} spiegelt die Ergebnisse eines Vergleichs zwischen den Tool-Frameworks und den Web-Frameworks von Python wider.
+
 \renewcommand{\arraystretch}{2}
 \begin{table}[h]
 	\centering
@@ -750,8 +763,11 @@ Die nachfolgende \autoref{tab:EntscheidungsmatrixFrameworkart} spiegelt die Erge
 		\textbf{Gesamtwertungszahl} & \textbf{100\%} & \textbf{2,161} & \textbf{1,831} \\
 	\end{tabular}
 	\label{tab:EntscheidungsmatrixFrameworkart}
-\end{table} \\
-Die \autoref{tab:EntscheidungsmatrixFrameworkart} bildet eine Hilfestellung zur Entscheidung einer passenden Frameworkart für das Projekt. Die Bewertung der Tools entsprechend der Kriterien folgt dem Benotungsschema der akademischen Bildung. Demnach ist eine 1 sehr gut und eine 6 ungenügend. Im Kriterium Nutzerfreundlichkeit schließen beide Frameworks mit der gleichen Note ab, da die Nutzerfreundlichkeit abhängig vom Designstil ist und bei beiden Frameworks umgesetzt werden kann. Die Schwierigkeit, wie das Kriterium in der Einführung definiert wurde, bekommt beim Web-Framework eine bessere Bewertung. Grund hierfür ist, dass für das Web-Framework überwiegend keine aufwändigen Module in Python benötigt werden. Die Gestaltung erfolgt nämlich über \ac{HTML} und \ac{CSS}, welche dann mit einem schlichten Modul verknüpft bzw. aufgerufen werden können. Aufgrund von Vorkenntnissen sowohl in \ac{HTML} als auch in \ac{CSS} wird die Schwierigkeit für das Web-Framework besser bewertet. Bei der Umsetzbarkeit steht das Tool-Framework aufgrund der Verwendung eines gesamten Moduls besser da. Ein Web-Framework bringt \ac{HTML}, \ac{CSS}, \ac{JS} und das Modul mit was ein größeren Umfang bedeutet. Vor allem muss der Programmierer mit allen Elementen umgehen können, weshalb eine Umsetzung schwieriger sein könnte. In der Kompatibilität wird das Web-Framework aufgrund der Unabhängigkeit bezüglich des Betriebssystems besser bewertet. Außerdem kann eine ausgelieferte \ac{HTML}-Seite von nahezu allen Browsern gelesen werden. Eine Möglichkeit die Lösung auf mobilen Endgeräten zu benutzen ist ebenfalls enthalten. Im Design unterscheiden sich die Frameworkarten nicht. Beide bieten vielerlei Möglichkeiten auf gestalterische Details einzugehen. Aufgrund des Projektes, einen Chat über \ac{XMPP} und ejabberd zu realisieren wird schon hauptsächlich das Internet genutzt. Dadurch bietet es sich an, den Server eine \ac{HTML}-Seite ausliefern zulassen. Aus diesem Grund wird das Web-Framework im Rahmen dieses Kriteriums besser bewertet. Anhand der Gesamtwertungszahl entsprechend der Benotung und der Gewichtung sind beide Frameworks zu empfehlen, dennoch schließt das Web-Framework besser ab, weshalb im weiteren Verlauf ein Web-Framework zum Einsatz kommen soll. \cite{FrameworkOverview} \cite{WebFramework}\\ 
+\end{table}
+
+Die Kriterien orientieren sich am Projekt und werden nachfolgend erläutert. Die Nutzerfreundlichkeit beinhaltet die Frage nach der Verständlichkeit. Dabei geht es darum, wie verständlich eine GUI mithilfe des Tools aufgebaut werden kann. Außerdem beinhaltet das Kriterium auch die Möglichkeiten des Tools, auf die Nutzerfreundlichkeit einzugehen. Die Schwierigkeit orientiert sich an der Implementierung. Dafür wird betrachtet wie leicht, schnell und komfortabel die Frameworkart in das Gesamtsystem integriert werden kann. Unabhängig von der Schwierigkeit geht es bei der Umsetzbarkeit um die Mittel, welche für eine Umsetzung benötigt werden, sowie auch um den Aufwand bei der Umsetzung. Die Kompatibilität umfasst die Unabhängigkeit von Betriebssystemen, Browsern und weitere Aspekte. Ein Standardkriterium für eine grafische Oberfläche ist das Design. Demnach geht es um die Möglichkeiten ein gutes Erscheinungsbild der Oberfläche mit dem entsprechenden Framework umzusetzen. Das letzte Kriterium, Verwendungszweck, bildet die Verbindung zum Projekt. Dafür wird analysiert, wie die Frameworkart zum Zweck des Projektes passt. Die Gewichtung der Kriterien innerhalb der \autoref{tab:EntscheidungsmatrixFrameworkart} sind der \autoref{tab:GewichtungFrameworkart} des Anhangs zu entnehmen.
+
+Die \autoref{tab:EntscheidungsmatrixFrameworkart} bildet eine Hilfestellung zur Entscheidung einer passenden Frameworkart für das Projekt. Die Bewertung der Tools entsprechend der Kriterien folgt dem Benotungsschema der akademischen Bildung. Demnach ist eine 1 sehr gut und eine 6 ungenügend. Im Kriterium Nutzerfreundlichkeit schließen beide Frameworks mit der gleichen Note ab, da die Nutzerfreundlichkeit abhängig vom Designstil ist und bei beiden Frameworks umgesetzt werden kann. Das in der Einführung definierte Kriterium \glqq Schwierigkeit\grqq, bekommt beim Web-Framework eine bessere Bewertung. Grund hierfür ist, dass für das Web-Framework überwiegend keine aufwändigen Module in Python benötigt werden. Die Gestaltung erfolgt nämlich über \ac{HTML} und \ac{CSS}, welche dann mit einem schlichten Modul verknüpft bzw. aufgerufen werden können. Aufgrund von Vorkenntnissen sowohl in \ac{HTML} als auch in \ac{CSS} wird die Schwierigkeit für das Web-Framework besser bewertet. Bei der Umsetzbarkeit steht das Tool-Framework aufgrund der Verwendung eines gesamten Moduls besser da. Ein Web-Framework bringt \ac{HTML}, \ac{CSS}, \ac{JS} und das Modul mit was ein größeren Umfang bedeutet. Vor allem muss der Programmierer mit allen Elementen umgehen können, weshalb eine Umsetzung schwieriger sein könnte. In der Kompatibilität wird das Web-Framework aufgrund der Unabhängigkeit bezüglich des Betriebssystems besser bewertet. Außerdem kann eine ausgelieferte \ac{HTML}-Seite von nahezu allen Browsern gelesen werden. Eine Möglichkeit die Lösung auf mobilen Endgeräten zu benutzen ist ebenfalls enthalten. Im Design unterscheiden sich die Frameworkarten nicht. Beide bieten vielerlei Möglichkeiten auf gestalterische Details einzugehen. Aufgrund des Projektes, einen Chat über \ac{XMPP} und ejabberd zu realisieren wird schon hauptsächlich das Internet genutzt. Dadurch bietet es sich an, den Server eine \ac{HTML}-Seite ausliefern zulassen. Aus diesem Grund wird das Web-Framework im Rahmen dieses Kriteriums besser bewertet. Anhand der Gesamtwertungszahl entsprechend der Benotung und der Gewichtung sind beide Frameworks zu empfehlen, dennoch schließt das Web-Framework besser ab, weshalb im weiteren Verlauf ein Web-Framework zum Einsatz kommen soll. \cite{FrameworkOverview} \cite{WebFramework}\\ 
 Mit diesem Ergebnis müssen die verschiedenen Möglichkeiten eine Web-Framework in Bezug auf Python analysiert und bewertet werden. Auch in diesem Fall liefert eine Entscheidungsmatrix ein aufschlussreiches Ergebnis. Die Definition der selben Bewertungskriterien sind der Einführung der \autoref{tab:EntscheidungsmatrixFrameworkart} zu entnehmen. Weitere Kriterien wie Umfang und Komplexität werden in die Betrachtung miteinbezogen. Der Umfang spiegelt die Möglichkeiten und Größe im Aufbau des Tools wider. Die Komplexität befasst sich mit dem Aufwand einer Implementierung sowie auch die Hilfestellungen durch geeignete Dokumentationen. Das Bewertungsschema orientiert sich ebenfalls an der \autoref{tab:EntscheidungsmatrixFrameworkart}. Außerdem sind die Werte der Gewichtung bezogen auf das jeweilige Kriterium in der \autoref{tab:GewichtungWebFramework} im Anhang dargestellt.
 \begin{table}[h]
 	\centering
@@ -771,7 +787,7 @@ Mit diesem Ergebnis müssen die verschiedenen Möglichkeiten eine Web-Framework 
 	\end{tabular}
 	\label{tab:EntscheidungsmatrixWebFramework}
 \end{table}
-Die Gesamtwertungszahl, welches der \autoref{tab:EntscheidungsmatrixWebFramework} entnommen werden kann, liefert ein knappes Ergebnis. Demnach bietet sich Flask am besten als Framework einer grafischen Oberfläche an. Im Umfang setzt sich das Tool Django gegen die Konkurrenten durch, da es aufgrund seiner Größe vielerlei Möglichkeiten mitbringt. Während die anderen Tools überwiegend als Mikroframework bezeichnet werden, zeichnet sich Django als Full-Stack/high-level Framework aus. Ebenfalls ein Grund weshalb die Schwierigkeit bei Django mit einer 2,5 bewertet wurde. Ein Mikroframework bildet in der Hinsicht die leichtere und schnellere Variante. Die Komplexität wurde vor allem bei Flask und Bottle gut bewertet. Grund hierfür ist unter anderem eine geringere Komplexität durch Möglichkeiten einer schlichten Implementierung. Außerdem bietet bspw. Flask eine sehr gute Dokumentation, welche die Komplexität verringern kann. Der Verwendungszweck ist nahezu gleichbleibend, da alle Frameworks genutzt werden können um das Projekt umzusetzen. Ausschließlich bei Bottle ist überwiegend die Rede von einem Framework das vor allem zur Einführung in das Themengebiet der Programmierung grafischer Oberflächen mit eine Web-Framework benutzt wird. Anhand des Ergebnisses und der sehr guten Dokumentation wird Flask als Web-Framework zum Einsatz kommen. Außerdem wird die Entscheidung durch die Statistiken aus dem Jahr 2018 (Abbildung) und dem Jahr 2020 (\cite{webframeworksStatistic}), in der Flask auch zu den beliebtesten Web-Frameworks zählt, unterstützt.
+Die Gesamtwertungszahl, welches der \autoref{tab:EntscheidungsmatrixWebFramework} entnommen werden kann, liefert ein knappes Ergebnis. Demnach bietet sich Flask am besten als Framework einer grafischen Oberfläche an. Im Umfang setzt sich das Tool Django gegen die Konkurrenten durch, da es aufgrund seiner Größe vielerlei Möglichkeiten mitbringt. Während die anderen Tools überwiegend als Mikroframework bezeichnet werden, zeichnet sich Django als Full-Stack/high-level Framework aus. Ebenfalls ein Grund weshalb die Schwierigkeit bei Django mit einer 2,5 bewertet ist. Ein Mikroframework bildet in der Hinsicht die leichtere und schnellere Variante. Die Komplexität ist vor allem bei Flask und Bottle gut bewertet. Grund hierfür ist unter anderem eine geringere Komplexität durch Möglichkeiten einer schlichten Implementierung. Außerdem bietet bspw. Flask eine sehr gute Dokumentation, welche die Komplexität verringern kann. Der Verwendungszweck ist nahezu gleichbleibend, da alle Frameworks genutzt werden können um das Projekt umzusetzen. Ausschließlich bei Bottle ist überwiegend die Rede von einem Framework das vor allem zur Einführung in das Themengebiet der Programmierung grafischer Oberflächen mit eine Web-Framework benutzt wird. Anhand des Ergebnisses und der sehr guten Dokumentation wird Flask als Web-Framework zum Einsatz kommen. Außerdem wird die Entscheidung durch die Statistiken aus dem Jahr 2018 (Abbildung) und dem Jahr 2020 (\cite{webframeworksStatistic}), in der Flask auch zu den beliebtesten Web-Frameworks zählt, unterstützt.
 \cite{BottleDoc} \cite{CherryPyDoc} \cite{DjangoDoc} \cite{FlaskDoc}
 \begin{figure}[h]
 	\centering
@@ -780,9 +796,9 @@ Die Gesamtwertungszahl, welches der \autoref{tab:EntscheidungsmatrixWebFramework
 	\label{img:StatistikWebFrameworks}
 \end{figure}
 
-\subsection{Flask}
-\label{subsec:Flask}
-Wie unter \autoref{subsec:GuiPython} beschrieben, wird im Rahmen der Studienarbeit Flask verwendet. Es wird von mehreren Quellen und der offiziellen Dokumentation als Microframework betitelt. Grund hierfür ist der Aufbau von Flask. Bei der Definition des Begriffs \glqq micro\grqq{} ist nicht das Resultat zu betrachten. Mit Flask als Framework muss nicht die gesamte Web-Anwendung in einer Datei dargestellt werden. Hierbei handelt es sich eher um einen simplen Kern, welcher der Ausgangspunkt und das Ziel von Flask darstellt. Ausgehend von dem simplen Kern besitzt Flask die Möglichkeit in der Größe zu skalieren. Daher kann, bezogen auf die Grundstruktur von Flask, dem Begriff Framework das \glqq micro\grqq{} vorangestellt werden.\cite{FlaskDoc}\\
+\section{Flask}
+\label{sec:Flask}
+Wie unter \autoref{sec:GuiPython} beschrieben, wird im Rahmen der Studienarbeit Flask verwendet. Es wird von mehreren Quellen und der offiziellen Dokumentation als Microframework betitelt. Grund hierfür ist der Aufbau von Flask. Bei der Definition des Begriffs \glqq micro\grqq{} ist nicht das Resultat zu betrachten. Mit Flask als Framework muss nicht die gesamte Web-Anwendung in einer Datei dargestellt werden. Hierbei handelt es sich eher um einen simplen Kern, welcher der Ausgangspunkt und das Ziel von Flask darstellt. Ausgehend von dem simplen Kern besitzt Flask die Möglichkeit in der Größe zu skalieren. Daher kann, bezogen auf die Grundstruktur von Flask, dem Begriff Framework das \glqq micro\grqq{} vorangestellt werden.\cite{FlaskDoc}\\
 Auch Autoren, wie K. Relan mit seinem Werk über Flask und RESTAPIs, schmälern nicht die Funktionalität von Flask, sondern loben die simple Struktur mit der Erweiterbarkeit. Dadurch haben sie die Möglichkeit der Anwendung ihre eigene Konfiguration zuzuteilen und mit Erweiterungen leicht zu skalieren. \cite{FlaskRESTAPIsRelan}\\
 Flask verknüpft die Entwicklung einer Web-Anwendung mit Python, weshalb das Framework eine Schnittstelle zum Webserver bildet. Bekannt ist Flask durch die Eigenschaft schnell und leicht eine minimale Anwendung zu implementieren und diese bei Bedarf in der Größe zu skalieren. Für die Verwendung von Flask sind zwei Bibliotheken wichtig. Bei diesen handelt es sich zum Einen um die \ac{WSGI}-Bibliothek Werkzeug und der Template-Bibliothek Jinja2. Module die standardmäßig von Flask verwendet werden. Flask bildet das Bindeglied zwischen den Modulen und erlaubt es bspw. mithilfe von Routen an bestimmten Endpunkten Funktionen, Aktionen oder ähnliches auszuführen. Ein Beispiel hierfür, wäre das ausliefern einer \ac{HTML}-Datei, welches im \autoref{lst:FlaskMinApp} dargestellt wird.
 \begin{lstlisting}[language=Python,caption=Example Listing of Flask Python,label={lst:FlaskMinApp}]
@@ -800,14 +816,14 @@ Das \autoref{lst:FlaskMinApp} spiegelt das Routen sowie das Rendern einer \ac{HT
 	\caption{Keine Erreichbarkeit der Webseite, eigene Darstellung}
 	\label{img:FlaskWebseiteNichtErreichabr}
 \end{figure}
-In dem Fall kann es sein die Flask-Applikation wurde noch nicht gestartet oder läuft auf einer anderen Adresse. Auch ein Netzwerkproblem könnte die Ursache hierfür sein. Bei der zweiten Möglichkeit befindet sich in der Flask-APP keine Route für die angegebene Adresse.
+In dem Fall kann es sein, dass die Flask-Applikation nicht aktiv ist oder auf einer anderen Adresse erreichbar ist. Auch ein Netzwerkproblem könnte die Ursache hierfür sein. Bei der zweiten Möglichkeit befindet sich in der Flask-APP keine Route für die angegebene Adresse.
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=1.0]{images/NotFound}
 	\caption{Keine Erreichbarkeit der Webseite, eigene Darstellung}
 	\label{img:FlaskWebseiteNotFound}
 \end{figure}
-In dem Fall kommt eine 404 mit der Bemerkung, dass die URL nicht gefunden wurde, zurück (\autoref{img:FlaskWebseiteNichtErreichabr}). Bei der letzten Möglichkeit handelt es sich um eine korrekte URL. Im Fall des Beispieles wäre die Adresse: \texttt{http://127.0.0.1:8000/home} eine im \autoref{lst:FlaskMinApp} dargestellte Route. Durch den Aufruf der URL wird die definierte Funktion ausgeführt. Bei dem Beispiel wird eine HTML-Datei ausgeliefert.
+In dem Fall kommt eine 404 mit der Bemerkung, dass die URL nicht gefunden wird, zurück (\autoref{img:FlaskWebseiteNichtErreichabr}). Bei der letzten Möglichkeit handelt es sich um eine korrekte URL. Im Fall des Beispieles wäre die Adresse: \texttt{http://127.0.0.1:8000/home} eine im \autoref{lst:FlaskMinApp} dargestellte Route. Durch den Aufruf der URL wird die definierte Funktion ausgeführt. Bei dem Beispiel wird eine HTML-Datei ausgeliefert.
 Nun besitzt Flask vielerlei Möglichkeiten um Anfrage (POST, GET, usw.) zu differenzieren. Diese zählen nicht zur Grundfunktionalität von Flask und sind daher nicht Bestandteil dieses Abschnittes. Der nächste Vorteil von Flask beinhaltet die Möglichkeit einen Webserver im Entwicklungsmodus zu starten und aktuelle Code-Zeilen zu testen.
 Flask ist also nicht zuständig für die Gestaltung der grafischen Oberfläche sondern benutzt sogenannte Templates in Form von HTML-Datei, die eine Webseite aufbauen. Für eine dynamische Webanwendung und den gestalterischen Aspekten sind statische Dateien, wie z.B. \ac{CSS}, notwendig. Aus diesem Grund benötigt Flask eine vorgegebene Ordnerstruktur, welche der nachfolgenden \autoref{img:TreeFlaskOrdnerstrukt} entnommen werden kann. Diese Struktur hilft um das Fehlerpotential, ausgelöst durch Zugriffe auf falsche Dateien, zu vermindern.
 \begin{figure}[h]
@@ -842,8 +858,8 @@ Das Listing zeigt eine minimale Anwendung, welche die Erweiterung für die Daten
 Diese Listings zeigen nur einen Ausschnitt welche Möglichkeiten das Web-Framework bietet. Dies ist mitunter der Grund für die Verwendung von Flask.\cite{FlaskDoc}
 \pagebreak
 
-\section{Verprobung eines Einsatzes von Kafka und Ejabberd in einem Messaging System}
-\label{sec:VerprbungIMS}
+\chapter{Verprobung eines Einsatzes von Kafka und Ejabberd in einem Messaging System}
+\label{chap:VerprbungIMS}
 
 Estrada und Ruiz sind der Meinung, das heutzutage kontinuierlich Echtzeitinformationen generiert werden \cite{estradaRuiz2016}. Die Daten müssen schnell und auf einfache Weise zu ihren Empfängern geliefert werden. Nach der Ansicht von Estrada und Ruiz \cite{estradaRuiz2016} sind Systeme, die Informationen produzieren (englisch Producer), und die Systeme, die Informationen konsumieren (englisch Consumer), untereinander unzugänglich. Berle \cite{berleKafkaOverview} weist auf Herausforderungen hin, die bei einem Versand von Nachrichten von einem System A an System B vorhanden sind, wenn diese direkt über \acs{RMI}\footnote{\ac{RMI} bezeichnet einen Aufruf eines entfernten Objekts und unterscheidet sich von einem \ac{RPC} nur darin, dass durch eine lokale Prozedur ein Objekt statt einer Anwendung aufgerufen wird.\cite[S.41]{andrew2008verteilte}}, einer \acs{REST} \acs{API} oder über Sockets miteinander kommunizieren, siehe \autoref{img:directCommunication}.
 
@@ -862,6 +878,8 @@ Estrada und Ruiz sind der Meinung, das heutzutage kontinuierlich Echtzeitinforma
 \item System B erhält eine Nachricht von System A und stürzt während der Verarbeitung ab. Für System A gilt die Nachricht als verarbeitet, obwohl das nicht der Fall ist.
 \end{itemize}
 
+Um die Probleme lösen zu können, werden nach Berle Messaging Systeme zwischen Sender und Empfänger platziert, siehe \autoref{img:messagingSystemsCommunication}.
+
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=\linewidth]{images/messagingSystemsCommunication}
@@ -869,9 +887,7 @@ Estrada und Ruiz sind der Meinung, das heutzutage kontinuierlich Echtzeitinforma
 	\label{img:messagingSystemsCommunication}
 \end{figure}
 
-\pagebreak
-
-Um die Probleme lösen zu können, werden nach Berle Messaging Systeme zwischen Sender und Empfänger platziert, siehe \autoref{img:messagingSystemsCommunication}. Konkreter kommen sogenannte Broker, auch Message Broker genannt, zum Einsatz. Ein Broker ist nach \cite{kimmerBroker} eine Einrichtung zur Vermittlung von Nachrichten zwischen einem Sender und einem oder mehreren Empfängern. Typische Aufgaben eines Message Brokers sind \cite{kimmerBroker}:
+Konkreter kommen sogenannte Broker, auch Message Broker genannt, zum Einsatz. Ein Broker ist nach \cite{kimmerBroker} eine Einrichtung zur Vermittlung von Nachrichten zwischen einem Sender und einem oder mehreren Empfängern. Typische Aufgaben eines Message Brokers sind \cite{kimmerBroker}:
 
 \begin{itemize}
 \item Empfang und Versand von Nachrichten
@@ -889,8 +905,8 @@ Sowohl ejabberd als auch Apache Kafka eignen sich, um Berles aufgeführten Probl
 \pagebreak
 
 
-\section{Aufbau und Entwurf der Architektur des Chatsystems}
-\label{sec:Architektur}
+\chapter{Aufbau und Entwurf der Architektur des Chatsystems}
+\label{chap:Architektur}
 
 Nach den Anforderungen (\autoref{Anforderungen}) und Zielen der Arbeit (\autoref{sec:Ziele}) soll ein \ac{IMS} auf Basis eines \ac{XMPP}-Chatsystems entworfen und programmiert werden. Anschließend soll das gleiche Chatsystem auf Basis des Frameworks Apache Kafka implementiert und mit dem \ac{XMPP}-Chatsystem verglichen werden. Hierfür muss ein verteiltes System entworfen werden, das die Anforderungen abdeckt.
 
@@ -927,7 +943,7 @@ Die Auflistung führt Ziele auf, die Tanenbaum \cite{andrew2008verteilte} in sei
 
 Die Ressourcen sind die Chat-Funktionalitäten die ein Benutzer wahrnehmen kann. Das entwickelte System sollte diese Funktionalitäten dem Benutzer einfach zugänglich machen. Einfach zugänglich machen bedeutet, dass ein Benutzer nicht manuell sämtliche Dienste über viele Anmeldungen aufrufen muss, damit eine Nachricht an einem anderen Benutzer versendet wird. Vielmehr soll das \ac{IMS}, nachdem der Benutzer einen zentralen Auftrag zum Senden einer Nachricht veranlasst hat, alle benötigten Dienste selbst ansteuern und die Nachricht zuverlässig versenden. Ob und wie viele weiteren Dienste hierfür benötigt werden, soll das System vor dem Benutzer verbergen. Diesen Sachverhalt bezeichnet Tanenbaum in \cite{andrew2008verteilte} als Verteilungstransparenz. Das System muss also verbergen, dass es mit einer Datenbank oder mit ejabberd kommunizieren muss, um die Nachricht dem Empfänger zu zustellen. Neumann  definiert Skalierbarkeit sehr ausführlich in \cite{neumannDistributed1994}. Neumann ist der Auffassung, dass ein verteiltes System, das hinsichtlich seiner Ausdehnung skaliert wird, nicht an Leistung verlieren darf. Konkret für das \ac{IMS} bedeutet das, das durch ein Hinzufügen oder Duplizieren von Diensten andere Teilsysteme nicht negativ beeinflusst werden dürfen. Neumann betont, dass es nicht sinnvoll ist, einen Dienst nur zentral auf einem Server bereitzustellen. Nach seiner Meinung können Server einer zentralisierten Architektur zum Engpass werden. Diese Ansicht ist zutreffend, wenn das \ac{IMS} als Produktivsystem entwickelt werden würde. Das ist aber in dieser Studienarbeit nicht der Fall und kann deshalb vernachlässigt werden.
 
-Das Ergebnis der Diskussion aus \autoref{sec:DiskussionGUI} bestätigt, das sich für die Art der Anwendung eine Webanwendung besonders eignet. Das erfordert, das der Benutzer mit dem \ac{IMS} direkt über den Browser interagieren kann. Die Webanwendung setzt allerdings eine Anwendungslogik voraus, die die Aktionen des Benutzers koordiniert und kontrolliert. Um das Gesamtsystem flexibel zu halten, sodass neben einem Benutzer auch andere Webdienste mit dem \ac{IMS} interagieren können, wird eine \acs{REST} \acs{API} programmiert. \acs{REST} bezeichnet einen Architekturstil, den Roy Fielding in seiner Dissertation \cite{fieldingREST} aus dem Jahr 2000 beschreibt. \ac{REST} verspricht Wiederverwendbarkeit, Erweiterbarkeit, Skalierbarkeit und die einfache Integration in die vorhandene Netz-Struktur \cite{fieldingREST}. Ressourcen werden über \acs{URI}s und über einen eindeutigen Namen aufgerufen. Die Ressourcen können in unterschiedlicher Form auftreten, wie zum Beispiel: \acs{PDF}, \acs{XML}, \acs{JSON} als moderne Form oder \acs{HTML}. Die Tatsache, dass eine Nachricht eines Benutzers über einen Aufruf einer \acs{URI}, wie zum Beispiel \texttt{https://chatportal.de/send-message}, von einem Client beauftragt werden kann, bestätigt die Vorteile des Architekturstils. Kommen in ferner Zukunft weitere Möglichkeiten für den Versand einer Nachricht hinzu, muss nur eine neue \acs{API}-Route eingerichtet werden. Das System bleibt flexibel und erweiterbar. Aus diesen Gründen wird für die Anwendungslogik eine \acs{REST} \acs{API} mit dem Framework Python Flask entwickelt.
+Das Ergebnis der Diskussion aus \autoref{chap:DiskussionGUI} bestätigt, das sich für die Art der Anwendung eine Webanwendung besonders eignet. Das erfordert, das der Benutzer mit dem \ac{IMS} direkt über den Browser interagieren kann. Die Webanwendung setzt allerdings eine Anwendungslogik voraus, die die Aktionen des Benutzers koordiniert und kontrolliert. Um das Gesamtsystem flexibel zu halten, sodass neben einem Benutzer auch andere Webdienste mit dem \ac{IMS} interagieren können, wird eine \acs{REST} \acs{API} programmiert. \acs{REST} bezeichnet einen Architekturstil, den Roy Fielding in seiner Dissertation \cite{fieldingREST} aus dem Jahr 2000 beschreibt. \ac{REST} verspricht Wiederverwendbarkeit, Erweiterbarkeit, Skalierbarkeit und die einfache Integration in die vorhandene Netz-Struktur \cite{fieldingREST}. Ressourcen werden über \acs{URI}s und über einen eindeutigen Namen aufgerufen. Die Ressourcen können in unterschiedlicher Form auftreten, wie zum Beispiel: \acs{PDF}, \acs{XML}, \acs{JSON} als moderne Form oder \acs{HTML}. Die Tatsache, dass eine Nachricht eines Benutzers über einen Aufruf einer \acs{URI}, wie zum Beispiel \texttt{https://chatportal.de/send-message}, von einem Client beauftragt werden kann, bestätigt die Vorteile des Architekturstils. Kommen in ferner Zukunft weitere Möglichkeiten für den Versand einer Nachricht hinzu, muss nur eine neue \acs{API}-Route eingerichtet werden. Das System bleibt flexibel und erweiterbar. Aus diesen Gründen wird für die Anwendungslogik eine \acs{REST} \acs{API} mit dem Framework Python Flask entwickelt.
 
 Beachtet man die oben aufgeführten Überlegungen, ergibt sich für die Architektur die in \autoref{img:logischeTopologieIMS} dargestellte logische Topologie.
 
@@ -953,10 +969,10 @@ Nachdem die Architektur nach den Aspekten eines verteilten Systems entworfen ist
 
 \pagebreak
 
-\section{Ejabberd als moderner Chatserver}
-\label{sec:ejabberd}
+\chapter{Ejabberd als moderner Chatserver}
+\label{chap:ejabberd}
 
-Ejabberd ist einer der bekanntesten \ac{XMPP}-Server auf der Welt und kann in vielerlei Hinsicht verwendet werden. Er ist lizenzfrei benutzbar und unterstützt das Betriebssystem Windows, Linux und Mac OS. Sowohl Großprojekte als auch kleine Instanzen machen sich die Eigenschaften von ejabberd zum Vorteil. Der Start von ejabberd ist dem Jahr 2002 zuzuordnen. Ejabberd ist eine Abkürzung und steht für \glqq Erlang Jabber Daemon\grqq. Wie die Definition zeigt bezieht sich ejabberd auf die Programmiersprache Erlang. Grund hierfür ist, dass die ejabberd Software in Erlang geschrieben ist. Seit dem Start wurde es von Grund auf für die Unternehmensbereitstellung entwickelt, vor allem mit dem Ziel robust zu sein. Aufgrund davon, dass der Fokus auf die Unternehmen liegt, ist es wichtig, die Fehleranfälligkeit von ejabberd zu minimieren. Ein Vorteil der sich bis zum heutigen Zeitpunkt bewahrt hat. Außerdem kann ejabberd die Ressourcen mehrerer geclusterter Systeme nutzen. Des Weiteren besitzt ejabberd die Eigenschaft der Skalierbarkeit, indem die Kapazitäten mit wenig Aufwand erhöht werden kann. Ejabberd kann verschieden benutzt werden. Im Fall der Studienarbeit wird die Community Edition von ejabberd benutzt, welche als open source zur Verfügung steht. Neben der Community Edition gibt es auch noch Möglichkeiten einer Business Edition, welches vor allem für die großen Unternehmen mit besserem Support und mehr Funktionen konzeptioniert ist. Die Architektur eines ejabberd-Services erweitert die Kernfunktionen von \ac{XMPP}, welches das Senden von Nachrichten ist, um Faktoren wie die Skalierbarkeit, Konfigurierbarkeit und Fehlertoleranz.
+Ejabberd ist einer der bekanntesten \ac{XMPP}-Server auf der Welt und kann in vielerlei Hinsicht verwendet werden. Er ist lizenzfrei benutzbar und unterstützt das Betriebssystem Windows, Linux und Mac OS. Sowohl Großprojekte als auch kleine Instanzen machen sich die Eigenschaften von ejabberd zum Vorteil. Der Start von ejabberd ist dem Jahr 2002 zuzuordnen. Ejabberd ist eine Abkürzung und steht für \glqq Erlang Jabber Daemon\grqq. Wie die Definition zeigt bezieht sich ejabberd auf die Programmiersprache Erlang. Grund hierfür ist, dass die ejabberd Software in Erlang geschrieben ist. Ejabber ist von Grund auf für die Unternehmensbereitstellung entwickelt, vor allem mit dem Ziel robust zu sein. Aufgrund davon, dass der Fokus auf die Unternehmen liegt, ist es wichtig, die Fehleranfälligkeit von ejabberd zu minimieren. Ein Vorteil der sich bis zum heutigen Zeitpunkt bewahrt hat. Außerdem kann ejabberd die Ressourcen mehrerer geclusterter Systeme nutzen. Des Weiteren besitzt ejabberd die Eigenschaft der Skalierbarkeit, indem die Kapazitäten mit wenig Aufwand erhöht werden kann. Ejabberd kann verschieden benutzt werden. Im Fall der Studienarbeit wird die Community Edition von ejabberd benutzt, welche als open source zur Verfügung steht. Neben der Community Edition gibt es auch noch Möglichkeiten einer Business Edition, welches vor allem für die großen Unternehmen mit besserem Support und mehr Funktionen konzeptioniert ist. Die Architektur eines ejabberd-Services erweitert die Kernfunktionen von \ac{XMPP}, welches das Senden von Nachrichten ist, um Faktoren wie die Skalierbarkeit, Konfigurierbarkeit und Fehlertoleranz.
 
 \bigskip
 
@@ -990,11 +1006,6 @@ Während für kleine Projekte die interne Datenbank Mnesia ausreichend ist, wird
 
 \pagebreak
 
-\section{Implementierung des Chatservers ejabberd}
-\label{sec:ChatserverEntwicklung}
-
-Die Grundlagen von ejabberd wurden im \autoref{sec:ejabberd} erläutert. In diesem Abschnitt wird beschrieben, welche Schritte notwendig sind, um den Chatserver ejabberd zu installieren und gemäß den Anforderungen aus \autoref{Anforderungen} zu konfigurieren.
-
 \section{Installation des Chatservers ejabberd}
 \label{sec:InstallationEjabberd}
 
@@ -1008,13 +1019,13 @@ Die Mindestanforderungen an Hardware sind in der ejabberd Dokumentation in \cite
 \item Kapazität des persistenten Speichers: 12 GB
 \end{itemize}
 
-Die ejabberd Software unterstützt nach \autoref{sec:ejabberd} das Betriebssystem Linux. Für die Installation wird ein Linux Ubuntu 18.04 (LTS) gewählt, weil das Betriebssystem lizenzfrei ist und kostenlos benutzt werden kann.
+Die ejabberd Software unterstützt nach \autoref{chap:ejabberd} das Betriebssystem Linux. Für die Installation wird ein Linux Ubuntu 18.04 (LTS) gewählt, weil das Betriebssystem lizenzfrei ist und kostenlos benutzt werden kann.
 
 \subsubsection*{Installation}
 
 Ejabberd wird als einzelne Instanz installiert. Es wird keine Installation als Cluster, das einen Verbund aus mehreren gleichwertigen ejabberd Instanzen definiert, benötigt.
 
-Nach \autoref{sec:ejabberd} ist die interne Mnesia Datenbank des Chatservers zu klein, um einen voll umfänglichen Testbetrieb zu realisieren. Aus diesem Grund wird eine MySQL-Datenbank installiert und eine sichere Installation durchgeführt. Die sichere Installation entfernt vorinstallierte Datenbanken und stellt sicher, dass die Datenbank über keine andere IP-Adresse als über die localhost IP-Adresse erreichbar ist.
+Nach \autoref{chap:ejabberd} ist die interne Mnesia Datenbank des Chatservers zu klein, um einen voll umfänglichen Testbetrieb zu realisieren. Aus diesem Grund wird eine MySQL-Datenbank installiert und eine sichere Installation durchgeführt. Die sichere Installation entfernt vorinstallierte Datenbanken und stellt sicher, dass die Datenbank über keine andere IP-Adresse als über die localhost IP-Adresse erreichbar ist.
 
 \bigskip
 
@@ -1112,7 +1123,7 @@ $ sudo systemctl status ejabberd
 
 Liefert die Statusabfrage (Befehl 3) keine Fehler, muss im nächsten Schritt ein Benutzer angelegt werden, der die nötigen Rechte besitzt, sich in das webbasierte Administrationsportal einzuloggen. Im Auslieferungszustand ist in der \ac{ACL} des ejabberd-Servers der Zugriff für die Administration auf den Benutzer \texttt{admin} beschränkt.\cite{ejabberdMGMT}
 
-Alle anders genannten Benutzer können sich mit ihrem Passwort im Administrationsportal einloggen, sie können aber keine Konfigurationen lesen oder verändern. Dieses Verhalten wurde durch einen Selbstversuch festgestellt. Über das in erlang programmierte Skript kann ejabberd verwaltet werden. Der Benutzer admin wird mit folgendem Befehl angelegt:\cite{ejabberdMGMT}
+Alle anders genannten Benutzer können sich mit ihrem Passwort im Administrationsportal einloggen, sie können aber keine Konfigurationen lesen oder verändern. Dieses Verhalten bestätigt ein Selbstversuch. Über das in erlang programmierte Skript kann ejabberd verwaltet werden. Der Benutzer admin wird mit folgendem Befehl angelegt:\cite{ejabberdMGMT}
 
 \bigskip
 
@@ -1130,7 +1141,7 @@ Die Konfiguration von ejabberd über seine Konfigurationsdatei ist im nächsten 
 \section{Konfiguration von ejabberd}
 \label{sec:Konfiguration}
 
-Dieses Kapitel stellt eine Zusammenfassung wichtiger Konfigurationsschritte dar, die gemäß den Anforderungen aus \autoref{Anforderungen} durchgeführt wurden.
+Dieses Kapitel stellt eine Zusammenfassung wichtiger Konfigurationsschritte dar, die den Anforderungen aus \autoref{Anforderungen} entsprechen.
 
 Ejabberd bietet zwei Konfigurationsdateien, die sich im Format unterscheiden. Mit beiden Dateien können dieselben Konfigurationen vorgenommen werden. Es empfiehlt sich, sich für ein Format zu entscheiden, um Inkonsistenzen oder Konfigurationsfehler zu vermeiden.
 
@@ -1202,8 +1213,6 @@ Die im Folgenden beschriebenen Konfigurationen weichen von der Standardkonfigura
 
 Wie in \autoref{sec:Datenbank} beschrieben, ist die interne Mnesia Datenbank nicht für die Verwendung in Produktivumgebungen geeignet und hat nur eine Speicherkapazität von maximal 2 GB. Aus diesem Grund wird die Konfigurationsdatei so angepasst, dass alle Daten in der in \autoref{sec:InstallationEjabberd} installierten MySQL Datenbank gespeichert werden. \autoref{lst:EjabberdDBEinstellung} zeigt die Einstellungen für die Datenbank, die ejabberd verwenden soll.
 
-\bigskip
-
 \begin{lstlisting}[language=yaml, caption={Anpassung der Einstellungen für die Datenbank},label={lst:EjabberdDBEinstellung}]
 auth_method: sql
 default_db: sql
@@ -1259,7 +1268,7 @@ Die Domain ist gleichzeitig die \ac{XMPP}-Domain mit der Benutzer adressiert wer
 
 \subsubsection*{Konfiguration der Zertifikate}
 
-Wie Zertifikate für die Verschlüsselung der Transportdaten beantragt werden können, ist in \autoref{sec:ChatserverEntwicklung} beschrieben. Nach \autoref{lst:ejabberdCerts} befindet sich das Zertifikat und die Datei, die den privaten Schlüssel enthält, im Ornder \texttt{/etc/ejabberd/certs}. Der Ort der Zertifikate muss in der Konfigurationsdatei angegeben werden, sodass ejabberd und ein Client einen verschlüsselten Kanal aufbauen können.
+Wie Zertifikate für die Verschlüsselung der Transportdaten beantragt werden können, ist in \autoref{sec:InstallationEjabberd} beschrieben. Nach \autoref{lst:ejabberdCerts} befindet sich das Zertifikat und die Datei, die den privaten Schlüssel enthält, im Ornder \texttt{/etc/ejabberd/certs}. Der Ort der Zertifikate muss in der Konfigurationsdatei angegeben werden, sodass ejabberd und ein Client einen verschlüsselten Kanal aufbauen können.
 
 \bigskip
 
@@ -1303,7 +1312,7 @@ Um benutzerdefinierte Cipher-Suites für den \ac{TLS}-Verbindungsaufbau zu konfi
 
 \subsubsection*{Konfiguration der Dienste}
 
-Für die Kommunikation mit Clients oder Servern müssen die Standard-Ports aus \autoref{tab:PortsEjabberd} konfiguriert werden. \autoref{lst:ejabberdPortsConfig} zeigt die Standardkonfiguration, die so ergänzt wurde, dass die Änderungen die Sicherheit des Gesamtsystems positiv beeinflussen.
+Für die Kommunikation mit Clients oder Servern müssen die Standard-Ports aus \autoref{tab:PortsEjabberd} konfiguriert werden. \autoref{lst:ejabberdPortsConfig} zeigt die Standardkonfiguration, die so ergänzt ist, dass die Änderungen die Sicherheit des Gesamtsystems positiv beeinflussen.
 
 \bigskip
 
@@ -1354,11 +1363,15 @@ Der Port 5280 implementiert das Modul \texttt{ejabberd\_http}. Durch die Einstel
 
 \subsubsection*{Konfiguration der Zugriffskontrolle}
 
-Ein Client authentifiziert sich gegenüber dem ejabberd-Server mittels \ac{SASL}. Nach \cite{SASLDescription} ist \ac{SASL} ein Framework, das von verschiedenen Protokollen im Internet für die Authentifizierung verwendet wird. Mittels \ac{SASL} handeln Client und Server standardisiert Authentifizierungsmethoden aus, die von der Applikation transparent genutzt werden.  Der Betreiber eines ejabberd-Servers sollte für eine sichere Konfiguration veraltete Authentifizierungsmethoden ausschließen.  
+Ein Client authentifiziert sich gegenüber dem ejabberd-Server mittels \ac{SASL}. Nach \cite{SASLDescription} ist \ac{SASL} ein Framework, das von verschiedenen Protokollen im Internet für die Authentifizierung verwendet wird. Mittels \ac{SASL} handeln Client und Server standardisiert Authentifizierungsmethoden aus, die von der Applikation transparent genutzt werden.
+
+\pagebreak
+
+Der Betreiber eines ejabberd-Servers sollte für eine sichere Konfiguration veraltete Authentifizierungsmethoden ausschließen (siehe \autoref{lst:excludeOldAuthMechanism}).  
 
 \bigskip
 
-\begin{lstlisting}[language=yaml, caption={Ausschluss unsicherer Authentifizierungsmethoden}]
+\begin{lstlisting}[language=yaml, caption={Ausschluss unsicherer Authentifizierungsmethoden}, label={lst:excludeOldAuthMechanism}]
 disable_sasl_mechanisms:
   - "digest-md5"
   - "x-oauth2"
@@ -1381,6 +1394,8 @@ acl:
 
 
 Nach all den durchgeführten Änderungen muss der Server mit dem Kommando \texttt{sudo systemctl restart ejabberd} neu gestartet werden.
+
+\pagebreak
 
 \subsubsection*{Überblick über das Administrationsportal}
 
@@ -1456,9 +1471,7 @@ Wichtige Funktionen von \ac{MAM} nach \cite{xepMAM}:
 
 \texttt{XEP-0313} spezifiziert viele weitere Funktionen, für die \ac{MAM} eingesetzt werden kann. In diesem Projekt wird jedoch nur die erste Funktion implementiert. Nach \cite{xepMAM} muss ein \ac{XMPP}-Server \ac{MAM} nicht zwingend bereitstellen und die Kontrolle über die Einstellungen kann der Betreiber des Servers festlegen. Das Protokoll erlaubt einem Benutzer aber auch, die Einstellungen für die Nachrichtenarchivierung selbst festzulegen, sodass dieser entscheiden kann, ob er Nachrichten auf dem Server archivieren möchte oder nicht. Ein Client, der diese XEP-Erweiterung unterstützt, informiert den Server über die Änderungen in den Einstellungen oder kann die aktuellen Einstellungen vom Server abfragen.\cite{xepMAM}
 
-\newpage
-
-\autoref{img:MAMGetRequest} zeigt typische Kommunikationsverläufe. Der Client sendet eine Anfrage vom Typ \texttt{get} mit seiner Benutzer-ID. Im Element \texttt{prefs} gibt er das Protokoll \ac{MAM} an. Darunter sind zwei mögliche Antworten des Servers abgebildet. Im ersten Fall unterstützt der Server \ac{MAM} und antwortet mit den aktuellen Einstellungen des Benutzers. Das \texttt{prefs}-Element muss vorhanden sein. Dieses enthält die konfigurierten Richtlinien für die Archivierung. Die Elemente \texttt{always} und \texttt{never} müssen immer im \texttt{prefs}-Element enthalten sein, auch wenn sie leer sind. Sie beinhalten eine Liste von \texttt{jid}-Elemente (Jabber-IDs). Für die Jabber-IDs im Element \texttt{always} ist die Archivierung immer aktiv. Für die IDs im Element \texttt{never} archiviert der Server niemals Nachrichtenverläufe. Im dritten Teilbild ist eine alternative Antwort des Servers an den Client dargestellt. Der Server antwortet mit einer \ac{XMPP}-Nachricht vom Typ \texttt{error} und dem Element \texttt{feature-not-implemented}, wenn er \ac{MAM} nicht unterstützt oder die Funktion deaktiviert ist.\cite{xepMAM}
+\autoref{img:MAMGetRequest} zeigt typische Kommunikationsverläufe.
 
 \begin{figure}[h]
 \centering
@@ -1467,7 +1480,9 @@ Wichtige Funktionen von \ac{MAM} nach \cite{xepMAM}:
 \label{img:MAMGetRequest}
 \end{figure}
 
-Der Autor von \cite{xepMAM} beschreibt, dass die Einstellungen der Archivierung mit einer Anfrage vom Typ \texttt{set} auch verändert werden können. Die Anfrage ist in \autoref{img:MAMUpdate} gezeigt.
+Der Client sendet eine Anfrage vom Typ \texttt{get} mit seiner Benutzer-ID. Im Element \texttt{prefs} gibt er das Protokoll \ac{MAM} an. Darunter sind zwei mögliche Antworten des Servers abgebildet. Im ersten Fall unterstützt der Server \ac{MAM} und antwortet mit den aktuellen Einstellungen des Benutzers. Das \texttt{prefs}-Element muss vorhanden sein. Dieses enthält die konfigurierten Richtlinien für die Archivierung. Die Elemente \texttt{always} und \texttt{never} müssen immer im \texttt{prefs}-Element enthalten sein, auch wenn sie leer sind. Sie beinhalten eine Liste von \texttt{jid}-Elemente (Jabber-IDs). Für die Jabber-IDs im Element \texttt{always} ist die Archivierung immer aktiv. Für die IDs im Element \texttt{never} archiviert der Server niemals Nachrichtenverläufe. Im dritten Teilbild ist eine alternative Antwort des Servers an den Client dargestellt. Der Server antwortet mit einer \ac{XMPP}-Nachricht vom Typ \texttt{error} und dem Element \texttt{feature-not-implemented}, wenn er \ac{MAM} nicht unterstützt oder die Funktion deaktiviert ist.\cite{xepMAM}
+
+Der Autor Wild \cite{xepMAM} beschreibt, dass die Einstellungen der Archivierung mit einer Anfrage vom Typ \texttt{set} auch verändert werden können. Die Anfrage ist in \autoref{img:MAMUpdate} gezeigt.
 
 \begin{figure}[h]
 \centering
@@ -1478,11 +1493,11 @@ Der Autor von \cite{xepMAM} beschreibt, dass die Einstellungen der Archivierung 
 
 Der Server speichert die Einstellungen nach Erhalt der Anfrage. Er archiviert von diesem Zeitpunkt alle Nachrichten für die Jabber-ID \texttt{romeo@montague.lit}. Für den Benutzer der ID \texttt{montague@montague.lit} werden keine Nachrichten mehr in der Datenbank gespeichert.
 
-Das folgende Listing zeigt die Einstellungen für \ac{MAM} von ejabberd, die für dieses Projekt konfiguriert sind.
+\autoref{lst:sqlSettingsEjabberd} zeigt die Einstellungen von ejabberd für \ac{MAM}, die für dieses Projekt konfiguriert sind.
 
 \bigskip
 
-\begin{lstlisting}[language=yaml, caption={Konfiguration der Einstellungen für die Nachrichtenarchivierung}]
+\begin{lstlisting}[language=yaml, caption={Konfiguration der Einstellungen für die Nachrichtenarchivierung}, label={lst:sqlSettingsEjabberd}]
 mod_mam:
     db_type: sql
     assume_mam_usage: true
@@ -1519,12 +1534,12 @@ Nun ist ejabberd für den Gebrauch in der Projektarbeit konfiguriert. Der Server
 
 \pagebreak
 
-\section{Apache Kafka für moderne Echtzeitübertragung}
-\label{sec:KafkaDescription}
+\chapter{Apache Kafka für moderne Echtzeitübertragung}
+\label{chap:KafkaDescription}
 
-Warum es sinnvoll ist für die Umsetzung eines \acs{IMS}, Messaging-Systeme wie Apache Kafka einzusetzen, ist in \autoref{sec:VerprbungIMS} ausführlich erörtert. Dieses Kapitel beschreibt die Funktionsweise von Apache Kafka. 
+Warum es sinnvoll ist für die Umsetzung eines \acs{IMS}, Messaging-Systeme wie Apache Kafka einzusetzen, ist in \autoref{chap:VerprbungIMS} ausführlich erörtert. Dieses Kapitel beschreibt die Funktionsweise von Apache Kafka. 
 
-Apache Kafka ist eine verteilte Event-Streaming-Plattform \cite{kafkaConfluent}. Konkret bezeichnet Nannoni in seiner Dissertation \cite{nannoniDissKafka} Kafka als eine Message Broker\footnote{Message Broker: Einrichtung zur Vermittlung von Nachrichten zwischen einem Sender und einem oder mehreren Empfängern, siehe \autoref{sec:VerprbungIMS}.} Middleware\footnote{Software, die die Anwendungsschicht unabhängig vom Betriebssystem von den darunterliegenden Schichten entkoppelt.}. Sie wurde ursprünglich von LinkedIn entwickelt, wurde 2011 zum Apache Incubator\footnote{Projekt der \ac{ASF} um sicherzustellen, dass die geförderte Software frei von rechtlichen Konflikten und kompatibel mit den Leitprinzipien der Open-Source-Stiftung ist.\cite{asfIncubator}} und wird seit 2012 von der Apache Software Foundation entwickelt und gepflegt\cite{kafkaConfluent}. \autoref{img:kafkaMainArchitecture} zeigt die globale Architektur von Apache Kafka.
+Apache Kafka ist eine verteilte Event-Streaming-Plattform \cite{kafkaConfluent}. Konkret bezeichnet Nannoni in seiner Dissertation \cite{nannoniDissKafka} Kafka als eine Message Broker\footnote{Message Broker: Einrichtung zur Vermittlung von Nachrichten zwischen einem Sender und einem oder mehreren Empfängern, siehe \autoref{chap:VerprbungIMS}.} Middleware\footnote{Software, die die Anwendungsschicht unabhängig vom Betriebssystem von den darunterliegenden Schichten entkoppelt.}. Die Plattform ist seit 2011 ein Apache Incubator\footnote{Projekt der \ac{ASF} um sicherzustellen, dass die geförderte Software frei von rechtlichen Konflikten und kompatibel mit den Leitprinzipien der Open-Source-Stiftung ist.\cite{asfIncubator}} und wird seit 2012 von der Apache Software Foundation entwickelt und gepflegt\cite{kafkaConfluent}. \autoref{img:kafkaMainArchitecture} zeigt die globale Architektur von Apache Kafka.
 
 \begin{figure}[h]
 	\centering
@@ -1573,6 +1588,8 @@ Apache Kafka ist ein verteiltes persistentes Log, das als ereignisorientiertes (
 
 Die einzelnen Systeme werden durch diesen Ansatz zeitlich entkoppelt. Modul C muss nicht aktiv sein, wenn Modul A eine Nachricht veröffentlicht. Der persistente Datenraum speichert die Nachricht, sodass Modul C diese abholen kann, wenn es wieder aktiviert wird. Diese Funktion übernehmen klassisch spezialisierte \ac{MQ} Systeme, wie beispielsweise RabbitMQ, ActiveMQ und viele weitere. Die Hauptunterschiede liegen in der horizontalen Skalierbarkeit für große Datenmengen. Beispielsweise betreibt Microsoft Oracle ein Kafka Cluster mit 1300 Brokern, der 1 Trillion Nachrichten pro Tag verarbeitet \cite{ritchieKafkaMicrosoft}. Die Kafka Plattform ist skalierbar und kann durch viele zusätzliche Kafka Broker erweitert werden. Sie verbindet heterogene Clients miteinander, in dem sie den Clients die Kommunikation untereinander ermöglicht.
 
+\pagebreak
+
 Konkret ist die ereignisorientierte Architektur in Apache Kafka wie folgt umgesetzt, siehe \autoref{img:kafkaPrinciple}:
 
 \begin{figure}[h]
@@ -1593,7 +1610,7 @@ Ein Sender (englisch Producer) produziert Nachrichten in ein Topic. Dieser Vorga
 
 Ein Producer entscheidet selbst, in welche Partitionen er welche Datensätze schreibt \cite{berleKafkaOverview}. In einigen Anwendungsfällen kann das relevant sein, typisch wird jedoch ein Round-Robin-Verfahren gewählt, bei dem nach einer bestimmten Anzahl an Nachrichten die Partitionen abwechselnd verwendet werden \cite{berleKafkaOverview}. \autoref{img:kafkaTopicExample} zeigt, dass innerhalb eines Topics die Nachrichten ungleichmäßig auf Partitionen verteilt sein können.
 
-Eine Nachricht ist mit einem Offset gekennzeichnet \cite{berleKafkaOverview, nannoniDissKafka}. Der Offset ist innerhalb einer Partition eine eindeutige Ganzzahl. Bei jedem Eintreffen einer Nachricht wird der Offset inkrementiert. Trifft in \autoref{img:kafkaTopicExample} eine Nachricht in die Partition 1 wird ihr der Offset 4 zugeordnet, trifft sie in Partition N erhält die Nachricht den Offset 2. Durch dieses Konzept empfangen Consumer die Nachrichten in der Reihenfolge, in der sie gesendet worden sind. Die eindeutige Kennzeichnung ermöglicht es Consumern, auch vergangene Nachrichten ab einem bestimmten Offset zu konsumieren.\cite{nannoniDissKafka}
+Eine Nachricht ist mit einem Offset gekennzeichnet \cite{berleKafkaOverview, nannoniDissKafka}. Der Offset ist innerhalb einer Partition eine eindeutige Ganzzahl. Bei jedem Eintreffen einer Nachricht wird der Offset inkrementiert. Trifft in \autoref{img:kafkaTopicExample} eine Nachricht in die Partition 1 wird ihr der Offset 4 zugeordnet, trifft sie in Partition N erhält die Nachricht den Offset 2. Durch dieses Konzept empfangen Consumer die Nachrichten in der Reihenfolge, in der sie ein Producer versendet. Die eindeutige Kennzeichnung ermöglicht es Consumern, auch vergangene Nachrichten ab einem bestimmten Offset zu konsumieren.\cite{nannoniDissKafka}
 
 Kafka speichert die Nachrichten immer auf der Festplatte. Die Nachrichten müssen irgendwann mit einer der folgenden Richtlinien (Cleanup Policies) \cite{berleKafkaOverview} gelöscht werden, weil die Festplattenauslastung ansonsten zu groß wird:
 
@@ -1604,6 +1621,8 @@ Kafka speichert die Nachrichten immer auf der Festplatte. Die Nachrichten müsse
 \end{description}
 
 Die Standardeinstellung ist die Retention-Time.
+
+\pagebreak
 
 \subsubsection*{Consumer Gruppen}
 
@@ -1642,7 +1661,7 @@ Die nachfolgende Anleitung bezieht sich auf die Installation eines Kafka-Systems
 \item OpenJDK 8 (Kafka ist in der Programmiersprache Java programmiert und benötigt deshalb eine lauffähige JVM.)
 \end{itemize}
 
-\subsubsection*{Schritt 1: Anlegen eines Benutzers}
+\subsubsection*{Anlegen eines Benutzers}
 
 Für die Erstellung eines Benutzers muss sich auf dem Server mit einem Benutzer eingeloggt werden. Mit folgendem Kommando wird ein Benutzer mit dem Namen Kafka angelegt. Mit dem zweiten Kommando wird der Benutzer der \glqq sudo\grqq -Gruppe hinzugefügt und ist ab diesem Zeitpunkt berechtigt höher privilegierte Befehle auszuführen. Das letzte Kommando legt ein Passwort an, dass bei der Ausführung höher privilegierter Befehle abgefragt wird.
 
@@ -1656,7 +1675,7 @@ $ sudo passwd kafka # Anlegen eines sudo-Passwords
 
 Anschließend muss sich mit dem neu erstellten Benutzer eingeloggt werden (Kommando: su kafka).
 
-\subsubsection*{Schritt 2: Installation der benötigten Komponenten}
+\subsubsection*{Installation der benötigten Komponenten}
 
 
 Als nächstes muss das komprimmierte Kafka-Binary heruntergeladen werden. Hierzu kann das \texttt{curl}-Kommandozeilentool verwendet werden, um das Binary direkt aus dem Internet herunterzuladen und im Home-Verzeichnis des kafka-Benutzers gespeichert werden.
@@ -1686,7 +1705,7 @@ $ tar -xvzf ~/kafka_2.12-2.4.0.tgz --strip 1
 
 Kafka ist ab jetzt bereit für eine Konfiguration.
 
-\subsubsection*{Schritt 3: Konfiguration von Kafka}
+\subsubsection*{Konfiguration von Kafka}
 
 Kafka lässt es in der Standardkonfiguration nicht zu neue Topics, eine Kategorie oder eine Gruppe zu löschen. Um das zu ändern, muss die Konfigurationsdatei von Kafka angepasst werden. Falls der \glqq nano\grqq -Editor auf Ihrem System nicht verfügbar ist, können Sie einen Editor Ihrer Wahl verwenden, zum Beispiel \glqq vi\grqq.
 
@@ -1715,7 +1734,7 @@ Zeigt der Kommandozeilen-Output nur Nachrichten der Kategorie \glqq INFO\grqq un
 
 Für den Start von Kafka ist im aktuellen Zustand eine Anmeldung des Benutzers erforderlich, der Zookeeper und Kafka als Benutzerprozess startet. Um Kafka als Server-Dienst bereitzustellen folgen Sie dem nächsten Kapitel der Anleitung. Möchten Sie lediglich die Grundfunktionalitäten ausprobieren und benötigen keine globale Verfügbarkeit, kann Schritt 4 der Anleitung entfallen.
 
-\subsubsection*{Schritt 4: Bereitstellung von Kafka als Server-Dienst}
+\subsubsection*{Bereitstellung von Kafka als Dienst auf einem Server}
 
 Teilschritte für die Bereitstellung als Server-Dienst:
 
@@ -1804,7 +1823,7 @@ $ sudo systemctl start zookeeper # Starten des Zookeeper-Dienstes
 $ sudo systemctl status zookeeper
 \end{lstlisting}
 
-Der Output zeigt, dass Zookeeper erfolgreich gestartet wurde:
+Der Output zeigt, dass Zookeeper aktiv ist:
 
 \begin{figure}[h]
 	\centering
@@ -1831,7 +1850,7 @@ Führen Sie die gleichen Befehle für den Start des Kafka-Dienstes durch. Achten
 
 \smallskip
 
-Überprüfen Sie mit dem \glqq status\grqq -Befehl, ob der Dienst richtig gestartet wurde. Der Output sollte so aussehen:
+Überprüfen Sie mit dem \glqq status\grqq -Befehl, ob der Dienst aktiv ist. Der Output sollte wie folgt aussehen:
 
 \begin{figure}[h]
 	\centering
@@ -1842,7 +1861,7 @@ Führen Sie die gleichen Befehle für den Start des Kafka-Dienstes durch. Achten
 
 Nun sind Zookeeper und Kafka als Linux-Server-Dienst verfügbar ohne, dass ein Benutzer hierfür dauerhaft angemeldet sein muss.
 
-\subsubsection*{Schritt 5: Testen der Installation}
+\subsubsection*{Testen der Installation}
 
 Um sicherzustellen, dass Kafka als Dienst korrekt läuft, wird eine \glqq HelloWorld\grqq -Nachricht produziert und konsumiert. Um eine Nachricht mittels Kafka zu versenden sind zwei Bestandteile nötig:
 
@@ -1861,7 +1880,7 @@ Zuerst muss ein Topic erstellt werden. Das Topic heißt für Testzwecke \glqq Te
 $ ~/kafka/bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic Test
 \end{lstlisting}
 
-Der Befehl benötigt den Zookeeper-Dienst mit dessen Portnummer (Standard-Port: 2181) als Argument, weil Zookeeper für die Verwaltung der Kafka-Instanzen benötigt wird. Ist das Topic erfolgreich erstellt worden, ist der Output auf der Kommandozeile \glqq Created topic Test.\grqq
+Der Befehl benötigt den Zookeeper-Dienst mit dessen Portnummer (Standard-Port: 2181) als Argument, weil Zookeeper für die Verwaltung der Kafka-Instanzen benötigt wird. Ist das Topic erfolgreich erstellt, erscheint folgender Output auf der Kommandozeile: \glqq Created topic Test\grqq.
 
 Um einen Producer zu starten, der als Nachricht \glqq HelloWorld\grqq produziert und dem Kafka-Dienst übergibt, führen Sie folgenden Befehl aus:
 
@@ -1883,9 +1902,15 @@ $ ~/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topi
 
 Nach der Ausführung des Consumer-Skripts, sollte die Nachricht \glqq HelloWorld\grqq auf dem Bildschirm erfolgen. Ist das nicht der Fall, überprüfen Sie Ihre durchgeführten Schritte. Das Skript blockiert den Benutzerprozess, weil der Consumer weiterhin auf eintreffende Nachrichten wartet. Um das Skript abzubrechen verwenden Sie STR+C als Shortcut auf der Tastatur.
 
-Kafka steht nun als Server-Dienst zur Verfügung und die Installation wurde durch einen Test erfolgreich validiert. Kafka kann für seine Einsatzbereiche ab jetzt vollständig verwendet werden.
+Kafka steht nun als Server-Dienst zur Verfügung. Kafka kann für seine Einsatzbereiche ab jetzt vollständig verwendet werden.
 
 \pagebreak
+
+\chapter{Einführung in Python Module für ejabberd und Apache Kafka}
+\label{chap:pythonModule}
+
+Dieses Kapitel gibt eine Einführung in die Python Module sleekxmpp, pykafka und kafka-python. Für die Umsetzung ist es wichtig, die Funktionsweise und die Möglichkeiten der Module zu kennen. Diese Module werden von der \acs{REST} \acs{API} benötigt, um Nachrichten zu versenden oder zu empfangen.
+
 
 \section{Python Modul sleekxmpp als \acs{XMPP}-Client}
 \label{sec:SleekxmppModul}
@@ -1928,7 +1953,7 @@ def start(self, event):
     self.get_roster()
 \end{lstlisting}
 
-Die Callback-Methode wird aufgerufen, nachdem eine Verbindung mit einem \acs{XMPP}-Server hergestellt wurde. Sie benutzt vererbte Methoden von der Klasse \texttt{ClientXMPP}. Zuerst wird der Online-Status an den Server übermittelt und mit Hilfe der zweiten Methode die Kontaktliste des angemeldeten Benutzers vom Server heruntergeladen. Die gesammte Kommunikation zwischen \acs{XMPP}-Client und \acs{XMPP}-Server basiert auf den Richtlinien des \acs{XMPP}-Protokolls. Sleekxmpp abstrahiert aufwendige Formatkonvertierungen und die Umsetzung der Richtlinien. Es bietet dem Entwickler Schnittstellen und Methoden, um den \acs{XMPP}-Client einfach in Applikationen integrieren zu können.
+Die Callback-Methode wird aufgerufen, nachdem eine Verbindung mit einem \acs{XMPP}-Server hergestellt ist. Sie benutzt vererbte Methoden von der Klasse \texttt{ClientXMPP}. Zuerst wird der Online-Status an den Server übermittelt und mit Hilfe der zweiten Methode die Kontaktliste des angemeldeten Benutzers vom Server heruntergeladen. Die gesammte Kommunikation zwischen \acs{XMPP}-Client und \acs{XMPP}-Server basiert auf den Richtlinien des \acs{XMPP}-Protokolls. Sleekxmpp abstrahiert aufwendige Formatkonvertierungen und die Umsetzung der Richtlinien. Es bietet dem Entwickler Schnittstellen und Methoden, um den \acs{XMPP}-Client einfach in Applikationen integrieren zu können.
 
 Die benutzerdefinierte Klasse \texttt{EchoBot} kann wie folgt genutzt werden, siehe \autoref{lst:sleekxmppExampleUseEchoBot}.
 
@@ -1946,7 +1971,9 @@ if xmpp_client.connect('10.10.8.10', 5222):
     xmpp_client.disconnect(wait=True)
 \end{lstlisting}
 
-Zuerst wird eine Instanz der Klasse \texttt{EchoBot} erzeugt. Anschließend wird eine Liste mit benötigten \acs{XMPP}-Stanzas initialisiert. Zum Beispiel ermöglicht die \acs{XMPP}-Stanza XEP-0030 eine Service Discovery. Ein Client kann also verfügbare Dienste auf dem \acs{XMPP}-Server abfragen. XEP-0004 ruft Informationen über Datenformate und Datenaustausch vom Server ab. Genaue Details über XEP-Stanzas finden sich im offiziellen \acs{XMPP}-Definite Guide \cite{definiteGuideXMPP}. Die Stanzas werden anschließend in einer Schleife am \acs{XMPP}-Client registriert. Mit der Methode \texttt{connect} verbindet sich sleekxmpp unter Angabe von IP-Adresse und Port mit dem Server.  In der Dokumentation finden sich ausschließlich Beispiele, in denen die Methode \texttt{xmpp\_client.process(block=True)} aufgerufen wird. Das sleekxmpp-Objekt wartet dadurch auf eingehende Nachrichten. Die Konsequenz daraus ist, dass der sequentielle Programmablauf unterbrochen wurde, weil der Haupt-Thread blockiert. Mit dem  Code-Konstrukt aus der Dokumentation ist es nicht möglich in einem Programm auf eingehende Nachrichten zu warten und nebenbei eine Nachricht zu versenden. Ein Problem, das später fatal wäre, für die Umsetzung des \acs{IMS}. Die Lösung ist, wie in \autoref{lst:sleekxmppExampleUseEchoBot} dargestellt, die Methode \texttt{process(block=True)} in einem eigenen Thread ausführen zu lassen. Dadurch kann eine Nachricht versendet werden, während auf eintreffende Nachrichten gewartet werden kann. Trifft eine Nachricht ein, wird kurz zur Callback-Methode gesprungen und diese ausgeführt.\cite{pythonSleekxmpp}
+Zuerst wird eine Instanz der Klasse \texttt{EchoBot} erzeugt. Anschließend wird eine Liste mit benötigten \acs{XMPP}-Stanzas initialisiert. Zum Beispiel ermöglicht die \acs{XMPP}-Stanza XEP-0030 eine Service Discovery. Ein Client kann also verfügbare Dienste auf dem \acs{XMPP}-Server abfragen. XEP-0004 ruft Informationen über Datenformate und Datenaustausch vom Server ab. Genaue Details über XEP-Stanzas finden sich im offiziellen \acs{XMPP}-Definite Guide \cite{definiteGuideXMPP}. Die Stanzas werden anschließend in einer Schleife am \acs{XMPP}-Client registriert. Mit der Methode \texttt{connect} verbindet sich sleekxmpp unter Angabe von IP-Adresse und Port mit dem Server.  In der Dokumentation finden sich ausschließlich Beispiele, in denen die Methode \texttt{xmpp\_client.process(block=True)} aufgerufen wird. Das sleekxmpp-Objekt wartet dadurch auf eingehende Nachrichten. Die Konsequenz daraus ist, dass der sequentielle Programmablauf unterbrochen ist, weil der Haupt-Thread blockiert. Mit dem  Code-Konstrukt aus der Dokumentation ist es nicht möglich in einem Programm auf eingehende Nachrichten zu warten und nebenbei eine Nachricht zu versenden. Ein Problem, das später fatal wäre, für die Umsetzung des \acs{IMS}. Die Lösung ist, wie in \autoref{lst:sleekxmppExampleUseEchoBot} dargestellt, die Methode \texttt{process(block=True)} in einem eigenen Thread ausführen zu lassen. Dadurch kann eine Nachricht versendet werden, während auf eintreffende Nachrichten gewartet werden kann. Trifft eine Nachricht ein, wird kurz zur Callback-Methode gesprungen und diese ausgeführt.\cite{pythonSleekxmpp}
+
+\pagebreak
 
 \section{Python Module für Apache Kafka Client}
 \label{sec:KafkaModul}
@@ -1960,7 +1987,7 @@ Wie die \acs{REST} \acs{API} mit ejabberd kommunizieren kann, ist bereits erläu
 \item pykafka
 \end{itemize}
 
-In der Community von github wird pykafka für seine bessere Performanz gegenüber kafka-python gelobt. Auch ist es mehr mit für Python typische Implementierungsstrukturen entworfen worden, zum Beispiel asynchrones Fehlerhandling oder Benutzung von Kontext-Managern.\cite{pykafkaGithubMeaning}
+In der Community von github wird pykafka für seine bessere Performanz gegenüber kafka-python gelobt. Auch ist es mehr mit für Python typische Implementierungsstrukturen entworfen, zum Beispiel asynchrones Fehlerhandling oder Benutzung von Kontext-Managern.\cite{pykafkaGithubMeaning}
 
 \autoref{lst:pykafkaProducerExample} zeigt, wie der Producer des Moduls pykafka verwendet werden kann. Der Beispielcode schreibt die Nachricht \glqq hello world\grqq in das Kafka Topic \glqq test\grqq.
 
@@ -1974,7 +2001,7 @@ with topic.get_producer() as kafka_producer:
     kafka_producer.produce(b'hello world')
 \end{lstlisting}
 
-Zuerst wird die Klasse \texttt{KafkaClient} importiert. Anschließend wird durch Aufruf des Konstruktors die Verbindung zur Kafka-Instanz hergestellt. Dem Konstruktor bekommt als Übergabeargument die IP-Adresse mit Port unter welcher die Apache Kafka-Instanz über das Netzwerk erreichbar ist. Danach wird das Topic definiert in das Nachrichten produziert werden sollen. Über das Topic und einem Kontext-Manager wird die Methode \texttt{produce} aufgerufen, die die Nachricht versendet. Sie erwartet ein Byte-Objekt. Ein e Nachricht vom Typ String in Python darf nicht übergeben werden.  Der Kontext-Manager sorgt für den automatischen Verbindungsauf- und abbau. Die Methode \texttt{get\_producer} sorgt, dafür, dass der Producer asynchron arbeitet. Die Methode \texttt{produce} wird sofort verlassen, nachdem die Nachricht versendet wurde, unabhängig davon, ob diese von der Kafka Instanz in das Topic geschrieben wurde oder nicht. Diese Art von Producer eignet sich für das Versenden von großen Nachrichten. Das Modul kann allerdings auch über die Methode \texttt{get\_sync\_producer} einen Producer initialisieren, der solange blockiert, bis die Kafka-Instanz den Empfang der Nachricht quittiert hat.
+Zuerst wird die Klasse \texttt{KafkaClient} importiert. Anschließend wird durch Aufruf des Konstruktors die Verbindung zur Kafka-Instanz hergestellt. Dem Konstruktor bekommt als Übergabeargument die IP-Adresse mit Port unter welcher die Apache Kafka-Instanz über das Netzwerk erreichbar ist. Danach wird das Topic definiert in das Nachrichten produziert werden sollen. Über das Topic und einem Kontext-Manager wird die Methode \texttt{produce} aufgerufen, die die Nachricht versendet. Sie erwartet ein Byte-Objekt. Ein e Nachricht vom Typ String in Python darf nicht übergeben werden.  Der Kontext-Manager sorgt für den automatischen Verbindungsauf- und abbau. Die Methode \texttt{get\_producer} sorgt, dafür, dass der Producer asynchron arbeitet. Die Methode \texttt{produce} wird sofort nach dem Versand der Nachricht verlassen, unabhängig davon, ob diese von der Kafka Instanz in das Topic geschrieben wird oder nicht. Diese Art von Producer eignet sich für das Versenden von großen Nachrichten. Das Modul kann allerdings auch über die Methode \texttt{get\_sync\_producer} einen Producer initialisieren, der solange blockiert, bis die Kafka-Instanz den Empfang der Nachricht quittiert hat.
 
 Aus Gründen der Performanz wird \texttt{get\_producer} in der Studienarbeit genutzt.
 
@@ -1989,11 +2016,15 @@ for i in topic.get_simple_consumer():
     print(i.value.decode())
 \end{lstlisting}
 
-Genau wie in \autoref{lst:pykafkaProducerExample}, wird zuerst eine Verbindung zur Kafka-Instanz hergestellt. Anschließend wird das Topic definiert, von dem der Consumer Nachrichten konsumieren soll. Über die Methode \texttt{get\_simple\_consumer} wird eine Consumer-Instanz erzeugt, über das mit einer Schleife iteriert werden kann. Der Consumer gibt alle Nachrichten auf der Konsole auf, die im Topic enthalten sind. Sind alle Nachrichten ausgegeben worden oder keine Nachrichten im Topic vorhanden, blockiert er sofort. Er wartet dann auf eintreffende Nachrichten und gibt die neu eingetroffenen Nachrichten aus. Dieser einfache Consumer hat folgenden Nachteil: Konsumieren mehrere Consumer aus dem gleichen Topic, konsumieren alle Consumer die gleichen Nachrichten. Mehrere Consumer können nicht dazu benutzt werden, die Geschwindigkeit der Verarbeitung von Nachrichten zu steigern. Ist das Anwendungsszenario aber nötig, empfiehlt die Dokumentation den Consumer, den die Methode \texttt{get\_balanced\_consumer} erzeugt.
+Genau wie in \autoref{lst:pykafkaProducerExample}, wird zuerst eine Verbindung zur Kafka-Instanz hergestellt. Anschließend wird das Topic definiert, von dem der Consumer Nachrichten konsumieren soll. Über die Methode \texttt{get\_simple\_consumer} wird eine Consumer-Instanz erzeugt, über das mit einer Schleife iteriert werden kann. Der Consumer gibt alle Nachrichten auf der Konsole auf, die im Topic enthalten sind. Sind alle Nachrichten ausgegeben oder keine Nachrichten im Topic vorhanden, blockiert er sofort. Er wartet dann auf eintreffende Nachrichten und gibt die neu eingetroffenen Nachrichten aus. Dieser einfache Consumer hat folgenden Nachteil: Konsumieren mehrere Consumer aus dem gleichen Topic, konsumieren alle Consumer die gleichen Nachrichten. Mehrere Consumer können nicht dazu benutzt werden, die Geschwindigkeit der Verarbeitung von Nachrichten zu steigern. Ist das Anwendungsszenario aber nötig, empfiehlt die Dokumentation den Consumer, den die Methode \texttt{get\_balanced\_consumer} erzeugt.
 
 Das Modul pykafka hat für die Implementierung des \acs{IMS} den Nachteil, dass es keine Topics auf Kafka-Instanzen angelegen kann. Jeder Benutzer des \acs{IMS} muss bei der Registrierung ein eigenes Topic erhalten. Würde alle Benutzer sich ein gemeinsames Topic teilen, würden alle Benutzer alle Nachrichten erhalten. Das sollte vermieden werden. Ein Producer eines konkreten Benutzers darf nur in ein bestimmtes Topic schreiben, wenn der Empfänger der Nachricht in seiner Kontaktliste enthalten ist. So können Nachrichten Punkt-zu-Punkt übertragen werden.
 
-Aus diesem Grund ist die alleinige Benutzung von pykafka nicht möglich. Das Modul kafka-python enthält jedoch eine Klasse \texttt{KafkaAdminClient} über die sich Topics auf Kafka-Servern anlegen lassen. \autoref{lst:kafkapythonAdmin} zeigt, wie ein Topic mit dem \texttt{KafkaAdminClient} angelegt werden kann.
+Aus diesem Grund ist die alleinige Benutzung von pykafka nicht möglich. Das Modul kafka-python enthält jedoch eine Klasse \texttt{KafkaAdminClient} über die sich Topics auf Kafka-Servern anlegen lassen. 
+
+\pagebreak
+
+\autoref{lst:kafkapythonAdmin} zeigt, wie ein Topic mit dem \texttt{KafkaAdminClient} angelegt werden kann.
 
 \begin{lstlisting}[language=python, caption={Beispiel: Anlegen eines Topics mit dem KafkaAdminClient des Moduls kafka-python}, label={lst:kafkapythonAdmin}]
 from kafka.admin import KafkaAdminClient, NewTopic
@@ -2016,7 +2047,7 @@ Für die Studienarbeit werden beide Python Module eingesetzt und sich für die I
 \chapter{Umsetzung der Entwicklung einer \acs{REST} \acs{API}}
 \label{subsec:Backend}
 
-Ausgangspunkt dieses Kapitels ist das Ergebnis der in \autoref{sec:Architektur} definierten Architektur. Dieses Kapitel befasst sich mit der Entwicklung der \acs{REST} \acs{API}. Es zeigt wichtige Aspekte und Ideen der Umsetzung mittels des Microframeworks Python Flask auf. Zu Beginn werden Anforderungen an die \acs{REST} \acs{API} und anschließend die genaue Umsetzung und der Programm-Code erläutert.
+Ausgangspunkt dieses Kapitels ist das Ergebnis der in \autoref{chap:Architektur} definierten Architektur. Dieses Kapitel befasst sich mit der Entwicklung der \acs{REST} \acs{API}. Es zeigt wichtige Aspekte und Ideen der Umsetzung mittels des Microframeworks Python Flask auf. Zu Beginn werden Anforderungen an die \acs{REST} \acs{API} und anschließend die genaue Umsetzung und der Programm-Code erläutert.
 
 \subsubsection*{Anforderungen an die \acs{REST} \acs{API}:}
 
@@ -2116,7 +2147,7 @@ Die Methode \texttt{check\_password\_hash} berechnet dabei zuerst den Hashwert d
 
 \section{Umsetzung der Logins eines Benutzers}
 
-Die Klasse \texttt{User} wurde so modifiziert, dass sie Login Funktionalitäten unterstützt. Bevor die Methoden des \texttt{flask\_login} Moduls verwendet werden können, muss ein Flask-, SQLAlchemy- und Login-Manager-Objekt in der Flask Applikation instanziiert werden. (siehe \autoref{lst:flaskPrepareLogin}).
+Die Klasse \texttt{User} ist so modifiziert, dass sie Login Funktionalitäten unterstützt. Bevor die Methoden des \texttt{flask\_login} Moduls verwendet werden können, muss ein Flask-, SQLAlchemy- und Login-Manager-Objekt in der Flask Applikation instanziiert werden. (siehe \autoref{lst:flaskPrepareLogin}).
 
 \begin{lstlisting}[language=python, caption={Vorbereitungen der Login Funktionalität in der Flask Applikation}, label={lst:flaskPrepareLogin}]
 app = Flask(__name__)
@@ -2250,7 +2281,7 @@ def login():
 		# code to listen for new messages
 \end{lstlisting}
 
-Nachdem das \texttt{sleekxmpp}-Objekt erstellt wurde, wird eine Verbindung mit dem \acs{XMPP}-Server hergestellt werden. Anschließend folgt der Code aus \autoref{lst:sleekxmppExampleUseEchoBot}, indem mittels eines Thread-Objekts auf eintreffende Nachrichten gewartet wird. Das kann aber nur solange geschehen, bis das \texttt{sleekxmpp}-Objekt beim Verlassen der Methode wieder zerstört wird. Damit erreicht der Thread sein natürliches Ende. Nachdem müssen aber solange Empfangen werden können, bis sich ein Benutzer ausloggt. Versendet ein Client durch Aufruf einer anderen \acs{API}-Route eine Nachricht, muss diese wieder ein \texttt{sleekxmpp}-Objekt erzeugen und die Nachricht versenden. Nach Verlassen des lokalen Namensraums der Methode ist das Objekt wieder zerstört. Es ist ineffizient ein Objekt ständig neu zu erzeugen, das nur eine sehr kurze Zeit, nämlich dem Versenden der Nachricht, benötigt wird.
+Nachdem der Erstellung des \texttt{sleekxmpp}-Objekts, wird eine Verbindung mit dem \acs{XMPP}-Server hergestellt werden. Anschließend folgt der Code aus \autoref{lst:sleekxmppExampleUseEchoBot}, indem mittels eines Thread-Objekts auf eintreffende Nachrichten gewartet wird. Das kann aber nur solange geschehen, bis das \texttt{sleekxmpp}-Objekt beim Verlassen der Methode wieder zerstört wird. Damit erreicht der Thread sein natürliches Ende. Nachdem müssen aber solange Empfangen werden können, bis sich ein Benutzer ausloggt. Versendet ein Client durch Aufruf einer anderen \acs{API}-Route eine Nachricht, muss diese wieder ein \texttt{sleekxmpp}-Objekt erzeugen und die Nachricht versenden. Nach Verlassen des lokalen Namensraums der Methode ist das Objekt wieder zerstört. Es ist ineffizient ein Objekt ständig neu zu erzeugen, das nur eine sehr kurze Zeit, nämlich dem Versenden der Nachricht, benötigt wird.
 
 Das Objekt für kurze Operationen nicht dauernd erzeugen zu müssen, verbessert diese Situation. Eine Möglichkeit ist, das Objekt beim Login als globale Variable zu initialisieren. Auf diese Weise kann das Objekt von anderen Methoden wiederverwendet und auf eingehende Nachrichten bis zum Logout des Benutzers gewartet werden. Dagegen ist kritisch anzumerken, dass ein anderer Benutzer, der sich ebenfalls am \acs{IMS} anmeldet, das Objekt mit seinem erzeugten Objekt überschreibt. Denn einem Benutzer gehört eine Jabber-ID und das \texttt{sleekxmpp}-Objekt meldet sich über das Netzwerk mit Jabber-ID und Passwort am \acs{XMPP}-Server an. Ein Objekt kann nicht mehrere Verbindungen über mehrere Jabber-IDs verwalten \cite{pythonSleekxmpp}.
 
@@ -2298,6 +2329,8 @@ Für einen Login am \ac{IMS} wird folgende \acs{API}-Route definiert:
 \texttt{http://193.196.53.24/login}
 
 \autoref{img:umlActivityLogin} im Anhang zeigt die Anwendungslogik der Flask Applikation vom Login eines Benutzers. Verbindet sich ein Benutzer mit seinem Client auf die oben genannte \acs{URI} wird eine Methode \texttt{login} der Flask Applikation aufgerufen, in der diese Abläufe implementiert sind. Ist ein Benutzer bereits eingeloggt und in der \acs{REST} \acs{API} authentifiziert, leitet die \acs{API} den Benutzer auf die Chatseite um, für die der Benutzer bereits authentifiziert ist. Greift der Client auf die \acs{URI} mit der Basisoperation \acs{HTTP} GET zu, findet keine Anmeldung am System statt. Dem Client wird die \acs{HTML}-Seite durch die \acs{API} ausgeliefert, über die der Benutzer sich anmelden kann. Greift der Client mit der Basisoperation \acs{HTTP} POST auf die \acs{URI} zu, startet der Anmeldevorgang. Zuerst wird überprüft, ob der Benutzername in der Datenbank vorhanden ist und das vom Client gesendete Passwort mit dem Passwort-Hash aus der Datenbank übereinstimmt. Falls nein, sind die Daten im \acs{JSON}-Payload invalide und der Benutzer wird über eine Fehlermeldung informiert. Anhand des Werts, auf den der Name \texttt{requested\_platform} im \acs{JSON}-Payload verweist, wird unterschieden, ob ein Benutzer über die \acs{XMPP}-basierte Plattform oder über die Apache Kafka Plattform kommunizieren möchte. Je nach gesetztem Eintrag, benutzt die \acs{API} entweder einen \acs{XMPP}-Client oder einen Apache Kafka Client als Python Modul, um Nachrichten empfangen und versenden zu können. Hat sich die Flask Applikation mit dem korrekten Python Client an einen der beiden Plattformen erfolgreich eingeloggt, muss die \ac{API} den Benutzer noch im Session-Management des Login-Managers einloggen. So weiß die \acs{API}, welcher Benutzer gerade am \acs{IMS} angemeldet ist und welche Plattform dieser benutzt.
+
+\pagebreak
 
 Den Code für den Loginvorgang zeigt \autoref{lst:flaskLoginCode}.
 
@@ -2400,6 +2433,8 @@ Auf diese Weise baut der Algorithmus ein Dictionary für jede Nachricht, in der 
 
 Die einzelnen Dictionaries werden dann in eine Liste eingefügt. Die Liste entspricht dann dem Chatverlauf zwischen zwei Benutzern.
 
+\pagebreak
+
 Das Ergebnis des Chatverlaufs zwischen den Benutzern testuser2 und test aus \autoref{img:ejabberdChatHistoryWithoutRedundancy} sieht wie folgt aus:
 
 \texttt{[\{'txt': 'hallo', 'timestamp': '2020-02-21 15:26:22', 'type': 'chat', 'from': 'testuser2'\},} \\ \texttt{\{'txt': 'hello', 'timestamp': '2020-02-21 15:26:38', 'type': 'chat', 'from': 'test'\}]}
@@ -2408,7 +2443,7 @@ Damit der Nachrichtenverlauf zeitlich in der richtigen Reihenfolge gespeichert i
 
 Diesen Ablauf muss die Methode für jeden Chatpartner durchlaufen. Die daraus erhaltenen Chatverläufe müssen noch in einem übergeordneten Dictionary \texttt{chat\_msgs} eingefügt werden. So enthält das Dictionary den Chatverlauf des Benutzers zu jedem Kommunikationspartner.
 
-Ein Beispiel des gesamten Nachrichtenverlaufs von testuser2 sieht wie folgt aus:
+Ein Beispiel des gesamten Nachrichtenverlaufs von testuser2 sieht wie folgt aus (siehe \autoref{img:ejabberdExampleFullChathistory}):
 
 \begin{figure}[h]
 	\centering
@@ -2422,6 +2457,8 @@ Die Namen der Chatpartner bilden als Schlüssel im Dictionary eindeutig auf den 
 Ein Client oder die Webanwendung kann sich nun auf die \acs{URI} \texttt{193.196.53.24/get\_chathistory} verbinden, um den gesamten Nachrichtenverlauf im Datenaustauschformat \acs{JSON} abzufragen. Das Dictionary das den gesamten Chatverlauf enthält kann über die Methode \texttt{jsonify} des Flask Moduls in ein JSON-Objekt leicht umgewandelt werden:
 
 \texttt{jsonify(chat\_msgs)}
+
+\pagebreak
 
 Der Mehrwert des vorgestellten Algorithmus ist, das ein Client den Chatverlauf in einer geordneten Struktur erhält und selbst entscheiden kann, in welcher Formatierung die Nachrichten dem Benutzer angezeigt werden. Außerdem ist über das Key-Value-Prinzip schnell auf den Chatverlauf des Benutzers mit einem bestimmten Kommunikationspartner zugreifbar:
 
@@ -2448,8 +2485,6 @@ Im Anhang in \autoref{img:umlActivitySendMessage} ist die Anwendungslogik in ein
 
 Wie der Versand einer Nachricht im Code der \acs{API} umgesetzt ist, wird im Folgenden beschrieben:
 
-\pagebreak
-
 Die \acs{API} muss unterscheiden, für welche Plattform ein Benutzer angemeldet ist. Das kann durch Conditional Code entschieden werden.
 
 \autoref{lst:selectedPlatformCode} zeigt, wie die \acs{API} entscheidet, über welche Plattform die Nachricht versendet werden soll.
@@ -2470,7 +2505,7 @@ Die \acs{API} nutzt die Einträge aus dem Session-Dictionary. Der Aufruf \texttt
 \autoref{lst:flaskSendMessage} zeigt, wie die Nachricht versendet wird, wenn der Benutzer für die Plattform ejabberd angemeldet ist.
 
 \begin{lstlisting}[language=python, caption={Code für den Versand einer Nachricht über die \acs{API} an ejabberd}, label={lst:flaskSendMessage}]
-# if part of Listing 5.44
+# if-part of Listing 5.44
 if session_dict[current_user.user_id]['requested_platform']=='xmpp':
     session_dict[current_user.user_id]["xmpp_object"].push_message(JSON_Data["to"]+"@ejabberd-server", JSON_Data["msg_body"], JSON_Data["msg_subject"], JSON_Data["msg_type"])
     # if no errors -> send successfull feedback to client
@@ -2514,7 +2549,7 @@ Die contacts hat den Mehrwert, dass die \acs{API} vor dem Versenden einer Nachri
 Der Code für den Versand einer Nachricht über die Apache Kafka Plattform ist in \autoref{lst:flaskSendMessageKafka} dargestellt.
 
 \begin{lstlisting}[language=python, caption={Code für den Versand einer Nachricht über die \acs{API} an Apache Kafka}, label={lst:flaskSendMessageKafka}]
-# elif part of Listing 5.44
+# elif-part of Listing 5.44
 elif session_dict[current_user.user_id]['requested_platform']=='kafka':
 # check in table contacts if chat partners exists
 # return error as JSON if chat partners does not exist
@@ -2585,7 +2620,6 @@ def myfunction(x):
     for i in range(10):
         yield x
         x += 1
-
 for i in myfunction(1):
     print(i)
 \end{lstlisting}
@@ -2597,7 +2631,6 @@ Eine \acs{API}-Route in Flask kann einen Generator benutzen, um ein Server-Sent-
 \begin{lstlisting}[language=python, caption={Beispiel: Code für ein Server-Sent-Event in Python Flask}, label={lst:pythonGeneratorFlaskExample}]
 from flask import Flask, Response
 app = Flask(__name__)
-
 def myfunction(x):
     for i in range(10):
         yield "data: %s\n\n" % x
@@ -2783,7 +2816,7 @@ Der Mehrwert für die Entwicklung des \acs{IMS} ist, dass Benutzer Kontakte hinz
 
 \chapter{Entwicklung des Frontends für den XMPP-Client}
 \label{sec:FrontendXMPP}
-Einleitend geht der \autoref{subsec:GuiPython} auf die Möglichkeiten einer grafischen Benutzeroberfläche mit Python ein. Mit dem Resultat der Entscheidungsmatrizen aus \autoref{tab:EntscheidungsmatrixFrameworkart} und \autoref{tab:EntscheidungsmatrixWebFramework} erfolgt die Umsetzung mithilfe der in \autoref{sec:HTMLCSSJS} erläuterten Werkzeuge einer Webentwicklung. In diesem Zusammenhang werden im Folgenden alle relevanten HTML- und JavaScript-Dateien analysiert und detailliert erläutert. 
+Einleitend geht der \autoref{sec:GuiPython} auf die Möglichkeiten einer grafischen Benutzeroberfläche mit Python ein. Mit dem Resultat der Entscheidungsmatrizen aus \autoref{tab:EntscheidungsmatrixFrameworkart} und \autoref{tab:EntscheidungsmatrixWebFramework} erfolgt die Umsetzung mithilfe der in \autoref{sec:HTMLCSSJS} erläuterten Werkzeuge einer Webentwicklung. In diesem Zusammenhang werden im Folgenden alle relevanten HTML- und JavaScript-Dateien analysiert und detailliert erläutert. 
 
 Vorab ist der Begriff des XMPP-Clients zu definieren. Mit der Entwicklung eines Chatsystem auf Basis von XMPP wird das Ziel verfolgt ejabberd als Messaging-System und XMPP als Kommunikationssprache zu nutzen. Dafür wird sowohl ein Server als auch ein Client benötigt. Mit der Projektumsetzung auf der Web-Plattform kann der Client verschieden definiert werden. Nach Günter Pomaska kann der Client sowohl die Hardware, als auch die Software darstellen.\cite{pomaska2012webseiten}. Demnach handelt es sich bei dem XMPP-Client um die Software bzw. den Browser welcher über XMPP mit dem Server kommuniziert.
 
@@ -2816,11 +2849,11 @@ Um auf den \ac{HTML}-Aufbau der Webseiten einzugehen ist das Verständnis über 
 		\label{img:DateinAufrufbaum}
 	\end{minipage}
 \end{figure}
-\autoref{img:HTMLDateienOrdner} zeigt welche HTML-Dateien für die Applikation bzw. für den XMPP-Client relevant sind und wo diese in der Ordnerstruktur zu finden sind. Die Ordnerstruktur hängt mit der Verwendung von Flask zusammen und orientiert sich an dem \autoref{subsec:Flask}. Die zweite \autoref{img:DateinAufrufbaum} zeigt wie die Seiten sich gegenseitig benötigen. Hierbei handelt es sich nicht um Referenzen innerhalb des Source-Codes, sondern um die Aufrufstruktur für den Nutzer. Mit der \texttt{index.html}, dargestellt in kursiver Schrift, wird angedeutet, dass kein Nutzer diese Seite ausgeliefert bekommt. Dieses \ac{HTML}-Dokument dient lediglich als Basis. Die weiteren Dateien erben den Inhalt der index.html, was die UML-Notation andeuten soll. Auf der zweiten Ebene hat der Nutzer die Möglichkeit zwischen den Dateien, welche hinter einem API-Endpunkt liegen, zu wechseln, je nach Verwendung. Mit dem Verständnis über die Beziehungen der Dateien wird im Folgenden auf den \ac{HTML}-Aufbau der einzelnen HTML-Dokumenten eingegangen.
+\autoref{img:HTMLDateienOrdner} zeigt welche HTML-Dateien für die Applikation bzw. für den XMPP-Client relevant sind und wo diese in der Ordnerstruktur zu finden sind. Die Ordnerstruktur hängt mit der Verwendung von Flask zusammen und orientiert sich an dem \autoref{sec:Flask}. Die zweite \autoref{img:DateinAufrufbaum} zeigt wie die Seiten sich gegenseitig benötigen. Hierbei handelt es sich nicht um Referenzen innerhalb des Source-Codes, sondern um die Aufrufstruktur für den Nutzer. Mit der \texttt{index.html}, dargestellt in kursiver Schrift, wird angedeutet, dass kein Nutzer diese Seite ausgeliefert bekommt. Dieses \ac{HTML}-Dokument dient lediglich als Basis. Die weiteren Dateien erben den Inhalt der index.html, was die UML-Notation andeuten soll. Auf der zweiten Ebene hat der Nutzer die Möglichkeit zwischen den Dateien, welche hinter einem API-Endpunkt liegen, zu wechseln, je nach Verwendung. Mit dem Verständnis über die Beziehungen der Dateien wird im Folgenden auf den \ac{HTML}-Aufbau der einzelnen HTML-Dokumenten eingegangen.
 
 \section{Vererbung von Webseiten mithilfe von Flask}
 \label{subsec:TemplateInheritance}
-Flask als microframework bietet zahlreiche Möglichkeiten. Aus \autoref{subsec:Flask} ist bekannt, dass Flask mehrere Komponenten beinhaltet. Eines kann als Jinja identifiziert werden, welches unter anderem als Template-Bibliothek bezeichnet wird. Wie dem vorherigen Abschnitt zu entnehmen ist, handelt es sich bei dem Konzept des Frontends um die Vererbung von HTML-Elementen. Ein Konzept, welche durch Jinja ermöglicht wird.
+Flask als microframework bietet zahlreiche Möglichkeiten. Aus \autoref{sec:Flask} ist bekannt, dass Flask mehrere Komponenten beinhaltet. Eines kann als Jinja identifiziert werden, welches unter anderem als Template-Bibliothek bezeichnet wird. Wie dem vorherigen Abschnitt zu entnehmen ist, handelt es sich bei dem Konzept des Frontends um die Vererbung von HTML-Elementen. Ein Konzept, welche durch Jinja ermöglicht wird.
 
 Die offizielle Seite von Flask bezeichnet das Vererben von HTML-Vorlagen als mächtigstes Tool von Jinja. Die Vererbung erlaubt das Konstruieren eines Rahmens für den gesamten Webauftritt. Um dieses Prinzip zu verwenden werden mindestens 2 HTML-Seiten benötigt. In einem ersten Schritt wird das sogenannte \glqq Base Template\grqq\ definiert. Diese Seite verkörpert den Rahmen, wobei es alle Elemente, welche dauerhaft benötigt werden, implementiert. Ein Beispiel für die Grundseite ist im \autoref{lst:BaseTemplate} dargestellt.
 \begin{lstlisting}[language=HTML,caption=Beispiel einer Grundseite für das Vererbungsprinzip,label={lst:BaseTemplate}]
@@ -2870,7 +2903,7 @@ Aus dem aktuellen Kenntnisstand geht hervor, dass ein Webauftritt durch mehrere 
 \end{itemize}
 Die Erläuterung des HTML-Codes erfolgt mithilfe von Abbildungen. Ein HTML-Tag bildet demnach eine Box mit schwarzen Rahmen. Dadurch können Verschachtelungen als innere Elemente der äußeren Box dargestellt werden. Füllt sich im Verlauf eine HTML-Box, so werden unrelevante Boxen grau abgebildet.
 
-Eine Struktur als Rahmen der Webseite basiert grundlegend auf die Verwendung von \ac{HTML}. Für die Webseite bedeutet dies, dass die Struktur aus div-Boxen und anderen \ac{HTML}-Elementen besteht. Die div-Box kann den Tags, welche in \autoref{sec:HTMLCSSJS} erläutert wurden, zugeordnet werden. Dies erweitert den Umfang der \ac{HTML}-Tags aus \autoref{sec:HTMLCSSJS} um eine weitere Variante. Grundsätzlich basiert ein Webauftritt auf einer index.html Datei, welche als Ausgangspunkt für den ersten Aufruf eines Nutzers dient. Bezogen auf die Struktur gibt es bei der Web-Entwicklung lediglich Vorschläge wie eine Umsetzung erfolgen kann, dennoch ist das Konzept nach eigenen Anforderungen zu definieren. Demnach kann eine Webseite komplett in der \texttt{index.html} Datei ausgeliefert werden, oder für jede Route, die der Nutzer adressieren kann, wird eine neue \ac{HTML}-Datei ausgeliefert. Im Rahmen der Studienarbeit wird das zweite Konzept verfolgt, weshalb die index.html Datei lediglich als Basis für eine einheitliche Struktur dient. Dieses Konzept ist in der \autoref{img:DateinAufrufbaum} dargestellt und im \autoref{subsec:TemplateInheritance} beschrieben. Außerdem ist daraus ersichtlich, dass die index.html nicht direkt ausgeliefert wird. Wie die nachfolgende \autoref{img:index-struktur} zeigt, bildet der nav-Tag das Konstrukt, welches der Hauptbestandteil der index-Seite und damit dem Base Template darstellt.
+Eine Struktur als Rahmen der Webseite basiert grundlegend auf die Verwendung von \ac{HTML}. Für die Webseite bedeutet dies, dass die Struktur aus div-Boxen und anderen \ac{HTML}-Elementen besteht. Die div-Box kann den Tags, welche in \autoref{sec:HTMLCSSJS} erläutert sind, zugeordnet werden. Dies erweitert den Umfang der \ac{HTML}-Tags aus \autoref{sec:HTMLCSSJS} um eine weitere Variante. Grundsätzlich basiert ein Webauftritt auf einer index.html Datei, welche als Ausgangspunkt für den ersten Aufruf eines Nutzers dient. Bezogen auf die Struktur gibt es bei der Web-Entwicklung lediglich Vorschläge wie eine Umsetzung erfolgen kann, dennoch ist das Konzept nach eigenen Anforderungen zu definieren. Demnach kann eine Webseite komplett in der \texttt{index.html} Datei ausgeliefert werden, oder für jede Route, die der Nutzer adressieren kann, wird eine neue \ac{HTML}-Datei ausgeliefert. Im Rahmen der Studienarbeit wird das zweite Konzept verfolgt, weshalb die index.html Datei lediglich als Basis für eine einheitliche Struktur dient. Dieses Konzept ist in der \autoref{img:DateinAufrufbaum} dargestellt und im \autoref{subsec:TemplateInheritance} beschrieben. Außerdem ist daraus ersichtlich, dass die index.html nicht direkt ausgeliefert wird. Wie die nachfolgende \autoref{img:index-struktur} zeigt, bildet der nav-Tag das Konstrukt, welches der Hauptbestandteil der index-Seite und damit dem Base Template darstellt.
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=\linewidth]{images/indexbody}
@@ -3106,7 +3139,7 @@ Zu beachten ist die Variable \texttt{re}, welche eine regular expression darstel
 	\caption{Überprüfung der Registrierungs-Seite aus Nutzersicht, eigene Darstellung}
 	\label{img:RegisterUeberpruefenJS}
 \end{figure}\\
-Den größten Umfang an dynamischen Elementen besitzt die als Hauptseite spezifizierte \texttt{gochat.html} Datei. Wie bei den anderen HTML-Dokumenten wurden auch für die Hauptseite der JavaScript-Code strikt von dem HTML-Code getrennt. Die dynamischen Elemente sind in der \texttt{gochatjs.js} Datei definiert. Ansonsten sind keine weiteren äußeren Unterschiede zu den anderen JavaScript-Dateien zu nennen. 
+Den größten Umfang an dynamischen Elementen besitzt die als Hauptseite spezifizierte \texttt{gochat.html} Datei. Wie bei den anderen HTML-Dokumenten ist für die Hauptseite der JavaScript-Code strikt von dem HTML-Code getrennt. Die dynamischen Elemente sind in der \texttt{gochatjs.js} Datei definiert. Ansonsten sind keine weiteren äußeren Unterschiede zu den anderen JavaScript-Dateien zu nennen. 
 Aufgrund der Menge an \ac{JS}-Code werden lediglich für den Chat relevante Funktionen detailliert erläutert. Um die Funktionen, welche mithilfe von JS-Code umgesetzt werden können, zu erläutern, muss ihr jeweiliger Aufgabenbereich definiert werden. Dafür kann zur Orientierung \autoref{img:GochatUserview} betrachtet werden. Die Abbildung verknüpft die Möglichkeiten des Nutzers, mit Funktionen, die umgesetzt werden müssen.
 
 \pagebreak
@@ -3196,7 +3229,7 @@ if (last_message_dict.from == user_name)
 \end{lstlisting}
 Dafür wird mittels \texttt{Object.keys(chat\_messages[user\_name])} auf die Kontakte des angemeldeten Nutzers zugegriffen. Mithilfe der Variablen \texttt{position\_last\_message\_object} wird aus dem Objekt die Position der letzten Nachricht, bei dem sowohl der angemeldete User (\texttt{user\_name}) als auch der Kontaktpartner (\texttt{peer}) übereinstimmt, gefiltert. Dadurch lässt sich in Zeile 4 die Eigenschaften der letzten Nachricht in Form eines Zugriffs auf ein Dictionary ermitteln. Mit der If-Bedingung wird überprüft ob die Nachricht gesendet oder empfangen wurde. Danach erfolgt lediglich das Einbinden der Elemente in den \ac{HTML}-Content, wie er in der \autoref{img:Sidepanel} dargestellt ist.\\
 Mit der vervollständigten Kontaktliste kann die nächste Funktion erläutert werden. Dabei handelts es sich um die Aktivierung des Kontaktes. Diese Möglichkeit gehört zur Chat-Funktionalität und der Usability. Das liegt daran, dass der Nutzer eine Übersicht bekommt welcher Kontakt gerade ausgewählt ist. Außerdem wird der aktive Kontakt benötigt um ihm im Chatfenster anzuzeigen damit der angemeldete Benutzer mit diesem Kontakt schreiben kann. Daher wird der Funktion beide Aspekte zugeordnet. Für die Aktivierung der Kontakte innerhalb der Kontaktliste müssen zwei Ausgangssituation betrachtet werden. Zum Einen soll nach dem Login stets der erste Kontakt aktiviert werden. In allen anderen Fällen erfolgt die Aktivierung über einen Klick auf den entsprechenden Kontakt.\\
-Für die Umsetzung sind mögliche Fehlerquellen zu verhindern. Eine der häufigsten Fehlerquellen bei \ac{JS} ist der Zugriff auf ein Objekt, welches noch nicht vollständigen geladen wurde. JavaScript bzw. jQuery bietet hierfür durch eine \texttt{ready}-Funktion, welche auf das \ac{DOM} angewendet wird, Abhilfe. Das \glqq Ready\grqq, wie es im \autoref{lst:jQueryReadyFunction} dargestellt ist, bildet das Event.
+Für die Umsetzung sind mögliche Fehlerquellen zu verhindern. Eine der häufigsten Fehlerquellen bei \ac{JS} ist der Zugriff auf ein Objekt, welches noch nicht vollständigen existiert. JavaScript und jQuery bieten hierfür durch eine \texttt{ready}-Funktion, welche auf das \ac{DOM} angewendet wird, Abhilfe. Das \glqq Ready\grqq, wie es im \autoref{lst:jQueryReadyFunction} dargestellt ist, bildet das Event.
 
 \begin{lstlisting}[language=Javascript,caption= Ready() Funktion von jQuery,label={lst:jQueryReadyFunction}]
 $(document).ready(function(){
@@ -3311,7 +3344,7 @@ contact_ul.append(`
 }
 \end{lstlisting}  
 Die angewendete Funktion \texttt{.append} wird durch jQuery ermöglicht. Dadurch lässt sich an das entsprechende HTML-Element, HTML-Code anhängen. Mit dem Konstrukt \texttt{\$\{name\}} wird ermöglicht, JavaScript-Variablen in den HTML-Code zu integrieren.\\ 
-Bei Betrachtung der \autoref{tab:JavaScript Aufgabendefinition für gochat.html} ist ersichtlich, dass die Funktion des Einzel- und Gruppenchats sowie Funktionen, welche die Nachrichten betreffen, noch nicht detailliert erläutert wurden. Die Funktion für den Wechsel der Chatart ist aufgrund der Zuordnung zur Benutzerfreundlichkeit und keiner größeren Relevanz für die Chat-Funktionalität nicht erwähnenswert. Anders verhält es sich bei den Funktionen, die sich mit den Nachrichten befassen. Diese werden wiederum benötigt damit die Clients sich Nachrichten senden und anzeigen lassen können. Aufgrund der Komplexität wurde die gesamte Nachrichten-Funktionalität in mehrere Teilfunktionen ausgelagert. Einen Überblick über alle Funktionen soll die nachfolgende \autoref{tab:FunctionsForMessagesJS} bieten. Darin aufgeführt sind sowohl die Funktionsnamen als auch eine kurze Beschreibung der Funktion.
+Bei Betrachtung der \autoref{tab:JavaScript Aufgabendefinition für gochat.html} ist ersichtlich, dass die Funktion des Einzel- und Gruppenchats sowie Funktionen, welche die Nachrichten betreffen, noch nicht detailliert erläutert sind. Die Funktion für den Wechsel der Chatart ist aufgrund der Zuordnung zur Benutzerfreundlichkeit und keiner größeren Relevanz für die Chat-Funktionalität nicht erwähnenswert. Anders verhält es sich bei den Funktionen, die sich mit den Nachrichten befassen. Diese werden wiederum benötigt damit die Clients sich Nachrichten senden und anzeigen lassen können. Aufgrund der Komplexität ist die gesamte Nachrichten-Funktionalität in mehrere Teilfunktionen ausgelagert. Einen Überblick über alle Funktionen soll die nachfolgende \autoref{tab:FunctionsForMessagesJS} bieten. Darin aufgeführt sind sowohl die Funktionsnamen als auch eine kurze Beschreibung der Funktion.
 \begin{table}[h]
 	\centering
 	\caption{Funktionen zum Nachrichten senden und anzeigen lassen}
@@ -3380,7 +3413,7 @@ source.onmessage = function (event) {
 };
 \end{lstlisting}
 In Zeile 1 wird die Variable \texttt{source} mit der Route, auf der gehört wird, initialisiert. Dafür wird ein Objekt von Typ \texttt{EventSource} angelegt. Dies wird laut Quellen als Interface bezeichnet, welches erlaubt Server-Sent Events zu empfangen. Vorteil dieser Variante ist die Automatisierung. Das bedeutet der Client muss beim Server nicht nachfragen, sondern kann auf der Route \texttt{/stream} hören, ob ein Sent-Event auftritt.\cite{w3schoolsServerSentEvent}\\
-Das \autoref{lst:EventStreamFunction} stellt in Zeile 2 das \texttt{onmessage} Event dar. Dadurch kann eine Funktion ausgelöst werden, sobald eine Nachricht empfangen wurde. Anschließend erfolgt eine Formatierung der empfangenen Daten. Dafür wird der Variable \texttt{result} ein String entfernt. Anschließend wird mithilfe von JavaScript die Daten in ein JSON-Objekt transferiert. Dadurch wird die weitere Verarbeitung erleichtert. Hierbei ist interessant wie die Daten an den Client ankommen und in welches Format diese gebracht werden.
+Das \autoref{lst:EventStreamFunction} stellt in Zeile 2 das \texttt{onmessage} Event dar. Dadurch kann eine Funktion ausgelöst werden, sobald eine Nachricht empfangen wird. Anschließend erfolgt eine Formatierung der empfangenen Daten. Dafür wird der Variable \texttt{result} ein String entfernt. Anschließend wird mithilfe von JavaScript die Daten in ein JSON-Objekt transferiert. Dadurch wird die weitere Verarbeitung erleichtert. Hierbei ist interessant wie die Daten an den Client ankommen und in welches Format diese gebracht werden.
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=1.2]{images/GochatAusgabeEmpfangenerNachrichtBearbeitet}
@@ -3631,7 +3664,7 @@ for (let i = 0; i < contacts.length; i++) {
 	} 
 }
 \end{lstlisting}
-Wurde der Kontakt gefunden kann die Funktion beendet werden. Für den Fall, dass es sich um einen neuen Kontakt handelt, muss der Kontakt der Kontaktliste hinzugefügt werden. Für das Hinzufügen eines Kontaktes, ist auf \autoref{sec:FrontendXMPP} zu verweisen.\\
+Wird der Kontakt gefunden, kann die Funktion beendet werden. Für den Fall, dass es sich um einen neuen Kontakt handelt, muss der Kontakt der Kontaktliste hinzugefügt werden. Für das Hinzufügen eines Kontaktes, ist auf \autoref{sec:FrontendXMPP} zu verweisen.\\
 Für zwei identische Clients, muss der Kafka-Client alle Funktionen der \autoref{tab:JavaScript Aufgabendefinition für gochat.html} implementieren. Die Funktion bietet daher die Möglichkeit den ersten Kontakt zu aktivieren. Hierfür wird die Variable \texttt{firstContact} aus \autoref{lst:JSKafkaGlobalVars} benötigt. Die Variable ist von beginn an true. Nach dem ersten Durchlauf wird die Variable auf false gesetzt. Doch davor wird die Funktion \texttt{getFirstContactactive()} aufgerufen. Diese Funktion übernimmt die Aufgabe den ersten Kontakt als aktiv darzustellen. Die Funktion ist identisch zum Aktivieren des ersten Kontaktes beim XMPP-Client und wird daher nicht erläutert. Bei der zweiten Funktion \texttt{fill\_in\_chat\_msgs\_single\_chat(user\_name, peer\_name)} aus der \autoref{tab:FunctionsForGetMessage} sind keine Unterschiede zum XMPP-Client zu identifizieren. An dieser Stelle sei zu erwähnen, dass die dargestellten Funktionen je nach Bedingung innerhalb von \texttt{getMessage()} aufgerufen werden (\autoref{img:getMessageAblauf}). Anhand der Abbildung ist unter anderem zu erkennen, dass zum aktuellen Zeitpunkt der rechte Pfad der zweiten Bedingung abgehandelt ist. Um die Funktion \texttt{getMessage()} abzuschließen wird im Folgenden der linke Pfad erläutert. Darüber hinaus bleibt das \texttt{chat\_messages-Objekt} Bestandteil dieser Ausführung, da es zu Änderungen oder Erweiterungen kommen kann.\\
 Mit dem Falsch werden der Bedingung (\autoref{lst:JSKafkaGetMsgExisitingContact}) ist für die Abhandlung des linken Pfades klar, dass der Kontaktpartner bereits Teil des \texttt{chat\_messages-Objektes} ist. Aufgrund davon, dass beim Aufrechterhalten des Streams alle Nachrichten erneut gesendet werden, ergeben sich für den linken Pfad zwei Fragen. Bei diesen handelt es sich um:
 \begin{itemize}
@@ -3758,7 +3791,7 @@ In einem späteren Schritt wurde auf beiden Plattformen eine weitere Funktion im
 	\caption{Ablauf des Konzeptes zum Hinzufpgen eines neuen Kontaktes, eigene Darstellung}
 	\label{img:AddNewContactAblauf}
 \end{figure}\\
-Die Abbildung stellt den gesamten Prozess der Funktion zum Hinzufügen eines neuen Kontaktes dar und kann als Ergänzung zum \autoref{sec:FrontendXMPP} angesehen werden. Die blauen Rahmen symbolisieren die Funktionen, welche bereits bei der Umsetzung des XMPP-Clients beschrieben wurden. Diese sind in Textform oder als Pseudocode dargestellt. Die Funktionen sind in einem ersten Schritt in den Kafka-Client zu implementieren. Die Erweiterung beider Clients besitzt einen grünen Rahmen und ist in der \autoref{img:AddNewContactAblauf} dargestellt. Hierbei handelt es sich um die Funktion \texttt{SendNewContact()}. Die Funktionalität wird ausschließlich am Kafka-Client erörtert.\\
+Die Abbildung stellt den gesamten Prozess der Funktion zum Hinzufügen eines neuen Kontaktes dar und kann als Ergänzung zum \autoref{sec:FrontendXMPP} angesehen werden. Die blauen Rahmen symbolisieren die Funktionen, welche bereits bei der Umsetzung des XMPP-Clients beschrieben sind. Diese sind in Textform oder als Pseudocode dargestellt. Die Funktionen sind in einem ersten Schritt in den Kafka-Client zu implementieren. Die Erweiterung beider Clients besitzt einen grünen Rahmen und ist in der \autoref{img:AddNewContactAblauf} dargestellt. Hierbei handelt es sich um die Funktion \texttt{SendNewContact()}. Die Funktionalität wird ausschließlich am Kafka-Client erörtert.\\
 Wie der \autoref{img:AddNewContactAblauf} zu entnehmen ist, wird die Funktion nur aufgerufen, sollte der Request an den Server erfolgreich sein. Das bedeutet, der eingegebene Name ist bereits als Nutzer am Instant-Messaging System angemeldet. Übergeben wird der Funktion den Namen der Nutzers, der Hinzugefügt werden soll. Der Funktionsaufbau von \texttt{sendNewContact()} ist im \autoref{lst:JSKafkasendNewContact} abgebildet.
 \begin{lstlisting}[language=Javascript,caption=Funktionsaufbau von \texttt{sendNewContact()},label={lst:JSKafkasendNewContact}]
 function sendNewContact(contactName){
@@ -3842,7 +3875,7 @@ Die häufigsten Testarten lassen sich in vier Bereiche aufteilen - Integrationst
 	\label{img:Testarten}
 \end{figure}
 
-Integrationstests sind abgestimmte Reihen von mehreren Tests, die dazu dienen, verschiedene voneinander abhängige Komponenten eines komplexen Systems im Zusammenspiel miteinander zu prüfen. Für den Integrationstest erstellt man nun Testszenarien, die das Zusammenwirken der beiden betroffenen Komponenten zeigen. Die Anzahl der Integrationsstufen richtet sich nach der Komplexität der Software. Systemtests werden durchgeführt, um die gesamte Software gegen die gesamten Anforderungen des Kunden zu testen. Das beinhaltet alle funktionalen Anforderungen und nicht funktionalen Anforderungen, wie zum Beispiel Qualität oder Bedienbarkeit. Weil Systemtests die gesamte Software testen, sind diese zum Zeitpunkt der Fertigstellung der Software durchzuführen. Idealerweise wird die Produktivumgebung des Kunden zuerst nachgestellt und die Software mit Live-Szenarien aus dem Produktivbetrieb getestet. Ein Abnahmetest, Verfahrenstest, Akzeptanztest oder auch User Acceptance Test ist ein Test der ausgelieferten Software durch den Kunden und/oder Auftraggeber. Der Test wird oft mit Kopien von echten Daten in der Produktionsumgebung des Kunden durchgeführt. Diese Testart hat nicht das Ziel Fehler zu entdecken, sondern das der Kunde Vertrauen in das Endprodukt gewinnt. Fehler sollten schon durch andere Testarten entdeckt worden und behoben sein. Zum Beispiel durch Unittests, welche kleine Abschnitte des Codes testen.\cite{witte2019testmanagement}
+Integrationstests sind abgestimmte Reihen von mehreren Tests, die dazu dienen, verschiedene voneinander abhängige Komponenten eines komplexen Systems im Zusammenspiel miteinander zu prüfen. Für den Integrationstest erstellt man nun Testszenarien, die das Zusammenwirken der beiden betroffenen Komponenten zeigen. Die Anzahl der Integrationsstufen richtet sich nach der Komplexität der Software. Systemtests werden durchgeführt, um die gesamte Software gegen die gesamten Anforderungen des Kunden zu testen. Das beinhaltet alle funktionalen Anforderungen und nicht funktionalen Anforderungen, wie zum Beispiel Qualität oder Bedienbarkeit. Weil Systemtests die gesamte Software testen, sind diese zum Zeitpunkt der Fertigstellung der Software durchzuführen. Idealerweise wird die Produktivumgebung des Kunden zuerst nachgestellt und die Software mit Live-Szenarien aus dem Produktivbetrieb getestet. Ein Abnahmetest, Verfahrenstest, Akzeptanztest oder auch User Acceptance Test ist ein Test der ausgelieferten Software durch den Kunden und/oder Auftraggeber. Der Test wird oft mit Kopien von echten Daten in der Produktionsumgebung des Kunden durchgeführt. Diese Testart hat nicht das Ziel Fehler zu entdecken, sondern das der Kunde Vertrauen in das Endprodukt gewinnt. Fehler sollten durch andere Testarten entdeckt und behoben sein. Zum Beispiel durch Unittests, welche kleine Abschnitte des Codes testen.\cite{witte2019testmanagement}
 
 \smallskip
 
@@ -3927,7 +3960,7 @@ class UserRegistrationTests(unittest.TestCase):
         self.assertEqual(return_code, 0)
 \end{lstlisting}
 
-Der Unittest überprüft, ob die Methode das erwartete Ergebnis liefert, wenn mit dem Mock ein Rückgabewert des Moduls \texttt{subproccess} definiert wird. Das Modul \texttt{subprocess} setzt wie in \autoref{chap:Umsetzung} bereits beschrieben, den \acs{SSH}-Zugriff um. In dem Dekorator \texttt{@patch} ist die Datei, das Modul und das Objekt angegeben, für die ein Ergebniswert vorgetäuscht werden soll \cite{hubertz2016softwaretests}. In diesem Fall: \texttt{UserManagement.subprocess.Popen}. Anschließend kann über den zusätzlichen Übergabeparameter \texttt{mocked\_popen} auf den Mock zugegriffen werden und Ergebniswerte für verschiedene Operationen des Objekts definiert werden \cite{hubertz2016softwaretests}. Das Übergabeargument kann beliebig genannt werden, denn \texttt{@patch} sorgt dafür, dass es gültig ist. Die getestete Methode verwendet die definierten Ergebniswerte während des Tests so, als wenn das Objekt tatsächlich diese Ergebnisse liefert. Über die Assert-Methode \texttt{assertEqual} wird überprüft, ob der Rückgabewert der getesteten Methode wie erwartet Null ist.
+Der Unittest überprüft, ob die Methode das erwartete Ergebnis liefert, wenn mit dem Mock ein Rückgabewert des Moduls \texttt{subproccess} definiert wird. Das Modul \texttt{subprocess} setzt wie in \autoref{subsec:Backend} bereits beschrieben, den \acs{SSH}-Zugriff um. In dem Dekorator \texttt{@patch} ist die Datei, das Modul und das Objekt angegeben, für die ein Ergebniswert vorgetäuscht werden soll \cite{hubertz2016softwaretests}. In diesem Fall: \texttt{UserManagement.subprocess.Popen}. Anschließend kann über den zusätzlichen Übergabeparameter \texttt{mocked\_popen} auf den Mock zugegriffen werden und Ergebniswerte für verschiedene Operationen des Objekts definiert werden \cite{hubertz2016softwaretests}. Das Übergabeargument kann beliebig genannt werden, denn \texttt{@patch} sorgt dafür, dass es gültig ist. Die getestete Methode verwendet die definierten Ergebniswerte während des Tests so, als wenn das Objekt tatsächlich diese Ergebnisse liefert. Über die Assert-Methode \texttt{assertEqual} wird überprüft, ob der Rückgabewert der getesteten Methode wie erwartet Null ist.
 
 \pagebreak
 
