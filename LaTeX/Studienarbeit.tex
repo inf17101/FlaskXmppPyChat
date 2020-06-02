@@ -453,11 +453,11 @@ Verschiedene \ac{IMS} besitzen ähnliche Funktionsweisen. Möchte ein Benutzer e
 	\label{img:StrukturIMS}
 \end{figure}
 
-In der Abbildung wird eine horizontale oder vertikale Skalierung des \ac{IMS} vernachlässigt. Der Authentifikationsserver symbolisiert einen oder mehrere Server. Hat sich der Benutzer mit seinen Login-Daten erfolgreich gegenüber dem Authentifikationsserver authentifiziert, kann er andere, bereits registrierte, Benutzer kontaktieren. Die Verbindungsinformationen wie zum Beispiel IP-Adresse, die dem Client lokal zugewiesene Portnummer und die Kontaktliste (Freunde des Benutzers) werden an den Präsenzserver übermittelt. Dieser ist abhängig von der Implementierungsform ein Teil des IM-Servers oder ein eigenständiger Server. Der Präsenzserver überprüft, welche Benutzer aus der Kontaktliste verfügbar und angemeldet sind. Der Server sendet dem Benutzer die Ergebnisse der Statusüberprüfung zurück. Ist einer der gewünschten Benutzer \glqq online\grqq (verfügbar) kann durch die Auswahl der entsprechenden Kennung eine Verbindung aufgebaut werden und der Nachrichtenaustausch kann beginnen. Das ist möglich, weil der Server dem Sender die IP-Adresse und die Ziel-Portnummer des Kommunikationspartners übermittelt. Die Nachrichten werden direkt zwischen den Clients übertragen oder über den Server zwischen den Kommunikationspartnern übermittelt. Die Art der Übertragung ist von System zu System je nach Realisierung unterschiedlich. Der Kommunikationspfad ist abhängig von der Architektur und dem verwendeten Protokoll. Eine Nachricht kann zentral über den Server vermittelt werden (siehe \autoref{img:StrukturIMS}-indirekte Nachricht) oder nach dem Peer-to-Peer-Prinzip (siehe \autoref{img:StrukturIMS}-direkte Nachricht) erfolgen. 
+In der Abbildung wird eine horizontale oder vertikale Skalierung des \ac{IMS} vernachlässigt. Der Authentifikationsserver symbolisiert einen oder mehrere Server. Hat sich der Benutzer mit seinen Login-Daten erfolgreich gegenüber dem Authentifikationsserver authentifiziert, kann er andere, bereits registrierte, Benutzer kontaktieren. Die Verbindungsinformationen wie zum Beispiel IP-Adresse, die dem Client lokal zugewiesene Portnummer und die Kontaktliste (Freunde des Benutzers) werden an den Präsenzserver übermittelt. Dieser ist abhängig von der Implementierungsform ein Teil des IM-Servers oder ein eigenständiger Server. Der Präsenzserver überprüft, welche Benutzer aus der Kontaktliste verfügbar und angemeldet sind. Der Server sendet dem Benutzer die Ergebnisse der Statusüberprüfung zurück. Ist einer der gewünschten Benutzer \glqq online\grqq\ (verfügbar) kann durch die Auswahl der entsprechenden Kennung eine Verbindung aufgebaut werden und der Nachrichtenaustausch kann beginnen. Das ist möglich, weil der Server dem Sender die IP-Adresse und die Ziel-Portnummer des Kommunikationspartners übermittelt. Die Nachrichten werden direkt zwischen den Clients übertragen oder über den Server zwischen den Kommunikationspartnern übermittelt. Die Art der Übertragung ist von System zu System je nach Realisierung unterschiedlich. Der Kommunikationspfad ist abhängig von der Architektur und dem verwendeten Protokoll. Eine Nachricht kann zentral über den Server vermittelt werden (siehe \autoref{img:StrukturIMS}-indirekte Nachricht) oder nach dem Peer-to-Peer-Prinzip (siehe \autoref{img:StrukturIMS}-direkte Nachricht) erfolgen. 
 
 \section{XMPP-Extensible Messaging and Presence Protocol}
 \label{sec:XMPP}
-\ac{XMPP} bedeutet Extensible Messaging and Presence Protocol. Wird dieses ins Deutsche übersetzt, so entsteht die Bedeutung eines erweiterbares Nachrichten- und Anwesenheitsprotokoll. Eine Definition die \ac{XMPP} sehr gut beschreibt. \ac{XMPP} basiert auf \ac{XML}, welches eine Markup Sprache darstellt. Das Ziel von \ac{XMPP} war ein Protokoll für das Instant Messaging zu entwickeln. Laut dem RFC6120 lässt sich mittels \ac{XMPP} Daten zwischen zwei oder mehreren Netzwerkeinheiten nahezu in Echtzeit austauschen, welches als Vorteil für Sofortnachrichten bezeichnet werden kann. Diesbezüglich nutzt es das Internet und erlaubt den Usern Sofortnachrichten an andere Anwender innerhalb des Internets zu schicken. \ac{XMPP} lässt sich in viele verschiedene Funktionen aufteilen, weshalb der grundlegende Zweck ein anderes Ziel verfolgt. Im einfachsten Sinne ist die Idee von \ac{XMPP} den Austausch von kleinen Teilen strukturierter Daten (\glqq \ac{XML} stanzas\grqq) zwischen einem oder mehreren Netzwerkteilnehmern zu ermöglichen. Primär wird \ac{XMPP} mithilfe einer Client-Server-Architektur implementiert, bei der sich ein Client mit einem Server verbindet, um mit anderen Teilnehmern Daten auszutauschen. Anderseits kann es als Protokoll auch zwischen Servern fungieren. Daraus resultiert der Vorteil nahezu unabhängig von Betriebssystemen und Browsern zu sein. Wird die Client-Server-Architektur implementiert, so ist in der Regel der Ablauf definiert durch folgende Schritte: \cite{RFC6120} 
+\ac{XMPP} bedeutet Extensible Messaging and Presence Protocol. Wird dieses ins Deutsche übersetzt, so entsteht die Bedeutung eines erweiterbares Nachrichten- und Anwesenheitsprotokoll. Eine Definition die \ac{XMPP} sehr gut beschreibt. \ac{XMPP} basiert auf \ac{XML}, welches eine Markup Sprache darstellt. Das Ziel von \ac{XMPP} war ein Protokoll für das Instant Messaging zu entwickeln. Laut dem RFC6120 lässt sich mittels \ac{XMPP} Daten zwischen zwei oder mehreren Netzwerkeinheiten nahezu in Echtzeit austauschen, welches als Vorteil für Sofortnachrichten bezeichnet werden kann. Diesbezüglich nutzt es das Internet und erlaubt den Usern Sofortnachrichten an andere Anwender innerhalb des Internets zu schicken. \ac{XMPP} lässt sich in viele verschiedene Funktionen aufteilen, weshalb der grundlegende Zweck ein anderes Ziel verfolgt. Im einfachsten Sinne ist die Idee von \ac{XMPP} den Austausch von kleinen Teilen strukturierter Daten (\glqq \ac{XML} stanzas\grqq\ zwischen einem oder mehreren Netzwerkteilnehmern zu ermöglichen. Primär wird \ac{XMPP} mithilfe einer Client-Server-Architektur implementiert, bei der sich ein Client mit einem Server verbindet, um mit anderen Teilnehmern Daten auszutauschen. Anderseits kann es als Protokoll auch zwischen Servern fungieren. Daraus resultiert der Vorteil nahezu unabhängig von Betriebssystemen und Browsern zu sein. Wird die Client-Server-Architektur implementiert, so ist in der Regel der Ablauf definiert durch folgende Schritte: \cite{RFC6120} 
 \begin{enumerate}
 	\item Bestimmen der IP-Adresse und des Ports zu dem sich verbunden werden soll 
 	\item Eine \ac{TCP} Verbindung öffnen/aufbauen
@@ -465,7 +465,7 @@ In der Abbildung wird eine horizontale oder vertikale Skalierung des \ac{IMS} ve
 	\item Optional: Verwendung von \ac{TLS} für die Verschlüsselung
 	\item Verwendung des SASLs Frameworks für die Authentifizierung
 	\item Eine Ressource an den \ac{XML} stream anbinden
-	\item Austausch unbegrenzter \glqq \ac{XML} stanzas\grqq ()=> kleine Teile strukturierter Daten) mit anderen Netzwerkteilnehmern
+	\item Austausch unbegrenzter \glqq \ac{XML} stanzas\grqq\ ()=> kleine Teile strukturierter Daten) mit anderen Netzwerkteilnehmern
 	\item Schließen des \ac{XML} streams
 	\item Schließen der \ac{TCP} Verbindung
 \end{enumerate}
@@ -481,7 +481,7 @@ Die folgende \autoref{img:XMPPcommunication} zeigt den Start einer Kommunikation
 	\label{img:XMPPcommunication}
 \end{figure} 
 
-Für den Austausch von Daten gibt es zwei elementare Konzepte. Zum einen die \ac{XML}-Streams und die \ac{XML}-Stanzas. Diese zwei Konzepte werden definiert um das Verständnis des Datenaustauschs, wie es im obigen Ablauf definiert ist, zu erlangen. Bei dem Austausch der Daten mittels \ac{XML} streams wird von einem Container zwischen den Teilnehmern gesprochen. Der \ac{XML} stream ist durch den \glqq stream header\grqq (z.B. \ac{XML} <stream>) und dem Ende des streams, dargestellt durch \ac{XML} </streams>, eindeutig definiert. Die Anzahl der austauschbaren \ac{XML} Elemente ist unbegrenzt und durch die Lebensdauer des streams definiert. Das \ac{XML} stanza wird nun als diskrete semantische Einheit strukturierter Daten, das von einem Teilnehmer zu einem anderen über den \ac{XML} stream gesendet wird bezeichnet. Das \ac{XML} stanza ist ein direktes Kind-Element des streams. Ein stanza kann wiederum selbst Kind-Elemente enthalten, das den \ac{XML} stream definiert. Im Kern fungiert der \ac{XML} stream wie eine Hülle um alle \ac{XML} stanzas, die während einer Session versendet werden.
+Für den Austausch von Daten gibt es zwei elementare Konzepte. Zum einen die \ac{XML}-Streams und die \ac{XML}-Stanzas. Diese zwei Konzepte werden definiert um das Verständnis des Datenaustauschs, wie es im obigen Ablauf definiert ist, zu erlangen. Bei dem Austausch der Daten mittels \ac{XML} streams wird von einem Container zwischen den Teilnehmern gesprochen. Der \ac{XML} stream ist durch den \glqq stream header\grqq\ (z.B. \ac{XML} <stream>) und dem Ende des streams, dargestellt durch \ac{XML} </streams>, eindeutig definiert. Die Anzahl der austauschbaren \ac{XML} Elemente ist unbegrenzt und durch die Lebensdauer des streams definiert. Das \ac{XML} stanza wird nun als diskrete semantische Einheit strukturierter Daten, das von einem Teilnehmer zu einem anderen über den \ac{XML} stream gesendet wird bezeichnet. Das \ac{XML} stanza ist ein direktes Kind-Element des streams. Ein stanza kann wiederum selbst Kind-Elemente enthalten, das den \ac{XML} stream definiert. Im Kern fungiert der \ac{XML} stream wie eine Hülle um alle \ac{XML} stanzas, die während einer Session versendet werden.
 
 \pagebreak
 
@@ -774,7 +774,7 @@ Die \ac{GUI}-Programmierung bei Python unterscheidet sich im Konzept nicht allzu
 
 Die Kriterien orientieren sich am Projekt und werden nachfolgend erläutert. Die Nutzerfreundlichkeit beinhaltet die Frage nach der Verständlichkeit. Dabei geht es darum, wie verständlich eine GUI mithilfe des Tools aufgebaut werden kann. Außerdem beinhaltet das Kriterium auch die Möglichkeiten des Tools, auf die Nutzerfreundlichkeit einzugehen. Die Schwierigkeit orientiert sich an der Implementierung. Dafür wird betrachtet wie leicht, schnell und komfortabel die Frameworkart in das Gesamtsystem integriert werden kann. Unabhängig von der Schwierigkeit geht es bei der Umsetzbarkeit um die Mittel, welche für eine Umsetzung benötigt werden, sowie auch um den Aufwand bei der Umsetzung. Die Kompatibilität umfasst die Unabhängigkeit von Betriebssystemen, Browsern und weitere Aspekte. Ein Standardkriterium für eine grafische Oberfläche ist das Design. Demnach geht es um die Möglichkeiten ein gutes Erscheinungsbild der Oberfläche mit dem entsprechenden Framework umzusetzen. Das letzte Kriterium, Verwendungszweck, bildet die Verbindung zum Projekt. Dafür wird analysiert, wie die Frameworkart zum Zweck des Projektes passt. Die Gewichtung der Kriterien innerhalb der \autoref{tab:EntscheidungsmatrixFrameworkart} sind der \autoref{tab:GewichtungFrameworkart} des Anhangs zu entnehmen.
 
-Die \autoref{tab:EntscheidungsmatrixFrameworkart} bildet eine Hilfestellung zur Entscheidung einer passenden Frameworkart für das Projekt. Die Bewertung der Tools entsprechend der Kriterien folgt dem Benotungsschema der akademischen Bildung. Demnach ist eine 1 sehr gut und eine 6 ungenügend. Im Kriterium Nutzerfreundlichkeit schließen beide Frameworks mit der gleichen Note ab, da die Nutzerfreundlichkeit abhängig vom Designstil ist und bei beiden Frameworks umgesetzt werden kann. Das in der Einführung definierte Kriterium \glqq Schwierigkeit\grqq, bekommt beim Web-Framework eine bessere Bewertung. Grund hierfür ist, dass für das Web-Framework überwiegend keine aufwändigen Module in Python benötigt werden. Die Gestaltung erfolgt nämlich über \ac{HTML} und \ac{CSS}, welche dann mit einem schlichten Modul verknüpft bzw. aufgerufen werden können. Aufgrund von Vorkenntnissen sowohl in \ac{HTML} als auch in \ac{CSS} wird die Schwierigkeit für das Web-Framework besser bewertet. Bei der Umsetzbarkeit steht das Tool-Framework aufgrund der Verwendung eines gesamten Moduls besser da. Ein Web-Framework bringt \ac{HTML}, \ac{CSS}, \ac{JS} und das Modul mit was ein größeren Umfang bedeutet. Vor allem muss der Programmierer mit allen Elementen umgehen können, weshalb eine Umsetzung schwieriger sein könnte. In der Kompatibilität wird das Web-Framework aufgrund der Unabhängigkeit bezüglich des Betriebssystems besser bewertet. Außerdem kann eine ausgelieferte \ac{HTML}-Seite von nahezu allen Browsern gelesen werden. Eine Möglichkeit die Lösung auf mobilen Endgeräten zu benutzen ist ebenfalls enthalten. Im Design unterscheiden sich die Frameworkarten nicht. Beide bieten vielerlei Möglichkeiten auf gestalterische Details einzugehen. Aufgrund des Projektes, einen Chat über \ac{XMPP} und ejabberd zu realisieren wird schon hauptsächlich das Internet genutzt. Dadurch bietet es sich an, den Server eine \ac{HTML}-Seite ausliefern zulassen. Aus diesem Grund wird das Web-Framework im Rahmen dieses Kriteriums besser bewertet. Anhand der Gesamtwertungszahl entsprechend der Benotung und der Gewichtung sind beide Frameworks zu empfehlen, dennoch schließt das Web-Framework besser ab, weshalb im weiteren Verlauf ein Web-Framework zum Einsatz kommen soll. \cite{FrameworkOverview} \cite{WebFramework}\\ 
+Die \autoref{tab:EntscheidungsmatrixFrameworkart} bildet eine Hilfestellung zur Entscheidung einer passenden Frameworkart für das Projekt. Die Bewertung der Tools entsprechend der Kriterien folgt dem Benotungsschema der akademischen Bildung. Demnach ist eine 1 sehr gut und eine 6 ungenügend. Im Kriterium Nutzerfreundlichkeit schließen beide Frameworks mit der gleichen Note ab, da die Nutzerfreundlichkeit abhängig vom Designstil ist und bei beiden Frameworks umgesetzt werden kann. Das in der Einführung definierte Kriterium \glqq Schwierigkeit\grqq\, bekommt beim Web-Framework eine bessere Bewertung. Grund hierfür ist, dass für das Web-Framework überwiegend keine aufwändigen Module in Python benötigt werden. Die Gestaltung erfolgt nämlich über \ac{HTML} und \ac{CSS}, welche dann mit einem schlichten Modul verknüpft bzw. aufgerufen werden können. Aufgrund von Vorkenntnissen sowohl in \ac{HTML} als auch in \ac{CSS} wird die Schwierigkeit für das Web-Framework besser bewertet. Bei der Umsetzbarkeit steht das Tool-Framework aufgrund der Verwendung eines gesamten Moduls besser da. Ein Web-Framework bringt \ac{HTML}, \ac{CSS}, \ac{JS} und das Modul mit was ein größeren Umfang bedeutet. Vor allem muss der Programmierer mit allen Elementen umgehen können, weshalb eine Umsetzung schwieriger sein könnte. In der Kompatibilität wird das Web-Framework aufgrund der Unabhängigkeit bezüglich des Betriebssystems besser bewertet. Außerdem kann eine ausgelieferte \ac{HTML}-Seite von nahezu allen Browsern gelesen werden. Eine Möglichkeit die Lösung auf mobilen Endgeräten zu benutzen ist ebenfalls enthalten. Im Design unterscheiden sich die Frameworkarten nicht. Beide bieten vielerlei Möglichkeiten auf gestalterische Details einzugehen. Aufgrund des Projektes, einen Chat über \ac{XMPP} und ejabberd zu realisieren wird schon hauptsächlich das Internet genutzt. Dadurch bietet es sich an, den Server eine \ac{HTML}-Seite ausliefern zulassen. Aus diesem Grund wird das Web-Framework im Rahmen dieses Kriteriums besser bewertet. Anhand der Gesamtwertungszahl entsprechend der Benotung und der Gewichtung sind beide Frameworks zu empfehlen, dennoch schließt das Web-Framework besser ab, weshalb im weiteren Verlauf ein Web-Framework zum Einsatz kommen soll. \cite{FrameworkOverview} \cite{WebFramework}\\ 
 Mit diesem Ergebnis müssen die verschiedenen Möglichkeiten eine Web-Framework in Bezug auf Python analysiert und bewertet werden. Auch in diesem Fall liefert eine Entscheidungsmatrix ein aufschlussreiches Ergebnis. Die Definition der selben Bewertungskriterien sind der Einführung der \autoref{tab:EntscheidungsmatrixFrameworkart} zu entnehmen. Weitere Kriterien wie Umfang und Komplexität werden in die Betrachtung miteinbezogen. Der Umfang spiegelt die Möglichkeiten und Größe im Aufbau des Tools wider. Die Komplexität befasst sich mit dem Aufwand einer Implementierung sowie auch die Hilfestellungen durch geeignete Dokumentationen. Das Bewertungsschema orientiert sich ebenfalls an der \autoref{tab:EntscheidungsmatrixFrameworkart}. Außerdem sind die Werte der Gewichtung bezogen auf das jeweilige Kriterium in der \autoref{tab:GewichtungWebFramework} im Anhang dargestellt.
 \begin{table}[h]
 	\centering
@@ -805,7 +805,7 @@ Die Gesamtwertungszahl, welches der \autoref{tab:EntscheidungsmatrixWebFramework
 
 \section{Flask}
 \label{sec:Flask}
-Wie unter \autoref{sec:GuiPython} beschrieben, wird im Rahmen der Studienarbeit Flask verwendet. Es wird von mehreren Quellen und der offiziellen Dokumentation als Microframework betitelt. Grund hierfür ist der Aufbau von Flask. Bei der Definition des Begriffs \glqq micro\grqq{} ist nicht das Resultat zu betrachten. Mit Flask als Framework muss nicht die gesamte Web-Anwendung in einer Datei dargestellt werden. Hierbei handelt es sich eher um einen simplen Kern, welcher der Ausgangspunkt und das Ziel von Flask darstellt. Ausgehend von dem simplen Kern besitzt Flask die Möglichkeit in der Größe zu skalieren. Daher kann, bezogen auf die Grundstruktur von Flask, dem Begriff Framework das \glqq micro\grqq{} vorangestellt werden.\cite{FlaskDoc}\\
+Wie unter \autoref{sec:GuiPython} beschrieben, wird im Rahmen der Studienarbeit Flask verwendet. Es wird von mehreren Quellen und der offiziellen Dokumentation als Microframework betitelt. Grund hierfür ist der Aufbau von Flask. Bei der Definition des Begriffs \glqq micro\grqq\ ist nicht das Resultat zu betrachten. Mit Flask als Framework muss nicht die gesamte Web-Anwendung in einer Datei dargestellt werden. Hierbei handelt es sich eher um einen simplen Kern, welcher der Ausgangspunkt und das Ziel von Flask darstellt. Ausgehend von dem simplen Kern besitzt Flask die Möglichkeit in der Größe zu skalieren. Daher kann, bezogen auf die Grundstruktur von Flask, dem Begriff Framework das \glqq micro\grqq\ vorangestellt werden.\cite{FlaskDoc}\\
 Auch Autoren, wie K. Relan mit seinem Werk über Flask und RESTAPIs, schmälern nicht die Funktionalität von Flask, sondern loben die simple Struktur mit der Erweiterbarkeit. Dadurch haben sie die Möglichkeit der Anwendung ihre eigene Konfiguration zuzuteilen und mit Erweiterungen leicht zu skalieren. \cite{FlaskRESTAPIsRelan}\\
 Flask verknüpft die Entwicklung einer Web-Anwendung mit Python, weshalb das Framework eine Schnittstelle zum Webserver bildet. Bekannt ist Flask durch die Eigenschaft schnell und leicht eine minimale Anwendung zu implementieren und diese bei Bedarf in der Größe zu skalieren. Für die Verwendung von Flask sind zwei Bibliotheken wichtig. Bei diesen handelt es sich zum Einen um die \ac{WSGI}-Bibliothek Werkzeug und der Template-Bibliothek Jinja2. Module die standardmäßig von Flask verwendet werden. Flask bildet das Bindeglied zwischen den Modulen und erlaubt es bspw. mithilfe von Routen an bestimmten Endpunkten Funktionen, Aktionen oder ähnliches auszuführen. Ein Beispiel hierfür, wäre das ausliefern einer \ac{HTML}-Datei, welches im \autoref{lst:FlaskMinApp} dargestellt wird.
 \begin{lstlisting}[language=Python,caption=Example Listing of Flask Python,label={lst:FlaskMinApp}]
@@ -917,7 +917,7 @@ Sowohl ejabberd als auch Apache Kafka eignen sich, um Berles aufgeführten Probl
 
 Nach den Anforderungen (\autoref{Anforderungen}) und Zielen der Arbeit (\autoref{sec:Ziele}) soll ein \ac{IMS} auf Basis eines \ac{XMPP}-Chatsystems entworfen und programmiert werden. Anschließend soll das gleiche Chatsystem auf Basis des Frameworks Apache Kafka implementiert und mit dem \ac{XMPP}-Chatsystem verglichen werden. Hierfür muss ein verteiltes System entworfen werden, das die Anforderungen abdeckt.
 
-Der Autor Tanenbaum definiert ein verteiltes System wie folgt: \glqq Ein verteiltes System ist eine Ansammlung unabhängiger Computer, die den Benutzern wie ein einzelnes kohärentes System erscheinen.\grqq \footnote{\cite[S.19]{andrew2008verteilte}} Die Definition von Tanenbaum hat mehrere wichtige Aspekte. Der Erste besagt, dass ein verteiltes System aus Komponenten besteht, die autonom sind. Sie bieten einen Dienst an oder haben eine bestimmte Aufgabe und eine lokale Zeit. Ein zweiter Aspekt ist, dass die Benutzer glauben, sie hätten es mit einem einzigen System zu tun. Die Eigenschaft \glqq kohärenz\grqq aus der Definition besagt, dass die Komponenten in einer bestimmten Art und Weise zusammen arbeiten, um den Benutzer einen Dienst zu erbringen. Ein besonderes Merkmal ist, dass keinerlei Annahmen über die Art der Computer getroffen werden. Diese können heterogen sein. Tanenbaum \cite{andrew2008verteilte} ist der Ansicht, dass die Herausforderungen eines verteilten Systems sind, die einzelnen Teilsysteme zu synchronisieren und die Zusammenarbeit korrekt zu implementieren.
+Der Autor Tanenbaum definiert ein verteiltes System wie folgt: \glqq Ein verteiltes System ist eine Ansammlung unabhängiger Computer, die den Benutzern wie ein einzelnes kohärentes System erscheinen.\grqq\ \footnote{\cite[S.19]{andrew2008verteilte}} Die Definition von Tanenbaum hat mehrere wichtige Aspekte. Der Erste besagt, dass ein verteiltes System aus Komponenten besteht, die autonom sind. Sie bieten einen Dienst an oder haben eine bestimmte Aufgabe und eine lokale Zeit. Ein zweiter Aspekt ist, dass die Benutzer glauben, sie hätten es mit einem einzigen System zu tun. Die Eigenschaft \glqq kohärenz\grqq\ aus der Definition besagt, dass die Komponenten in einer bestimmten Art und Weise zusammen arbeiten, um den Benutzer einen Dienst zu erbringen. Ein besonderes Merkmal ist, dass keinerlei Annahmen über die Art der Computer getroffen werden. Diese können heterogen sein. Tanenbaum \cite{andrew2008verteilte} ist der Ansicht, dass die Herausforderungen eines verteilten Systems sind, die einzelnen Teilsysteme zu synchronisieren und die Zusammenarbeit korrekt zu implementieren.
 
 Hierzu stellt sich die Frage, welche Dienste für das Chatsystem benötigt und wie die Dienste auf Komponenten sinnvoll verteilt werden. Der erste Teil der Frage kann mit Hilfe der Anforderungen aus \autoref{Anforderungen} beantwortet werden. Folgende Auflistung beinhaltet wichtige Funktionalitäten die als Komponenten zusammengefasst sind:
 
@@ -1043,7 +1043,7 @@ $ sudo mysql_secure_installation
 
 Die Datenbankinstallation ist erfolgreich, wenn der Verbindungsversuch mit dem root User des Betriebssystems erfolgreich verläuft. Der Befehl \texttt{sudo mysql -uroot} startet einen Verbindungsversuch.
 
-Das relationale Datenbankschema das ejabberd benötigt, kann auf github heruntergeladen werden. Der erste Befehl lädt die SQL-Datei, in der das Datenbankschema definiert ist herunter. Der zweite Befehl erstellt in der Datenbank einen Benutzer \glqq ejabberd\grqq mit einem Passwort. Der Befehl in Zeile 3 schränkt die Zugriffsrechte des Benutzers auf die Datenbank \glqq ejabberd\grqq ein, die in Zeile 4 Listings erstellt wird. Der letzte Befehl spielt das Datenbankschema in die Datenbank \glqq ejabberd\grqq ein.
+Das relationale Datenbankschema das ejabberd benötigt, kann auf github heruntergeladen werden. Der erste Befehl lädt die SQL-Datei, in der das Datenbankschema definiert ist herunter. Der zweite Befehl erstellt in der Datenbank einen Benutzer \glqq ejabberd\grqq\ mit einem Passwort. Der Befehl in Zeile 3 schränkt die Zugriffsrechte des Benutzers auf die Datenbank \glqq ejabberd\grqq\ ein, die in Zeile 4 Listings erstellt wird. Der letzte Befehl spielt das Datenbankschema in die Datenbank \glqq ejabberd\grqq\ ein.
 
 \bigskip
 
@@ -1070,7 +1070,7 @@ Weil der Chatserver den Transport der Daten verschlüsseln und die Authentizitä
 
 Let's Encrypt verwendet das ACME-Protokoll, um zu überprüfen, ob ein bestimmter Domainname vorhanden ist und um ein Zertifikat auszustellen. Für die Ausstellung von Let's Encrypt Zertifikaten wird eine ACME-Client-Software benötigt.\cite{letsencryptACME}
 
-Der Chatserver ejabberd hat keine Client-Software vorinstalliert, die das ACME-Protokoll unterstützt. Aus diesem Grund muss der open-source ACME-Client \glqq acme.sh\grqq installiert werden. Dieser ist kompatibel mit der Linux-Bash. Der Standalone-Modus des ACME-Clients realisiert einen Webserver, der die Domain gegenüber der Let's Encrypt \ac{CA} validiert.\cite{acmeshOfficial}
+Der Chatserver ejabberd hat keine Client-Software vorinstalliert, die das ACME-Protokoll unterstützt. Aus diesem Grund muss der open-source ACME-Client \glqq acme.sh\grqq\ installiert werden. Dieser ist kompatibel mit der Linux-Bash. Der Standalone-Modus des ACME-Clients realisiert einen Webserver, der die Domain gegenüber der Let's Encrypt \ac{CA} validiert.\cite{acmeshOfficial}
 Der ACME-Client und seine benötigten Pakete werden mit folgenden Befehlen installiert.
 
 \bigskip
@@ -1080,7 +1080,7 @@ $ apt install socat curl
 $ wget -O - https://get.acme.sh | sh
 \end{lstlisting}
 
-Mit folgendem Befehl wird ein \ac{RSA}-Zertifikat angefordert, wobei die Zeichenkette \glqq xmpp-dhbw.spdns.org\grqq der Domainname ist. Der Befehl ist mit dem root Benutzer durchzuführen.
+Mit folgendem Befehl wird ein \ac{RSA}-Zertifikat angefordert, wobei die Zeichenkette \glqq xmpp-dhbw.spdns.org\grqq\ der Domainname ist. Der Befehl ist mit dem root Benutzer durchzuführen.
 
 \bigskip
 
@@ -1088,7 +1088,7 @@ Mit folgendem Befehl wird ein \ac{RSA}-Zertifikat angefordert, wobei die Zeichen
 $ bash /root/.acme.sh/acme.sh --issue -d xmpp-dhbw.spdns.org --keylength 4096 --standalone
 \end{lstlisting}
 
-Das Argument \glqq keylength 4096\grqq definiert die Länge des privaten Schlüssels in Bit. Laut den technischen Empfehlungen des \ac{BSI} ist ein Schlüssel mit 2000 bit Länge bis Ende des Jahres 2022 sicher. Danach sollen Schlüssel mit einer Mindestlänge von 3000 bit verwendet werden, die das \ac{BSI} bis Ende 2023 als sicher einstuft.\cite{empfehlungBSI}
+Das Argument \glqq keylength 4096\grqq\ definiert die Länge des privaten Schlüssels in Bit. Laut den technischen Empfehlungen des \ac{BSI} ist ein Schlüssel mit 2000 bit Länge bis Ende des Jahres 2022 sicher. Danach sollen Schlüssel mit einer Mindestlänge von 3000 bit verwendet werden, die das \ac{BSI} bis Ende 2023 als sicher einstuft.\cite{empfehlungBSI}
 
 Nach den Anforderungen aus \autoref{Anforderungen}, wird zur Sicherheit ein privater Schlüssel mit 4096 bit Länge konfiguriert. Der Ablauf einer Verschlüsselung mit Hilfe des \ac{RSA}-Verfahrens ist in [Kapitelnummer einfügen] beschrieben.
 
@@ -1170,7 +1170,7 @@ Ejabberd bietet zwei Konfigurationsdateien, die sich im Format unterscheiden. Mi
 \end{minipage}
 \end{figure}
 
-Eine genaue Beschreibung der Syntax und dem Aufbau ist in \cite{specificationYAML} vorhanden. \ac{YAML} ist eine vereinfachte Auszeichnungssprache (engl. markup language). Das Ziel des Designs \ac{YAML} ist die Annahme, dass sich jede beliebige Datenstruktur mit assoziativen Listen, Listen (Arrays) und Einzelwerten (Skalaren) darstellen lässt. In \autoref{img:YAMLconfig} beginnt ein in \ac{YAML} formatierter Abschnitt mit drei Bindestrichen. Danach ist beispielhaft ein Skalar \texttt{loglevel} aufgeführt, das wieder auf ein Skalar \texttt{3} abbildet. Diese Syntax entspricht dem Key-Value-Prinzip (Schlüssel-Wert-Prinzip). Die Skalare links vom Doppelpunkt sind Variablen, die auch innerhalb der \ac{YAML}-Datei mit \glqq \texttt{\{ variable \}}\grqq referenziert werden können. Werden mehrere Key-Value-Paare Zeile für Zeile aufgelistet, stellt diese Auflistung eine assoziative Liste dar. Das Skalar \texttt{host} ist eine Liste, die mehrere Elemente enthält. Deren Elemente beginnen mit einem Bindestrich. Eine Verschachtelung von Ausdrücken ist durch Einrücken von Ausdrücken möglich. \ac{YAML} erlaubt keine Verwendung von Tabulatoren. Eine Einrückung wird durch eine bestimmte Anzahl an Leerzeichen erzielt. Zeilen mit \texttt{\#} am Anfang sind Kommentare. Durch dieses Konzept ist \ac{YAML} wesentlich leichter von Menschen zu lesen und zu schreiben, außerdem vereinfacht es die Weiterverarbeitung der Daten, da die meisten Sprachen, wie C++, Python oder Java solche Konstrukte bereits integriert haben.
+Eine genaue Beschreibung der Syntax und dem Aufbau ist in \cite{specificationYAML} vorhanden. \ac{YAML} ist eine vereinfachte Auszeichnungssprache (engl. markup language). Das Ziel des Designs \ac{YAML} ist die Annahme, dass sich jede beliebige Datenstruktur mit assoziativen Listen, Listen (Arrays) und Einzelwerten (Skalaren) darstellen lässt. In \autoref{img:YAMLconfig} beginnt ein in \ac{YAML} formatierter Abschnitt mit drei Bindestrichen. Danach ist beispielhaft ein Skalar \texttt{loglevel} aufgeführt, das wieder auf ein Skalar \texttt{3} abbildet. Diese Syntax entspricht dem Key-Value-Prinzip (Schlüssel-Wert-Prinzip). Die Skalare links vom Doppelpunkt sind Variablen, die auch innerhalb der \ac{YAML}-Datei mit \glqq \texttt{\{ variable \}}\grqq\ referenziert werden können. Werden mehrere Key-Value-Paare Zeile für Zeile aufgelistet, stellt diese Auflistung eine assoziative Liste dar. Das Skalar \texttt{host} ist eine Liste, die mehrere Elemente enthält. Deren Elemente beginnen mit einem Bindestrich. Eine Verschachtelung von Ausdrücken ist durch Einrücken von Ausdrücken möglich. \ac{YAML} erlaubt keine Verwendung von Tabulatoren. Eine Einrückung wird durch eine bestimmte Anzahl an Leerzeichen erzielt. Zeilen mit \texttt{\#} am Anfang sind Kommentare. Durch dieses Konzept ist \ac{YAML} wesentlich leichter von Menschen zu lesen und zu schreiben, außerdem vereinfacht es die Weiterverarbeitung der Daten, da die meisten Sprachen, wie C++, Python oder Java solche Konstrukte bereits integriert haben.
 
 Für das Projekt wird die Konfiguration von ejabberd entsprechend den Empfehlungen aus dem Configuration Guide \cite{ejabberdDoc} in der Auszeichnungssprache \ac{YAML} durchgeführt.
 
@@ -1357,7 +1357,7 @@ listen:
     web_admin: true
 \end{lstlisting}
 
-\ac{XMPP}-Clients verbinden sich über Port 5222 mit dem Chatserver. Das wird dadurch festgelegt, dass diesem Port das Modul \texttt{ejabberd\_c2s} zugewiesen wird. Der Wert \glqq ::\grqq für die IP-Adresse bewirkt, dass der Server auf jeder seiner Netzwerkkarten und IP-Adressen Anfragen akzeptiert. Die Standardkonfiguration wird so ergänzt, dass \texttt{STARTTLS} bei jedem Verbindungsversuch vorausgesetzt wird. Die Option \texttt{max\_stanza\_size} bestimmt die maximale Anzahl an Bytes, die ein \ac{XMPP}-Stanza haben darf. Ist die Anzahl an Bytes über den konfigurierten Wert (65536), wird die Verbindung abgebrochen. In der Standardkonfiguration ist dieser Wert auf \texttt{infinity} gesetzt. Ein Angreifer kann den Server überlasten, wenn er eine hohe Anzahl an sehr großen \ac{XMPP}-Stanzas pro Session sendet. Diese Art des Angriffs bezeichnet man als \ac{DOS}. Die Begrenzung des Wertes vermindert die Wahrscheinlichkeit für den Erfolg eines solchen Angriffs.\cite{XMPPDOS}
+\ac{XMPP}-Clients verbinden sich über Port 5222 mit dem Chatserver. Das wird dadurch festgelegt, dass diesem Port das Modul \texttt{ejabberd\_c2s} zugewiesen wird. Der Wert \glqq ::\grqq\ für die IP-Adresse bewirkt, dass der Server auf jeder seiner Netzwerkkarten und IP-Adressen Anfragen akzeptiert. Die Standardkonfiguration wird so ergänzt, dass \texttt{STARTTLS} bei jedem Verbindungsversuch vorausgesetzt wird. Die Option \texttt{max\_stanza\_size} bestimmt die maximale Anzahl an Bytes, die ein \ac{XMPP}-Stanza haben darf. Ist die Anzahl an Bytes über den konfigurierten Wert (65536), wird die Verbindung abgebrochen. In der Standardkonfiguration ist dieser Wert auf \texttt{infinity} gesetzt. Ein Angreifer kann den Server überlasten, wenn er eine hohe Anzahl an sehr großen \ac{XMPP}-Stanzas pro Session sendet. Diese Art des Angriffs bezeichnet man als \ac{DOS}. Die Begrenzung des Wertes vermindert die Wahrscheinlichkeit für den Erfolg eines solchen Angriffs.\cite{XMPPDOS}
 
 Der Port 5223 ergänzt die Standardkonfiguration, sodass sich ein Client direkt via \ac{TLS} verbinden kann. Das bewirkt die Einstellung \texttt{tls: true}, die \texttt{starttls\_required: true} ersetzt.
 
@@ -1388,7 +1388,7 @@ Authentifizierungsmethoden die ausgeschlossen werden sollen, werden in die Liste
 
 Auch \texttt{x-oauth2} hat mehrere Sicherheitslücken. Die Methode ist empfindlich gegenüber \ac{DOS}-Angriffe. Nach \cite{xOAuthVulnerabilty} kann ein nicht authentifizierter Angreifer, den Server überlasten.
 
-In \autoref{lst:AddAdminUserEjabberd} auf Seite \pageref{lst:AddAdminUserEjabberd} ist beschrieben, wie ein Benutzer mit administrativen Rechten auf dem Server angelegt werden kann. In der Standardkonfiguration ist der Benutzer \glqq admin\grqq berechtigt auf das Administrationsportal mit der Domain \texttt{localhost} zuzugreifen. Damit der Benutzer berechtigt ist, auf die für das Projekt erstellte Domain \texttt{ejabberd-server} zuzugreifen, muss die \ac{ACL} angepasst werden. Hierfür trägt ändert man im Abschnitt \texttt{acl} der Konfigurationsdatei die Domain, auf die der Benutzer \glqq admin\grqq verweist. Das Ergebnis der Änderung ist in \autoref{lst:aclChangeAdmin} dargestellt.
+In \autoref{lst:AddAdminUserEjabberd} auf Seite \pageref{lst:AddAdminUserEjabberd} ist beschrieben, wie ein Benutzer mit administrativen Rechten auf dem Server angelegt werden kann. In der Standardkonfiguration ist der Benutzer \glqq admin\grqq\ berechtigt auf das Administrationsportal mit der Domain \texttt{localhost} zuzugreifen. Damit der Benutzer berechtigt ist, auf die für das Projekt erstellte Domain \texttt{ejabberd-server} zuzugreifen, muss die \ac{ACL} angepasst werden. Hierfür trägt ändert man im Abschnitt \texttt{acl} der Konfigurationsdatei die Domain, auf die der Benutzer \glqq admin\grqq\ verweist. Das Ergebnis der Änderung ist in \autoref{lst:aclChangeAdmin} dargestellt.
 
 \bigskip
 
@@ -1440,7 +1440,7 @@ shaper_rules:
     - 500
 \end{lstlisting}
 
-Wie im Listing dargestellt, werden die Anzahl an Sessions pro Benutzer auf zehn verringert, um eine Überlastung des Servers und damit einen Systemausfall vorzubeugen. Zusätzlich wird die maximale Anzahl an Nachrichten, die der Server speichert, bis der Benutzer erneut online ist auf 500 reduziert. Diese Art von Nachrichten werden als Offline-Nachrichten bezeichnet. Die Anzahl an Offline-Nachrichten für den Benutzer \glqq admin\grqq mit 5000 Nachrichten ist vorkonfiguriert.
+Wie im Listing dargestellt, werden die Anzahl an Sessions pro Benutzer auf zehn verringert, um eine Überlastung des Servers und damit einen Systemausfall vorzubeugen. Zusätzlich wird die maximale Anzahl an Nachrichten, die der Server speichert, bis der Benutzer erneut online ist auf 500 reduziert. Diese Art von Nachrichten werden als Offline-Nachrichten bezeichnet. Die Anzahl an Offline-Nachrichten für den Benutzer \glqq admin\grqq\ mit 5000 Nachrichten ist vorkonfiguriert.
 
 Ein weiteres wichtiges Modul ist \texttt{mod\_disco}. Dieses Modul erlaubt es, einem Client Kontaktinformationen zu zustellen, damit ein Benutzer Spam oder Missbrauch melden kann.
 
@@ -1663,14 +1663,14 @@ Die nachfolgende Anleitung bezieht sich auf die Installation eines Kafka-Systems
 \item Linux Ubuntu 18.04 LTS
 \item Server
 \begin{itemize}
-\item mindestens 4GB RAM, empfohlen 8GB (Installation mit weniger RAM kann zu Problemen beim Start von Kafka führen, weil die Java Virutal Machine (JVM) eine \glqq OutOfMemory\grqq -Exception werfen kann.
+\item mindestens 4GB RAM, empfohlen 8GB (Installation mit weniger RAM kann zu Problemen beim Start von Kafka führen, weil die Java Virutal Machine (JVM) eine \glqq OutOfMemory\grqq\ -Exception werfen kann.
 \end{itemize}
 \item OpenJDK 8 (Kafka ist in der Programmiersprache Java programmiert und benötigt deshalb eine lauffähige JVM.)
 \end{itemize}
 
 \subsubsection*{Anlegen eines Benutzers}
 
-Für die Erstellung eines Benutzers muss sich auf dem Server mit einem Benutzer eingeloggt werden. Mit folgendem Kommando wird ein Benutzer mit dem Namen Kafka angelegt. Mit dem zweiten Kommando wird der Benutzer der \glqq sudo\grqq -Gruppe hinzugefügt und ist ab diesem Zeitpunkt berechtigt höher privilegierte Befehle auszuführen. Das letzte Kommando legt ein Passwort an, dass bei der Ausführung höher privilegierter Befehle abgefragt wird.
+Für die Erstellung eines Benutzers muss sich auf dem Server mit einem Benutzer eingeloggt werden. Mit folgendem Kommando wird ein Benutzer mit dem Namen Kafka angelegt. Mit dem zweiten Kommando wird der Benutzer der \glqq sudo\grqq\ -Gruppe hinzugefügt und ist ab diesem Zeitpunkt berechtigt höher privilegierte Befehle auszuführen. Das letzte Kommando legt ein Passwort an, dass bei der Ausführung höher privilegierter Befehle abgefragt wird.
 
 \smallskip
 
@@ -1701,7 +1701,7 @@ Falls OpenJDK 8 noch nicht installiert ist, muss folgender Befehl ausgeführt we
 $ sudo apt-get install openjdk-8-jdk
 \end{lstlisting}
 
-Erstellen Sie ein Grundverzeichnis in dem alle Kafka-Komponenten extrahiert werden können. Legen Sie mit folgendem Befehl ein Verzeichnis mit dem Namen \glqq kafka\grqq an. Extrahieren Sie die komprimierte Datei in dasselbe Verzeichnis.
+Erstellen Sie ein Grundverzeichnis in dem alle Kafka-Komponenten extrahiert werden können. Legen Sie mit folgendem Befehl ein Verzeichnis mit dem Namen \glqq kafka\grqq\ an. Extrahieren Sie die komprimierte Datei in dasselbe Verzeichnis.
 
 \smallskip
 
@@ -1714,7 +1714,7 @@ Kafka ist ab jetzt bereit für eine Konfiguration.
 
 \subsubsection*{Konfiguration von Kafka}
 
-Kafka lässt es in der Standardkonfiguration nicht zu neue Topics, eine Kategorie oder eine Gruppe zu löschen. Um das zu ändern, muss die Konfigurationsdatei von Kafka angepasst werden. Falls der \glqq nano\grqq -Editor auf Ihrem System nicht verfügbar ist, können Sie einen Editor Ihrer Wahl verwenden, zum Beispiel \glqq vi\grqq.
+Kafka lässt es in der Standardkonfiguration nicht zu neue Topics, eine Kategorie oder eine Gruppe zu löschen. Um das zu ändern, muss die Konfigurationsdatei von Kafka angepasst werden. Falls der \glqq nano\grqq\ -Editor auf Ihrem System nicht verfügbar ist, können Sie einen Editor Ihrer Wahl verwenden, zum Beispiel \glqq vi\grqq.
 
 \smallskip
 
@@ -1728,7 +1728,7 @@ Fügen Sie diese Einstellung in der Datei hinzu:
 
 Speichern Sie anschließend die Datei und beenden Sie den Editor.
 
-Kafka benötigt Zookeeper, um erfolgreich starten zu können. Zookeeper ist automatisch nach der Installation aus Schritt 2 vollständig vorhanden und befindet sich ebenfalls im erstellten \glqq kafka\grqq -Verzeichnis. Testen Sie mit folgenden Kommandos, ob Zookeeper und Kafka erfolgreich starten. Starten Sie zuerst Zookeeper, warten Sie 30 Sekunden, öffnen Sie eine zweite CLI auf dem System und starten Sie anschließend Kafka. Wird kein Fehler geworfen, waren alle Schritte bisher erfolgreich verlaufen und Kafka ist betriebsbereit.
+Kafka benötigt Zookeeper, um erfolgreich starten zu können. Zookeeper ist automatisch nach der Installation aus Schritt 2 vollständig vorhanden und befindet sich ebenfalls im erstellten \glqq kafka\grqq\ -Verzeichnis. Testen Sie mit folgenden Kommandos, ob Zookeeper und Kafka erfolgreich starten. Starten Sie zuerst Zookeeper, warten Sie 30 Sekunden, öffnen Sie eine zweite CLI auf dem System und starten Sie anschließend Kafka. Wird kein Fehler geworfen, waren alle Schritte bisher erfolgreich verlaufen und Kafka ist betriebsbereit.
 
 \smallskip
 
@@ -1737,7 +1737,7 @@ $ ~/kafka/bin/zookeeper-server-start.sh ~/kafka/config/zookeep.properties # Star
 $ ~/kafka/bin/kafka-server-start.sh ~/kafka/config/server.properties # Start: kafka
 \end{lstlisting}
 
-Zeigt der Kommandozeilen-Output nur Nachrichten der Kategorie \glqq INFO\grqq und keine Fehlermeldungen, sind beide Dienste erfolgreich gestartet. Ansonsten überprüfen Sie Ihre Schritte erneut und korrigieren Sie die Fehler.
+Zeigt der Kommandozeilen-Output nur Nachrichten der Kategorie \glqq INFO\grqq\ und keine Fehlermeldungen, sind beide Dienste erfolgreich gestartet. Ansonsten überprüfen Sie Ihre Schritte erneut und korrigieren Sie die Fehler.
 
 Für den Start von Kafka ist im aktuellen Zustand eine Anmeldung des Benutzers erforderlich, der Zookeeper und Kafka als Benutzerprozess startet. Um Kafka als Server-Dienst bereitzustellen folgen Sie dem nächsten Kapitel der Anleitung. Möchten Sie lediglich die Grundfunktionalitäten ausprobieren und benötigen keine globale Verfügbarkeit, kann Schritt 4 der Anleitung entfallen.
 
@@ -1822,7 +1822,7 @@ Speichern Sie die Datei und gehen Sie zum nächsten Schritt.
 $ sudo systemctl start zookeeper # Starten des Zookeeper-Dienstes
 \end{lstlisting}
 
-Überprüfen Sie den Status des Diensts mit folgendem Kommando. Der Status sollte \glqq active\grqq sein.
+Überprüfen Sie den Status des Diensts mit folgendem Kommando. Der Status sollte \glqq active\grqq\ sein.
 
 \smallskip
 
@@ -1853,11 +1853,11 @@ Ab jetzt wird Zookeeper automatisch nach einem Neustart beim Hochfahren aller Sy
 
 \bigskip
 
-Führen Sie die gleichen Befehle für den Start des Kafka-Dienstes durch. Achten Sie darauf, dass Sie in allen Befehlen \glqq zookeeper\grqq durch \glqq kafka\grqq als Dienstbezeichnung ersetzen.
+Führen Sie die gleichen Befehle für den Start des Kafka-Dienstes durch. Achten Sie darauf, dass Sie in allen Befehlen \glqq zookeeper\grqq\ durch \glqq kafka\grqq\ als Dienstbezeichnung ersetzen.
 
 \smallskip
 
-Überprüfen Sie mit dem \glqq status\grqq -Befehl, ob der Dienst aktiv ist. Der Output sollte wie folgt aussehen:
+Überprüfen Sie mit dem \glqq status\grqq\ -Befehl, ob der Dienst aktiv ist. Der Output sollte wie folgt aussehen:
 
 \begin{figure}[h]
 	\centering
@@ -1870,14 +1870,14 @@ Nun sind Zookeeper und Kafka als Linux-Server-Dienst verfügbar ohne, dass ein B
 
 \subsubsection*{Testen der Installation}
 
-Um sicherzustellen, dass Kafka als Dienst korrekt läuft, wird eine \glqq HelloWorld\grqq -Nachricht produziert und konsumiert. Um eine Nachricht mittels Kafka zu versenden sind zwei Bestandteile nötig:
+Um sicherzustellen, dass Kafka als Dienst korrekt läuft, wird eine \glqq HelloWorld\grqq\ -Nachricht produziert und konsumiert. Um eine Nachricht mittels Kafka zu versenden sind zwei Bestandteile nötig:
 
 \begin{itemize}
 \item Producer, welcher ein Topic registriert und Nachrichten produziert
 \item Consumer, welcher Nachrichten aus dem Topic lesen kann
 \end{itemize}
 
-Hierfür werden die bei der Installation mitgelieferten Skripte im \glqq kafka\grqq -Verzeichnis benutzt.
+Hierfür werden die bei der Installation mitgelieferten Skripte im \glqq kafka\grqq\ -Verzeichnis benutzt.
 
 Zuerst muss ein Topic erstellt werden. Das Topic heißt für Testzwecke \glqq Test\grqq.  Führen Sie folgenden Befehl aus:
 
@@ -1889,7 +1889,7 @@ $ ~/kafka/bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-
 
 Der Befehl benötigt den Zookeeper-Dienst mit dessen Portnummer (Standard-Port: 2181) als Argument, weil Zookeeper für die Verwaltung der Kafka-Instanzen benötigt wird. Ist das Topic erfolgreich erstellt, erscheint folgender Output auf der Kommandozeile: \glqq Created topic Test\grqq.
 
-Um einen Producer zu starten, der als Nachricht \glqq HelloWorld\grqq produziert und dem Kafka-Dienst übergibt, führen Sie folgenden Befehl aus:
+Um einen Producer zu starten, der als Nachricht \glqq HelloWorld\grqq\ produziert und dem Kafka-Dienst übergibt, führen Sie folgenden Befehl aus:
 
 \smallskip
 
@@ -1897,7 +1897,7 @@ Um einen Producer zu starten, der als Nachricht \glqq HelloWorld\grqq produziert
 $ echo "Hello, World" | ~/kafka/bin/kafka-console-producer.sh --broker-list localhost:9092 --topic Test > /dev/null
 \end{lstlisting}
 
-Der Befehl produziert eine Nachricht für das Topic \glqq Test\grqq und übergibt die Nachricht an Kafka.
+Der Befehl produziert eine Nachricht für das Topic \glqq Test\grqq\ und übergibt die Nachricht an Kafka.
 
 Der Consumer benötigt als Argument den Zookeeper Hostname und den Port (Standardport: 2181) und das Topic aus dem Nachrichten konsumiert werden sollen.
 
@@ -1907,7 +1907,7 @@ Der Consumer benötigt als Argument den Zookeeper Hostname und den Port (Standar
 $ ~/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic Test --from-beginning
 \end{lstlisting}
 
-Nach der Ausführung des Consumer-Skripts, sollte die Nachricht \glqq HelloWorld\grqq auf dem Bildschirm erfolgen. Ist das nicht der Fall, überprüfen Sie Ihre durchgeführten Schritte. Das Skript blockiert den Benutzerprozess, weil der Consumer weiterhin auf eintreffende Nachrichten wartet. Um das Skript abzubrechen verwenden Sie STR+C als Shortcut auf der Tastatur.
+Nach der Ausführung des Consumer-Skripts, sollte die Nachricht \glqq HelloWorld\grqq\ auf dem Bildschirm erfolgen. Ist das nicht der Fall, überprüfen Sie Ihre durchgeführten Schritte. Das Skript blockiert den Benutzerprozess, weil der Consumer weiterhin auf eintreffende Nachrichten wartet. Um das Skript abzubrechen verwenden Sie STR+C als Shortcut auf der Tastatur.
 
 Kafka steht nun als Server-Dienst zur Verfügung. Kafka kann für seine Einsatzbereiche ab jetzt vollständig verwendet werden.
 
@@ -1996,7 +1996,7 @@ Wie die \acs{REST} \acs{API} mit ejabberd kommunizieren kann, ist bereits erläu
 
 In der Community von github wird pykafka für seine bessere Performanz gegenüber kafka-python gelobt. Auch ist es mehr mit für Python typische Implementierungsstrukturen entworfen, zum Beispiel asynchrones Fehlerhandling oder Benutzung von Kontext-Managern.\cite{pykafkaGithubMeaning}
 
-\autoref{lst:pykafkaProducerExample} zeigt, wie der Producer des Moduls pykafka verwendet werden kann. Der Beispielcode schreibt die Nachricht \glqq hello world\grqq in das Kafka Topic \glqq test\grqq.
+\autoref{lst:pykafkaProducerExample} zeigt, wie der Producer des Moduls pykafka verwendet werden kann. Der Beispielcode schreibt die Nachricht \glqq hello world\grqq\ in das Kafka Topic \glqq test\grqq.
 
 \begin{lstlisting}[language=python, caption={Beispiel: Verwendung des Producers des Moduls pykafka}, label={lst:pykafkaProducerExample}]
 from pykafka import KafkaClient
@@ -2045,7 +2045,7 @@ except errors.TopicAlreadyExistsError as e:
 
 \end{lstlisting}
 
-Nachdem sich durch Aufruf des Konstruktors der Kafka Admin-Client mit dem Kafka-Server verbunden hat, wird mit Hilfe der Klasse \texttt{NewTopic} ein neues Topic erstellt. Das Topic erhält einen Namen, und die Anzahl an Partitionen die für das Topic reserviert werden sollen. Zusätzlich kann über den Replication Factor die Replizierung des Topics auf anderen Kafka-Brokern veranlasst werden. Eine \glqq 1\grqq bedeutet, dass das Topic nur auf einem Kafka-Broker angelegt wird. Das neue Topic wird in eine Liste eingefügt. Die Liste kann auch mehrere Topics enthalten. Über die Methode \texttt{create\_topic} werden die Topics aus der Liste angelegt. Existiert ein Topic auf dem Kafka-Broker bereits, wird eine Exception geworfen und der Vorgang abgebrochen.
+Nachdem sich durch Aufruf des Konstruktors der Kafka Admin-Client mit dem Kafka-Server verbunden hat, wird mit Hilfe der Klasse \texttt{NewTopic} ein neues Topic erstellt. Das Topic erhält einen Namen, und die Anzahl an Partitionen die für das Topic reserviert werden sollen. Zusätzlich kann über den Replication Factor die Replizierung des Topics auf anderen Kafka-Brokern veranlasst werden. Eine \glqq 1\grqq\ bedeutet, dass das Topic nur auf einem Kafka-Broker angelegt wird. Das neue Topic wird in eine Liste eingefügt. Die Liste kann auch mehrere Topics enthalten. Über die Methode \texttt{create\_topic} werden die Topics aus der Liste angelegt. Existiert ein Topic auf dem Kafka-Broker bereits, wird eine Exception geworfen und der Vorgang abgebrochen.
 
 Für die Studienarbeit werden beide Python Module eingesetzt und sich für die Implementierung an die Dokumentationen \cite{pykafkaDocumentation, pythonKafka} gehalten.
 
@@ -2616,7 +2616,7 @@ Daten, die der Server dem Client über ein \acs{SSE} sendet, müssen immer als Z
 
 \texttt{data: <Daten>\escape{n}\escape{n}}
 
-Zusätzlich muss das serverseitige Skript, das Ereignisse sendet, mit dem \acs{MIME}-Typ\footnote{ Der MIME-Typ gibt an, um welche Art oder Klasse es sich bei den gesendeten Daten handelt.\cite{mimeTypDescription}} \glqq text/event-stream\grqq dem Client antworten \cite{sseMorzilla}.
+Zusätzlich muss das serverseitige Skript, das Ereignisse sendet, mit dem \acs{MIME}-Typ\footnote{ Der MIME-Typ gibt an, um welche Art oder Klasse es sich bei den gesendeten Daten handelt.\cite{mimeTypDescription}} \glqq text/event-stream\grqq\ dem Client antworten \cite{sseMorzilla}.
 
 In Python Flask lassen sich Server-Sent-Events mit Generatoren realisieren. Generatoren in Python sind Funktionen, die Werte generieren und an den Aufrufer zurückgeben. Sie enthalten anstatt einer \texttt{return}-Anweisung ein \texttt{yield}. Ein Generator ist ein Objekt über das iteriert werden muss, um einen Wert zu erhalten. Die \texttt{yield}-Instruktion gibt den momentanen Wert zurück.
 
@@ -2679,7 +2679,7 @@ def get_messages():
 Verbindet sich ein Client auf die \acs{URI} \texttt{193.196.53.24/kafkastream/}, führt die Flask Applikation die Funktion \texttt{get\_messages} aus. Zuerst erzeugt die Methode \texttt{get\_kafka\_client} ein Objekt des Moduls pykafka. Das Objekt verbindet sich automatisch mit dem Kafka-Broker. Anschließend initialisiert die \texttt{Response}-Methode das Server-Sent-Event und ruft die Methode \texttt{events} auf.
 Die Operation \texttt{current\_user.user\_id} des Login-Managers gibt die ID des eingeloggten Benutzers zurück, der diese \acs{API}-Route aufruft. Weil die ID für jeden Benutzer unterschiedlich ist, wird damit die Methode \texttt{events} für jeden Benutzer mit unterschiedlichem Argument aufgerufen. Die ID des Benutzers ist Schlüssel des globalen Session-Dictionary. Über die ID und das Session-Dictionary kann das Topic eines bestimmten Benutzers abgefragt werden. Für jeden Benutzer wird über das Topic ein Consumer-Objekt über \texttt{get\_simple\_consumer} erzeugt. Für jeden Benutzer wird ein eigenes Consumer-Objekt erzeugt, dass Nachrichten aus dem Topic des Benutzers konsumiert. Ein Benutzer kann keine Nachrichten empfangen, die nicht für ihn bestimmt sind. Der Generator gibt die eintreffenden Nachrichten zurück, welche dem Client über das Server-Sent-Event zugestellt werden.
 
-Diese Lösung eignet sich auch für den Empfang von Nachrichten über die \acs{XMPP}-basierte Plattform ejabberd. Der sleekxmpp-Client von Python arbeitet mit einer Callback-Methode, die aufgerufen wird, wenn eine neue Nachricht eingetroffen ist. Der Code der Callback-Methode verarbeitet die Nachricht und muss die Nachricht direkt in das Server-Sent-Event weitergeben. Den Server-Push aus der Callback-Methode heraus auszulösen, ist mit den Möglichkeiten von Flask nicht möglich. Das Generator-Objekt muss hierzu von der Callback-Methode befüllt werden, was nicht möglich ist. Ein Generator-Objekt kann nur einmal erstellt werden und produziert solange Werte, bis die Abbruchbedingung zutrifft. Eine Aktualisierung des Generator-Objekts, während es ausgeführt wird, ist nicht möglich. Diesen Entschluss bestätigt die Recherche nach einer Möglichkeit, ein Generator-Objekt zu aktualisieren. Die Empfehlung von Communities wie \glqq stackoverflow.com\grqq ist ein Generator-Objekt neu zu erzeugen, statt es zu aktualisieren \cite{resetGeneratorObjectPython}. Zusätzlich ist fraglich, was eine geeignete Abbruchbedingung innerhalb des Generator-Objekts ist, denn der Empfang der Nachricht lässt sich nur über die Callback-Methode realisieren. Sleekxmpp bietet keine Schnittstelle für Entwickler, um auf eine Queue oder Liste, in der die Nachrichten zwischengespeichert werden, zuzugreifen.
+Diese Lösung eignet sich auch für den Empfang von Nachrichten über die \acs{XMPP}-basierte Plattform ejabberd. Der sleekxmpp-Client von Python arbeitet mit einer Callback-Methode, die aufgerufen wird, wenn eine neue Nachricht eingetroffen ist. Der Code der Callback-Methode verarbeitet die Nachricht und muss die Nachricht direkt in das Server-Sent-Event weitergeben. Den Server-Push aus der Callback-Methode heraus auszulösen, ist mit den Möglichkeiten von Flask nicht möglich. Das Generator-Objekt muss hierzu von der Callback-Methode befüllt werden, was nicht möglich ist. Ein Generator-Objekt kann nur einmal erstellt werden und produziert solange Werte, bis die Abbruchbedingung zutrifft. Eine Aktualisierung des Generator-Objekts, während es ausgeführt wird, ist nicht möglich. Diesen Entschluss bestätigt die Recherche nach einer Möglichkeit, ein Generator-Objekt zu aktualisieren. Die Empfehlung von Communities wie \glqq stackoverflow.com\grqq\ ist ein Generator-Objekt neu zu erzeugen, statt es zu aktualisieren \cite{resetGeneratorObjectPython}. Zusätzlich ist fraglich, was eine geeignete Abbruchbedingung innerhalb des Generator-Objekts ist, denn der Empfang der Nachricht lässt sich nur über die Callback-Methode realisieren. Sleekxmpp bietet keine Schnittstelle für Entwickler, um auf eine Queue oder Liste, in der die Nachrichten zwischengespeichert werden, zuzugreifen.
 
 Eine geeignete Lösung ist, Redis als Zwischenspeicher von Nachrichten einzusetzen. Redis ist eine In-Memory Datenbank und ist Open-Source. Eine In-Memory Datenbank speichert Daten im nicht persistenten Speicher (\acs{RAM}). Redis kann als Cache, High-Performance Datenbank und als Message-Broker verwendet werden.\cite{redisDocumentation}
 
@@ -2709,7 +2709,7 @@ red = redis.StrictRedis(decode_responses=True)
 #more code ...
 \end{lstlisting}
 
-Nach dem Import des Moduls im Code der Flask Applikation muss eine StrictRedis-Instanz erzeugt werden. Über diese Instanz, in \autoref{lst:prepareFlaskForRedis} \glqq redis\grqq genannt, können Nachrichten in Channels produziert werden oder aus einem Channel gelesen werden.
+Nach dem Import des Moduls im Code der Flask Applikation muss eine StrictRedis-Instanz erzeugt werden. Über diese Instanz, in \autoref{lst:prepareFlaskForRedis} \glqq redis\grqq\ genannt, können Nachrichten in Channels produziert werden oder aus einem Channel gelesen werden.
 
 \pagebreak
 
@@ -2749,7 +2749,7 @@ def stream():
     return Response(event_stream(current_user.user_id), mimetype="text/event-stream", status=200)
 \end{lstlisting}
 
-Verbindet sich ein Client auf die \acs{URI} \texttt{http://193.196.53.24/stream}, führt die Flask Applikation die Methode \texttt{stream} aus. Die Methode \texttt{Respone} des Flask-Moduls ruft für jeden Benutzer die Methode \texttt{event\_stream} auf, die Daten für das Server-Sent-Event produziert. Genau wie in \autoref{lst:flaskPykafkaSSE}, sorgt die Operation \texttt{current\_user.user\_id} dafür, dass sich das Argument der Methode \texttt{event\_stream} je nach Benutzer unterscheidet. Die Benutzer-ID wird dafür verwendet, um für jeden Benutzer die Channel-ID aus dem Session-Dictionary auszulesen. In \autoref{lst:flaskSleekxmppSSE} ist die Channel-ID \glqq stream\_id\grqq genannt. Anschließend werden über den Subscribe-Mechanismus die Nachrichten aus dem Channel gelesen und der Generator produziert die Nachrichten in den Event-Stream. Der Client erhält die Nachrichten über den Event-Stream.
+Verbindet sich ein Client auf die \acs{URI} \texttt{http://193.196.53.24/stream}, führt die Flask Applikation die Methode \texttt{stream} aus. Die Methode \texttt{Respone} des Flask-Moduls ruft für jeden Benutzer die Methode \texttt{event\_stream} auf, die Daten für das Server-Sent-Event produziert. Genau wie in \autoref{lst:flaskPykafkaSSE}, sorgt die Operation \texttt{current\_user.user\_id} dafür, dass sich das Argument der Methode \texttt{event\_stream} je nach Benutzer unterscheidet. Die Benutzer-ID wird dafür verwendet, um für jeden Benutzer die Channel-ID aus dem Session-Dictionary auszulesen. In \autoref{lst:flaskSleekxmppSSE} ist die Channel-ID \glqq stream\_id\grqq\ genannt. Anschließend werden über den Subscribe-Mechanismus die Nachrichten aus dem Channel gelesen und der Generator produziert die Nachrichten in den Event-Stream. Der Client erhält die Nachrichten über den Event-Stream.
 
 Mit Server-Sent-Events werden die Nachrichten automatisch dem Client übermittelt. Wird die Verbindung unterbrochen, verbindet sich der Client-Code automatisch erneut mit dem Server-Sent-Event. Die Lösung macht den Empfang von Nachrichten direkt am Client oder in einem Web Frontend möglich.
 
@@ -2829,7 +2829,7 @@ Vorab ist der Begriff des XMPP-Clients zu definieren. Mit der Entwicklung eines 
 
 \section{Das Prinzip der Webseiten-Programmierung}
 \label{WebsiteProgramming}
-Bei der Entwicklung eines Frontends für eine Web-Applikation sind wichtige Bestandteile zu beachten. Diese bilden den Kern des Unterabschnitts. Wie der Einführung zu entnehmen ist bilden die Werkzeuge aus \autoref{sec:HTMLCSSJS} den Kern der Webseiten-Programmierung. Diese werden nach Günter Pomaska als \glqq Sprachen im Web\grqq bezeichnet. Zu den Sprachen kommt die Webseite als weiteres Bestandteil hinzu. Für die Entwicklung des Frontends ist die Kenntnis über das Ausliefern von Webseiten relevant. Dafür kann die \autoref{img:WebseiteAnforderung} betrachtet werden.
+Bei der Entwicklung eines Frontends für eine Web-Applikation sind wichtige Bestandteile zu beachten. Diese bilden den Kern des Unterabschnitts. Wie der Einführung zu entnehmen ist bilden die Werkzeuge aus \autoref{sec:HTMLCSSJS} den Kern der Webseiten-Programmierung. Diese werden nach Günter Pomaska als \glqq Sprachen im Web\grqq\ bezeichnet. Zu den Sprachen kommt die Webseite als weiteres Bestandteil hinzu. Für die Entwicklung des Frontends ist die Kenntnis über das Ausliefern von Webseiten relevant. Dafür kann die \autoref{img:WebseiteAnforderung} betrachtet werden.
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=2.1]{images/WebseiteAnfordern}
@@ -2881,7 +2881,7 @@ Die offizielle Seite von Flask bezeichnet das Vererben von HTML-Vorlagen als mä
 	</body>
 </html>
 \end{lstlisting}
-Das hinzugewonnen Feature ist die Unterteilung des Base Templates in Blöcke. Diese werden mit \texttt{\{\% Block X\%\}} eingeleitet. Den Abschluss eine Blocks wird mit \texttt{\{\% endblock \%\}} dargestellt. Ein Block, wie er im \autoref{lst:BaseTemplate} dargestellt ist, wird vom Base Template definiert. Dadurch wird indirekt ein freiere Raum konstruiert, der von dem Kindelement befüllt werden kann ohne Inhalte zu überschreiben. Das Base Template lässt sich laut der Dokumentation als Elternteil bezeichnen. Im weiteren Verlauf bieten die Blöcke die Möglichkeit von Kindelementen überschrieben zu werden. Die Aufgabe eines \glqq Child Templates\grqq besteht darin, die leeren Blöcke mit Inhalt zu füllen. Aufschluss darüber wie eine Kindseite dies löst, bildet das \autoref{lst:ChildTemplate} ab. Demnach beginnt das HTML-Dokument nicht mit den Standard-Tag \texttt{<!doctype html>}, sondern stellt die Verknüpfung zum Base Template her. In dem Fall stellt das \texttt{extends} ein Keyword dar, wodurch alle HTML-Elemente der Elternseite übernommen werden. Das umfasst die HTML-Tags und was damit einhergeht. Außerdem werden die Blöcke als eine Art Rahmen übernommen.
+Das hinzugewonnen Feature ist die Unterteilung des Base Templates in Blöcke. Diese werden mit \texttt{\{\% Block X\%\}} eingeleitet. Den Abschluss eine Blocks wird mit \texttt{\{\% endblock \%\}} dargestellt. Ein Block, wie er im \autoref{lst:BaseTemplate} dargestellt ist, wird vom Base Template definiert. Dadurch wird indirekt ein freiere Raum konstruiert, der von dem Kindelement befüllt werden kann ohne Inhalte zu überschreiben. Das Base Template lässt sich laut der Dokumentation als Elternteil bezeichnen. Im weiteren Verlauf bieten die Blöcke die Möglichkeit von Kindelementen überschrieben zu werden. Die Aufgabe eines \glqq Child Templates\grqq\ besteht darin, die leeren Blöcke mit Inhalt zu füllen. Aufschluss darüber wie eine Kindseite dies löst, bildet das \autoref{lst:ChildTemplate} ab. Demnach beginnt das HTML-Dokument nicht mit den Standard-Tag \texttt{<!doctype html>}, sondern stellt die Verknüpfung zum Base Template her. In dem Fall stellt das \texttt{extends} ein Keyword dar, wodurch alle HTML-Elemente der Elternseite übernommen werden. Das umfasst die HTML-Tags und was damit einhergeht. Außerdem werden die Blöcke als eine Art Rahmen übernommen.
 \begin{lstlisting}[language=HTML,caption=Beispiel einer Grundseite für das Vererbungsprinzip,label={lst:ChildTemplate}]
 {% extends "layout.html" %}
 {% block title %}Index{% endblock %}
@@ -3021,7 +3021,7 @@ Wie die einzelnen Kontakte in den Container integriert werden können, kann der 
 	\end{minipage}
 \end{figure}
 Hierfür kommen die Listen-Elemente von HTML5 zum Einsatz. Das \texttt{ul} definiert die Liste und steht für eine \textit{unordered list}. Kindelemente des \texttt{ul}-Tags sind die \texttt{li}-Tags. Diese definieren ein Listeneintrag.
-Übertragen auf die Funktion handelt es sich bei dem \texttt{ul-Tag} um die Initialisierung einer Liste von Kontakten. Entsprechend symbolisieren die li-Container einen einzelnen Kontakt. Standardmäßig werden Listen unter HTML5 mit Bullets markiert. Diese Eigenschaft kann mithilfe von CSS verhindert werden. Die Klassennamen nehmen Bezug zur den dynamischen und gestalterischen Inhalten. Aus diesem Grund unterscheidet sich ein Klassenname von den anderen. Das Resultat davon, ist die Gestaltung eines einzelnen Kontaktes. Dadurch kann dem Benutzer ein Kontakt als \glqq aktiv\grqq bzw. \glqq ausgewählt\grqq dargestellt werden. Die Darstellung aus Sicht des Benutzers ist in \autoref{img:KontaktlisteUserview} ersichtlich. \cite{w3schoolsUlTag}\\
+Übertragen auf die Funktion handelt es sich bei dem \texttt{ul-Tag} um die Initialisierung einer Liste von Kontakten. Entsprechend symbolisieren die li-Container einen einzelnen Kontakt. Standardmäßig werden Listen unter HTML5 mit Bullets markiert. Diese Eigenschaft kann mithilfe von CSS verhindert werden. Die Klassennamen nehmen Bezug zur den dynamischen und gestalterischen Inhalten. Aus diesem Grund unterscheidet sich ein Klassenname von den anderen. Das Resultat davon, ist die Gestaltung eines einzelnen Kontaktes. Dadurch kann dem Benutzer ein Kontakt als \glqq aktiv\grqq\ bzw. \glqq ausgewählt\grqq\ dargestellt werden. Die Darstellung aus Sicht des Benutzers ist in \autoref{img:KontaktlisteUserview} ersichtlich. \cite{w3schoolsUlTag}\\
 Mit der Umsetzung der zusätzlichen Optionen wird der \texttt{bottom-bar} zwei Buttons zugeteilt, welche diese Optionen bereitstellen sollen. Für die div-Box mit der id \texttt{content-window} ist die Vorgehensweise identisch, um alle Aufgabenbereiche, aus den Anforderungen, in der grafischen Benutzeroberfläche abzudecken. Diesem Container müssen daher folgende Bestandteile zugeordnet werden.
 \begin{itemize}
 	\item Profilanzeige des Chatpartners
@@ -3087,7 +3087,7 @@ $('#login-form-button').click(function(event){
 		modular_ajax(url,type,form_data);}
 });
 \end{lstlisting}
-Mit \texttt{.click(function(event)\{...\})} wird ermöglicht eine Funktion, durch einen Klick des Anwenders, auszuführen. Der Klick stellt dabei das \texttt{event} dar. Dies wird in Zeile 2 benötigt um ggf. das Event bzw. die ausgelöste Funktion zu unterbrechen. Ein beliebte Anwendung von \texttt{preventDefault()} sind die Formulare, wie es in diesem Codesnippet ersichtlich ist. Grund dafür, ist die Bindung zu einem Button. Um nämlich die normale Funktion eines Buttons zu unterbrechen kann die Funktion aus Zeile 2 verwendet werden. Unter diesem Prinzip wird das \glqq canceln\grqq{} eines Ereignisses verstanden. \cite{w3schoolsPrevDefault}\\
+Mit \texttt{.click(function(event)\{...\})} wird ermöglicht eine Funktion, durch einen Klick des Anwenders, auszuführen. Der Klick stellt dabei das \texttt{event} dar. Dies wird in Zeile 2 benötigt um ggf. das Event bzw. die ausgelöste Funktion zu unterbrechen. Ein beliebte Anwendung von \texttt{preventDefault()} sind die Formulare, wie es in diesem Codesnippet ersichtlich ist. Grund dafür, ist die Bindung zu einem Button. Um nämlich die normale Funktion eines Buttons zu unterbrechen kann die Funktion aus Zeile 2 verwendet werden. Unter diesem Prinzip wird das \glqq canceln\grqq\ eines Ereignisses verstanden. \cite{w3schoolsPrevDefault}\\
 Vor der Überprüfung werden Variablen mit den jeweiligen \ac{HTML}-Elementen initialisiert. Die relevante Funktion zur Überprüfung des Formulars wird in der If-Bedingung aufgerufen und ihre Funktionsweise wird durch die \autoref{img:CheckFunctionLogin} visuell dargestellt.%TODO form_data besser erklären
 \begin{figure}[h]
 	\centering
@@ -3125,7 +3125,7 @@ Die \autoref{img:LoginUeberpruefungsVarianten} besteht aus 3 Einzelbilder von de
 Bei den Unterschieden und Ergänzungen handelt es sich um:
 \begin{itemize}
 	\item Erweiterung der Textfelder
-	\item Kein \glqq remember me\grqq
+	\item Kein \glqq remember me\grqq\
 	\item Validierungsfunktionen
 	\item Checkbox für die Datenschutzrichtlinie
 \end{itemize}
@@ -3299,7 +3299,7 @@ Diese Anwendung durch den Benutzer schließt schon auf die Umsetzung der Funktio
 	\caption{Extrafenster aus Sicht des Nutzers um ein Kontakt hinzuzufügen, eigene Darstellung}
 	\label{img:AddContactWindow}
 \end{figure}
-Mit dem Modal besitzt der Nutzer die Möglichkeit einen Kontakt in das Textfeld einzutragen. Mit dem Klick auf den Button \glqq Add contact\grqq{} wird seine Eingabe bestätigt. Dieser Button bzw. der Klick wird als Event zum Auslösen einer Funktion genutzt, wie es nachfolgend (\autoref{lst:AddContactClickFunction}) ausschnittsweise dargestellt wird.
+Mit dem Modal besitzt der Nutzer die Möglichkeit einen Kontakt in das Textfeld einzutragen. Mit dem Klick auf den Button \glqq Add contact\grqq\ wird seine Eingabe bestätigt. Dieser Button bzw. der Klick wird als Event zum Auslösen einer Funktion genutzt, wie es nachfolgend (\autoref{lst:AddContactClickFunction}) ausschnittsweise dargestellt wird.
 \begin{lstlisting}[language=Javascript,caption=Funktionsverknüpfung an den Kontak hinzufügen Button unter JS,label={lst:AddContactClickFunction}]
 $("#addContactButton").click(function(){}
 \end{lstlisting}
@@ -3362,7 +3362,7 @@ Bei Betrachtung der \autoref{tab:JavaScript Aufgabendefinition für gochat.html}
 		\hline
 		pull\_chat\_hisotry(username) & Anfragen des Chatverlaufs des angemeldeten Benutzers.\\
 		\hline
-		source.onmessage = function (event) \{\} & Die Funktion öffnet ein \glqq Stream\grqq{} um Nachrichten zu empfangen.\\
+		source.onmessage = function (event) \{\} & Die Funktion öffnet ein \glqq Stream\grqq\ um Nachrichten zu empfangen.\\
 		\hline
 		printSingleChatMessage\linebreak(JSON\_DATA) & Ausgeben der Nachricht in das Chat-Fenster wenn der aktuelle Kontakt aktiv bzw. ausgewählt ist.\\
 		\hline
@@ -3482,14 +3482,14 @@ Diese Aufgabenbereiche sind Bestandteil anderer Funktionen oder tragen zur Funkt
 \begin{lstlisting}[language=Javascript,caption=Nachricht in Dictionary einfügen  ,label={lst:SendFunctionUpdateChatMessageObject}]
 chat_messages[user_name][to_jid].push({"from": user_name, "timestamp": msg_timestamp, "txt": msg, "type": "chat"});
 \end{lstlisting}
-Die Nachricht wird dennoch dem Kontaktpartner als zweiten Key zugeteilt. Dadurch enthält der Kontaktpartner eine Erweiterung des Chatverlaufs. Das Array enthält als Ergänzung zur \autoref{img:ChatMessagesObjectXMPP2} auch Nachrichten, bei dem das \glqq from\grqq den Benutzer selbst darstellt.
+Die Nachricht wird dennoch dem Kontaktpartner als zweiten Key zugeteilt. Dadurch enthält der Kontaktpartner eine Erweiterung des Chatverlaufs. Das Array enthält als Ergänzung zur \autoref{img:ChatMessagesObjectXMPP2} auch Nachrichten, bei dem das \glqq from\grqq\ den Benutzer selbst darstellt.
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=\textwidth]{images/ChatMessagesObjectXMPP3}
 	\caption{\texttt{chat\_messages-Objekt} mit empfangenen und gesendeten Nachrichten, eigene Darstellung}
 	\label{img:ChatMessagesObjectXMPP3}
 \end{figure}
-Zur Erklärung der \autoref{img:ChatMessagesObjectXMPP3}. Der erste Key ist der angemeldete Benutzer (\glqq testuser8\grqq). Mit \glqq testuser12\grqq wird der Kontaktpartner angezeigt. Anschließend enthält der Kontaktpartner den Nachrichtenverlauf beider Nutzer. Darin sind die Änderungen aus \autoref{lst:SendFunctionUpdateChatMessageObject} ersichtlich. 
+Zur Erklärung der \autoref{img:ChatMessagesObjectXMPP3}. Der erste Key ist der angemeldete Benutzer (\glqq testuser8\grqq. Mit \glqq testuser12\grqq\ wird der Kontaktpartner angezeigt. Anschließend enthält der Kontaktpartner den Nachrichtenverlauf beider Nutzer. Darin sind die Änderungen aus \autoref{lst:SendFunctionUpdateChatMessageObject} ersichtlich. 
 \newpage
 
 \chapter{Entwicklung des Frontends für den Kafka-Client}
@@ -3858,7 +3858,7 @@ Nach der Auslieferung von Software können Fehler immer noch entdeckt werden, zu
 
 \smallskip
 
-\glqq Durch Testen kann man stets nur die Anwesenheit, nie aber die Abwesenheit von Fehlern beweisen.\grqq (vgl. Dijkstra E. W. - The Humble Programmer, ACM Turing Lecture 1972)
+\glqq Durch Testen kann man stets nur die Anwesenheit, nie aber die Abwesenheit von Fehlern beweisen.\grqq\ (vgl. Dijkstra E. W. - The Humble Programmer, ACM Turing Lecture 1972)
 
 \smallskip
 
