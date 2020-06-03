@@ -295,7 +295,7 @@ Ort, Datum & Oliver Klapper
 		\textbf{Kapitelnr.} & \textbf{Kapitel} & \textbf{Autor} \\
 		\hline
 		1 & Bedeutung von Instant-Messaging Systemen & Oliver K. \\
-		2 & Datenschutzrechtliche Aspekte & Lukas P.\\
+		2 & Datenschutzrechtliche Aspekte & \\
 		3 & Anforderungen & Oliver K. \\
 		4 & Theoretische Grundlagen & Lukas P. \\
 		5 & Diskussion über die Art der Benutzeroberfläche & Lukas P.\\
@@ -309,9 +309,10 @@ Ort, Datum & Oliver Klapper
 		11 & Umsetzung der Entwicklung einer REST API & Oliver K.\\
 		12 & Entwicklung der Frontends für den XMPP-Client & Lukas P.\\
 		13 & Entwicklung der Frontends für den Kafka-Client & Lukas P.\\
-		14 & Grundlagen von Softwaretest & Oliver K.\\
-		15 & Ergebnis & Oliver K.\\
-		16 & Fazit & Lukas P.\\
+		14 & Gegenüberstellung der Instant Messaging Systeme & Lukas P.\\
+		15 & Grundlagen von Softwaretest & Oliver K.\\
+		16 & Ergebnis & \\
+		17 & Fazit & \\
 	\end{tabular*}
 	\label{tab:autorenuebersicht}
 \end{table}
@@ -2078,7 +2079,7 @@ Für die Studienarbeit werden beide Python Module eingesetzt und sich für die I
 \pagebreak
 
 \chapter{Umsetzung der Entwicklung einer \acs{REST} \acs{API}}
-\label{subsec:Backend}
+\label{chap:Backend}
 
 Ausgangspunkt dieses Kapitels ist das Ergebnis der in \autoref{chap:Architektur} definierten Architektur. Dieses Kapitel befasst sich mit der Entwicklung der \acs{REST} \acs{API}. Es zeigt wichtige Aspekte und Ideen der Umsetzung mittels des Microframeworks Python Flask auf. Zu Beginn werden Anforderungen an die \acs{REST} \acs{API} und anschließend die genaue Umsetzung und der Programm-Code erläutert.
 
@@ -3845,6 +3846,161 @@ Mit Abschluss der \texttt{sendNewContact()}-Methode besitzt der Kafka-Client die
 
 \pagebreak
 
+
+\chapter{Gegenüberstellung der Instant Messaging Systeme}
+\label{chap:ComparisonXMPP_Kafka}
+Nach der erfolgreichen Implementierung beider Messaging Systeme sind deren Verhalten in einem Testverfahren gegenüberzustellen. Das Ergebnis des Tests bietet die Möglichkeit Vorteile eines Messaging Systems gegenüber dem anderen zu identifizieren.
+
+\section{Aufbau und Vorgehensweise des Testverfahrens}
+\label{sec:AufbauVorgehenTest}
+Das Testverfahren orientiert sich an den Projektanforderungen. Hierbei stellt sich die Frage, welche Anforderung im Vordergrund stehen soll. Wird der Kern eines Messaging-Systems betrachtet, handelt es sich, wie im \autoref{chap:Einleitung} beschrieben, um den Austausch von Informationen. Die Aussage wird unterstützt durch die \autoref{img:ArchitekturIMS} aus \autoref{sec:IMSFunktion}. Neben dem Einloggen und den Benachrichtungen stellt die Abbildung den Nachrichtenaustausch in den Vordergrund. Auf Basis dieser Kerneigenschaft steht der Nachrichtenaustausch auch beim Testverfahren im Vordergrund. Zur Veranschaulichung der allgemeinen Vorgehensweisen kann die nachfolgende \autoref{img:Testaufbau} betrachtet werden.
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.75]{images/Testaufbau}
+	\caption{Ablauf des Testverfahrens, eigene Darstellung}
+	\label{img:Testaufbau}
+\end{figure}
+Die Grundidee des Testverfahrens, aus \autoref{img:Testaufbau}, ist das Messen eines Nachrichtenaustausches zwischen Sender und Empfänger. Dafür wird vor dem Absenden der Nachricht und beim Erhalt der Nachricht der Zeitpunkt registriert. Anhand der unterschiedlichen Zeitpunkte kann die Dauer der Nachrichtenübertragung ermittelt werden. Im nächsten Schritt wird das Verhalten der Systeme bei 10 000 Nachrichten untersucht. Hierbei ändert sich das Prinzip aus \autoref{img:Testaufbau} nicht.\\
+Das Testverfahren ist ohne Frontend auszuführen. Außerdem ist der Test an die zwei unterschiedlichen Messaging-Systemen anzupassen. Für das Testverfahren werden sich die Umsetzungen aus den entsprechenden Kapiteln zu Nutze gemacht. Hierbei handelt es sich um:
+\begin{itemize}
+	\item consumer von pykafka
+	\item producer von pykafka
+	\item Client von sleekxmpp
+\end{itemize}
+In diesem Zusammenhang werden die Tests beider Systeme nach dem gleichen Prinzip ausgeführt. Der erste Test erfolgt unter sleekxmpp.
+
+\subsection*{Testdurchführung bei sleekxmpp}
+\label{subssec:Testsleekxmpp}
+Wie bereits angedeutet wird das Modul sleekxmpp für den Test benötigt. Über die Funktionsweise des Moduls besteht bereits Kenntnis. In diesem Zusammenhang wird die Klasse EchoBot des Moduls benötigt. Für die Vorgehensweisen wird die \autoref{img:Testaufbau} in eine auf sleekxmpp zugeschnittene Form umgewandelt.
+Hierfür wird das Prinzip von sleekxmpp in die Testumgebung integriert. Das Resultat ist in \autoref{img:TestaufbauSleekxmpp} dargestellt.
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.7]{images/TestaufbauSleekxmpp}
+	\caption{Ablauf des Testverfahrens unter sleekxmpp, eigene Darstellung}
+	\label{img:TestaufbauSleekxmpp}
+\end{figure}
+Wie der Abbildung zu entnehmen ist handelt es sich um zwei Clients zwischen denen eine Nachricht ausgetauscht wird. Irrelevant für den Test ist das Erstellen der Clients sowie das starten eine Threads, welcher unter sleekxmpp benötigt wird. Diese Funktionen sind Bestandteil von dem \autoref{sec:SleekxmppModul}. Im ersten Schritt müssen die entsprechenden Parameter festgelegt werden(\autoref{lst:testSleekxmppParam}).
+\begin{lstlisting}[language=python, caption={Parameter für den Test}, label={lst:testSleekxmppParam}]
+desti_jid = 'test@ejabberd-server'
+number_msgs = 1
+c = 0
+\end{lstlisting}
+Aus dem \autoref{lst:testSleekxmppParam} kann entnommen werden, dass es sich bei dem Client of User Y (\autoref{img:TestaufbauSleekxmpp}) um den Benutzer Test handelt. Dieser stellt den Empfänger dar. Anschließend wird in dem Konzept von sleekxmpp eine Nachricht versendet. Dieser Vorgang ist im \autoref{lst:testSleekxmppSend} dargestellt.
+\begin{lstlisting}[language=python, caption={Sendevorgang der Testnachricht}, label={lst:testSleekxmppSend}]
+while c < number_msgs:
+xmpp_client.push_message(desti_jid, str(time.time()), 'chat','')
+c += 1
+\end{lstlisting}
+Die Methode \texttt{push\_message} ist Bestandteil der EchoBot-Klasse und muss daher nicht detailliert erläutert werden. Da die Variable \texttt{number\_msgs} mit dem Wert Eins initialisiert wird und \texttt{c=0} ist, läuft die Schleife genau einmal. Dadurch wird dem Client Y auch nur eine Nachricht zugesendet.\\
+Übergeben wird der Methode \texttt{push\_message} der Parameter \texttt{str(time.time())}. Dadurch wird zum Zeitpunkt des Sendens der aktuelle Zeitpunkt ermittelt. Das Modul \texttt{time} mit der Methode \texttt{time()} liefert einen float-Wert zurück. Dieser entspricht der Anzahl an Sekunden seit dem 1.1.1970. \cite{pythonDocsTime}\\
+Dadurch wird definiert zu welchem Zeitpunkt die Nachricht versendet wird. Für den Empfang wird Client Y benötigt. Dieser besitzt die Callback-Methode \texttt{message()}, welche beim Erhalt einer Nachricht ausgeführt wird (\autoref{lst:testSleekxmppReceive}).
+\begin{lstlisting}[language=python, caption={Empfangvorgang der Testnachricht}, label={lst:testSleekxmppReceive}]
+def message(self, msg):
+if msg['type'] in ('normal', 'chat'):
+print(time.time() - float(msg['body']))
+\end{lstlisting}
+Durch das Auslösen der Funktion wird gewährleistet, dass die Nachricht beim Client ankommt. Zu dem Zeitpunkt wird erneut mittels \texttt{time.time()} der Zeitpunkt festgehalten. Aufgrund davon, dass der Zeitpunkt des Absendens in der Nachricht steht, kann bei Client Y die Dauer ermittelt werden. Dafür wird vom aktuellen Zeitpunkt der Zeitpunkt des Absendens abgezogen. Das Resultat entspricht der Dauer in Sekunden, welche der Versand einer Nachricht benötigt hat. Im nächsten Schritt werden 10 000 Nachrichten versendet, wobei sich das Konzept des Tests nicht ändert. Lediglich die Variable \texttt{number\_msgs} wird mit der größeren Zahl initialisiert. Außerdem wird das Ausgeben der Werte in eine Datei weitergeleitet.
+
+\subsection*{Testdurchführung bei pykafka}
+\label{subssec:Testpykafka}
+Für die Umsetzung des Instant-Messaging System mit Apache Kafka wird unter Python das Modul pykafka verwendet. Hierfür ist auf den \autoref{sec:KafkaModul} zu verweisen. Wieder wird das Grundprinzip aus \autoref{img:Testaufbau} angewendet, wobei Kafka zu integrieren ist. Dabei ändert sich ausschließlich das Instant-Messaging System zwischen den Clients(\autoref{img:TestaufbauKafka}).
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.6]{images/TestaufbauKafka}
+	\caption{Ablauf des Testverfahrens unter Kafka, eigene Darstellung}
+	\label{img:TestaufbauKafka}
+\end{figure}
+Neben den Clients und dem Messaging-System ist die Vorgehensweise in der Abbildung dargestellt. Bei dieser handelt es sich um dieselbe wie aus dem vorherigen Abschnitt, weshalb keine erneute Erklärung erfolgt. Bei dem Topic, in das produziert und von dem konsumiert wird, handelt es sich um \glqq performanceTest0\grqq. Dieses Topic wird im ersten Schritt beiden Clients zugeteilt. Anschließend werden, bis auf \texttt{desti\_jid}, die selben Variablen wie aus \autoref{lst:testSleekxmppParam} deklariert und initialisiert. Die Erklärung des Sendevorgangs mittels Kafka ist Bestandteil von dem \autoref{chap:Backend}. Dennoch wird für den Test ein Ausschnitt dargestellt (\autoref{lst:testKafkaSend}). 
+\begin{lstlisting}[language=python, caption={Sendevorgang der Testnachricht unter Kafka}, label={lst:testKafkaSend}]
+with topic.get_producer(sync=True) as kafka_producer:
+while c < number_msgs:
+t = time.time()
+kafka_producer.produce(str(t).encode())
+c += 1
+\end{lstlisting}
+Während beim Nachrichtenaustausch die Variable \texttt{sync} nicht auf True gesetzt werden muss, sorgt sie im Testfall für ein genaueres Ergebnis.\\
+Grund hierfür ist die Asynchronität von Kafka. Standardmäßig wird der producer im asynchronen Modus betrieben. Dadurch werden die Nachrichten nicht einzeln versendet, sondern größere Nachricht in einer Charge übermittelt. Um dieses Funktionsprinzip zu verhindert kann \texttt{sync} auf True gesetzt werden. \cite{pykafkaDocumentation}\\
+Der Zeitpunkt wird wieder mittels \texttt{time.time()} festgelegt und als Nachricht mitgesendet. Gleiches Prinzip wird auf der Seite des Empfängers ausgeführt(\autoref{lst:testKafkaReceive}). Wobei die For-Schleife nur ausgeführt wird, sollte sich eine Nachricht im Topic befinden. 
+\begin{lstlisting}[language=python, caption={Sendevorgang der Testnachricht unter Kafka}, label={lst:testKafkaReceive}]
+for message in kafka_consumer:
+t = time.time()
+print(t-float(message.value.decode()))
+\end{lstlisting}
+Wird die Nachricht vom Empfänger konsumiert wird der Zeitpunkt festgelegt. Anschließend werden die Zeitpunkte voneinander abgezogen, ist das Resultat die Dauer der Übertragung. Im Anschluss an dem Test mit einer einzelnen Nachricht wird die Variable \texttt{number\_msgs} auf den Wert 10 000 gesetzt und der Test wiederholt. Wobei die Ausgabe des Ergebnissen in eine Textdatei geleitet wird. Außerdem ist zu beachten, dass bei den 10 000 Nachrichten nicht die Gesamtdauer gemessen wird, sondern jede Nachricht einzeln. Der Grund wird bei der Interpretation des Ergebnisse ersichtlich. 
+\pagebreak
+
+\section{Interpretation der Testergebnisse}
+\label{sec:Testergebnis}
+Das Testverfahren, wie es in den vorherigen Abschnitten beschrieben ist, liefert 4 Ergebnisse. Davon sind zwei in identisch. Das unterscheidende Kriterium ist die zugrundeliegende Plattfrom. Bei den zwei unterschiedlichen Ergebnissen handelt es sich um:
+\begin{itemize}
+	\item Dauer einer Nachricht
+	\item Dauer einzelner Nachrichten bei insgesamt 10 000 Nachrichten
+\end{itemize}
+Der zweite Test bietet die Möglichkeit einen Durchschnitt zu bilden. Dadurch kann eine detaillierteres Ergebnis geliefert werden. In dem Zusammenhang kann eine Abweichung zum ersten Test ermittelt werden.
+
+\subsection*{Testergebnisse des ersten Testdurchlaufs}
+Für den ersten Test wird die Dauer einer einzelnen Nachricht ermittelt. Die Vorgehensweise ist Bestandteil der vorherigen Abschnitte. Das Ergebnis beider Instant-Messaging-System ist in der \autoref{tab:Test1Result} dargestellt.
+\begin{table}[h]
+	\centering
+	\caption{Ergebnisse des ersten Tests auf beiden Plattformen}
+	\begin{tabular}{l|c|c}
+		\textbf{Test} & \textbf{sleekxmpp, [sek.]} & \textbf{pykafka, [sek.]} \\
+		\hline
+		Dauer einer Nachricht & 0.35690689 & 0.00791335 \\
+	\end{tabular}
+	\label{tab:Test1Result}
+\end{table}
+Bei den Werten handelt es sich um die Einheit sekunde. Das erste Resultat beider Systeme zeigt eine hohe Geschwindigkeit bei dem Versand einer Nachricht. Hierbei sei daran zu erinnern, dass ein webbasiertes Frontend diese Zeiten nicht erreichen würde. Als zweites Resultat ist der Unterschied beider Systeme ersichtlich. Im direkten Vergleich ist pykafka um den Faktor 45 schneller als sleekxmpp. Eine Übersicht der Ergebnisse im direkt Vergleich liefert die nachfolgende \autoref{img:Test1Diagramm}.
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.55]{images/DiagrammTest1}
+	\caption{Vergleich der Ergebnisse von Test 1, eigene Darstellung}
+	\label{img:Test1Diagramm}
+\end{figure}
+
+
+\subsection*{Testergebnisse des zweiten Testdurchlaufs}
+Mit dem ersten Test als Grundlage erfolgt der zweite Test mit einem höheren Durchsatz an Nachrichten. Dadurch kann das Ergebnis des ersten Tests belegt bzw. widerlegt werden. Die Ergebnisse der zweiten Test sind in der \autoref{tab:Test2Result} dargestellt.
+\begin{table}[h]
+	\centering
+	\caption{Ergebnisse des ersten Tests auf beiden Plattformen}
+	\begin{tabular}{l|c|c}
+		\textbf{Test} & \textbf{sleekxmpp, [sek.]} & \textbf{pykafka, [sek.]} \\
+		\hline
+		Durchschnitt einer Nachricht & 0,02124936 & 0.00698049\\
+	\end{tabular}
+	\label{tab:Test2Result}
+\end{table}
+Die dargestellten Ergebnisse, geben den Durchschnitt einer Nachricht an. Demnach benötigt bspw. eine Nachricht über sleekxmpp 0,0212 Sekunden im Durchschnitt. Auch im zweiten Test stellt Kafka die schneller Plattform beim Versand der Nachrichten dar. Genauer gesagt ist Kafka um einen Faktor 3 schneller als sleekxmpp. Diese Ergebnis ist ebenfalls in \autoref{img:Test2Diagramm} ersichtlich.
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.8]{images/DiagrammTest2}
+	\caption{Vergleich der Ergebnisse von Test 2, eigene Darstellung}
+	\label{img:Test2Diagramm}
+\end{figure}
+\pagebreak
+
+\subsection*{Vergleich und Interpretation der beiden Tests}
+Unter Berücksichtigung der Tabellen der vorherigen Abschnitte wird nachfolgend auf die Ergebnisse eingegangen. Hierbei liegt der Fokus auf den Vergleich des ersten Test mit dem zweiten. Außerdem ist eine detaillierte Betrachtung des zweiten Tests relevant für eine Aussage über die zwei Plattformen. Das erste Diagramm, aus \autoref{img:VergleichTests}, stellt dar inwiefern sich das Verhalten von den Plattformen zwischen den Test verändert hat. Hierbei ist zu beachten, dass für eine bessere Darstellung der Maximumwert heruntergesetzt ist. Dadurch sind die Unterschiede besser ersichtlich, aber der Datenbalken zu Test 1 von sleekxmpp wäre deutlich größer.
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.8]{images/VergleichTests}
+	\caption{Vergleich der Testergebnisse zwischen den Tests und Plattformen, eigene Darstellung}
+	\label{img:VergleichTests}
+\end{figure}
+Der Abbildung zur Folge ist der Unterschied einer einzelnen Nachricht zu einem Durchschnitt von 10 000 Nachrichten bei sleekxmpp deutlich größer als bei pykafka. Das Ergebnis besagt, dass mit dem ersten Test keine aufschlussreiche Aussage über die Geschwindigkeit bei sleekxmpp getroffen werden kann. Der Durschnitt zeigt, dass sleekxmpp schneller sein kann, als es das Ergebnis von dem ersten Test zeigt. Dennoch ist der Geschwidigkeitsunterschied von sleekxmpp zu pykafka sowohl beim ersten als auch beim zweiten Test ersichtlich. Den vorherigen Abschnitten konnten die Faktoren 45 und 3 dem Unterschied zugeordnet werden. Hierbei sei anzumerken, dass aufgrund der Steigerung von sleekxmpp der Faktor 3 der Realität eher entspricht als der Faktor 45.\\
+Der nächste Vergleich handelt ausschließlich vom zweiten Test. Aufgrund der großen Anzahl an Nachrichten bietet der zweite Test die Möglichkeit Extremwerte zu untersuchen. Mit Extremwerten ist in dem Zusammenhang die minimalste und maximalste Dauer einer Nachricht vom Senden bis Empfangen gemeint. Zu erwarten ist in dem Fall ein ähnliches Ergebnis wie der vorherige Vergleich. Für den Vergleich werden die kleinsten und größten Zeitpunkte aus der Datei gefiltert und in ein Diagramm dargestellt. Das Diagramm kann der nachfolgend \autoref{img:VergleichExtremwerte} entnommen werden.
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.8]{images/VergleichExtremwerte}
+	\caption{Vergleich der Extremwerte beider Plattformen, eigene Darstellung}
+	\label{img:VergleichExtremwerte}
+\end{figure}
+Aufgrund der großen Unterschiede ist der minimalste Wert von pykafka kaum ersichtlich. Das Resultat dieses Diagramms, auf Basis des zweiten Tests, ist der geringe Unterschied zwischen dem Minimum und Maximum von pykafka. Es ist also bei der Verwendung von pykafka mit ähnlicheren Werten zu rechnen. Im Gegensatz dazu hat sleekxmpp einen größeren Ausschlag. Demnach ist der Spielraum für die Dauer einer Nachricht relativ hoch. Ein weiteres Resultat ist beim Vergleich zwischen dem Minimum von sleekxmpp und dem Maximum von pykafka ersichtlich. Demzufolge ist mindestens eine Nachricht über sleekxmpp schneller gewesen als eine Nachricht über Kafka. Dadurch lässt sich nicht die Behauptung aufstellen pykafka sei generell schneller als sleekxmpp. Dennoch ist das Endresultat, aufgrund der durschnittswerte, dass ein Nachrichtenaustausch mittels Kafka schneller ist als mit sleekxmpp.
+
+
+\pagebreak
+
 \chapter{Grundlagen von Softwaretests}
 \label{sec:GrundlagenSoftwaretests}
 %%TODO: einbauen von mehrwert von terminalserver
@@ -3994,7 +4150,7 @@ class UserRegistrationTests(unittest.TestCase):
         self.assertEqual(return_code, 0)
 \end{lstlisting}
 
-Der Unittest überprüft, ob die Methode das erwartete Ergebnis liefert, wenn mit dem Mock ein Rückgabewert des Moduls \texttt{subproccess} definiert wird. Das Modul \texttt{subprocess} setzt wie in \autoref{subsec:Backend} bereits beschrieben, den \acs{SSH}-Zugriff um. In dem Dekorator \texttt{@patch} ist die Datei, das Modul und das Objekt angegeben, für die ein Ergebniswert vorgetäuscht werden soll \cite{hubertz2016softwaretests}. In diesem Fall: \texttt{UserManagement.subprocess.Popen}. Anschließend kann über den zusätzlichen Übergabeparameter \texttt{mocked\_popen} auf den Mock zugegriffen werden und Ergebniswerte für verschiedene Operationen des Objekts definiert werden \cite{hubertz2016softwaretests}. Das Übergabeargument kann beliebig genannt werden, denn \texttt{@patch} sorgt dafür, dass es gültig ist. Die getestete Methode verwendet die definierten Ergebniswerte während des Tests so, als wenn das Objekt tatsächlich diese Ergebnisse liefert. Über die Assert-Methode \texttt{assertEqual} wird überprüft, ob der Rückgabewert der getesteten Methode wie erwartet Null ist.
+Der Unittest überprüft, ob die Methode das erwartete Ergebnis liefert, wenn mit dem Mock ein Rückgabewert des Moduls \texttt{subproccess} definiert wird. Das Modul \texttt{subprocess} setzt wie in \autoref{chap:Backend} bereits beschrieben, den \acs{SSH}-Zugriff um. In dem Dekorator \texttt{@patch} ist die Datei, das Modul und das Objekt angegeben, für die ein Ergebniswert vorgetäuscht werden soll \cite{hubertz2016softwaretests}. In diesem Fall: \texttt{UserManagement.subprocess.Popen}. Anschließend kann über den zusätzlichen Übergabeparameter \texttt{mocked\_popen} auf den Mock zugegriffen werden und Ergebniswerte für verschiedene Operationen des Objekts definiert werden \cite{hubertz2016softwaretests}. Das Übergabeargument kann beliebig genannt werden, denn \texttt{@patch} sorgt dafür, dass es gültig ist. Die getestete Methode verwendet die definierten Ergebniswerte während des Tests so, als wenn das Objekt tatsächlich diese Ergebnisse liefert. Über die Assert-Methode \texttt{assertEqual} wird überprüft, ob der Rückgabewert der getesteten Methode wie erwartet Null ist.
 
 \pagebreak
 
