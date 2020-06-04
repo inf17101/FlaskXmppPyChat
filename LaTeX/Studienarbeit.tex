@@ -286,7 +286,7 @@ Ort, Datum & Oliver Klapper
 \pagenumbering{Roman}
 
 %authorenverzeichnis
-\addcontentsline{toc}{chapter}{Authorenübersicht}
+\addcontentsline{toc}{chapter}{Autorenübersicht}
 \chapter*{Autorenübersicht}
 \renewcommand{\arraystretch}{1.5}
 \begin{table}[h]
@@ -295,7 +295,7 @@ Ort, Datum & Oliver Klapper
 		\textbf{Kapitelnr.} & \textbf{Kapitel} & \textbf{Autor} \\
 		\hline
 		1 & Bedeutung von Instant-Messaging Systemen & Oliver K. \\
-		2 & Datenschutzrechtliche Aspekte & \\
+		2 & Datenschutzrechtliche Aspekte & Lukas P.\\
 		3 & Anforderungen & Oliver K. \\
 		4 & Theoretische Grundlagen & Lukas P. \\
 		5 & Diskussion über die Art der Benutzeroberfläche & Lukas P.\\
@@ -311,8 +311,8 @@ Ort, Datum & Oliver Klapper
 		13 & Entwicklung der Frontends für den Kafka-Client & Lukas P.\\
 		14 & Gegenüberstellung der Instant Messaging Systeme & Lukas P.\\
 		15 & Grundlagen von Softwaretest & Oliver K.\\
-		16 & Ergebnis & \\
-		17 & Fazit & \\
+		16 & Ergebnis & Oliver K.\\
+		17 & Fazit & Lukas P.\\
 	\end{tabular*}
 	\label{tab:autorenuebersicht}
 \end{table}
@@ -460,6 +460,36 @@ Als Unterstützung für die Entwicklung sollen Tests des Programm-Codes der Prog
 
 \chapter{Datenschutzrechtliche Aspekte}
 \label{chap:Datenschutz}
+Wird eine Anwendung, ein Webservice oder etwas anderes mehreren Kunden angeboten, kommt schnell das Thema Datenschutz auf. Aus diesem Grund wird der Datenschutz im Rahmen der Studienarbeit erläutert. Mit einem Instant Messaging System werden Kundendaten benötigt. Hinsichtlich der Menge an möglichen Inhalten, werden Kernfragen erarbeitet, welche den Abschnitt in seinem Umfang einschränkt. Dadurch wird das Thema zwar behandelt, aber nicht als Kernaufgabe der Studienarbeit beachtet.\\
+Bei den Fragen, welche der Abschnitt umfasst, handelt es sich um die Folgenden:
+\begin{itemize}
+	\item Wie ist der Datenschutz bei Instant-Messaging Systemen zu beachten?
+	\item Wie werden die Daten im Rahmen der Studienarbeit behandelt?
+\end{itemize}
+An dieser Stelle sei, aufgrund der engen Verknüpfung von Datenschutz und Instant-Messaging, auf den \autoref{chap:Einleitung} zu verweisen. Dieser Abschnitt beinhaltet die Bedeutung von Instant-Messaging-Systemen.
+
+Datenschutz kann je nach Ausführung zu einer eigenen Studienarbeit werden. Zumindest wenn alle Punkte eingehalten werden sollen. In dem Zusammenhang gibt es auch unterschiedliche Interpretationen von Autoren, weshalb der Datenschutz immer mehr an Bedeutung gewinnt. Kai Jendrian sieht bspw. die Enthüllung von Edward Snowden als Wendepunkt der Vertraulichkeit von Kommunikationsdienstleistern. Daraus resultiert das Verhalten der Nutzer nach Alternativen und vor allem sichereren Messaging-Systemen zu schauen. \cite{jendrian14SicheresIM}\\
+Interessant ist auch die Herangehensweise von R. Petrlic. In seinem ersten Schritt grenzt er Instant Messaging von E-Mail ab und bildet so einen Übergang von etwas altbewährten zu einem System, welche für die ältere Generation als \glqq neu\grqq\ angesehen wird. In dem  Zusammenhang fallen Schlüsselbegriffe, welche für die Systeme eine Rolle spielen. Die Begriffe sind in der \autoref{img:DatenschutzSchutzziele} dargestellt.
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.5]{images/DatenschutzSchutzziele}
+	\caption{Schutzziele, eigene Darstellung}
+	\label{img:DatenschutzSchutzziele}
+\end{figure}
+Die linken Begriffe aus der Abbildung, werden im Allgemeinen der IT-Security zugeordnet. Petrlic bezeichnet diese als Schutzziele der E-Mail Sicherheit. Durch die private Kommunikation über Instant Messaging-Systeme teilt er auch die rechten Begriffe den Schutzzielen zu. Daher ist bei Instant-Messaging-Systemen auf mehrere Sicherheitsaspekte zu achten. Mit der Abtastbarkeit kommt der Schutz vor einer dritten Partei hinzu. Mit dem Ziel soll gewährleistet werden das die dritte Partei den Urspung der Nachricht nicht verifizieren kann. Mit Perfect Forward Secrecy wird verhindert ältere Nachrichten durch eine Kompromittierung des privaten Schlüssels zu entschlüsseln. Zusätzlich zu den Schutzzielen, fällt im Zusammenhang mit Instant-Messaging-Systemen der Begriff Ende-zu-Ende-Verschlüsselung, welcher gewährleisten soll, dass ausschließlich die Kommunikationspartner die Nachrichten entschlüsseln können. \cite{petrlic2017datenschutz}
+
+Für die Frage nach dem Datenschutz innerhalb der Studienarbeit, bildet sowohl die Thematik als auch die Anforderungen (\autoref{Anforderungen}), den Rahmen wie Daten zu behandeln sind. An dieser Stelle ist auch das allgemeine Recht einer Person zu beachten. Demnach wird der Datenschutz in Deutschland nicht nur durch den Schutz der Daten definiert, sondern durch den Schutz der Person vor Beeinträchtigung in seinem Recht als Persönlichkeit durch Umgang mit seinen personenbezogenen Daten. \cite{petrlic2017datenschutz}\\
+In dem Kontext kann das Bundesdatenschutzgesetz zur Rate gezogen werden. Diese beschreiben Datenschutz auch schon bei der Technikgestaltung und den Voreinstellungen. Darin wird explizit aufgeführt so wenig personenbezogene Daten wie nur möglich zu verarbeiten. Das beinhalte sowohl das sammeln an Daten als auch das frühzeitige anonymisieren der Benutzerdaten. Außerdem wird aufgefordert geeignete Maßnahmen zu implementieren, welche diese Anforderungen sicherstellen. Zu der Menge an Daten, lassen sich auch den Umfang an Verarbeitung und die Speicherfristen der Daten hinzuzählen. \cite{bdsg2018}
+
+In Anbetracht der Vielfältigkeit an Anforderungen zur Einhaltung des Datenschutzes ist der Benutzer auf das verarbeiten der Daten hinzuweisen. Mit der Umsetzung eines Messaging-Systems sind verschiedene Schritte notwendig. Ein Schritt beinhalte unter anderem die Implementierung eines datenschutzfreundlichen Systems. Dazu gehört die Berücksichtigung der Anforderungen aus dem oberen Abschnitt. Mit der Definition von Minimalanforderungen an das Chatsystem ist dasselbe für den Datenschutz von Vorteil. Dadurch wird die Kernaufgabe nicht beeinträchtigt. Wobei zu beachten ist, dass ein endgültiger Release alle relevanten Datenschutzverordnungen beinhalten muss. Die minimalen Datenschutzrechtlichen Aspekte gelten lediglich für einen Prototyp des Instant-Messaging Systems. Bei den Minimalanforderungen an Datenschutz handelt es sich um die Folgenden:
+\begin{itemize}
+	\item So wenig personenbezogene Daten sammeln, wie nur möglich
+	\item Größtenteils eine Anonymisierung des Benutzers
+	\item Datenschutzhinweise an den Benutzer
+\end{itemize}
+
+
+
 
 \pagebreak
 
@@ -2095,8 +2125,6 @@ Ausgangspunkt dieses Kapitels ist das Ergebnis der in \autoref{chap:Architektur}
 \item Auslieferung von \ac{HTML}-, \ac{CSS}- und JavaScript-Dokumenten an den Browser des Clients
 \item Fehlerbehandlung zum Beispiel bei invaliden Übergabeparametern
 \end{itemize}
-
-%TODO Flask einfuehren und wie Datenbankzugriffe mit SQLAlchemy funktionieren erklaeren
 
 \section{Verbergen von Konfigurationsparametern der Flask Applikation}
 
@@ -4003,7 +4031,7 @@ Aufgrund der großen Unterschiede ist der minimalste Wert von pykafka kaum ersic
 
 \chapter{Grundlagen von Softwaretests}
 \label{sec:GrundlagenSoftwaretests}
-%%TODO: einbauen von mehrwert von terminalserver
+%TODO: einbauen von mehrwert von terminalserver
 Die Entwicklung eines Softwareprodukts ist stets aufwendig und fehlerbehaftet. Es gibt verschiedene potentieller Fehler, die eine Software aufweisen kann. Für die Entwicklung des \acs{IMS} ist es wichtig, die Grundlagen von Softwaretests zu kennen, um Fehler im Code zu vermeiden. Es ist erforderlich sich mit Fehlerarten auseinanderzusetzen und zu verstehen, welche Fehler durch Tests entdeckt werden können.
 
 \smallskip
@@ -4177,6 +4205,23 @@ Geeignete Software-Tests für das Projekt dieser Studienarbeit sind Unittests un
 
 \chapter{Fazit}
 \label{chap:Fazit}
+Mit der Reflektion der Studienarbeit werden Ergebnisse mit den Anforderungen und Ziele der Arbeit verglichen und Interpretiert. Mithilfe der erarbeiteten Ergebnisse liegt der Schwerpunkt des Fazits auf der Interpretation und den Möglichkeiten einer Fortsetzung der Entwicklung.
+
+Anhand der Reflektion ergeben sich Aufgaben und Funktionen, welche über das Ergebnis abgedeckt sind. Dazu zählt bspw. die Entwicklung des Prototyps, was unter anderem die Kernaufgabe der Arbeit darstellt. In dem Zusammenhang sind die Chatfunktionalitäten des Prototyps zu überprüfen. Durch die Entwicklung eines Prototyps steht grundsätzlich die Funktionsfähigkeit im Vordergrund. Geeignete Minimalanforderungen sind ausreichend für einen Prototyp. Auf Basis des Ergebnisses sind die definierten Anforderungen erfüllt. Bei einer Weiterentwicklung müssten weitere Funktionalitäten berücksichtigt werden um mit Instant-Messaging System auf dem Markt mithalten zu können. Hierbei handelt es sich um:
+\begin{itemize}
+	\item Löschen eines Accounts
+	\item Gruppenchats
+	\item Löschen von Kontakten
+	\item Senden von Dateien
+	\item Onlinestatus der Kontakte
+\end{itemize}
+Dennoch ist das erreichte Ziel mit den Grundfunktionalitäten eines Chatsystems nicht zu schmälern. Das IMS verfügt über den vollen Umfang, kann aber durch die dargestellten Funktionen erweitert werden.
+
+Für ein weiteres Ziel der Arbeit muss der Datenschutz im Bezug zum Projekt reflektiert werden. Hierfür ist die Relevanz des Aspektes zur Entwicklung des Prototyps zu definieren. Während im ersten Schritt der Prototyp entwickelt wird, stehen die Datenschutzaspekte im Hintergrund. Nach Abschluss des Prototyps, ist im Zuge der Weiterentwicklung die Implementierung von Datenschutzrichtlinien von Nöten. Ziel des IMS' ist es, sich gemäß der Datenschutzrichtlinien zu verhalten. Mit den definierten Minimalanforderungen an Datenschutz an ein Prototyp lässt sich das Ziel als erfüllt deklarieren. Hierbei sei anzumerken das im Zuge der Implementierung mithilfe Onlineplattformen ein Datenschutzhinweis für den Benutzer erstellt wurde.
+
+
+
+
 
 
 \end{onehalfspacing}
