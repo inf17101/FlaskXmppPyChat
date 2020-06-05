@@ -235,6 +235,18 @@ Ort, Datum & Oliver Klapper
 
 %abstract text
 \section*{Abstract}
+Communication is an essential part of human existence. A communication can take place in different ways. Due to an increased consumption of electrical devices, communication via digital channels is becoming increasingly important these days. The student thesis includes the implementation of an instant messaging system and is therefore concerned with digital communication.
+
+The goal of the thesis is the design of a functional prototype based on the programming language Python. The understanding of elements of the chat system are summarized in the theoretical basics. As part of the development, two platforms are tested for use in the messaging system. These are the XMPP server ejabberd and the Apache software Kafka. The installation as well as the configuration and integration into the chat system are part of this work. It is up to the user to choose a platform.
+
+The prototype is supported by a user interface that makes the functionalities available to the user in a simpler way. A discussion about the user interface provides information about a suitable module.
+
+With the elaboration of data protection aspects a data protection-friendly implementation is aimed at. For this reason, the development is always based on the data protection guidelines. Defined minimum requirements for the prototype are sufficient for this.
+
+The prototype represents the result of the student research project. It can be assigned functions such as sending and receiving messages. Elements like a REST API, the user interface and an underlying database are also part of the prototype.
+
+The prototype enables communication between users via digital channels.
+
 
 \newpage
 
@@ -534,7 +546,7 @@ Die folgende \autoref{img:XMPPcommunication} zeigt den Start einer Kommunikation
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=\textwidth]{images/XML_Wireshark}
-	\caption{Kommunikationsaufbau des \ac{XMPP}-Protokolls}
+	\caption{Kommunikationsaufbau des \ac{XMPP}-Protokolls} %TODO Quelle fehlt
 	\label{img:XMPPcommunication}
 \end{figure} 
 
@@ -546,7 +558,7 @@ Ein Aufbau kann wie in der folgenden \autoref{img:StrukturXMLstream} repräsenti
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=1.2]{images/XML_Stream}
-	\caption{Allgemeine Struktur eines XML streams}
+	\caption{Allgemeine Struktur eines XML streams} %TODO Quelle fehlt
 	\label{img:StrukturXMLstream}
 \end{figure}
 
@@ -884,6 +896,7 @@ In dem Fall kann es sein, dass die Flask-Applikation nicht aktiv ist oder auf ei
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=1.0]{images/NotFound}
+	%TODO Ändern der Caption?
 	\caption{Keine Erreichbarkeit der Webseite, eigene Darstellung}
 	\label{img:FlaskWebseiteNotFound}
 \end{figure}
@@ -1103,7 +1116,7 @@ Die Datenbankinstallation ist erfolgreich, wenn der Verbindungsversuch mit dem r
 Das relationale Datenbankschema das ejabberd benötigt, kann auf github heruntergeladen werden. Der erste Befehl lädt die SQL-Datei, in der das Datenbankschema definiert ist herunter. Der zweite Befehl erstellt in der Datenbank einen Benutzer \glqq ejabberd\grqq\ mit einem Passwort. Der Befehl in Zeile 3 schränkt die Zugriffsrechte des Benutzers auf die Datenbank \glqq ejabberd\grqq\ ein, die in Zeile 4 Listings erstellt wird. Der letzte Befehl spielt das Datenbankschema in die Datenbank \glqq ejabberd\grqq\ ein.
 
 \bigskip
-
+%TODO Gleiches Caption wie vorheriges Listing
  \begin{lstlisting}[language=bash, caption={Installation der Mysql-Datenbank}]
 $ sudo wget https://raw.githubusercontent.com/processone/ejabberd/master/sql/mysql.sql
 $ echo "CREATE USER 'ejabberd'@'localhost' IDENTIFIED BY 'passwort' " | sudo mysql -uroot
@@ -1328,7 +1341,7 @@ hosts:
 \end{lstlisting}
 
 Die Domain ist gleichzeitig die \ac{XMPP}-Domain mit der Benutzer adressiert werden können. Der Name des Benutzers muss innerhalb der Domain eindeutig sein und mit der vollständigen Domain konkateniert werden, zum Beispiel: \texttt{testuser@ejabberd-server}. Andernfalls ist die Adressierung zum Beispiel für das Versenden und dem Empfang einer Nachricht inkorrekt.
-%TODO eventuell Grafik mit Senderdomain und Empfängerdomain und dazwischen Server
+
 
 \subsubsection*{Konfiguration der Zertifikate}
 
@@ -2565,7 +2578,7 @@ else:
 Die \acs{API} nutzt die Einträge aus dem Session-Dictionary. Der Aufruf \texttt{current\_user.user\_id} ist eine Funktion des Login-Managers, der die ID des Benutzers zurückgibt, der diese Operation gerade aufruft. Zurückgegeben wird die ID des Benutzers aus der Tabelle user\_auth, welche die Benutzerinformationen speichert. Die ID ist, wie in vorherigen Abschnitten beschrieben, der Primärschlüssel der Tabelle und verweist eindeutig auf den Benutzer. Der Login-Manager benutzt diese ID, um die Sessions von Benutzern zu verwalten. Weil die ID eines Benutzers im Session-Dictionary als Schlüssel benutzt wird, kann die \acs{API} direkt auf die Einträge des Benutzers im Session-Dictionary zugreifen und verwenden. Durch diese Überprüfung versendet die \acs{API} die Nachricht an die richtige Plattform im Backend.
 
 \autoref{lst:flaskSendMessage} zeigt, wie die Nachricht versendet wird, wenn der Benutzer für die Plattform ejabberd angemeldet ist.
-
+%TODO gleiches caption wie vorheriges?
 \begin{lstlisting}[language=python, caption={Code für den Versand einer Nachricht über die \acs{API} an ejabberd}, label={lst:flaskSendMessage}]
 # if-part of Listing 5.44
 if session_dict[current_user.user_id]['requested_platform']=='xmpp':
@@ -2937,7 +2950,7 @@ Die offizielle Seite von Flask bezeichnet das Vererben von HTML-Vorlagen als mä
 </html>
 \end{lstlisting}
 Das hinzugewonnen Feature ist die Unterteilung des Base Templates in Blöcke. Diese werden mit \texttt{\{\% Block X\%\}} eingeleitet. Den Abschluss eine Blocks wird mit \texttt{\{\% endblock \%\}} dargestellt. Ein Block, wie er im \autoref{lst:BaseTemplate} dargestellt ist, wird vom Base Template definiert. Dadurch wird indirekt ein freiere Raum konstruiert, der von dem Kindelement befüllt werden kann ohne Inhalte zu überschreiben. Das Base Template lässt sich laut der Dokumentation als Elternteil bezeichnen. Im weiteren Verlauf bieten die Blöcke die Möglichkeit von Kindelementen überschrieben zu werden. Die Aufgabe eines \glqq Child Templates\grqq\ besteht darin, die leeren Blöcke mit Inhalt zu füllen. Aufschluss darüber wie eine Kindseite das löst, bildet das \autoref{lst:ChildTemplate} ab. Demnach beginnt das HTML-Dokument nicht mit den Standard-Tag \texttt{<!doctype html>}, sondern stellt die Verknüpfung zum Base Template her. In dem Fall stellt das \texttt{extends} ein Keyword dar, wodurch alle HTML-Elemente der Elternseite übernommen werden. Das umfasst die HTML-Tags und was damit einhergeht. Außerdem werden die Blöcke als eine Art Rahmen übernommen.
-\begin{lstlisting}[language=HTML,caption=Beispiel einer Grundseite für das Vererbungsprinzip,label={lst:ChildTemplate}]
+\begin{lstlisting}[language=HTML,caption=Beispiel für Kindseite beim Vererbungsprinzip von Jinja,label={lst:ChildTemplate}]
 {% extends "layout.html" %}
 {% block title %}Index{% endblock %}
 {% block head %}
@@ -3030,7 +3043,7 @@ Die Hauptseite des Web-Clients wird dem Nutzer durch die \texttt{gochat.html} Da
 	\caption{Strukturierung von gochat.html auf der ersten Ebene, eigene Darstellung}
 	\label{img:BasisStruktur1Gochat}
 \end{figure}
-Die ausgegraute div-Box mit der Klasse \textit{navbar} wird ausschließlich für die Vollständigkeit mit aufgeführt. Die Klasse ist Teil der index.html und wird von gochat.html geerbt. Dadurch besteht die erste Ebene aus den drei anderen div-Boxen. Die erste div-Box mit der id \texttt{containerMain} deckt den gesamten Viewport der Webseite ab. Dadurch ergibt sich die Möglichkeit innere Container entsprechend des Viewports anzupassen.\\
+Die ausgegraute div-Box mit der Klasse \texttt{navbar} wird ausschließlich für die Vollständigkeit mit aufgeführt. Die Klasse ist Teil der index.html und wird von gochat.html geerbt. Dadurch besteht die erste Ebene aus den drei anderen div-Boxen. Die erste div-Box mit der id \texttt{containerMain} deckt den gesamten Viewport der Webseite ab. Dadurch ergibt sich die Möglichkeit innere Container entsprechend des Viewports anzupassen.\\
 Ein relevantes Merkmal ist hierbei die Klasse \texttt{row}, welches Bestandteil von Bootstrap ist. Die Klasse kann in mehreren Situationen zum Einsatz kommen. Im Fall von der gochat.html Datei handelt es sich um das Grid-System von Bootstrap. Dieses bietet die Möglichkeit Container bzw. div-Boxen in dem von Bootstrap spezifizierten Grid auszurichten. Dadurch wird dem Anwender die Möglichkeit geboten eine row zu definieren und diese, wie die nachfolgende Abbildung zeigt, in columns zu unterteilen.
 \begin{figure}[h]
 	\centering
@@ -3075,7 +3088,7 @@ Wie die einzelnen Kontakte in den Container integriert werden können, kann der 
 		\label{img:KontaktlisteUserview}
 	\end{minipage}
 \end{figure}
-Hierfür kommen die Listen-Elemente von HTML5 zum Einsatz. Das \texttt{ul} definiert die Liste und steht für eine \textit{unordered list}. Kindelemente des \texttt{ul}-Tags sind die \texttt{li}-Tags. Diese definieren ein Listeneintrag.
+Hierfür kommen die Listen-Elemente von HTML5 zum Einsatz. Das \texttt{ul} definiert die Liste und steht für eine \texttt{unordered list}. Kindelemente des \texttt{ul}-Tags sind die \texttt{li}-Tags. Diese definieren ein Listeneintrag.
 Übertragen auf die Funktion handelt es sich bei dem \texttt{ul-Tag} um die Initialisierung einer Liste von Kontakten. Entsprechend symbolisieren die li-Container einen einzelnen Kontakt. Standardmäßig werden Listen unter HTML5 mit Bullets markiert. Diese Eigenschaft kann mithilfe von CSS verhindert werden. Die Klassennamen nehmen Bezug zur den dynamischen und gestalterischen Inhalten. Aus diesem Grund unterscheidet sich ein Klassenname von den anderen. Das Resultat davon, ist die Gestaltung eines einzelnen Kontaktes. Dadurch kann dem Benutzer ein Kontakt als \glqq aktiv\grqq\ bzw. \glqq ausgewählt\grqq\ dargestellt werden. Die Darstellung aus Sicht des Benutzers ist in \autoref{img:KontaktlisteUserview} ersichtlich. \cite{w3schoolsUlTag}\\
 Mit der Umsetzung der zusätzlichen Optionen wird der \texttt{bottom-bar} zwei Buttons zugeteilt, welche diese Optionen bereitstellen sollen. Für die div-Box mit der id \texttt{content-window} ist die Vorgehensweise identisch, um alle Aufgabenbereiche, aus den Anforderungen, in der grafischen Benutzeroberfläche abzudecken. Diesem Container müssen daher folgende Bestandteile zugeordnet werden.
 \begin{itemize}
@@ -3087,7 +3100,7 @@ In Abhängigkeit dieser definierten Bestandteile wird jedem ein Container zugete
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.60]{images/BasisStruktur1GochatContentWindow}
-	\caption{Erweiterung des Containers \textit{content-window} um die aufgezählten Bestandteile, eigene Darstellung}
+	\caption{Erweiterung des Containers \texttt{content-window} um die aufgezählten Bestandteile, eigene Darstellung}
 	\label{img:Content-window}
 \end{figure}
 Der Klasse \texttt{contact-profil} sind die gleichen HTML-Elemente wie der div-Box \texttt{profile} untergeordnet. Ergänzend dazu ist dem Kontaktprofil des Chatpartners ein Dropdownmenü zugeteilt, welches weitere Optionen bereitstellen soll. Für die Struktur von gochat.html wird dieses Element nicht benötigt. Außerdem ist das Dropdownmenü überwiegend ein CSS-Element, weshalb es kein wichtiger Aspekt in der Struktur darstellt. Der Container mit der Id \texttt{messages-container} bildet lediglich einen Rahmen um die Nachrichten des Chats, weshalb der Container keine besonderen Attribute hat. Dem Container werden ausschließlich weiteren HTML-Elemente zugeteilt. Die Nachrichten entstehen zur Laufzeit und sind daher nur in der Gestaltung zu erläutern. Dafür ist die \autoref{img:ContentWindowChatMessages} zu beachten. Der Abbildung zur Folge hat der Nachrichten-Container eine weitere div-Box sowie Listen-Elemente gekennzeichnet mit dem \texttt{ul} und \texttt{li}-Tag. Übertragen auf die Darstellung der Nachrichten aus \autoref{img:GochatUserview} bilden die Listeneintrag eine einzelne Nachricht. Die Nachrichten werden entsprechend der unterschiedlichen Klassennamen identifiziert. Der \texttt{li}-Tag mit der Klasse \texttt{clearfix} symbolisiert die empfangenen Nachrichten.
@@ -3143,11 +3156,11 @@ $('#login-form-button').click(function(event){
 });
 \end{lstlisting}
 Mit \texttt{.click(function(event)\{...\})} wird ermöglicht eine Funktion, durch einen Klick des Anwenders, auszuführen. Der Klick stellt dabei das \texttt{event} dar. Das wird in Zeile 2 benötigt, um ggf. das Event bzw. die ausgelöste Funktion zu unterbrechen. Ein beliebte Anwendung von \texttt{preventDefault()} sind die Formulare, wie es in diesem Codesnippet ersichtlich ist. Grund dafür, ist die Bindung zu einem Button. Um nämlich die normale Funktion eines Buttons zu unterbrechen kann die Funktion aus Zeile 2 verwendet werden. Unter diesem Prinzip wird das \glqq canceln\grqq\ eines Ereignisses verstanden. \cite{w3schoolsPrevDefault}\\
-Vor der Überprüfung werden Variablen mit den jeweiligen \ac{HTML}-Elementen initialisiert. Die relevante Funktion zur Überprüfung des Formulars wird in der If-Bedingung aufgerufen und ihre Funktionsweise wird durch die \autoref{img:CheckFunctionLogin} visuell dargestellt.%TODO form_data besser erklären
+Vor der Überprüfung werden Variablen mit den jeweiligen \ac{HTML}-Elementen initialisiert. Die relevante Funktion zur Überprüfung des Formulars wird in der If-Bedingung aufgerufen und ihre Funktionsweise wird durch die \autoref{img:CheckFunctionLogin} visuell dargestellt.
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.8]{images/FunktionUeberpruefenLogin}
-	\caption{Funktionsdarstellung von \textit{checkformIsFilled(form\_data)}, eigene Darstellung}
+	\caption{Funktionsdarstellung von \texttt{checkformIsFilled(form\_data)}, eigene Darstellung}
 	\label{img:CheckFunctionLogin}
 \end{figure}
 Interessant ist hierbei die Abfrage nach den leeren Feldern, welches über \texttt{!\$.trim(value)} gelöst wird. Eine Variante, die durch jQuery ermöglicht wird. In diesem Fall ist \texttt{Trim} eine Funktion, welche alle leeren Inhalte vor und nach einem Wort bzw. String ignoriert. \cite{jQueryTrim}\\ 
@@ -3185,7 +3198,7 @@ Bei den Unterschieden und Ergänzungen handelt es sich um:
 	\item Checkbox für die Datenschutzrichtlinie
 \end{itemize}
 Die Textfelder sind Bestandteil der Struktur und daher zu vernachlässigen. Die Darstellung aus Sicht des Benutzer ist in der \autoref{img:RegisterUeberpruefenJS} dargestellt. Die Validierungsfunktionen sind Bestandteil der \texttt{registerjs.js}. Diese Funktionen besitzen die Aufgabe, das Senden ungültiger Daten an den Server zu verhindern. Grundsätzlich handelt es sich bei der Validierung um eine regular Expression (zu dt. Regulärer Ausdruck) oder der allgemeinen Kontrolle der Inputfelder. Das folgende \autoref{lst:RegisterValidateFunction} zeigt die Validierung des Textfeldes der E-Mail-Adresse.
-\begin{lstlisting}[language=Javascript,caption=Validierungsfunktion \textit{validateEmail()},label={lst:RegisterValidateFunction}]
+\begin{lstlisting}[language=Javascript,caption=Validierungsfunktion \texttt{validateEmail()},label={lst:RegisterValidateFunction}]
 function validateEmail(email, id_key) {
 if(re.test(String(email).toLowerCase()) == false) {
 var item = document.getElementById(id_key)
@@ -3277,7 +3290,7 @@ var contact_ul = $("#contacts_list");
 var user_name = $('#NameOnlineAvatar').text();
 \end{lstlisting}
 Außerdem werden die Kontakte aus der Datenbank benötigt. Dafür wird mittels Ajax ein Request an den Server gesendet. Der Request wird wiederum durch eine andere Funktion umgesetzt, welche zu einer anderen Aufgabe gehört und zu einem späteren Zeitpunkt erläutert wird. Die Umsetzung der zu hinzufügenden Kontakten wird innerhalb einer For-Schleife, wie es dem \autoref{lst:HTMLElementsForContaclistfunction} zu entnehmen ist, gelöst.
-\begin{lstlisting}[language=Javascript,caption=HTML Elemente für \texttt{fillInContactPeers()},label={lst:HTMLElementsForContaclistfunction}]
+\begin{lstlisting}[language=Javascript,caption=Hinzufügen von Kontakten,label={lst:HTMLElementsForContaclistfunction}]
 for (const peer of Object.keys(chat_messages[user_name]))
 {
 var position_last_message_object = chat_messages[user_name][peer].length - 1;
@@ -3437,7 +3450,7 @@ pull_chat_hisotry($('#NameOnlineAvatar').text());
 \end{lstlisting}
 Zudem wird innerhalb der Funktion das chat\_messages-Objekt initialisiert. Übergeben wird der Funktion, mittels jQuery, der Benutzernamen des angemeldeten Nutzers.
 Bei den Einzelheiten der Funktion handelt es sich vor allem um den Post-Request an den Server mittels Ajax. Ein Ausschnitt ist im \autoref{lst:FunctionChathistory} dargestellt und zeigt, dass die Variable \texttt{chat\_messages} mit der Antwort des Servers initialisiert wird.
-\begin{lstlisting}[language=Javascript,caption=Ausschnitt aus der Funktion \textit{pull\_chat\_hisotry(username)} ,label={lst:FunctionChathistory}]
+\begin{lstlisting}[language=Javascript,caption=Ausschnitt aus der Funktion \texttt{pull\_chat\_hisotry(username)} ,label={lst:FunctionChathistory}]
 var URL = "/get_chathistory";
 const post_data = {"username": username};
 $.ajax({
@@ -3451,7 +3464,7 @@ $.ajax({
 \end{lstlisting}
 Demnach enthält die Variable den gesamten Nachrichtenverlauf des angemeldeten Benutzers, vorausgesetzt der Server sendet die Daten korrekt. Mit der \texttt{URL} Variable wird die Route angesprochen, welche für die Datenübertragung zuständig ist. Nach dem erfolgreichen Request und dem Erhalt der Response wird nicht nur die Variable initialisiert, sondern auch die Funktion \texttt{fillInContactPeers()} aufgerufen, welche bereits definiert ist. Mehr Funktionsinhalte kann der Methode texttt{pull\_chat\_hisotry(username)} nicht zugeteilt werden. Die Funktion besitzt aufgrund der Initialisierung der Variable eine große Bedeutung für die Chat-Funktionalität.\\
 Die nächste Funktion \texttt{fill\_in\_chat\_msgs\_single\_chat(user\_name, peer\_name)} kann aufgrund des gefüllten chat\_messages-Objekt aufgerufen werden. Übergeben werden der Funktion der Benutzername des angemeldeten Nutzers und der Name des aktiven Kontaktes. 
-\begin{lstlisting}[language=Javascript,caption=Ausschnitt aus der Funktion \texttt{pull\_chat\_hisotry(username)} ,label={lst:FunctionFillInChat}]
+\begin{lstlisting}[language=Javascript,caption=Füllen des Chatfensters entsprechnd des \texttt{chat\_messages-Objektes}, label={lst:FunctionFillInChat}]
 for (var i=0; i<chat_messages[user_name][peer_name].length; i++ ) {
 var msg_timestamp = chat_messages[user_name][peer_name][i].timestamp;
 msg_timestamp = msg_timestamp.substring(0, msg_timestamp.length-3);
@@ -3464,7 +3477,7 @@ msg_timestamp = msg_timestamp.substring(0, msg_timestamp.length-3);
 	}
 }
 \end{lstlisting}
-Die Mehtode wird an mehreren Stellen aufgerufen. Als Ziel hat die Funktion, das Chat-Fenster mit dem Nachrichtenverlauf zu füllen. Daher finden der Funktionsaufruf überall statt, wo der Kontakt bspw. durch ein Klick aktiviert wird. Die Funktion greift grundsätzlich auf das Objekt \texttt{chat\_messages} zu (\autoref{lst:FunctionFillInChat}), um die Nachrichten entsprechend des Benutzers auszugeben. Daher wird die Funktion erst nach Ausgabe der Kontaktliste aufgerufen. Wie dem \autoref{lst:FunctionFillInChat} zu entnehmen ist, wird die Ausgabe der Nachrichten in einer For-Schleife realisiert. Diese Schleife iteriert über die Anzahl der Nachrichten des Nachrichtenverlaufs zwischen den Übergabeparametern. Anschließend wird für die Ausgabe der Zeit das richtige Format einer Variable zugewiesen. In Zeile 5 wird zuerst überprüft, ob es sich bei der Nachricht aus dem Objekt um eine gesendete oder empfangene Nachricht handelt. Je nachdem welche If-Bedingung zutrifft, wird die Nachricht anders in das Chat-Fenster ausgegeben. Zum Abschluss, was das \autoref{lst:FunctionFillInChat} nicht aufzeigt, wird das \ac{HTML}-Element bzw. das Chat-Fenster herunter gescrollt. Dadurch sieht der Benutzer sofort die letzten Nachrichten. Andere Methode zur Ausgabe von dem Nachrichtenverlauf werden nicht benötigt.\\
+Die Methode wird an mehreren Stellen aufgerufen. Als Ziel hat die Funktion, das Chat-Fenster mit dem Nachrichtenverlauf zu füllen. Daher finden der Funktionsaufruf überall statt, wo der Kontakt bspw. durch ein Klick aktiviert wird. Die Funktion greift grundsätzlich auf das Objekt \texttt{chat\_messages} zu (\autoref{lst:FunctionFillInChat}), um die Nachrichten entsprechend des Benutzers auszugeben. Daher wird die Funktion erst nach Ausgabe der Kontaktliste aufgerufen. Wie dem \autoref{lst:FunctionFillInChat} zu entnehmen ist, wird die Ausgabe der Nachrichten in einer For-Schleife realisiert. Diese Schleife iteriert über die Anzahl der Nachrichten des Nachrichtenverlaufs zwischen den Übergabeparametern. Anschließend wird für die Ausgabe der Zeit das richtige Format einer Variable zugewiesen. In Zeile 5 wird zuerst überprüft, ob es sich bei der Nachricht aus dem Objekt um eine gesendete oder empfangene Nachricht handelt. Je nachdem welche If-Bedingung zutrifft, wird die Nachricht anders in das Chat-Fenster ausgegeben. Zum Abschluss, was das \autoref{lst:FunctionFillInChat} nicht aufzeigt, wird das \ac{HTML}-Element bzw. das Chat-Fenster herunter gescrollt. Dadurch sieht der Benutzer sofort die letzten Nachrichten. Andere Methode zur Ausgabe von dem Nachrichtenverlauf werden nicht benötigt.\\
 Die weiteren Funktionen, bis auf \texttt{printSingleChatMessage(JSON\_DATA)}, befassen sich mit dem Senden und Empfangen von Nachrichten. Zunächst wird das Empfangen von Nachrichten erläutert. Dafür wird das folgende \autoref{lst:EventStreamFunction} betrachtet.
 \begin{lstlisting}[language=Javascript,caption=Öffnen des Eventstreams um Nachrichten zu empfangen ,label={lst:EventStreamFunction}]
 var source = new EventSource('/stream');
@@ -3490,7 +3503,7 @@ Das \autoref{lst:EventStreamFunction} stellt in Zeile 2 das \texttt{onmessage} E
 	\caption{Empfangene Nachricht nach der Formatierung, eigene Darstellung}
 	\label{img:ReceivedMessageJSON}
 \end{figure}
-Die Formatierung in eine JSON-Objekt erlaubt eine leichtere Verarbeitung der Daten in der aufgerufenen Funktion \texttt{printSingleChatMessage(json\_obj)}. %TODO Funktion genauers erklären 
+Die Formatierung in eine JSON-Objekt erlaubt eine leichtere Verarbeitung der Daten in der aufgerufenen Funktion \texttt{printSingleChatMessage(json\_obj)}. 
 Dieser Vorteil ist auch bei betrachten des \autoref{lst:printSingleMessagesFunction} ersichtlich. Demnach kann komfortabel auf die Attribute des Objektes zugegriffen werden, um diese den neuen Variablen zuzuordnen. 
 \begin{lstlisting}[language=Javascript,caption=Funktion und Datenverarbeitung des JSON-Objektes ,label={lst:printSingleMessagesFunction}]
 function printSingleChatMessage(JSON_DATA)
@@ -3673,8 +3686,8 @@ Die Code-Zeilen sind Bestandteil der Funktion \texttt{getMessage()}, welche unte
 \end{figure}
 Im weiteren Verlauf werden die Aspekte der Funktion \texttt{getMessage()} behandelt. Während der Erklärung steht im ersten Schritt die Initialisierung des \texttt{chat\_messages-Objektes} im Vordergrund. Dabei ist stets zu beachten, dass die Beschreibungen Teil der \texttt{getMessage}-Funktion sind.
 
-Im Anschluss an dem \autoref{lst:JSKafkaGetMsgOwnMsg} wird die Kontaktliste überprüft (siehe \autoref{lst:JSKafkaGetMsgExisitingContact}).
-\begin{lstlisting}[language=Javascript,caption=Abfrage nach der eigenen Nachricht,label={lst:JSKafkaGetMsgExisitingContact}]
+Im Anschluss an das \autoref{lst:JSKafkaGetMsgOwnMsg} wird die Kontaktliste überprüft (siehe \autoref{lst:JSKafkaGetMsgExisitingContact}).
+\begin{lstlisting}[language=Javascript,caption=Überprüfung der Kontaktliste,label={lst:JSKafkaGetMsgExisitingContact}]
 if (!(from in chat_messages[user_name])) {
 	// Kontakt ist nicht Bestandteil der Kontakliste
 }
@@ -3776,7 +3789,7 @@ Das Listing ist von der Funktion her nahezu identisch mit dem \autoref{lst:JSKaf
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=1.0]{images/Chat_messageObjectSecondInsertion}
-	\caption{Ablauf von \texttt{CheckSameChatMessages()}, eigene Darstellung}
+	\caption{\texttt{chat\_messages-Objekt} mit unterschiedlichen Nachrichten, eigene Darstellung}
 	\label{img:Chat_messageObjectSecondInsertion}
 \end{figure}
 Nach dem Hinzufügen der Nachricht, werden die Funktionen \texttt{fillInContactPeers(from, msg, ownMsg)} und \texttt{printSingleChatMessage(type, from, msg, timestamp, ownMsg)} aufgerufen. Es besteht bereits Kenntnis über das Funktionsprinzip der ersten Funktion (\autoref{img:fillInContactPeersKafka}). An dieser Stelle bietet die Funktion die Möglichkeit die Preview aus der Kontaktliste zu aktualisieren. Mit der zweiten Funktion wird das Ausgeben der Nachricht auf das Chatfenster realisiert. Die Funktion ist ebenfalls Bestandteil des XMPP-Clients und kann daher im \autoref{sec:FrontendXMPP} nachgelesen werden. Damit besitzt der Kafka-Client alle Funktionen zum Empfangen von Nachrichten. Für einen vollen Funktionsumfang fehlt dem Kafka-Client noch das Senden von Nachrichten sowie das Hinzufügen neuer Kontakte. Beide Funktion besitzen Ähnlichkeiten zum XMPP-Client. Daher stehen im Folgenden die Änderungen im Vordergrund.
@@ -3942,17 +3955,17 @@ Neben den Clients und dem Messaging-System ist die Vorgehensweise in der Abbildu
 \begin{lstlisting}[language=python, caption={Sendevorgang der Testnachricht unter Kafka}, label={lst:testKafkaSend}]
 with topic.get_producer(sync=True) as kafka_producer:
 while c < number_msgs:
-t = time.time()
-kafka_producer.produce(str(t).encode())
-c += 1
+	t = time.time()
+	kafka_producer.produce(str(t).encode())
+	c += 1
 \end{lstlisting}
 Während beim Nachrichtenaustausch die Variable \texttt{sync} nicht auf True gesetzt werden muss, sorgt sie im Testfall für ein genaueres Ergebnis.\\
 Grund hierfür ist die Asynchronität von Kafka. Standardmäßig wird der producer im asynchronen Modus betrieben. Dadurch werden die Nachrichten nicht einzeln versendet, sondern größere Nachricht in einer Charge übermittelt. Um dieses Funktionsprinzip zu verhindert kann \texttt{sync} auf True gesetzt werden. \cite{pykafkaDocumentation}\\
 Der Zeitpunkt wird wieder mittels \texttt{time.time()} festgelegt und als Nachricht mitgesendet. Gleiches Prinzip wird auf der Seite des Empfängers ausgeführt(\autoref{lst:testKafkaReceive}). Wobei die For-Schleife nur ausgeführt wird, sollte sich eine Nachricht im Topic befinden. 
-\begin{lstlisting}[language=python, caption={Sendevorgang der Testnachricht unter Kafka}, label={lst:testKafkaReceive}]
+\begin{lstlisting}[language=python, caption={Empfangvorgang der Testnachricht unter Kafka}, label={lst:testKafkaReceive}]
 for message in kafka_consumer:
-t = time.time()
-print(t-float(message.value.decode()))
+	t = time.time()
+	print(t-float(message.value.decode()))
 \end{lstlisting}
 Wird die Nachricht vom Empfänger konsumiert wird der Zeitpunkt festgelegt. Anschließend werden die Zeitpunkte voneinander abgezogen, ist das Resultat die Dauer der Übertragung. Im Anschluss an dem Test mit einer einzelnen Nachricht wird die Variable \texttt{number\_msgs} auf den Wert 10 000 gesetzt und der Test wiederholt. Wobei die Ausgabe des Ergebnissen in eine Textdatei geleitet wird. Außerdem ist zu beachten, dass bei den 10 000 Nachrichten nicht die Gesamtdauer gemessen wird, sondern jede Nachricht einzeln. Der Grund wird bei der Interpretation des Ergebnisse ersichtlich. 
 \pagebreak
@@ -3991,7 +4004,7 @@ Bei den Werten handelt es sich um die Einheit sekunde. Das erste Resultat beider
 Mit dem ersten Test als Grundlage erfolgt der zweite Test mit einem höheren Durchsatz an Nachrichten. Dadurch kann das Ergebnis des ersten Tests belegt bzw. widerlegt werden. Die Ergebnisse der zweiten Test sind in der \autoref{tab:Test2Result} dargestellt.
 \begin{table}[h]
 	\centering
-	\caption{Ergebnisse des ersten Tests auf beiden Plattformen}
+	\caption{Ergebnisse des zweiten Tests auf beiden Plattformen}
 	\begin{tabular}{l|c|c}
 		\textbf{Test} & \textbf{sleekxmpp, [sek.]} & \textbf{pykafka, [sek.]} \\
 		\hline
@@ -4201,13 +4214,19 @@ Die gemittelte Zeitspanne des Versendens bis zum Empfang einer Nachricht über A
 
 Geeignete Software-Tests für das Projekt dieser Studienarbeit sind Unittests und Mocktests. Teile der Flask Applikation werden mit diesen beiden Testarten getestet.
 
+Infolge des Datenschutzes bildet die TLS-Verschlüsselung von ejabberd eine erste Basis zum Schutz des Datenaustauschs. Außerdem wird bei der Verarbeitung personenbezogener Daten nach dem Prinzip:
+\begin{center}
+	\glqq Sammle so wenig Daten wie möglich und ausschließlich essenzielle\grqq\
+\end{center}
+gearbeitet. Aufgrund dessen werden in der Datenbank keine personenbezogenen Daten bis auf die E-Mail Adresse gespeichert. Die E-Mail wird für das wiederherstellen des Passwortes benötigt und stellt somit ein essenzielles Datum dar. Der Benutzername ist frei wählbar und erlaubt eine Anonymisierung des Benutzers. Des Weiteren werden Informationen über das Login-verhalten des Benutzers nicht gespeichert. So ist bspw. ein letzter Login-Zeitpunkt nicht ersichtlich. Außerdem wird der Benutzer mithilfe einer eigenen Privacy Policy über die Verarbeitung von Daten hingewiesen.
+
 \pagebreak
 
 \chapter{Fazit}
 \label{chap:Fazit}
-Mit der Reflektion der Studienarbeit werden Ergebnisse mit den Anforderungen und Ziele der Arbeit verglichen und Interpretiert. Mithilfe der erarbeiteten Ergebnisse liegt der Schwerpunkt des Fazits auf der Interpretation und den Möglichkeiten einer Fortsetzung der Entwicklung.
+Mit der Reflexion der Studienarbeit werden Ergebnisse mit den Anforderungen und Ziele der Arbeit verglichen und interpretiert. Mithilfe der erarbeiteten Ergebnisse liegt der Schwerpunkt des Fazits auf der Interpretation und den Möglichkeiten bei einer Fortsetzung der Projektarbeit.
 
-Anhand der Reflektion ergeben sich Aufgaben und Funktionen, welche über das Ergebnis abgedeckt sind. Dazu zählt bspw. die Entwicklung des Prototyps, was unter anderem die Kernaufgabe der Arbeit darstellt. In dem Zusammenhang sind die Chatfunktionalitäten des Prototyps zu überprüfen. Durch die Entwicklung eines Prototyps steht grundsätzlich die Funktionsfähigkeit im Vordergrund. Geeignete Minimalanforderungen sind ausreichend für einen Prototyp. Auf Basis des Ergebnisses sind die definierten Anforderungen erfüllt. Bei einer Weiterentwicklung müssten weitere Funktionalitäten berücksichtigt werden um mit Instant-Messaging System auf dem Markt mithalten zu können. Hierbei handelt es sich um:
+Anhand der Reflexion ergeben sich Aufgaben und Funktionen, welche über das Ergebnis abgedeckt sind. Dazu zählt bspw. die Entwicklung des Prototyps, was unter anderem die Kernaufgabe der Arbeit darstellt. In dem Zusammenhang sind die Chatfunktionalitäten des Prototyps zu überprüfen. Durch die Entwicklung eines Prototyps steht grundsätzlich die Funktionsfähigkeit im Vordergrund. Geeignete Minimalanforderungen sind ausreichend für einen Prototyp. Auf Basis des Ergebnisses sind die definierten Anforderungen erfüllt. Bei einer Weiterentwicklung müssten weitere Funktionalitäten berücksichtigt werden um mit Instant-Messaging Systemen auf dem Markt mithalten zu können. Hierbei handelt es sich um:
 \begin{itemize}
 	\item Löschen eines Accounts
 	\item Gruppenchats
@@ -4217,7 +4236,17 @@ Anhand der Reflektion ergeben sich Aufgaben und Funktionen, welche über das Erg
 \end{itemize}
 Dennoch ist das erreichte Ziel mit den Grundfunktionalitäten eines Chatsystems nicht zu schmälern. Das IMS verfügt über den vollen Umfang, kann aber durch die dargestellten Funktionen erweitert werden.
 
-Für ein weiteres Ziel der Arbeit muss der Datenschutz im Bezug zum Projekt reflektiert werden. Hierfür ist die Relevanz des Aspektes zur Entwicklung des Prototyps zu definieren. Während im ersten Schritt der Prototyp entwickelt wird, stehen die Datenschutzaspekte im Hintergrund. Nach Abschluss des Prototyps, ist im Zuge der Weiterentwicklung die Implementierung von Datenschutzrichtlinien von Nöten. Ziel des IMS' ist es, sich gemäß der Datenschutzrichtlinien zu verhalten. Mit den definierten Minimalanforderungen an Datenschutz an ein Prototyp lässt sich das Ziel als erfüllt deklarieren. Hierbei sei anzumerken das im Zuge der Implementierung mithilfe Onlineplattformen ein Datenschutzhinweis für den Benutzer erstellt wurde.
+Für ein weiteres Ziel der Arbeit muss der Datenschutz im Bezug zum Projekt reflektiert werden. Hierfür ist die Relevanz des Aspektes mit der Entwicklung des Prototyps zu vergleichen. Während im ersten Schritt der Prototyp entwickelt wurde, stehen die Datenschutzaspekte im Hintergrund. Nach Abschluss des Prototyps ist im Zuge der Weiterentwicklung die Implementierung von Datenschutzrichtlinien vonnöten. Das definierte Ziel des IMS' ist es, sich gemäß der Datenschutzrichtlinien zu verhalten. Im Zuge der Arbeit wurden datenschutzrechtliche Aspekte erarbeitet, welche für einen Umgang mit personenbezogenen Daten zu beachten sind. Aufgrund der Entwicklung eines Prototyps sind Minimalanforderungen an Datenschutz definiert worden. Die TLS-Verschlüsselung bei ejabberd, wie es aus dem Ergebnis hervorgeht ist kein Bestandteil der Minimalanforderungen und legt somit schon die Basis für einen besseren Datenschutz. In dem Zusammenhang ist auch eine Verschlüsselung von Apache Kafka notwendig, sollte die Chatapplikation Benutzern zugänglich gemacht werden. Neben den erwähnten Verschlüsselungen ist eine Ende-zu-Ende Verschlüsselung der Instant-Messaging-Systems ebenfalls mit in den Ausblick aufzunehmen. Eine weitere Minimalanforderung an den Datenschutz ist das Nutzen von so wenig personenbezogenen Daten wie nur möglich. Wie dem Ergebnis zu entnehmen ist, wird der Aspekt erfüllt. Mit der Extraseite über den Datenschutz wird auch die letzte Anforderung an den Prototyp erfüllt. Die Datenschutzrichtlinie sind vor einem Release zu überprüfen.
+ 
+Letztendlich ist nicht von einem Verhalten gemäß der Datenschutzrichtlinien zu reden. Hierfür wären weitere Schritt notwendig. Bei der Weiterentwicklung des Prototyps sind im Bezug auf den Datenschutz folgende Aspekte zu berücksichtigen:
+\begin{itemize}
+	\item Absichern des Web-Frontends
+	\item Absichern der Datenübertragung zu Kafka
+	\item Implementierung einer Ende-zu-Ende Verschlüsselung
+	\item Erreichen aller definierten Schutzziele wie z.B. perfect Forward Secrecy
+	\item Löschen hinterlegter Nachrichten, Daten, Konten
+\end{itemize} 
+
 
 
 
