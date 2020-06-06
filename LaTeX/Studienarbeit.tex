@@ -163,9 +163,9 @@ frame=None,
 %\renewcommand*\chapterheadendvskip{%
 %  \vspace*{1\baselineskip plus .1\baselineskip minus .167\baselineskip}}
 
-%TODO überall eigene Darstellung unter Abbildungen hinzufügen
-
 \begin{document}
+	
+%TODO eigen Abbildung und der PDF-Titel des Dokumentes
 
 \begin{table}[h]
 \centering
@@ -546,7 +546,7 @@ Die folgende \autoref{img:XMPPcommunication} zeigt den Start einer Kommunikation
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=\textwidth]{images/XML_Wireshark}
-	\caption{Kommunikationsaufbau des \ac{XMPP}-Protokolls} %TODO Quelle fehlt
+	\caption{Kommunikationsaufbau des \ac{XMPP}-Protokolls, eigen Darstellung} %TODO nochmal überlegen
 	\label{img:XMPPcommunication}
 \end{figure} 
 
@@ -558,7 +558,7 @@ Ein Aufbau kann wie in der folgenden \autoref{img:StrukturXMLstream} repräsenti
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=1.2]{images/XML_Stream}
-	\caption{Allgemeine Struktur eines XML streams} %TODO Quelle fehlt
+	\caption{Allgemeine Struktur eines XML streams, \cite{RFC6120Sec4}}
 	\label{img:StrukturXMLstream}
 \end{figure}
 
@@ -896,8 +896,7 @@ In dem Fall kann es sein, dass die Flask-Applikation nicht aktiv ist oder auf ei
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=1.0]{images/NotFound}
-	%TODO Ändern der Caption?
-	\caption{Keine Erreichbarkeit der Webseite, eigene Darstellung}
+	\caption{Webseite nicht gefunden, eigene Darstellung}
 	\label{img:FlaskWebseiteNotFound}
 \end{figure}
 In dem Fall kommt eine 404 mit der Bemerkung, dass die URL nicht gefunden wird, zurück (\autoref{img:FlaskWebseiteNichtErreichabr}). Bei der letzten Möglichkeit handelt es sich um eine korrekte URL. Im Fall des Beispieles wäre die Adresse: \texttt{http://127.0.0.1:8000/home} eine im \autoref{lst:FlaskMinApp} dargestellte Route. Durch den Aufruf der URL wird die definierte Funktion ausgeführt. Bei dem Beispiel wird eine HTML-Datei ausgeliefert.
@@ -1116,8 +1115,7 @@ Die Datenbankinstallation ist erfolgreich, wenn der Verbindungsversuch mit dem r
 Das relationale Datenbankschema das ejabberd benötigt, kann auf github heruntergeladen werden. Der erste Befehl lädt die SQL-Datei, in der das Datenbankschema definiert ist herunter. Der zweite Befehl erstellt in der Datenbank einen Benutzer \glqq ejabberd\grqq\ mit einem Passwort. Der Befehl in Zeile 3 schränkt die Zugriffsrechte des Benutzers auf die Datenbank \glqq ejabberd\grqq\ ein, die in Zeile 4 Listings erstellt wird. Der letzte Befehl spielt das Datenbankschema in die Datenbank \glqq ejabberd\grqq\ ein.
 
 \bigskip
-%TODO Gleiches Caption wie vorheriges Listing
- \begin{lstlisting}[language=bash, caption={Installation der Mysql-Datenbank}]
+ \begin{lstlisting}[language=bash, caption={Konfiguration der Mysql-Datenbank}]
 $ sudo wget https://raw.githubusercontent.com/processone/ejabberd/master/sql/mysql.sql
 $ echo "CREATE USER 'ejabberd'@'localhost' IDENTIFIED BY 'passwort' " | sudo mysql -uroot
 $ echo "GRANT ALL ON ejabberd.* TO 'ejabberd'@'localhost' IDENTIFIED BY 'passwort';" | sudo mysql -uroot
@@ -2564,7 +2562,7 @@ Die \acs{API} muss unterscheiden, für welche Plattform ein Benutzer angemeldet 
 
 \autoref{lst:selectedPlatformCode} zeigt, wie die \acs{API} entscheidet, über welche Plattform die Nachricht versendet werden soll.
 
-\begin{lstlisting}[language=python, caption={Code für den Versand einer Nachricht über die \acs{API} an ejabberd}, label={lst:selectedPlatformCode}]
+\begin{lstlisting}[language=python, caption={Unterscheidung der Plattform für den Versand einer Nachricht an ejabberd}, label={lst:selectedPlatformCode}]
 if session_dict[current_user.user_id]['requested_platform']=='xmpp':
 	# send message via sleekxmpp object
     # if no errors -> send successfull feedback to client
@@ -2578,7 +2576,6 @@ else:
 Die \acs{API} nutzt die Einträge aus dem Session-Dictionary. Der Aufruf \texttt{current\_user.user\_id} ist eine Funktion des Login-Managers, der die ID des Benutzers zurückgibt, der diese Operation gerade aufruft. Zurückgegeben wird die ID des Benutzers aus der Tabelle user\_auth, welche die Benutzerinformationen speichert. Die ID ist, wie in vorherigen Abschnitten beschrieben, der Primärschlüssel der Tabelle und verweist eindeutig auf den Benutzer. Der Login-Manager benutzt diese ID, um die Sessions von Benutzern zu verwalten. Weil die ID eines Benutzers im Session-Dictionary als Schlüssel benutzt wird, kann die \acs{API} direkt auf die Einträge des Benutzers im Session-Dictionary zugreifen und verwenden. Durch diese Überprüfung versendet die \acs{API} die Nachricht an die richtige Plattform im Backend.
 
 \autoref{lst:flaskSendMessage} zeigt, wie die Nachricht versendet wird, wenn der Benutzer für die Plattform ejabberd angemeldet ist.
-%TODO gleiches caption wie vorheriges?
 \begin{lstlisting}[language=python, caption={Code für den Versand einer Nachricht über die \acs{API} an ejabberd}, label={lst:flaskSendMessage}]
 # if-part of Listing 5.44
 if session_dict[current_user.user_id]['requested_platform']=='xmpp':
@@ -4044,7 +4041,6 @@ Aufgrund der großen Unterschiede ist der minimalste Wert von pykafka kaum ersic
 
 \chapter{Grundlagen von Softwaretests}
 \label{sec:GrundlagenSoftwaretests}
-%TODO: einbauen von mehrwert von terminalserver
 Die Entwicklung eines Softwareprodukts ist stets aufwendig und fehlerbehaftet. Es gibt verschiedene potentieller Fehler, die eine Software aufweisen kann. Für die Entwicklung des \acs{IMS} ist es wichtig, die Grundlagen von Softwaretests zu kennen, um Fehler im Code zu vermeiden. Es ist erforderlich sich mit Fehlerarten auseinanderzusetzen und zu verstehen, welche Fehler durch Tests entdeckt werden können.
 
 \smallskip
