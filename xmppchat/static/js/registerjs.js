@@ -80,7 +80,7 @@ function validateUsername(username, id_key){
         var item = document.getElementById(id_key)
         item.className += " is-invalid"
         var error_item = document.getElementById(id_key+"-invalid")
-        error_item.innerText = "Invalid username. The username have to start with letter (lower case). Please try again."
+        error_item.innerText = "Invalid username. The username have to be lower case. Please try again."
         return false
     }
     return true
