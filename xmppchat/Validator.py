@@ -12,6 +12,8 @@ class Validator:
         Return: None
         Raise: CustomValidationError - Exception
         """
+        if not user_name.islower():
+            raise CustomValidationError("Invalid username. Only lower case allowed.")
         if not user_name:
             raise CustomValidationError("Please use a different username.")
         user = User.query.filter_by(username=user_name).first()

@@ -1,1 +1,1 @@
-navs = {"Go Chat!": ["#", ""], "Impressum": ["#", ""]} # nav-text : link,picture
+navs = {"Go Chat!": ["/gochat", ""], "Privacy Policy": ["/privacy_policy", ""], "Imprint": ["/imprint", ""]} # nav-text : link,picture

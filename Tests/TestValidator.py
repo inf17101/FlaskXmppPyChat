@@ -29,6 +29,14 @@ class TestValidator(unittest.TestCase):
         result = [Validator.contains_invalid_characters(name) for name in self.invalid_strings]
         self.assertTrue(all(result))
 
+    def test_contains_invalid_characters_true(self):
+        """
+            test: username is None
+        """
+        username = None
+        result = Validator.contains_invalid_characters(username)
+        self.assertTrue(result)
+
     @patch("xmppchat.Validator.User")
     def test_validate_username_false(self, mock_u):
         """
@@ -38,7 +46,7 @@ class TestValidator(unittest.TestCase):
 
         mock_u.query.filter_by.return_value.first.return_value = User("testuser", "testuser@web.de", "hallo123", "topic-id1")
         with pytest.raises(CustomValidationError):
-            Validator.validate_username("testuser")
+            Validator.validate_username("testuser")       
 
     @patch("xmppchat.Validator.User")
     def test_validate_username_true(self, mock_u):
@@ -46,7 +54,7 @@ class TestValidator(unittest.TestCase):
             test: username does not already exist in database.
         """
         mock_u.query.filter_by.return_value.first.return_value = None
-        self.assertIsNone(Validator.validate_username("testuserUnkown"))
+        self.assertIsNone(Validator.validate_username("testuserunkown"))
 
     @patch("xmppchat.Validator.User")
     def test_validate_email_false(self, mock_u):

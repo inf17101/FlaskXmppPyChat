@@ -14,7 +14,7 @@ class EchoBot(ClientXMPP):
 
     def __init__(self, jid, passwd, custom_stream_id):
         super(EchoBot, self).__init__(jid, passwd)
-        self.ssl_version = ssl.PROTOCOL_TLSv1_2 # set tls 1.3
+        self.ssl_version = ssl.PROTOCOL_TLSv1_2 # set tls 1.2
         self.custom_stream_id = custom_stream_id
         self.add_event_handler('session_start', self.start)
         self.add_event_handler('message', self.message)

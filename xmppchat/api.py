@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import exc
 from flask_login import LoginManager, login_required, login_user, logout_user, current_user
 from flask_wtf.csrf import CSRFProtect
+from flask_mail import Mail, Message
 from datetime import datetime
 from pykafka import KafkaClient
 from kafka.admin import KafkaAdminClient, NewTopic
@@ -11,9 +12,10 @@ import redis, uuid
 from werkzeug.urls import url_parse
 import os, json, logging.config, threading
 
+
 #Setup Logger
 try:
-    logging.config.fileConfig('xmppchat/logging/logcfg.conf')
+    logging.config.fileConfig('/home/xmppweb/XmppChat/xmppchat/logging/logcfg.conf')
     logger = logging.getLogger('programmLogger')
 except KeyError as e:
     print(f"Error appeared!\nmessage: {e}\ncause: no log file found")
@@ -39,12 +41,20 @@ app.config['SQLALCHEMY_BINDS'] = {
     "ejabberd_database": config.get('SQL_EJABBERD_DATABASE_URI')
 }
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.config['MAIL_SERVER'] = config.get('email_server')
+app.config['MAIL_PORT'] = config.get('email_port')
+app.config['MAIL_USE_TLS'] = config.get('email_use_tls')
+app.config['MAIL_USERNAME'] = config.get('email_user')
+app.config['MAIL_PASSWORD'] = config.get('email_passwd')
+mail = Mail(app)
+
 csrf = CSRFProtect()
 csrf.init_app(app)
 
 db = SQLAlchemy(app)
 login_mgmt = LoginManager(app)
 login_mgmt.login_view = 'login' # name of callback method if unauthorized user accessed a login protected site
+login_mgmt.login_message_category = 'info'
 
 # set up redis for in-memory database, only used for platform ejabberd
 red = redis.StrictRedis(decode_responses=True)
@@ -79,7 +89,6 @@ def stream():
         for message in pubsub.listen():
             yield 'data: %s\n\n' % message['data']
     return Response(event_stream(current_user.user_id), mimetype="text/event-stream", status=200)
-
 
 @login_required
 @app.route('/kafkastream/')
@@ -211,7 +220,7 @@ def login():
         elif req_content.get('requested_platform') == 'kafka':
             try:
                 kafka_client = get_kafka_client()
-                kafka_producer = kafka_client.topics[user.kafka_topic_id].get_producer()
+                kafka_producer = kafka_client.topics[user.kafka_topic_id].get_producer(linger_ms=0)
             except Exception as e:
                 logger.error(str(e))
                 return make_response(jsonify({'redirect_to': '/login', 'feedback': 'internal error: login not successfull.', 'category': 'danger'}), 500)
@@ -335,7 +344,7 @@ def send_message():
             else:
                 kafka_client = get_kafka_client()
                 topic = kafka_client.topics[peer_kafka_topic]
-                with topic.get_producer() as kafka_producer:
+                with topic.get_producer(linger_ms=0) as kafka_producer:
                     kafka_producer.produce(json.dumps(msg).encode())
             return make_response(jsonify({"feedback": "success", "timestamp": msg_timestamp}), 200)
 
@@ -391,8 +400,6 @@ def add_contact():
         return make_response(jsonify({"feedback": "contact has not been added due to an internal failure."}), 500)
 
 @app.route("/privacy_policy")
-@login_required
-@csrf.exempt
 def privacy_policy():
     """
         sends the html document of the privacy policy
@@ -401,11 +408,71 @@ def privacy_policy():
 
 @app.route("/imprint")
 @login_required
-@csrf.exempt
 def imprint():
     """
         sends the html document of the impressum
     """
     return render_template('imprint.html', navs=navs, currentNav="Imprint")
 
+def send_password_reset_email(user):
+    """
+        sends an email to users email address to reset the password of the user.
+    """
+    token = user.create_reset_token()
+    msg = Message('Reset Your Password Now!', sender='flaskapp01@gmail.com', recipients=[user.email])
+    msg.body = f'''To reset your password click on the following link:
+{url_for('reset_password', token=token, _external=True)}
 
+If you did not make this request then simply igonre this email and no changes will be made.
+'''
+    mail.send(msg)
+
+@app.route("/request_reset", methods=['POST'])
+@csrf.exempt
+def request_reset():
+    if current_user.is_authenticated:
+        return make_response({"redirect_to": str(get_url_chatpage(current_user.user_id)),"feedback": "you are logged in. Password reset request is not possible."}, 404)
+    req_content = request.get_json()
+
+    if not req_content or not all(key in req_content for key in ('username', 'email')):
+        return make_response({"feedback": "invalid post data."}, 404)
+    
+    user_obj = User.query.filter_by(username=req_content['username'], email=req_content['email']).first()
+    if not user_obj:
+        return make_response({"feedback": "username and/or e-mail address are wrong."}, 404)
+    
+    send_password_reset_email(user_obj)
+    return make_response({"feedback": "we have send you an email. Click the link inside the e-mail and set a new password."}, 200)
+
+
+@app.route("/reset_password/<token>", methods=['GET', 'POST'])
+def reset_password(token):
+    if current_user.is_authenticated:
+        flash("You are logged in. Password recovery is not possible.", "warning")
+        return redirect(get_url_chatpage(current_user.user_id))
+    user = User.verify_reset_token(token)
+    if not user:
+        flash("Token is invalid or expired. Please try again!", "warning")
+        return redirect(url_for('login'))
+    
+    if request.method == 'POST':
+        req_content = request.get_json()
+        if not req_content or not all(key in req_content for key in ('password', 'confirmed_password')):
+            return make_response({"feedback": "invalid post data.", "category": "danger"}, 404)
+        
+        if req_content['password'] != req_content['confirmed_password']:
+            return make_response({"feedback": "fields are not matching. Try again!", "category": "danger"}, 404)
+        try:
+            user.passwd = user.set_password(req_content['password'])
+            db.session.commit()
+            userMgmt = UserManagement(config['ejabberd_ip'], config['ejabberd_ssh_user'], priv_key=config['ejabberd_ssh_private_key'], sudo_passwd=config['ejabberd_ssh_sudo_password'])
+            return_code = userMgmt.change_password_remotely(user.username, config['ejabberd_domain'], req_content['password'])
+            if return_code != 0:
+                raise CustomValidationError("Sorry! Internal error on internal platform. Password could not be changed.")
+            return make_response({"feedback": "password was changed successfully. You can now log in.", "category": "success"}, 200)
+        except CustomValidationError as e:
+            return make_response({"feedback": str(e)}, 500)
+        except Exception:
+            return make_response({"feedback": "Sorry! Due to an internal error the password could not be changed. Try again!", "category": "danger"}, 500)
+    
+    return render_template('reset_password.html', navs=navs, currentNav='Go Chat!')

@@ -50,8 +50,25 @@ class UserManagement:
         stdout, stderr = result.communicate()
         return result.returncode
 
+    def change_password_remotely(self, username, server_domain, new_password):
+        """
+            changes the password of a user on ejabberd-database with the ejabberdctl erlang command line tool on the chatserver
+            supports sudo and no sudo command execution
+            username: user to registrate on the chatserver
+            server_domain: specify the jid domain like ejabberd-server
+            new_password: new password of the user
+            return: return code of remote command execution -> 0: on success, 1: on error case
+        """
+        if self.sudo_passwd:
+            COMMAND = f"echo \"{self.sudo_passwd}\" | ssh -tt -i {self.priv_key} {self.host} \"sudo ejabberdctl change_password {username} {server_domain} {new_password}\""
+        else:
+            COMMAND = f"ssh -tt -i {self.priv_key} {self.host} \"ejabberdctl change_password {username} {server_domain} {new_password}\""
 
-        
+        result = subprocess.Popen(COMMAND, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+        stdout, stderr = result.communicate()
+        return result.returncode
+
 
 
 

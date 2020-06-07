@@ -1,9 +1,10 @@
 
-from xmppchat.api import db, login_mgmt
+from xmppchat.api import db, login_mgmt, app
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash # better security features, like hashing
 from flask_login import UserMixin
 import re
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
 regex = re.compile(r"from='([A-Za-z0-9]+)@[A-Za-z0-9-]+")
 
@@ -31,7 +32,7 @@ class User(UserMixin, db.Model):
             all other attributes like jabber_id or register_date is created automatically,
             if the user object is created
         """
-        self.username = user.lower()
+        self.username = user
         self.email = email
         self.passwd = self.set_password(passwd)
         self.jabber_id = "{0}{1}".format(user, jabber_domain)
@@ -60,6 +61,29 @@ class User(UserMixin, db.Model):
     
     def get_id(self):
         return (self.user_id)
+
+    def create_reset_token(self, expires_sec=1200):
+        """
+            creates a token to reset password by mail
+            Return: string utf-8 encoded token
+        """
+        serializer = Serializer(app.config['SECRET_KEY'], expires_sec)
+        return serializer.dumps({'user_id': self.user_id}).decode('utf-8')
+
+    @staticmethod
+    def verify_reset_token(token):
+        """
+            checks if a token is expired.
+            Return: User object if token ist not expired otherwise None
+        """
+        serializer = Serializer(app.config['SECRET_KEY'])
+        try:
+            user_id = serializer.loads(token)['user_id']
+        except Exception:
+            return None
+        
+        return User.query.get(user_id)
+
 
 @login_mgmt.user_loader
 def load_user(user_id):
@@ -92,7 +116,6 @@ class Archiv(db.Model):
     def get_chat_history(username):
         POSITION_XML = 1
         chat_rosters_bare_peers = Archiv.query.with_entities(Archiv.bare_peer).filter_by(username=username).group_by("bare_peer").all()
-        #chat_rosters_bare_peers = [roster.bare_peer for roster in chat_rosters]
         chat_msgs = {}
         for bare_peer in chat_rosters_bare_peers:
             list_peer_msgs = []
