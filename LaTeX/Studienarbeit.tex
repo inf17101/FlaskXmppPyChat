@@ -929,6 +929,47 @@ Das Listing zeigt eine minimale Anwendung, welche die Erweiterung für die Daten
 >>> guest = User(username='guest', email='guest@example.com')
 \end{lstlisting}
 Diese Listings zeigen nur einen Ausschnitt welche Möglichkeiten das Web-Framework bietet. Das ist der Grund für die Verwendung von Flask.\cite{FlaskDoc}
+
+\section{Datenschutzprobleme mit Flask WTForms}
+\label{sec: FlaskWTForm}
+
+Mit dem Webchat wird den Nutzern eine Plattform geboten, welche sie für die Kommunikation nutzen können. Damit den Nutzern eine eindeutige Identität auf der Plattform geboten werden kann, werden Formulare sowohl zur Registrierung als auch für den Login benötigt. Mit Flask als \glqq mircoframework\grqq  wird auch diese Funktionalität unterstützt in dem ein passendes vorgefertigtes Modul verwendet werden kann (\autoref{lst:InstallWTForms}).
+\begin{lstlisting}[language=bash, caption={Installierung des Formular-Moduls}, label={lst:InstallWTForms}]
+pip install WTForms
+\end{lstlisting}
+Mithilfe des Paketes können mehrere Konzepte umgesetzt werden, wobei hierfür die Dokumentation des Moduls zu beachten ist. Diese gibt zum Start sogenannte Schlüssel-Konzepte wider \cite{FlaskWTFormsDoc}. Dabei handelt es sich um die Folgenden:
+\begin{itemize}
+	\item \textbf{Forms} sind die Kernkomponenten von WTForms und repräsentieren eine Sammlung von Felder.
+	\item \textbf{Fields} übernehmen die größte Arbeit. Sie bilden einen Datentyp ab mit dem es möglich ist eine Eingabe entsprechend des Datentypes zu erzwingen. Beispiel hierfür wäre ein IntergerField oder ein StringField. Fields können mehrere Eigenschaften, wie Labels, Beschreibungen oder ähnliches haben.
+	\item Jedes Field hat eine \textbf{Widget}-Instanz, welches die Aufgabe hat, eine HTML-Repräsentation dieses Feldes zu rendern.
+	\item Die Felder enthalten eine Liste von \textbf{Validators} (zu dt. Prüfer)
+\end{itemize}
+Mithilfe dieser Schlüssel-Konzepte kann ein Formular je nach Anwendung entwerfen werden. Dafür ist lediglich das Modul zu importieren und entsprechend der aufgezählten Punkte zu verwenden.
+\begin{lstlisting}[language=Python,caption=Example of a WTForms class Python,label={lst:FlaskWTFormsExample}]
+from wtforms import Form, BooleanField, StringField, validators
+class RegistrationForm(Form):
+	username = StringField('Name', [validators.Length(min=4, max=25)])
+	accept_rules = BooleanField('I accept the rules', [validators.InputRequired()])
+\end{lstlisting}
+Das \autoref{lst:FlaskWTFormsExample} stellt ein Beispielformular, umgesetzt mit dem WTForms-Modul, dar. Mehr wird für das Formular nicht benötigt und durch das Modul angeboten. Dieses Listing beinhaltet lediglich die Klasse und zeigt nicht die Verwendung. Unter Verwendung von Flask kann die Klasse und deren Funktionen bspw. in einer Methode, welche bei Aufruf eines Endpunkts ausgelöst wird, benutzt werden (\autoref{lst:FlaskWTFormsExampleClass}).
+\begin{lstlisting}[language=Python,caption=Example to use a WTForms class Python,label={lst:FlaskWTFormsExampleClass}]
+def register(request):
+	form = RegistrationForm(request.POST)
+	if request.method == 'POST' and form.validate():
+		user = User()
+		user.username = form.username.data
+		redirect('register')
+	return render_response('register.html', form=form)
+\end{lstlisting}
+Anhand des Beispiels ist zu erkennen, dass WTForms sowohl den request an den Server, als auch den damit verbundenen Payload übernimmt. Anhand eigener Erfahrungen kann der Payload der Daten zu einem Aspekt des Datenschutzes gezählt werden. Daher sollte durch Tests die Darstellung des Payloads überprüft werden. In diesem Zusammenhang spielt gunicorn, welches die Flask Applikation bereitstellt, eine größere Rolle. In dem selbst durchgeführten Test, bei dem vor allem das Login-Verfahren getest wurde, sollte die Darstellung der Daten überprüft werden. Aufgrund von Problemen mit gunicorn sind requests an den Server übermittelt worden, doch auf Seiten des Clients kam es zu Problemen. Dabei verbleibt der Nutzer trotz eines gültigen Logins auf der Login-Seite. Bei Betrachtung der Netzwerkaktiviät über den Debugger des Browsers, sind die Requests eindeutig zu erkennen. Anhand diesen ist der dazugehörige Payload, welcher durch WTForms ausgelöst wird, ersichtlich.
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=2.2]{images/PayloadWTForms}
+	\caption{Durch WTForms ausgelöster Payload in der Browserdarstellung}
+	\label{img:WTFormsPayload}
+\end{figure}\\
+Die \autoref{img:WTFormsPayload} stellt dar, wie die Anmeldedaten im Klartext innerhalb des Browsers zu erkennen sind. Basierend auf dieser Erkenntnis muss eine Entscheidung über den Request an den Server erfolgen. Da dieser von dem Modul ausgelöst wird, ist die Modulauswahl zu überdenken. Zur Lösung dieser Problematik wird das Modul kein Bestandteil der Chat-Funktionalität. Um die Kontrolle über Request und den Payloads zu erhalten wird im Fall der Registrierung und des Logins eigene Formulare erstellt, worauf im Weiteren detailliert eingegangen wird.
+
 \pagebreak
 
 \chapter{Verprobung eines Einsatzes von Kafka und Ejabberd in einem Messaging System}
