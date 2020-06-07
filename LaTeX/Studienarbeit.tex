@@ -144,14 +144,14 @@ frame=None,
 
 %autor definieren
 \newcommand{\autor}{Lukas Priester,Oliver Klapper}
-\newcommand{\keywords}{\autor,\titel,Studienarbeit}
+\newcommand{\keywords}{\autor,Entwicklung eines Instant-Messaging-Systems mit Python,Studienarbeit}
 
 % Allgemeines für das PDF
 \hypersetup{
-    pdftitle={\titel},
+    pdftitle={Entwicklung eines Instant-Messaging-Systems mit Python},
     pdfauthor={\autor},
     pdfcreator={\autor},
-    pdfsubject={\titel},
+    pdfsubject={Studienarbeit},
     pdflang={Deutsch},
     pdfdisplaydoctitle=true,
     pdfkeywords={\keywords},
@@ -164,8 +164,7 @@ frame=None,
 %  \vspace*{1\baselineskip plus .1\baselineskip minus .167\baselineskip}}
 
 \begin{document}
-	
-%TODO eigen Abbildung und der PDF-Titel des Dokumentes
+
 
 \begin{table}[h]
 \centering
@@ -526,7 +525,7 @@ In der Abbildung wird eine horizontale oder vertikale Skalierung des \ac{IMS} ve
 
 \section{XMPP-Extensible Messaging and Presence Protocol}
 \label{sec:XMPP}
-\ac{XMPP} bedeutet Extensible Messaging and Presence Protocol. Wird dieses ins Deutsche übersetzt, so entsteht die Bedeutung eines erweiterbares Nachrichten- und Anwesenheitsprotokoll. Eine Definition die \ac{XMPP} sehr gut beschreibt. \ac{XMPP} basiert auf \ac{XML}, welches eine Markup Sprache darstellt. Das Ziel von \ac{XMPP} war ein Protokoll für das Instant Messaging zu entwickeln. Laut dem RFC6120 lässt sich mittels \ac{XMPP} Daten zwischen zwei oder mehreren Netzwerkeinheiten nahezu in Echtzeit austauschen, welches als Vorteil für Sofortnachrichten bezeichnet werden kann. Diesbezüglich nutzt es das Internet und erlaubt den Usern Sofortnachrichten an andere Anwender innerhalb des Internets zu schicken. \ac{XMPP} lässt sich in viele verschiedene Funktionen aufteilen, weshalb der grundlegende Zweck ein anderes Ziel verfolgt. Im einfachsten Sinne ist die Idee von \ac{XMPP} den Austausch von kleinen Teilen strukturierter Daten (\glqq \ac{XML} stanzas\grqq\ zwischen einem oder mehreren Netzwerkteilnehmern zu ermöglichen. Primär wird \ac{XMPP} mithilfe einer Client-Server-Architektur implementiert, bei der sich ein Client mit einem Server verbindet, um mit anderen Teilnehmern Daten auszutauschen. Anderseits kann es als Protokoll auch zwischen Servern fungieren. Daraus resultiert der Vorteil nahezu unabhängig von Betriebssystemen und Browsern zu sein. Wird die Client-Server-Architektur implementiert, so ist in der Regel der Ablauf definiert durch folgende Schritte: \cite{RFC6120} 
+\ac{XMPP} bedeutet Extensible Messaging and Presence Protocol. Wird dieses ins Deutsche übersetzt, so entsteht die Bedeutung eines erweiterbares Nachrichten- und Anwesenheitsprotokoll. Eine Definition die \ac{XMPP} sehr gut beschreibt. \ac{XMPP} basiert auf \ac{XML}, welches eine Markup Sprache darstellt. Das Ziel von \ac{XMPP} war ein Protokoll für das Instant Messaging zu entwickeln. Laut dem RFC6120 lässt sich mittels \ac{XMPP} Daten zwischen zwei oder mehreren Netzwerkeinheiten nahezu in Echtzeit austauschen, welches als Vorteil für Sofortnachrichten bezeichnet werden kann. Diesbezüglich nutzt es das Internet und erlaubt den Usern Sofortnachrichten an andere Anwender innerhalb des Internets zu schicken. \ac{XMPP} lässt sich in viele verschiedene Funktionen aufteilen, weshalb der grundlegende Zweck ein anderes Ziel verfolgt. Im einfachsten Sinne ist die Idee von \ac{XMPP} den Austausch von kleinen Teilen strukturierter Daten (\glqq \ac{XML} stanzas\grqq) zwischen einem oder mehreren Netzwerkteilnehmern zu ermöglichen. Primär wird \ac{XMPP} mithilfe einer Client-Server-Architektur implementiert, bei der sich ein Client mit einem Server verbindet, um mit anderen Teilnehmern Daten auszutauschen. Anderseits kann es als Protokoll auch zwischen Servern fungieren. Daraus resultiert der Vorteil nahezu unabhängig von Betriebssystemen und Browsern zu sein. Wird die Client-Server-Architektur implementiert, so ist in der Regel der Ablauf definiert durch folgende Schritte: \cite{RFC6120} 
 \begin{enumerate}
 	\item Bestimmen der IP-Adresse und des Ports zu dem sich verbunden werden soll 
 	\item Eine \ac{TCP} Verbindung öffnen/aufbauen
@@ -546,13 +545,11 @@ Die folgende \autoref{img:XMPPcommunication} zeigt den Start einer Kommunikation
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=\textwidth]{images/XML_Wireshark}
-	\caption{Kommunikationsaufbau des \ac{XMPP}-Protokolls, eigen Darstellung} %TODO nochmal überlegen
+	\caption{Kommunikationsaufbau des \ac{XMPP}-Protokolls, \href{https://www.youtube.com/watch?v=ndcU3KHbFns}{Prasanth, XMPP Packet Capture and Analysis}}
 	\label{img:XMPPcommunication}
 \end{figure} 
 
 Für den Austausch von Daten gibt es zwei elementare Konzepte. Zum einen die \ac{XML}-Streams und die \ac{XML}-Stanzas. Diese zwei Konzepte werden definiert um das Verständnis des Datenaustauschs, wie es im obigen Ablauf definiert ist, zu erlangen. Bei dem Austausch der Daten mittels \ac{XML} streams wird von einem Container zwischen den Teilnehmern gesprochen. Der \ac{XML} stream ist durch den \glqq stream header\grqq\ (z.B. \ac{XML} <stream>) und dem Ende des streams, dargestellt durch \ac{XML} </streams>, eindeutig definiert. Die Anzahl der austauschbaren \ac{XML} Elemente ist unbegrenzt und durch die Lebensdauer des streams definiert. Das \ac{XML} stanza wird nun als diskrete semantische Einheit strukturierter Daten, das von einem Teilnehmer zu einem anderen über den \ac{XML} stream gesendet wird bezeichnet. Das \ac{XML} stanza ist ein direktes Kind-Element des streams. Ein stanza kann wiederum selbst Kind-Elemente enthalten, das den \ac{XML} stream definiert. Im Kern fungiert der \ac{XML} stream wie eine Hülle um alle \ac{XML} stanzas, die während einer Session versendet werden.
-
-\pagebreak
 
 Ein Aufbau kann wie in der folgenden \autoref{img:StrukturXMLstream} repräsentiert werden. \cite{RFC6120Sec4}
 \begin{figure}[h]
@@ -1227,13 +1224,13 @@ Ejabberd bietet zwei Konfigurationsdateien, die sich im Format unterscheiden. Mi
 \begin{minipage}{.5\textwidth}
   \centering
   \includegraphics[width=.8\linewidth]{images/exampleYAMLConfig}
-  \caption{Formatierung: \texttt{YAML}}
+  \caption{Formatierung: \texttt{YAML}, eigene Darstellung}
   \label{img:YAMLconfig}
 \end{minipage}%
 \begin{minipage}{.5\textwidth}
   \centering
   \includegraphics[width=.9\linewidth]{images/ejabberdErlangConfig}
-  \caption{Formatierung: \texttt{Erlang}}
+  \caption{Formatierung: \texttt{Erlang}, eigene Darstellung}
   \label{img:ErlangConfig}
 \end{minipage}
 \end{figure}
@@ -1903,7 +1900,7 @@ Der Output zeigt, dass Zookeeper aktiv ist:
 \begin{figure}[h]
 	\centering
 	\includegraphics{images/StatusZookeeper}
-	\caption{Status des Zookeeper-Dienstes nach dem Start}
+	\caption{Status des Zookeeper-Dienstes nach dem Start, eigene Darstellung}
 	\label{img:StatusZookeeper}
 \end{figure}
 
@@ -1930,8 +1927,8 @@ Führen Sie die gleichen Befehle für den Start des Kafka-Dienstes durch. Achten
 \begin{figure}[h]
 	\centering
 	\includegraphics{images/StatusKafka}
-	\caption{Status des Kafka-Dienstes nach dem Start}
-	\label{img:StatusZookeeper}
+	\caption{Status des Kafka-Dienstes nach dem Start, eigene Darstellung}
+	\label{img:StatusKafka}
 \end{figure}
 
 Nun sind Zookeeper und Kafka als Linux-Server-Dienst verfügbar ohne, dass ein Benutzer hierfür dauerhaft angemeldet sein muss.
@@ -2146,7 +2143,7 @@ Laut einer Statistik der Universität Maryland \cite{securityStatisticWebSites} 
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=\linewidth]{images/configJSON-Datei}
-	\caption{Auszug aus der Konfigurationsdatei mit beispielhaften Zugangsdaten}
+	\caption{Auszug aus der Konfigurationsdatei mit beispielhaften Zugangsdaten, eigene Darstellung}
 	\label{img:configJSON-Datei}
 \end{figure}
 
@@ -4263,7 +4260,7 @@ Letztendlich ist nicht von einem Verhalten gemäß der Datenschutzrichtlinien zu
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=.50\linewidth]{images/BootstrapStructer}
-	\caption{Die Datei-Struktur nach der Bootstrap Installation}
+	\caption{Die Datei-Struktur nach der Bootstrap Installation,  \cite{krause2016introducing}}
 	\label{img:BootstrapStructer}
 \end{figure}
 
@@ -4274,7 +4271,7 @@ Letztendlich ist nicht von einem Verhalten gemäß der Datenschutzrichtlinien zu
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=.95\linewidth]{images/Studienarbeit-Netzwerkplan}
-	\caption{Architektur des zu entwickelnden \ac{IMS}}
+	\caption{Architektur des zu entwickelnden \ac{IMS}, eigene Darstellung}
 	\label{img:ArchitekturIMS}
 \end{figure}
 
