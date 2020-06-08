@@ -165,7 +165,7 @@ def register():
             loggger.error(str(e))
             res, exit_code = {'feedback': 'invalid credentials.', 'category': 'danger'}, 401
         except CustomValidationError as cve:
-            logger.error(cvstr(e))
+            logger.error(str(cve))
             res, exit_code = {'feedback': str(cve), 'category': 'danger'}, 401
         except Exception as e:
             db.session.rollback()
@@ -210,7 +210,7 @@ def login():
 
         if req_content.get('requested_platform') == 'xmpp':
             xmpp_client = create_sleekxmpp_client(user, req_content)
-
+            #xmpp_client['feature_mechanisms'].unencrypted_plain = True
             if xmpp_client.connect((config.get("ejabberd_ip"), config.get("ejabberd_port")), use_tls=True):
                 t1 = threading.Thread(target=xmpp_client.process, kwargs={'block': True}, daemon=True)
                 t1.start()
