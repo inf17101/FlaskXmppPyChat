@@ -30,7 +30,7 @@ packaging==20.3
 paramiko==2.7.1
 pkg-resources==0.0.0
 pluggy==0.13.1
-py==1.8.1
+py==1.10.0
 pycparser==2.19
 pykafka==2.8.0
 PyMySQL==0.9.3
