@@ -7,7 +7,7 @@ Click==7.0
 contextvars==2.4
 cryptography==2.8
 dnspython==1.16.0
-eventlet==0.25.1
+eventlet==0.31.0
 Flask==1.1.1
 Flask-Login==0.4.1
 Flask-Mail==0.9.1
